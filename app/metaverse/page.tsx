@@ -219,8 +219,8 @@ export default function Metaverse() {
             >
               <iframe
                 className="h-full w-full"
-                src={'https://www.youtube.com/embed/XHOmBV4js_E?si=TJl2hR6A0MjPQ2Tg'}
-                title={'YouTube video player'}
+                src={'https://www.youtube.com/embed/YdX2GvanxeI'}
+                title={'Gamasome XR Showreel'}
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerPolicy="strict-origin-when-cross-origin"
