@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
 import Logo from '@/data/logo.svg'
@@ -10,6 +10,15 @@ import Link from 'next/link'
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   let headerClass =
     'flex items-center justify-between w-full max-w-none px-4 sm:px-10 md:px-24 bg-transparent py-10 fixed top-0 left-0 right-0 z-50 transition-all duration-300'
@@ -20,16 +29,20 @@ const Header = () => {
   return (
     <header className={headerClass}>
       <Link href="/" aria-label={siteMetadata.headerTitle}>
-        <div className="ml-0 flex items-center transition-transform duration-300 hover:scale-105">
+        <div
+          className={`ml-0 flex items-center transition-all duration-300 hover:scale-105 ${isScrolled ? '-translate-y-4 opacity-0' : 'translate-y-0 opacity-100'}`}
+        >
           <div className="h-[56px] w-full max-w-[268px]">
             <Logo />
           </div>
         </div>
       </Link>
-      <div className="mr-0 flex items-center space-x-4">
+      <div
+        className={`mr-0 flex cursor-pointer items-center space-x-4 transition-all duration-300 ${isScrolled ? '-translate-y-4 opacity-0' : 'translate-y-0 opacity-100'}`}
+      >
         {/* <ThemeSwitch /> */}
         <button
-          className="flex items-center transition-transform duration-300 hover:scale-110"
+          className="flex cursor-pointer items-center transition-transform duration-300 hover:scale-110"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -37,7 +50,7 @@ const Header = () => {
         </button>
       </div>
       {isMenuOpen && (
-        <div className="animate-fade-in fixed inset-0 z-50 h-full w-full bg-[#07091B] font-['Poppins']">
+        <div className="menu-fade-in fixed inset-0 z-50 h-full w-full bg-[#07091B] font-['Poppins']">
           <div className="absolute inset-0 bg-[#000B71]" />
           <div className="absolute inset-0 bg-black/36" />
           <div className="absolute inset-0 bg-[#000000]/90" />
@@ -67,7 +80,7 @@ const Header = () => {
                 <Link
                   key={link.title}
                   href={link.href}
-                  className="nav-item font-['Poppins'] text-xl font-semibold text-white sm:text-2xl md:text-3xl"
+                  className="menu-nav-item font-['Poppins'] text-xl font-semibold text-white sm:text-2xl md:text-3xl"
                   onClick={() => setIsMenuOpen(false)}
                   style={{ '--index': index } as React.CSSProperties}
                 >
@@ -80,25 +93,32 @@ const Header = () => {
       )}
 
       <style jsx global>{`
-        @keyframes fadeIn {
+        @keyframes menuFadeIn {
           from {
             opacity: 0;
           }
           to {
             opacity: 1;
           }
-        
-        .animate-fade-in {
-          animation: fadeIn 0.3s ease-in-out;
         }
-        
-        @keyframes slideIn {
-          from { transform: translateY(-20px); opacity: 0; }
-          to { transform: translateY(0); opacity: 1; }
+
+        .menu-fade-in {
+          animation: menuFadeIn 0.3s ease-in-out;
         }
-        
-        .nav-item {
-          animation: slideIn 0.4s ease-out forwards;
+
+        @keyframes menuSlideIn {
+          from {
+            transform: translateY(-20px);
+            opacity: 0;
+          }
+          to {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+
+        .menu-nav-item {
+          animation: menuSlideIn 0.4s ease-out forwards;
           animation-delay: calc(0.1s * var(--index));
           opacity: 0;
         }

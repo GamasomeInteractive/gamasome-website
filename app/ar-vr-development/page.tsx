@@ -82,7 +82,7 @@ export default function ArVrDev() {
             }}
           />
           <div
-            className="animate-slide-up animation-delay-200 absolute top-1/2 left-4 z-40 max-w-[936px] -translate-y-1/2 p-0 sm:left-8 md:left-16 lg:left-40"
+            className="animate-slide-from-left animation-delay-200 absolute top-1/2 left-4 z-40 max-w-[936px] -translate-y-1/2 p-0 opacity-0 sm:left-8 md:left-16 lg:left-40"
             data-animate
           >
             <h1 className="font-['Poppins'] text-4xl leading-tight font-semibold text-white sm:text-5xl md:text-7xl">
@@ -91,12 +91,14 @@ export default function ArVrDev() {
             <p className="mt-4 font-['Poppins'] text-xl font-normal tracking-[-0.025em] text-white sm:text-2xl md:text-3xl">
               Give Top notch AR / VR experience to your customers
             </p>
-            <Link
-              href="#ar-vr-solutions"
-              className="mt-8 inline-block h-[78px] w-full rounded-full bg-[#2D9CDB] text-center font-['Poppins'] text-lg leading-[78px] font-semibold text-white capitalize transition hover:bg-[#1d8cbf] sm:w-[332px] sm:text-2xl"
-            >
-              Contact Us
-            </Link>
+            <div className="animate-slide-from-bottom animation-delay-400 opacity-0" data-animate>
+              <Link
+                href="#ar-vr-solutions"
+                className="mt-8 inline-block h-[78px] w-full rounded-full bg-[#2D9CDB] text-center font-['Poppins'] text-lg leading-[78px] font-semibold text-white capitalize transition hover:bg-[#1d8cbf] sm:w-[332px] sm:text-2xl"
+              >
+                Contact Us
+              </Link>
+            </div>
           </div>
           <div className="absolute bottom-8 left-1/2 z-40 flex h-15 w-5 -translate-x-1/2 items-start justify-center rounded-full border border-[#85868F] pt-2">
             <div className="h-3 w-3 animate-bounce rounded-full bg-[#D4D4DA]" />
@@ -109,13 +111,12 @@ export default function ArVrDev() {
             <div className="mx-auto aspect-video max-w-4xl overflow-hidden rounded-lg bg-gray-200 shadow-lg dark:bg-gray-800">
               <div className="flex h-full w-full items-center justify-center">
                 <iframe
-                  className="animate-fade-in h-full w-full rounded-lg"
+                  className="h-full w-full rounded-lg"
                   src="https://www.youtube.com/embed/MGife5DIYaQ?si=EdqTdrTMUh63pXus"
                   title="Showreel Video"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
-                  data-animate
                 ></iframe>
               </div>
             </div>
@@ -128,7 +129,7 @@ export default function ArVrDev() {
           className="relative flex w-full flex-col items-center bg-[#F1FAFF] py-16"
         >
           <h2
-            className="animate-slide-up text-center font-['Poppins'] text-3xl leading-tight font-semibold text-[#001930] sm:text-4xl md:text-5xl"
+            className="animate-fade-in text-center font-['Poppins'] text-3xl leading-tight font-semibold text-[#001930] opacity-0 sm:text-4xl md:text-5xl"
             data-animate
           >
             Our AR / VR Solutions
@@ -181,7 +182,7 @@ export default function ArVrDev() {
               ].map((item, index) => (
                 <div
                   key={item.title}
-                  className="animate-scale-in relative flex w-full flex-col overflow-hidden rounded-[4px]"
+                  className={`${index % 2 === 0 ? 'animate-slide-from-left' : 'animate-slide-from-right'} relative flex h-full w-full flex-col overflow-hidden rounded-[4px] opacity-0`}
                   style={{ animationDelay: `${100 + index * 100}ms` }}
                   data-animate
                 >
@@ -195,7 +196,7 @@ export default function ArVrDev() {
                       loading="lazy"
                     />
                   </Link>
-                  <div className="flex flex-col px-4 pt-4 pb-4">
+                  <div className="flex flex-1 flex-col px-4 pt-4 pb-4">
                     <h3 className="text-center font-['Poppins'] text-xl leading-[42px] font-semibold text-[#001930] sm:text-2xl">
                       <Link
                         href={item.href}
@@ -205,13 +206,10 @@ export default function ArVrDev() {
                         {item.title}
                       </Link>
                     </h3>
-                    <p className="mt-2 font-['Poppins'] text-base leading-[26px] font-normal text-[#001930] sm:text-lg">
+                    <p className="mt-2 flex-1 font-['Poppins'] text-base leading-[26px] font-normal text-[#001930] sm:text-lg">
                       {item.description}
                     </p>
-                    <div
-                      className="mt-4 flex justify-center"
-                      style={{ position: 'relative', height: '40px' }}
-                    >
+                    <div className="mt-4 flex justify-center">
                       <Link
                         href={item.href}
                         className="flex h-[40px] w-[161.6px] items-center justify-center rounded-full border border-[#2D9CDB] font-['Poppins']"
@@ -233,8 +231,8 @@ export default function ArVrDev() {
 
         {/* AR Experience Section */}
         <section id="ar-experience" className="relative w-full bg-white py-16">
-          <div className="mx-auto flex max-w-7xl flex-col gap-8 md:flex-row">
-            <div className="animate-slide-up flex-1" data-animate>
+          <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 md:flex-row">
+            <div className="animate-slide-from-left flex-1 opacity-0" data-animate>
               <h2 className="font-['Poppins'] text-3xl leading-tight font-semibold text-black uppercase sm:text-4xl md:text-5xl">
                 Increase your e-commerce conversion rate with AR experiences
               </h2>
@@ -258,7 +256,7 @@ export default function ArVrDev() {
               </div>
             </div>
             <div
-              className="animate-slide-in animation-delay-200 h-auto max-h-[393px] w-full md:w-[601px]"
+              className="animate-slide-from-right animation-delay-200 aspect-video w-full opacity-0 md:w-[601px]"
               data-animate
             >
               <iframe
@@ -277,10 +275,10 @@ export default function ArVrDev() {
         {/* Use Case Section */}
         <section id="usecase" className="relative w-full bg-[#FFF5F5] py-16">
           <h2
-            className="animate-slide-up text-center font-['Poppins'] text-3xl leading-tight font-semibold text-black opacity-0 sm:text-4xl md:text-5xl"
+            className="animate-fade-in text-center font-['Poppins'] text-3xl leading-tight font-semibold text-black opacity-0 sm:text-4xl md:text-5xl"
             data-animate
           >
-            Some of the Use cases, we’ve built
+            Some of the Use cases, we've built
           </h2>
           <div className="mx-auto mt-12 grid w-full max-w-[1253px] grid-cols-1 gap-8 px-4 sm:grid-cols-2 lg:grid-cols-3">
             {[
@@ -317,7 +315,7 @@ export default function ArVrDev() {
             ].map((item, index) => (
               <div
                 key={item.title}
-                className="animate-scale-in mx-auto flex w-full max-w-[400px] flex-col opacity-0"
+                className={`${index % 2 === 0 ? 'animate-slide-from-left' : 'animate-slide-from-right'} mx-auto flex w-full max-w-[400px] flex-col opacity-0`}
                 style={{ animationDelay: `${100 + index * 100}ms` }}
                 data-animate
               >
@@ -349,7 +347,7 @@ export default function ArVrDev() {
         {/* XR Section */}
         <section id="xr" className="relative flex w-full flex-col items-center bg-[#FFFFFF] py-16">
           <h2
-            className="animate-slide-up text-center font-['Poppins'] text-3xl leading-tight font-semibold text-[#001930] sm:text-4xl md:text-5xl"
+            className="animate-fade-in text-center font-['Poppins'] text-3xl leading-tight font-semibold text-[#001930] opacity-0 sm:text-4xl md:text-5xl"
             data-animate
           >
             Where your business can leverage XR ?
@@ -379,7 +377,7 @@ export default function ArVrDev() {
             ].map((item, index) => (
               <div
                 key={item.title}
-                className="animate-scale-in mx-auto flex w-full max-w-[400px] flex-col"
+                className="animate-slide-from-bottom mx-auto flex w-full max-w-[400px] flex-col opacity-0"
                 style={{ animationDelay: `${100 + index * 100}ms` }}
                 data-animate
               >
@@ -409,8 +407,8 @@ export default function ArVrDev() {
 
         {/* Vrook Section */}
         <section id="vrook" className="relative w-full bg-[#F6F6F6] py-16">
-          <div className="mx-auto flex max-w-7xl flex-col gap-8 md:flex-row">
-            <div className="animate-slide-up flex-1" data-animate>
+          <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 md:flex-row">
+            <div className="animate-slide-from-left flex-1 opacity-0" data-animate>
               <h2 className="font-['Poppins'] text-3xl leading-tight font-semibold text-black uppercase sm:text-4xl md:text-5xl">
                 How Gamasome helped VROOK Learning to transform learning with VR / AR ?
               </h2>
@@ -427,7 +425,7 @@ export default function ArVrDev() {
               </div>
             </div>
             <div
-              className="animate-slide-in animation-delay-200 h-auto max-h-[393px] w-full md:w-[601px]"
+              className="animate-slide-from-right animation-delay-200 aspect-video w-full opacity-0 md:w-[601px]"
               data-animate
             >
               <iframe
@@ -447,7 +445,7 @@ export default function ArVrDev() {
         <section id="blogs" className="relative w-full bg-white py-16 font-['Poppins']">
           <div className="container mx-auto max-w-7xl px-4">
             <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-              <div className="animate-slide-up md:col-span-1" data-animate>
+              <div className="animate-slide-from-left opacity-0 md:col-span-1" data-animate>
                 <h2 className="font-['Poppins'] text-3xl leading-[190%] font-semibold tracking-[0.02em] text-black uppercase sm:text-4xl">
                   Blogs
                 </h2>
@@ -467,8 +465,8 @@ export default function ArVrDev() {
                 ].map((item, index) => (
                   <div
                     key={item.title}
-                    className="animate-slide-up relative flex max-w-[741px] flex-col"
-                    style={{ animationDelay: `${100 + index * 100}ms` }}
+                    className="animate-slide-from-right relative flex max-w-[741px] flex-col opacity-0"
+                    style={{ animationDelay: `${100 + index * 150}ms` }}
                     data-animate
                   >
                     <div className="flex items-start gap-4">
@@ -520,12 +518,12 @@ export default function ArVrDev() {
         {/* Technologies Section */}
         <section id="technologies" className="relative w-full bg-[#2D9CDB] py-16">
           <h2
-            className="animate-slide-up text-center font-['Poppins'] text-3xl leading-tight font-semibold text-white opacity-0 sm:text-4xl md:text-5xl"
+            className="animate-fade-in text-center font-['Poppins'] text-3xl leading-tight font-semibold text-white opacity-0 sm:text-4xl md:text-5xl"
             data-animate
           >
             Technologies We Work With
           </h2>
-          <div className="mx-auto mt-12 grid w-full max-w-7xl grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
+          <div className="mx-auto mt-12 grid w-full max-w-7xl grid-cols-2 gap-4 px-4 sm:grid-cols-3 md:grid-cols-5">
             {[
               '/static/images/android-white.png',
               '/static/images/mysql-white.png',
@@ -542,8 +540,8 @@ export default function ArVrDev() {
             ].map((imgSrc, index) => (
               <div
                 key={index}
-                className="animate-scale-in flex h-[133px] w-full items-center justify-center border border-[#00FCE2]"
-                style={{ animationDelay: `${100 + index * 100}ms` }}
+                className="animate-slide-from-bottom flex h-[133px] w-full items-center justify-center border border-[#00FCE2] opacity-0"
+                style={{ animationDelay: `${100 + index * 80}ms` }}
                 data-animate
               >
                 <Image
@@ -558,7 +556,7 @@ export default function ArVrDev() {
             ))}
           </div>
           <div
-            className="animate-slide-up animation-delay-200 mx-auto mt-12 max-w-[875px] rounded-lg border border-[#00FCE2] bg-[#2D9CDB] p-6 text-center opacity-0"
+            className="animate-slide-from-bottom animation-delay-200 mx-auto mt-12 max-w-[875px] rounded-lg border border-[#00FCE2] bg-[#2D9CDB] p-6 text-center opacity-0"
             data-animate
           >
             <h3 className="font-['Poppins'] text-xl font-bold text-white sm:text-2xl">

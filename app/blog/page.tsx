@@ -1,15 +1,36 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function BlogPage() {
   const [searchValue, setSearchValue] = useState('')
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate')
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.1, rootMargin: '50px' }
+    )
+
+    document.querySelectorAll('[data-animate]').forEach((el) => observer.observe(el))
+
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <div className="min-h-screen">
       {/* Top Banner Section */}
-      <section className="relative h-[444px] w-full overflow-hidden">
+      <section
+        className="animate-fade-in relative h-[444px] w-full overflow-hidden opacity-0"
+        data-animate
+      >
         <div className="absolute inset-0 z-0 bg-[#2D9CDB]" />
         <div className="absolute inset-0 z-10">
           <Image
@@ -49,7 +70,7 @@ export default function BlogPage() {
       <div className="min-h-screen bg-white py-16">
         <div className="container mx-auto px-4">
           {/* Search Section */}
-          <div className="mb-12">
+          <div className="animate-slide-from-bottom mb-12 opacity-0" data-animate>
             <div className="relative mx-auto max-w-lg">
               <input
                 aria-label="Search articles"
@@ -76,23 +97,27 @@ export default function BlogPage() {
           </div>
 
           {/* Blog Posts Grid */}
-          <div className="grid justify-items-center gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid items-stretch justify-items-center gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {/* Sample Blog Post Card */}
-            <div className="relative h-[534px] w-full max-w-[461px] bg-white shadow-lg">
+            <div
+              className="animate-slide-from-left flex h-full w-full max-w-[461px] flex-col bg-white opacity-0 shadow-lg"
+              data-animate
+              style={{ animationDelay: '100ms' }}
+            >
               <div className="relative h-[300px] w-full overflow-hidden">
                 <div className="absolute inset-0 bg-[#D9D9D9]" />
                 <div className="absolute flex h-full w-full items-center justify-center bg-gradient-to-br from-blue-100 to-blue-300">
                   <div className="text-lg font-semibold text-gray-600">Blog Image</div>
                 </div>
               </div>
-              <div className="absolute top-[308.88px] left-0 w-full px-6">
+              <div className="flex flex-1 flex-col px-6 pt-4 pb-6">
                 <h3 className="mb-4 font-['Poppins'] text-xl leading-[175%] font-semibold tracking-[0.02em] text-[#001930] capitalize sm:text-2xl">
                   The Metaverse is coming! What does it mean for your business?
                 </h3>
-                <p className="mb-6 w-full max-w-[400px] font-['Poppins'] text-sm leading-[160%] font-normal text-[#001930] capitalize sm:text-base">
+                <p className="mb-6 w-full max-w-[400px] flex-1 font-['Poppins'] text-sm leading-[160%] font-normal text-[#001930] capitalize sm:text-base">
                   Rapid digitization of brands has led to major technological leaps...
                 </p>
-                <div className="relative">
+                <div className="flex justify-center">
                   <button className="h-[40px] w-[161.6px] rounded-full border border-[#2D9CDB] bg-white shadow-[0px_4px_26px_rgba(0,0,0,0.06)] transition-shadow hover:shadow-[0px_10px_50px_rgba(0,0,0,0.05)]">
                     <span className="text-center font-['Poppins'] text-sm leading-5 font-normal text-[#2D9CDB] sm:text-base">
                       Read More
@@ -103,23 +128,27 @@ export default function BlogPage() {
             </div>
 
             {/* Additional sample cards */}
-            <div className="relative h-[534px] w-full max-w-[461px] bg-white shadow-lg">
+            <div
+              className="animate-slide-from-bottom flex h-full w-full max-w-[461px] flex-col bg-white opacity-0 shadow-lg"
+              data-animate
+              style={{ animationDelay: '200ms' }}
+            >
               <div className="relative h-[300px] w-full overflow-hidden">
                 <div className="absolute inset-0 bg-[#D9D9D9]" />
                 <div className="absolute flex h-full w-full items-center justify-center bg-gradient-to-br from-green-100 to-green-300">
                   <div className="text-lg font-semibold text-gray-600">Blog Image</div>
                 </div>
               </div>
-              <div className="absolute top-[308.88px] left-0 w-full px-6">
+              <div className="flex flex-1 flex-col px-6 pt-4 pb-6">
                 <h3 className="mb-4 font-['Poppins'] text-xl leading-[175%] font-semibold tracking-[0.02em] text-[#001930] capitalize sm:text-2xl">
                   Another Blog Post Title Here
                 </h3>
-                <p className="mb-6 w-full max-w-[400px] font-['Poppins'] text-sm leading-[160%] font-normal text-[#001930] capitalize sm:text-base">
+                <p className="mb-6 w-full max-w-[400px] flex-1 font-['Poppins'] text-sm leading-[160%] font-normal text-[#001930] capitalize sm:text-base">
                   Sample description for another blog post...
                 </p>
-                <div className="relative">
+                <div className="flex justify-center">
                   <button className="h-[40px] w-[161.6px] rounded-full border border-[#2D9CDB] bg-white shadow-[0px_4px_26px_rgba(0,0,0,0.06)] transition-shadow hover:shadow-[0px_10px_50px_rgba(0,0,0,0.05)]">
-                    <span className="text-center font-['Poppins'] text-sm leading-5 font-normal text-[#001930] sm:text-base">
+                    <span className="text-center font-['Poppins'] text-sm leading-5 font-normal text-[#2D9CDB] sm:text-base">
                       Read More
                     </span>
                   </button>
@@ -127,21 +156,25 @@ export default function BlogPage() {
               </div>
             </div>
 
-            <div className="relative h-[534px] w-full max-w-[461px] bg-white shadow-lg">
+            <div
+              className="animate-slide-from-right flex h-full w-full max-w-[461px] flex-col bg-white opacity-0 shadow-lg"
+              data-animate
+              style={{ animationDelay: '300ms' }}
+            >
               <div className="relative h-[300px] w-full overflow-hidden">
                 <div className="absolute inset-0 bg-[#D9D9D9]" />
                 <div className="absolute flex h-full w-full items-center justify-center bg-gradient-to-br from-purple-100 to-purple-300">
                   <div className="text-lg font-semibold text-gray-600">Blog Image</div>
                 </div>
               </div>
-              <div className="absolute top-[308.88px] left-0 w-full px-6">
+              <div className="flex flex-1 flex-col px-6 pt-4 pb-6">
                 <h3 className="mb-4 font-['Poppins'] text-xl leading-[175%] font-semibold tracking-[0.02em] text-[#001930] capitalize sm:text-2xl">
                   Third Blog Post Example
                 </h3>
-                <p className="mb-6 w-full max-w-[400px] font-['Poppins'] text-sm leading-[160%] font-normal text-[#001930] capitalize sm:text-base">
+                <p className="mb-6 w-full max-w-[400px] flex-1 font-['Poppins'] text-sm leading-[160%] font-normal text-[#001930] capitalize sm:text-base">
                   Description for the third blog post example...
                 </p>
-                <div className="relative">
+                <div className="flex justify-center">
                   <button className="h-[40px] w-[161.6px] rounded-full border border-[#2D9CDB] bg-white shadow-[0px_10px_50px_rgba(0,0,0,0.05)] transition-shadow">
                     <span className="text-center font-['Poppins'] text-sm leading-5 font-normal text-[#2D9CDB] sm:text-base">
                       Read More
@@ -153,6 +186,15 @@ export default function BlogPage() {
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        [data-animate].animate {
+          animation-play-state: running;
+        }
+        [data-animate] {
+          animation-play-state: paused;
+        }
+      `}</style>
     </div>
   )
 }

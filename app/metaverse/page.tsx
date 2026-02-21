@@ -82,8 +82,7 @@ export default function Metaverse() {
             }}
           />
           <div
-            className="animate-slide-up animation-delay-200 absolute top-1/2 left-0 z-40 max-w-[936px] -translate-y-1/2 p-0 md:left-[160px]"
-            // style={{ left: '160px' }}
+            className="animate-slide-from-left animation-delay-200 absolute top-1/2 left-4 z-40 max-w-[936px] -translate-y-1/2 p-0 opacity-0 sm:left-8 md:left-16 lg:left-40"
             data-animate
           >
             <h1 className="text-4xl leading-tight font-semibold text-white sm:text-5xl md:text-7xl">
@@ -92,12 +91,14 @@ export default function Metaverse() {
             <p className="font-poppins mt-4 text-xl font-normal tracking-[-0.025em] text-white sm:text-2xl md:text-3xl">
               with Gamasome - The meta verse development company
             </p>
-            <Link
-              href="#ai-solutions"
-              className="mt-8 inline-block h-[78px] w-full rounded-full bg-[#2D9CDB] text-center text-lg leading-[78px] font-semibold text-white capitalize transition hover:bg-[#1d8cbf] sm:w-[332px] sm:text-2xl"
-            >
-              Enter Our Metaverse
-            </Link>
+            <div className="animate-slide-from-bottom animation-delay-400 opacity-0" data-animate>
+              <Link
+                href="#ai-solutions"
+                className="mt-8 inline-block h-[78px] w-full rounded-full bg-[#2D9CDB] text-center text-lg leading-[78px] font-semibold text-white capitalize transition hover:bg-[#1d8cbf] sm:w-[332px] sm:text-2xl"
+              >
+                Enter Our Metaverse
+              </Link>
+            </div>
           </div>
           <div className="absolute bottom-8 left-1/2 z-40 flex h-15 w-5 -translate-x-1/2 items-start justify-center rounded-full border border-[#85868F] pt-2">
             <div className="h-3 w-3 animate-bounce rounded-full bg-[#D4D4DA]" />
@@ -107,7 +108,7 @@ export default function Metaverse() {
         {/* Metaverse Section */}
         <section id="metaverse" className="relative flex w-full flex-col items-center bg-[#FFFFFF]">
           <h2
-            className="animate-slide-up text-center text-[46px] leading-[87px] font-semibold text-[#000000]"
+            className="animate-fade-in text-center text-[46px] leading-[87px] font-semibold text-[#000000] opacity-0"
             style={{ fontFamily: 'Poppins, sans-serif', letterSpacing: '0.02em' }}
             data-animate
           >
@@ -122,7 +123,7 @@ export default function Metaverse() {
             your needs and begin your metaverse journey with us.
           </p>
           <div className="mx-auto mt-12 w-full max-w-[1273px] px-4">
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 items-stretch gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {[
                 {
                   title: 'Sandbox development',
@@ -148,7 +149,7 @@ export default function Metaverse() {
               ].map((item, index) => (
                 <div
                   key={item.title}
-                  className="animate-scale-in relative flex w-full flex-col"
+                  className={`${index % 2 === 0 ? 'animate-slide-from-left' : 'animate-slide-from-right'} relative flex h-full w-full flex-col opacity-0`}
                   style={{ animationDelay: `${100 + index * 100}ms` }}
                   data-animate
                 >
@@ -162,7 +163,7 @@ export default function Metaverse() {
                       loading="lazy"
                     />
                   </Link>
-                  <div className="flex flex-col px-4 pt-4 pb-4">
+                  <div className="flex flex-1 flex-col px-4 pt-4 pb-4">
                     <h3
                       className="text-center text-[24px] leading-[42px] font-semibold text-[#001930]"
                       style={{
@@ -176,7 +177,7 @@ export default function Metaverse() {
                       </Link>
                     </h3>
                     <p
-                      className="mt-2 text-[16px] leading-[26px] font-normal text-[#001930]"
+                      className="mt-2 flex-1 text-[16px] leading-[26px] font-normal text-[#001930]"
                       style={{ fontFamily: 'Poppins, sans-serif', textTransform: 'capitalize' }}
                     >
                       {item.description}
@@ -212,9 +213,9 @@ export default function Metaverse() {
           id="support-agent"
           className="relative w-full bg-white bg-[url('/static/images/metaverse-bg.png')] bg-cover bg-center py-16"
         >
-          <div className="relative z-10 mx-auto flex max-w-7xl flex-col gap-8 md:flex-row">
+          <div className="relative z-10 mx-auto flex max-w-7xl flex-col gap-8 px-4 md:flex-row">
             <div
-              className="animate-slide-in animation-delay-200 h-[393px] w-full md:w-[601px]"
+              className="animate-slide-from-left animation-delay-200 aspect-video w-full opacity-0 md:w-[601px]"
               data-animate
             >
               <iframe
@@ -227,7 +228,7 @@ export default function Metaverse() {
                 allowFullScreen
               />
             </div>
-            <div className="animate-slide-up flex-1" data-animate>
+            <div className="animate-slide-from-right flex-1 opacity-0" data-animate>
               <h2
                 className="font-semibol text-[36px] leading-[54px] text-black"
                 style={{ fontFamily: 'Poppins, sans-serif', letterSpacing: '0.02em' }}
@@ -264,13 +265,13 @@ export default function Metaverse() {
         >
           <div className="mx-auto w-full max-w-[1273px]">
             <h2
-              className="animate-slide-up mx-auto w-full max-w-[1153px] text-center text-3xl leading-tight font-semibold text-black sm:text-4xl md:text-5xl"
+              className="animate-fade-in mx-auto w-full max-w-[1153px] text-center text-3xl leading-tight font-semibold text-black opacity-0 sm:text-4xl md:text-5xl"
               data-animate
             >
               So, what can we build for you in the metaverse?
             </h2>
             <div className="mt-12 px-4">
-              <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-1 items-stretch gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 {[
                   {
                     title: 'Virtual Experiences',
@@ -317,7 +318,7 @@ export default function Metaverse() {
                 ].map((item, index) => (
                   <div
                     key={item.title}
-                    className="animate-scale-in relative flex w-full flex-col"
+                    className={`${index % 2 === 0 ? 'animate-slide-from-left' : 'animate-slide-from-right'} relative flex h-full w-full flex-col opacity-0`}
                     style={{ animationDelay: `${100 + index * 100}ms` }}
                     data-animate
                   >
@@ -331,7 +332,7 @@ export default function Metaverse() {
                         loading="lazy"
                       />
                     </Link>
-                    <div className="flex flex-col px-4 pt-4 pb-4">
+                    <div className="flex flex-1 flex-col px-4 pt-4 pb-4">
                       <h3
                         className="text-center text-[24px] leading-[36px] font-semibold text-[#001930]"
                         style={{
@@ -345,7 +346,7 @@ export default function Metaverse() {
                         </Link>
                       </h3>
                       <p
-                        className="mt-2 text-[16px] leading-[26px] font-normal text-[#001930]"
+                        className="mt-2 flex-1 text-[16px] leading-[26px] font-normal text-[#001930]"
                         style={{ fontFamily: 'Poppins, sans-serif', textTransform: 'capitalize' }}
                       >
                         {item.description}
@@ -385,7 +386,7 @@ export default function Metaverse() {
         >
           <div className="mx-auto w-full max-w-[1000px] px-4 text-center">
             <h2
-              className="animate-slide-up text-[46px] leading-[56px] font-semibold text-white"
+              className="animate-fade-in text-[46px] leading-[56px] font-semibold text-white opacity-0"
               style={{
                 fontFamily: 'Poppins, sans-serif',
                 letterSpacing: '0.02em',
@@ -483,7 +484,7 @@ export default function Metaverse() {
               ].map((marker, index) => (
                 <div
                   key={index}
-                  className="animate-scale-in marker absolute flex items-center justify-center"
+                  className="animate-slide-from-bottom marker absolute flex items-center justify-center opacity-0"
                   style={{
                     top: marker.top,
                     left: marker.left,
@@ -831,12 +832,12 @@ export default function Metaverse() {
         {/* Technologies Section */}
         <section id="technologies" className="relative w-full bg-[#FFFFFF] py-16">
           <h2
-            className="animate-slide-up text-center text-3xl leading-tight font-semibold text-black opacity-0 sm:text-4xl md:text-5xl"
+            className="animate-fade-in text-center text-3xl leading-tight font-semibold text-black opacity-0 sm:text-4xl md:text-5xl"
             data-animate
           >
             Technologies We Work With
           </h2>
-          <div className="mx-auto mt-12 grid w-full max-w-7xl grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
+          <div className="mx-auto mt-12 grid w-full max-w-7xl grid-cols-2 gap-4 px-4 sm:grid-cols-3 md:grid-cols-5">
             {[
               '/static/images/android-white.png',
               '/static/images/mysql-white.png',
@@ -853,8 +854,8 @@ export default function Metaverse() {
             ].map((imgSrc, index) => (
               <div
                 key={index}
-                className="animate-scale-in flex h-[133px] w-full items-center justify-center border border-[#7F7F7F]"
-                style={{ animationDelay: `${100 + index * 100}ms` }}
+                className="animate-slide-from-bottom flex h-[133px] w-full items-center justify-center border border-[#7F7F7F] opacity-0"
+                style={{ animationDelay: `${100 + index * 80}ms` }}
                 data-animate
               >
                 <Image
@@ -873,7 +874,7 @@ export default function Metaverse() {
             ))}
           </div>
           <div
-            className="animate-slide-up animation-delay-200 mx-auto mt-12 max-w-[875px] rounded-lg border border-[#00FCE2] bg-[#2D9CDB] p-6 text-center opacity-0"
+            className="animate-slide-from-bottom animation-delay-200 mx-auto mt-12 max-w-[875px] rounded-lg border border-[#00FCE2] bg-[#2D9CDB] p-6 text-center opacity-0"
             data-animate
           >
             <h3 className="text-xl font-bold text-white sm:text-2xl">

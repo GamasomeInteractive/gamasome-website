@@ -82,7 +82,7 @@ export default function GameDev() {
             }}
           />
           <div
-            className="animate-slide-up animation-delay-200 absolute top-1/2 left-4 z-40 max-w-[936px] -translate-y-1/2 p-0 sm:left-8 md:left-16 lg:left-40"
+            className="animate-slide-from-left animation-delay-200 absolute top-1/2 left-4 z-40 max-w-[936px] -translate-y-1/2 p-0 opacity-0 sm:left-8 md:left-16 lg:left-40"
             data-animate
           >
             <h1 className="font-['Poppins'] text-4xl leading-tight font-semibold text-white sm:text-5xl md:text-7xl">
@@ -91,12 +91,14 @@ export default function GameDev() {
             <p className="mt-4 font-['Poppins'] text-xl font-normal tracking-[-0.025em] text-white sm:text-2xl md:text-3xl">
               Top Game development company in India
             </p>
-            <Link
-              href="#ai-solutions"
-              className="mt-8 inline-block h-[78px] w-full rounded-full bg-[#2D9CDB] text-center font-['Poppins'] text-lg leading-[78px] font-semibold text-white capitalize transition hover:bg-[#1d8cbf] sm:w-[332px] sm:text-2xl"
-            >
-              Contact Us
-            </Link>
+            <div className="animate-slide-from-bottom animation-delay-400 opacity-0" data-animate>
+              <Link
+                href="#ai-solutions"
+                className="mt-8 inline-block h-[78px] w-full rounded-full bg-[#2D9CDB] text-center font-['Poppins'] text-lg leading-[78px] font-semibold text-white capitalize transition hover:bg-[#1d8cbf] sm:w-[332px] sm:text-2xl"
+              >
+                Contact Us
+              </Link>
+            </div>
           </div>
           <div className="absolute bottom-8 left-1/2 z-40 flex h-15 w-5 -translate-x-1/2 items-start justify-center rounded-full border border-[#85868F] pt-2">
             <div className="h-3 w-3 animate-bounce rounded-full bg-[#D4D4DA]" />
@@ -109,7 +111,7 @@ export default function GameDev() {
           className="relative flex w-full flex-col items-center bg-[#FFFFFF] py-16"
         >
           <h2
-            className="animate-slide-up text-center font-['Poppins'] text-3xl font-semibold text-[#000000] sm:text-4xl md:text-5xl"
+            className="animate-fade-in text-center font-['Poppins'] text-3xl font-semibold text-[#000000] opacity-0 sm:text-4xl md:text-5xl"
             data-animate
           >
             Our Expertise Platforms
@@ -145,7 +147,7 @@ export default function GameDev() {
               ].map((item, index) => (
                 <div
                   key={item.title}
-                  className="animate-scale-in relative flex w-full flex-col"
+                  className={`${index % 2 === 0 ? 'animate-slide-from-left' : 'animate-slide-from-right'} relative flex w-full flex-col opacity-0`}
                   style={{ animationDelay: `${100 + index * 100}ms` }}
                   data-animate
                 >
@@ -198,7 +200,7 @@ export default function GameDev() {
           className="relative flex w-full flex-col items-center bg-[#F1FAFF] py-16"
         >
           <h2
-            className="animate-slide-up text-center font-['Poppins'] text-3xl leading-tight font-semibold text-[#001930] sm:text-4xl md:text-5xl"
+            className="animate-fade-in text-center font-['Poppins'] text-3xl leading-tight font-semibold text-[#001930] opacity-0 sm:text-4xl md:text-5xl"
             data-animate
           >
             Our Game Development Solutions
@@ -251,7 +253,7 @@ export default function GameDev() {
               ].map((item, index) => (
                 <div
                   key={item.title}
-                  className="animate-scale-in relative flex w-full flex-col overflow-hidden rounded-[4px]"
+                  className={`${index % 2 === 0 ? 'animate-slide-from-left' : 'animate-slide-from-right'} relative flex w-full flex-col overflow-hidden rounded-[4px] opacity-0`}
                   style={{ animationDelay: `${100 + index * 100}ms` }}
                   data-animate
                 >
@@ -317,7 +319,7 @@ export default function GameDev() {
           <div className="absolute top-[348.8px] left-1/2 z-1 h-[1px] w-[61px] translate-x-[303px] border border-[#767E7E] bg-white"></div>
           <div className="relative z-10 mx-auto flex max-w-[1384px] flex-col gap-8 px-4 md:flex-row">
             <div
-              className="animate-slide-in relative h-auto max-h-[393px] w-full md:w-[601px]"
+              className="animate-slide-from-left relative aspect-video w-full opacity-0 md:w-[601px]"
               style={{ animationDelay: '200ms' }}
               data-animate
             >
@@ -331,7 +333,7 @@ export default function GameDev() {
                 allowFullScreen
               />
             </div>
-            <div className="animate-slide-up flex flex-1 flex-col" data-animate>
+            <div className="animate-slide-from-right flex flex-1 flex-col opacity-0" data-animate>
               <h2 className="font-['Poppins'] text-2xl leading-[54px] font-semibold text-black sm:text-3xl md:text-4xl">
                 How we converge Deep Tech in our Games ?
               </h2>
@@ -372,7 +374,7 @@ export default function GameDev() {
             ].map((item, index) => (
               <div
                 key={item.title}
-                className="animate-scale-in relative flex w-full max-w-[400px] flex-col overflow-hidden rounded-[4px] bg-[#2D9CDB]"
+                className="animate-slide-from-bottom relative flex w-full max-w-[400px] flex-col overflow-hidden rounded-[4px] bg-[#2D9CDB] opacity-0"
                 style={{ animationDelay: `${100 + index * 100}ms` }}
                 data-animate
               >
@@ -403,12 +405,12 @@ export default function GameDev() {
         {/* Technologies Section */}
         <section id="technologies" className="relative w-full bg-[#FFFFFF] py-16">
           <h2
-            className="animate-slide-up text-center font-['Poppins'] text-3xl leading-tight font-semibold text-black opacity-0 sm:text-4xl md:text-5xl"
+            className="animate-fade-in text-center font-['Poppins'] text-3xl leading-tight font-semibold text-black opacity-0 sm:text-4xl md:text-5xl"
             data-animate
           >
             Technologies We Work With
           </h2>
-          <div className="mx-auto mt-12 grid w-full max-w-7xl grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
+          <div className="mx-auto mt-12 grid w-full max-w-7xl grid-cols-2 gap-4 px-4 sm:grid-cols-3 md:grid-cols-5">
             {[
               '/static/images/android-white.png',
               '/static/images/mysql-white.png',
@@ -425,8 +427,8 @@ export default function GameDev() {
             ].map((imgSrc, index) => (
               <div
                 key={index}
-                className="animate-scale-in flex h-[133px] w-full items-center justify-center border border-[#7F7F7F]"
-                style={{ animationDelay: `${100 + index * 100}ms` }}
+                className="animate-slide-from-bottom flex h-[133px] w-full items-center justify-center border border-[#7F7F7F] opacity-0"
+                style={{ animationDelay: `${100 + index * 80}ms` }}
                 data-animate
               >
                 <Image
@@ -445,7 +447,7 @@ export default function GameDev() {
             ))}
           </div>
           <div
-            className="animate-slide-up animation-delay-200 mx-auto mt-12 max-w-[875px] rounded-lg border border-[#00FCE2] bg-[#2D9CDB] p-6 text-center opacity-0"
+            className="animate-slide-from-bottom animation-delay-200 mx-auto mt-12 max-w-[875px] rounded-lg border border-[#00FCE2] bg-[#2D9CDB] p-6 text-center opacity-0"
             data-animate
           >
             <h3 className="font-['Poppins'] text-xl font-bold text-white sm:text-2xl">

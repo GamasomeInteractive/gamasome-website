@@ -1,10 +1,30 @@
+'use client'
 import { Metadata } from 'next'
 import { genPageMetadata } from 'app/seo'
 import Image from 'next/image'
+import { useEffect } from 'react'
 
-export const metadata: Metadata = genPageMetadata({ title: 'About' })
+// export const metadata: Metadata = genPageMetadata({ title: 'About' })
 
 export default function Page() {
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate')
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.1, rootMargin: '50px' }
+    )
+
+    document.querySelectorAll('[data-animate]').forEach((el) => observer.observe(el))
+
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <>
       {/* Hero Section with Background */}
@@ -24,7 +44,7 @@ export default function Page() {
         <div className="relative z-10 container mx-auto flex min-h-screen items-center px-4 lg:px-8">
           <div className="grid w-full grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-16">
             {/* Left Content */}
-            <div className="space-y-6 text-white">
+            <div className="animate-slide-from-left space-y-6 text-white opacity-0" data-animate>
               {/* Breadcrumb Navigation */}
               <nav className="font-['Poppins'] text-xs font-normal opacity-80 sm:text-sm">
                 HOME &gt; About
@@ -64,7 +84,11 @@ export default function Page() {
             </div>
 
             {/* Right Content - About Image */}
-            <div className="flex justify-center lg:justify-end">
+            <div
+              className="animate-slide-from-right flex justify-center opacity-0 lg:justify-end"
+              data-animate
+              style={{ animationDelay: '200ms' }}
+            >
               <div className="relative w-full max-w-md lg:max-w-lg">
                 {/* Semi-transparent Overlay */}
                 <div className="absolute inset-0 z-10 rounded-lg bg-[#0C0E21] opacity-40" />
@@ -87,12 +111,19 @@ export default function Page() {
       {/* Business Section */}
       <section className="w-full bg-white py-8 sm:py-12 lg:py-16">
         <div className="container mx-auto px-4 lg:px-8">
-          <h2 className="mb-8 text-center font-['Poppins'] text-2xl font-bold text-black sm:text-3xl lg:mb-12 lg:text-4xl xl:text-5xl">
+          <h2
+            className="animate-fade-in mb-8 text-center font-['Poppins'] text-2xl font-bold text-black opacity-0 sm:text-3xl lg:mb-12 lg:text-4xl xl:text-5xl"
+            data-animate
+          >
             Gamasome solutions for you business
           </h2>
 
           {/* Video Container */}
-          <div className="flex justify-center">
+          <div
+            className="animate-slide-from-bottom flex justify-center opacity-0"
+            data-animate
+            style={{ animationDelay: '200ms' }}
+          >
             <div className="aspect-video w-full max-w-4xl">
               <iframe
                 className="h-full w-full rounded-lg shadow-lg"
@@ -111,7 +142,7 @@ export default function Page() {
       <section className="w-full bg-[#F6F6F6] py-8 sm:py-12 lg:py-20">
         <div className="container mx-auto px-4 lg:px-8">
           {/* Section Header */}
-          <div className="mb-12 text-center lg:mb-16">
+          <div className="animate-fade-in mb-12 text-center opacity-0 lg:mb-16" data-animate>
             <h2 className="mb-4 font-['Poppins'] text-3xl font-semibold text-black sm:text-4xl lg:mb-6 lg:text-5xl">
               Our Founders
             </h2>
@@ -124,7 +155,11 @@ export default function Page() {
           {/* Founders Container */}
           <div className="flex flex-col items-center justify-center gap-8 lg:flex-row lg:gap-16 xl:gap-20">
             {/* Founder 1 - Mohan */}
-            <div className="flex w-full flex-col items-center text-center sm:max-w-sm">
+            <div
+              className="animate-slide-from-left flex w-full flex-col items-center text-center opacity-0 sm:max-w-sm"
+              data-animate
+              style={{ animationDelay: '100ms' }}
+            >
               {/* Mohan's Image */}
               <div className="mb-6 lg:mb-8">
                 <Image
@@ -155,7 +190,11 @@ export default function Page() {
             </div>
 
             {/* Founder 2 - Prasanna */}
-            <div className="flex w-full flex-col items-center text-center sm:max-w-sm">
+            <div
+              className="animate-slide-from-right flex w-full flex-col items-center text-center opacity-0 sm:max-w-sm"
+              data-animate
+              style={{ animationDelay: '200ms' }}
+            >
               {/* Prasanna's Image */}
               <div className="mb-6 lg:mb-8">
                 <Image
@@ -191,7 +230,10 @@ export default function Page() {
       {/* Get Started Section */}
       <section className="w-full bg-white py-8 sm:py-12 lg:py-16">
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="mx-auto max-w-4xl rounded-lg border border-[#00FCE2] bg-[#2D9CDB] p-6 text-center lg:p-8">
+          <div
+            className="animate-slide-from-bottom mx-auto max-w-4xl rounded-lg border border-[#00FCE2] bg-[#2D9CDB] p-6 text-center opacity-0 lg:p-8"
+            data-animate
+          >
             <h3 className="mb-2 font-['Poppins'] text-xl font-bold text-white sm:text-2xl lg:text-3xl">
               Ready to start a project?
             </h3>
@@ -199,6 +241,15 @@ export default function Page() {
           </div>
         </div>
       </section>
+
+      <style jsx>{`
+        [data-animate].animate {
+          animation-play-state: running;
+        }
+        [data-animate] {
+          animation-play-state: paused;
+        }
+      `}</style>
     </>
   )
 }

@@ -11,6 +11,8 @@ export default function ContactPage() {
     message: '',
   })
   const [errors, setErrors] = useState({ name: '', email: '', message: '' })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -18,7 +20,7 @@ export default function ContactPage() {
     setErrors((prev) => ({ ...prev, [name]: '' }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     let hasError = false
     const newErrors = { name: '', email: '', message: '' }
@@ -44,8 +46,30 @@ export default function ContactPage() {
       return
     }
 
-    console.log('Form submitted:', formData)
-    setFormData({ name: '', email: '', phone: '', message: '' })
+    setIsSubmitting(true)
+    setSubmitStatus('idle')
+
+    try {
+      await fetch(
+        'https://script.google.com/macros/s/AKfycbyWm5QP1qr0uAo7iluWakrk9WdhJd9cypxOwW8lPkMk9SUf3UXgiieIDFOWEgXMwbjVZg/exec',
+        {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        }
+      )
+
+      setSubmitStatus('success')
+      setFormData({ name: '', email: '', phone: '', message: '' })
+    } catch (error) {
+      console.error('Form submission error:', error)
+      setSubmitStatus('error')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   useEffect(() => {
@@ -69,7 +93,10 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen font-['Poppins']">
       {/* Top Banner Section */}
-      <section className="animate-fade-in relative h-[444px] w-full overflow-hidden" data-animate>
+      <section
+        className="animate-fade-in relative h-[444px] w-full overflow-hidden opacity-0"
+        data-animate
+      >
         <div className="absolute inset-0 z-0 bg-[#2D9CDB]" />
         <div className="absolute inset-0 z-10">
           <Image
@@ -105,7 +132,7 @@ export default function ContactPage() {
       <section className="w-full bg-white pt-12 pb-16">
         <div className="container mx-auto px-4">
           <div
-            className="animate-slide-up mx-auto flex max-w-[1516px] flex-col justify-center gap-12 md:flex-row md:gap-24"
+            className="animate-slide-from-left mx-auto flex max-w-[1516px] flex-col justify-center gap-12 opacity-0 md:flex-row md:gap-24"
             data-animate
           >
             <div className="w-full md:w-[630px]">
@@ -154,7 +181,11 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="w-full md:w-[485px]">
+            <div
+              className="animate-slide-from-right w-full opacity-0 md:w-[485px]"
+              data-animate
+              style={{ animationDelay: '200ms' }}
+            >
               <h2 className="font-['Poppins'] text-2xl leading-[54px] font-semibold tracking-[0.02em] text-[#333333] sm:text-3xl md:text-4xl">
                 Get in touch with us
               </h2>
@@ -226,15 +257,35 @@ export default function ContactPage() {
                 </div>
                 <button
                   type="submit"
-                  className="h-[45px] w-full rounded-[4px] bg-[#2D9CDB] font-['Poppins'] text-sm leading-[105%] font-normal tracking-[-0.025em] text-white transition-colors hover:bg-[#1e7ba8] sm:text-base md:w-[166px]"
+                  disabled={isSubmitting}
+                  className="h-[45px] w-full rounded-[4px] bg-[#2D9CDB] font-['Poppins'] text-sm leading-[105%] font-normal tracking-[-0.025em] text-white transition-colors hover:bg-[#1e7ba8] disabled:cursor-not-allowed disabled:opacity-50 sm:text-base md:w-[166px]"
                 >
-                  Start your project
+                  {isSubmitting ? 'Sending...' : 'Start your project'}
                 </button>
+                {submitStatus === 'success' && (
+                  <p className="mt-2 font-['Poppins'] text-sm text-green-600">
+                    Message sent successfully!
+                  </p>
+                )}
+                {submitStatus === 'error' && (
+                  <p className="mt-2 font-['Poppins'] text-sm text-red-500">
+                    Failed to send message. Please try again.
+                  </p>
+                )}
               </form>
             </div>
           </div>
         </div>
       </section>
+
+      <style jsx>{`
+        [data-animate].animate {
+          animation-play-state: running;
+        }
+        [data-animate] {
+          animation-play-state: paused;
+        }
+      `}</style>
     </div>
   )
 }

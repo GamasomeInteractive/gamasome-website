@@ -55,7 +55,13 @@ export default function Footer() {
         <div>
           <div className="flex items-center gap-4">
             <div>
-              <img src="/static/images/usa.png" alt="USA Flag" className="mb-3 h-10 w-20" />
+              <Image
+                width={80}
+                height={40}
+                src="/static/images/usa.png"
+                alt="USA Flag"
+                className="mb-3 h-10 w-20"
+              />
               <h3 className="font-['Poppins'] text-base font-normal sm:text-lg">USA Office</h3>
               <p className="mt-4 max-w-full font-['Poppins'] text-sm font-normal sm:text-base">
                 {siteMetadata.author || 'Gamasome Interactive'}, 6275 West Plano Parkway, Suite 500,
