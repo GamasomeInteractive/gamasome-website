@@ -307,7 +307,8 @@ export default function GameDev() {
         {/* DeepTech Section */}
         <section
           id="deep-tech"
-          className="relative w-full bg-white bg-[url('/static/images/metaverse-bg.png')] bg-cover bg-center py-16"
+          className="relative w-full bg-white bg-cover bg-center py-16"
+          style={{ backgroundImage: "url('/static/images/metaverse-bg.png')" }}
         >
           <div
             className="absolute top-[259px] right-4 h-[562px] w-[562px] opacity-40 blur-[60px] md:right-auto md:left-[679px]"

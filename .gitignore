@@ -19,6 +19,7 @@ public/sitemap.xml
 
 # production
 /build
+/out
 *.xml
 
 # rss feed

@@ -211,7 +211,8 @@ export default function Metaverse() {
         {/* Support agent Section */}
         <section
           id="support-agent"
-          className="relative w-full bg-white bg-[url('/static/images/metaverse-bg.png')] bg-cover bg-center py-16"
+          className="relative w-full bg-white bg-cover bg-center py-16"
+          style={{ backgroundImage: "url('/static/images/metaverse-bg.png')" }}
         >
           <div className="relative z-10 mx-auto flex max-w-7xl flex-col gap-8 px-4 md:flex-row">
             <div
