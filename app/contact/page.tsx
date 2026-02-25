@@ -170,6 +170,7 @@ export default function ContactPage() {
                   +1 (530) 364-8775
                 </p>
               </div>
+              
               <div className="flex flex-col gap-4">
                 <button className="h-[45px] w-full rounded-[4px] bg-[#2D9CDB] font-['Poppins'] text-sm leading-[105%] font-normal tracking-[-0.025em] text-white transition-colors hover:bg-[#1e7ba8] sm:text-base md:w-[119px]">
                   Contact us
