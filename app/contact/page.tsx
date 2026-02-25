@@ -13,6 +13,18 @@ export default function ContactPage() {
   const [errors, setErrors] = useState({ name: '', email: '', message: '' })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [showToast, setShowToast] = useState(false)
+
+  useEffect(() => {
+    if (submitStatus === 'success' || submitStatus === 'error') {
+      setShowToast(true)
+      const timer = setTimeout(() => {
+        setShowToast(false)
+        setTimeout(() => setSubmitStatus('idle'), 300)
+      }, 4000)
+      return () => clearTimeout(timer)
+    }
+  }, [submitStatus])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -51,7 +63,7 @@ export default function ContactPage() {
 
     try {
       await fetch(
-        'https://script.google.com/macros/s/AKfycbyWm5QP1qr0uAo7iluWakrk9WdhJd9cypxOwW8lPkMk9SUf3UXgiieIDFOWEgXMwbjVZg/exec',
+        'https://script.google.com/macros/s/AKfycbwD1GRUEx9yKwcnT-JFgx7dw_tRb5v6NDGmpUuXip97ALo1xcSNNZQ01sIGgokj-rmM/exec',
         {
           method: 'POST',
           mode: 'no-cors',
@@ -92,6 +104,61 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen font-['Poppins']">
+      {/* Toast Notification */}
+      {submitStatus !== 'idle' && (
+        <div
+          className={`fixed top-6 right-6 z-50 flex items-center gap-3 rounded-lg px-5 py-4 shadow-lg transition-all duration-300 ${
+            showToast ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
+          } ${submitStatus === 'success' ? 'bg-green-500' : 'bg-red-500'}`}
+        >
+          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20">
+            {submitStatus === 'success' ? (
+              <svg
+                className="h-4 w-4 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={3}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            ) : (
+              <svg
+                className="h-4 w-4 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={3}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            )}
+          </div>
+          <span className="font-['Poppins'] text-sm font-medium text-white">
+            {submitStatus === 'success'
+              ? 'Message sent successfully!'
+              : 'Failed to send message. Please try again.'}
+          </span>
+          <button
+            onClick={() => {
+              setShowToast(false)
+              setTimeout(() => setSubmitStatus('idle'), 300)
+            }}
+            className="ml-2 text-white/70 hover:text-white"
+          >
+            <svg
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      )}
+
       {/* Top Banner Section */}
       <section
         className="animate-fade-in relative h-[444px] w-full overflow-hidden opacity-0"
@@ -170,7 +237,7 @@ export default function ContactPage() {
                   +1 (530) 364-8775
                 </p>
               </div>
-              
+
               <div className="flex flex-col gap-4">
                 <button className="h-[45px] w-full rounded-[4px] bg-[#2D9CDB] font-['Poppins'] text-sm leading-[105%] font-normal tracking-[-0.025em] text-white transition-colors hover:bg-[#1e7ba8] sm:text-base md:w-[119px]">
                   Contact us
@@ -259,16 +326,6 @@ export default function ContactPage() {
                 >
                   {isSubmitting ? 'Sending...' : 'Start your project'}
                 </button>
-                {submitStatus === 'success' && (
-                  <p className="mt-2 font-['Poppins'] text-sm text-green-600">
-                    Message sent successfully!
-                  </p>
-                )}
-                {submitStatus === 'error' && (
-                  <p className="mt-2 font-['Poppins'] text-sm text-red-500">
-                    Failed to send message. Please try again.
-                  </p>
-                )}
               </form>
             </div>
           </div>
