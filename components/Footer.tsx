@@ -64,17 +64,14 @@ export default function Footer() {
               />
               <h3 className="font-['Poppins'] text-base font-normal sm:text-lg">USA Office</h3>
               <p className="mt-4 max-w-full font-['Poppins'] text-sm font-normal sm:text-base">
-                {siteMetadata.author || 'Gamasome Interactive'}, 6275 West Plano Parkway, Suite 500,
-                Plano, Texas 75093 - USA
+                599 Fairchild Dr, Mountain View, CA 94043
               </p>
               <p className="mt-4 font-['Poppins'] text-sm font-normal sm:text-base">
-                <a
-                  href={`mailto:${siteMetadata.email || 'contact@yourcompany.com'}`}
-                  className="font-['Poppins']"
-                >
-                  {siteMetadata.email || 'contact@yourcompany.com'}
+                <a href="mailto:prasanna@gamasome.com" className="font-['Poppins']">
+                  prasanna@gamasome.com
                 </a>
-                , +1 423-588-1956
+                <br />
+                +1 (530) 364-8775
               </p>
             </div>
           </div>
@@ -89,17 +86,15 @@ export default function Footer() {
               />
               <h3 className="font-['Poppins'] text-base font-normal sm:text-lg">India Office</h3>
               <p className="mt-4 max-w-full font-['Poppins'] text-sm font-normal sm:text-base">
-                {siteMetadata.author || 'Your Company'}, 4th floor, 7, Koramangala 80 Feet Rd, 7th
-                Block, Koramangala, Bengaluru, Karnataka 560030, India
+                No.1794, 36/3, 27th Main Rd, near Power Station, 2nd Sector, ITI Layout, 7th Sector,
+                HSR Layout, Bengaluru, Karnataka 560102, India
               </p>
               <p className="mt-4 font-['Poppins'] text-sm font-normal sm:text-base">
-                <a
-                  href={`mailto:${siteMetadata.email || 'contact@yourcompany.com'}`}
-                  className="font-['Poppins']"
-                >
-                  {siteMetadata.email || 'contact@yourcompany.com'}
+                <a href="mailto:prasanna@gamasome.com" className="font-['Poppins']">
+                  prasanna@gamasome.com
                 </a>
-                , +1 423-588-1956
+                <br />
+                +91 8012223541
               </p>
             </div>
           </div>

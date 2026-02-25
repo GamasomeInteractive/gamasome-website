@@ -142,15 +142,13 @@ export default function ContactPage() {
                 </h2>
                 <div className="my-3 h-[1px] w-[61px] bg-[#333333]" />
                 <p className="font-['Poppins'] text-sm leading-[190%] font-normal tracking-[0.02em] text-[#333333] sm:text-base">
-                  Gamasome Interactive, 4th floor, 7, Koramangala 80 Feet Rd, 7th Block,
-                  Koramangala, Bengaluru, Karnataka 560030, India.
+                  No.1794, 36/3, 27th Main Rd, near Power Station, 2nd Sector, ITI Layout, 7th
+                  Sector, HSR Layout, Bengaluru, Karnataka 560102, India
                 </p>
                 <p className="mt-4 font-['Poppins'] text-sm leading-[190%] font-normal tracking-[0.02em] text-[#333333] sm:text-base">
-                  contact@gamasome.com
+                  prasanna@gamasome.com
                   <br />
-                  mohan@gamasome.com
-                  <br />
-                  +91-9488 387561
+                  +91 8012223541
                 </p>
               </div>
               <div className="flex flex-col gap-4">
@@ -164,14 +162,12 @@ export default function ContactPage() {
                 </h2>
                 <div className="my-3 h-[1px] w-[61px] bg-[#333333]" />
                 <p className="font-['Poppins'] text-sm leading-[190%] font-normal tracking-[0.02em] text-[#333333] sm:text-base">
-                  Gamasome Interactive, 1031, Blueberry Ct, Edison, NJ, 08817-USA.
+                  599 Fairchild Dr, Mountain View, CA 94043
                 </p>
                 <p className="mt-4 font-['Poppins'] text-sm leading-[190%] font-normal tracking-[0.02em] text-[#333333] sm:text-base">
-                  contact@gamasome.com
+                  prasanna@gamasome.com
                   <br />
-                  raghu@gamasome.com
-                  <br />
-                  +1 423-588-1956
+                  +1 (530) 364-8775
                 </p>
               </div>
               <div className="flex flex-col gap-4">
