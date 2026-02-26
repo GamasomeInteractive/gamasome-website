@@ -121,7 +121,7 @@ export default function Footer() {
             Follow us:
           </span>
           <div className="flex gap-2">
-            <SocialIcon kind="twitter" href={siteMetadata.twitter || '#'} size={5} />
+            <SocialIcon kind="x" href={siteMetadata.x || '#'} size={5} />
             <SocialIcon kind="linkedin" href={siteMetadata.linkedin || '#'} size={5} />
             <SocialIcon kind="facebook" href={siteMetadata.facebook || '#'} size={5} />
             <SocialIcon kind="youtube" href={siteMetadata.youtube || '#'} size={5} />
