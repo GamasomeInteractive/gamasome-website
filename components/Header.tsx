@@ -1,7 +1,8 @@
 'use client'
 import { useState, useEffect } from 'react'
 import siteMetadata from '@/data/siteMetadata'
-import headerNavLinks from '@/data/headerNavLinks'
+import headerData from '../content/navigation/header.json'
+const headerNavLinks = headerData.navLinks
 import Logo from '@/data/logo.svg'
 import MenuIcon from '@/data/menu-icon.svg'
 import Link from 'next/link'

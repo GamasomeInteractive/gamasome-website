@@ -1,0 +1,45 @@
+{
+  "ctaHeadline": "Interested? Let's Talk!",
+  "ctaDescription": "Your company is a top-notch deep tech development firm converging technologies like Blockchain, AI, AR/VR solutions for enterprises.",
+  "offices": [
+    {
+      "country": "USA",
+      "flagImage": "/static/images/usa.png",
+      "city": "USA Office",
+      "address": "599 Fairchild Dr, Mountain View, CA 94043",
+      "email": "prasanna@gamasome.com",
+      "phone": "+1 (530) 364-8775"
+    },
+    {
+      "country": "India",
+      "flagImage": "/static/images/india.png",
+      "city": "India Office",
+      "address": "No.1794, 36/3, 27th Main Rd, near Power Station, 2nd Sector, ITI Layout, 7th Sector, HSR Layout, Bengaluru, Karnataka 560102, India",
+      "email": "prasanna@gamasome.com",
+      "phone": "+91 8012223541"
+    }
+  ],
+  "social": {
+    "twitter": "",
+    "linkedin": "",
+    "facebook": "",
+    "youtube": ""
+  },
+  "legalLinks": [
+    { "title": "Terms & Conditions", "href": "/terms" },
+    { "title": "Privacy Policy", "href": "/privacy" },
+    { "title": "Refunds & Cancellations", "href": "/refunds" }
+  ],
+  "copyrightName": "Gamasome",
+  "newsletterEnabled": true,
+  "navLinks": [
+    { "title": "Home", "href": "/home" },
+    { "title": "AI Platform", "href": "/ai-platform" },
+    { "title": "Robotics Solutions", "href": "/robotics-solutions" },
+    { "title": "AI Solutions", "href": "/ai-solutions" },
+    { "title": "AR / VR Development", "href": "/ar-vr-development" },
+    { "title": "Blog", "href": "/blog" },
+    { "title": "About Us", "href": "/about" },
+    { "title": "Contact Us", "href": "/contact" }
+  ]
+}

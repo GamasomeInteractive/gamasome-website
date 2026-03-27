@@ -1,0 +1,22 @@
+{
+  "siteName": "Gamasome",
+  "tagline": "Bring Intelligence to the Physical World",
+  "logo": "",
+  "favicon": "",
+  "theme": {
+    "primaryColor": "#2D9CDB",
+    "accentColor": "#00FCE2",
+    "darkBg": "#07091B",
+    "textColor": "#FFFFFF"
+  },
+  "contact": {
+    "email": "hello@gamasome.com",
+    "phone": "+91 00000 00000"
+  },
+  "social": {
+    "linkedin": "",
+    "twitter": "",
+    "youtube": "",
+    "instagram": ""
+  }
+}

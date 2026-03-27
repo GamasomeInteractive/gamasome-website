@@ -13,7 +13,8 @@ const ContentSecurityPolicy = `
   media-src *.s3.amazonaws.com;
   connect-src *;
   font-src 'self';
-  frame-src giscus.app
+  frame-src giscus.app 'self';
+  frame-ancestors 'self'
 `
 
 const securityHeaders = [
@@ -30,7 +31,7 @@ const securityHeaders = [
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
   {
     key: 'X-Frame-Options',
-    value: 'DENY',
+    value: 'SAMEORIGIN',
   },
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
   {
@@ -67,11 +68,17 @@ module.exports = () => {
     output,
     basePath,
     reactStrictMode: true,
-    trailingSlash: false,
-    pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
-    eslint: {
-      dirs: ['app', 'components', 'layouts', 'scripts'],
+    trailingSlash: true,
+    turbopack: {
+      root: process.cwd(),
+      rules: {
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js',
+        },
+      },
     },
+    pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
     images: {
       remotePatterns: [
         {
@@ -80,6 +87,15 @@ module.exports = () => {
         },
       ],
       unoptimized,
+    },
+    async redirects() {
+      return [
+        {
+          source: '/admin',
+          destination: '/admin/index.html',
+          permanent: false,
+        },
+      ]
     },
     async headers() {
       return [

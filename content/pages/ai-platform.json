@@ -1,0 +1,133 @@
+{
+  "hero": {
+    "badge": "AI Platform",
+    "headline": "Bring Intelligence to the",
+    "headlineAccent": "Physical World",
+    "subheadline": "Gamasome's AI platform transforms raw data from cameras, sensors, and devices into intelligent, real-time decisions. From computer vision to spatial AI, we power the next generation of autonomous systems.",
+    "primaryCta": {
+      "text": "Start Building",
+      "href": "/contact"
+    },
+    "secondaryCta": {
+      "text": "Watch Demo",
+      "href": "#how-it-works"
+    }
+  },
+  "stats": [
+    {
+      "value": "50M+",
+      "label": "Training Samples",
+      "sublabel": "Annotated & Validated"
+    },
+    {
+      "value": "30+",
+      "label": "Enterprise Clients",
+      "sublabel": "Across 8 Industries"
+    },
+    {
+      "value": "99.9%",
+      "label": "Platform Uptime",
+      "sublabel": "SLA Guaranteed"
+    },
+    {
+      "value": "5+",
+      "label": "Years Experience",
+      "sublabel": "In Production AI"
+    }
+  ],
+  "capabilitiesLabel": "What We Build",
+  "capabilitiesTitle": "Core AI Capabilities",
+  "capabilities": [
+    {
+      "icon": "👁️",
+      "title": "Computer Vision",
+      "description": "Train and deploy visual AI models that detect, track, and understand objects in real-time video and image streams with sub-100ms latency."
+    },
+    {
+      "icon": "🌐",
+      "title": "Spatial AI & 3D Modeling",
+      "description": "Convert real-world environments into digital 3D models using our G-Space platform — just a smartphone camera, no LiDAR required."
+    },
+    {
+      "icon": "💬",
+      "title": "Natural Language Processing",
+      "description": "Build multilingual AI interfaces that understand context, sentiment, and intent from unstructured text and voice data at scale."
+    },
+    {
+      "icon": "📊",
+      "title": "Predictive Analytics",
+      "description": "Uncover patterns and forecast business outcomes with ML-powered prediction pipelines trained on your domain-specific data."
+    }
+  ],
+  "useCasesLabel": "Real-World Impact",
+  "useCasesTitle": "Industries We Transform",
+  "useCases": [
+    {
+      "tag": "RETAIL",
+      "title": "Smart Inventory & Shelf Intelligence",
+      "description": "AI-powered computer vision monitors shelf stock levels in real time, detects misplacements, and triggers automated restocking alerts.",
+      "accentColor": "#2D9CDB"
+    },
+    {
+      "tag": "HEALTHCARE",
+      "title": "Medical Imaging Analysis",
+      "description": "Deep learning models assist radiologists by analysing X-rays, MRIs, and CT scans with clinical-grade accuracy and speed.",
+      "accentColor": "#00FCE2"
+    },
+    {
+      "tag": "MANUFACTURING",
+      "title": "Automated Quality Control",
+      "description": "Visual inspection systems detect micro-defects on production lines at speeds and precision no human inspector can match.",
+      "accentColor": "#2D9CDB"
+    },
+    {
+      "tag": "SMART CITIES",
+      "title": "Traffic & Surveillance AI",
+      "description": "Real-time object detection and crowd analytics for traffic optimisation, safety monitoring, and urban intelligence platforms.",
+      "accentColor": "#00FCE2"
+    },
+    {
+      "tag": "AUTOMOTIVE",
+      "title": "Autonomous Vehicle Perception",
+      "description": "Multi-sensor fusion and object detection pipelines that give autonomous vehicles the spatial awareness to navigate safely.",
+      "accentColor": "#2D9CDB"
+    },
+    {
+      "tag": "GAMING & XR",
+      "title": "AI-Powered 3D Avatars",
+      "description": "Create lifelike digital humans and immersive environments for metaverse, gaming, and extended reality experiences.",
+      "accentColor": "#00FCE2"
+    }
+  ],
+  "howItWorksLabel": "Process",
+  "howItWorksTitle": "How It Works",
+  "howItWorks": [
+    {
+      "number": "01",
+      "title": "Collect & Annotate",
+      "description": "Gather data from cameras, sensors, and IoT devices. Our platform structures and annotates it for AI training with precision labelling tools."
+    },
+    {
+      "number": "02",
+      "title": "Train & Validate",
+      "description": "Train custom models on your domain-specific data. Iterate with automated testing pipelines until performance targets are met."
+    },
+    {
+      "number": "03",
+      "title": "Deploy & Monitor",
+      "description": "Deploy models to edge devices, cloud APIs, or embedded systems. Monitor performance in production with real-time dashboards."
+    }
+  ],
+  "cta": {
+    "headline": "Ready to build intelligent systems?",
+    "subtext": "Join 30+ enterprises using Gamasome's AI platform to automate, predict, and see more.",
+    "primaryBtn": {
+      "text": "Get Started",
+      "href": "/contact"
+    },
+    "secondaryBtn": {
+      "text": "Book a Demo",
+      "href": "/contact"
+    }
+  }
+}

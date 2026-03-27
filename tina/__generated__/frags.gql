@@ -1,0 +1,152 @@
+fragment SiteSettingsParts on SiteSettings {
+  __typename
+  siteName
+  tagline
+  logo
+  favicon
+  theme {
+    __typename
+    primaryColor
+    accentColor
+    darkBg
+    textColor
+  }
+  contact {
+    __typename
+    email
+    phone
+  }
+  social {
+    __typename
+    linkedin
+    twitter
+    youtube
+    instagram
+    facebook
+  }
+}
+
+fragment HeaderParts on Header {
+  __typename
+  navLinks {
+    __typename
+    title
+    href
+  }
+}
+
+fragment FooterParts on Footer {
+  __typename
+  ctaHeadline
+  ctaDescription
+  offices {
+    __typename
+    country
+    flagImage
+    city
+    address
+    email
+    phone
+  }
+  social {
+    __typename
+    twitter
+    linkedin
+    facebook
+    youtube
+  }
+  legalLinks {
+    __typename
+    title
+    href
+  }
+  copyrightName
+  newsletterEnabled
+  navLinks {
+    __typename
+    title
+    href
+  }
+}
+
+fragment AiPlatformParts on AiPlatform {
+  __typename
+  hero {
+    __typename
+    badge
+    headline
+    headlineAccent
+    subheadline
+    backgroundImage
+    backgroundVideoUrl
+    colors {
+      __typename
+      primaryColor
+      accentColor
+      bgColor
+    }
+    primaryCta {
+      __typename
+      text
+      href
+    }
+    secondaryCta {
+      __typename
+      text
+      href
+    }
+  }
+  stats {
+    __typename
+    value
+    label
+    sublabel
+  }
+  capabilitiesLabel
+  capabilitiesTitle
+  capabilities {
+    __typename
+    icon
+    iconImage
+    title
+    description
+    accentColor
+    demoVideoUrl
+  }
+  useCasesLabel
+  useCasesTitle
+  useCases {
+    __typename
+    tag
+    title
+    description
+    coverImage
+    accentColor
+    videoUrl
+  }
+  howItWorksLabel
+  howItWorksTitle
+  howItWorks {
+    __typename
+    number
+    title
+    description
+    illustration
+  }
+  cta {
+    __typename
+    headline
+    subtext
+    backgroundImage
+    primaryBtn {
+      __typename
+      text
+      href
+    }
+    secondaryBtn {
+      __typename
+      text
+      href
+    }
+  }
+}
