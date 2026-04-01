@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import ServicePageView from '@/components/ServicePageView'
 import AIPlatformView from '../ai-platform/AIPlatformView'
 import client from '../../tina/__generated__/client'
+import { normalizeTinaImages } from '../../lib/normalizeTinaImages'
 import fallbackHeader from '../../content/navigation/header.json'
 import fallbackFooter from '../../content/navigation/footer.json'
 import { HeaderDocument, FooterDocument } from '../../tina/__generated__/types'
@@ -24,7 +25,8 @@ export async function generateStaticParams() {
 async function getData(slug: string) {
   const relativePath = `${slug}.json`
   try {
-    return await (client.queries as any).servicePage({ relativePath })
+    const result = await (client.queries as any).servicePage({ relativePath })
+    return { ...result, data: normalizeTinaImages(result.data) }
   } catch {
     // Fallback: read JSON directly (handles missing generated type or CMS offline)
     const raw = await fs.readFile(path.join(SERVICES_DIR, relativePath), 'utf-8').catch(() => null)

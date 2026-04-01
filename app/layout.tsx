@@ -14,6 +14,7 @@ import SmoothScrollProvider from '@/components/SmoothScrollProvider'
 import { MotionProvider } from '@/components/MotionProvider'
 import siteMetadata from '@/data/siteMetadata'
 import client from '../tina/__generated__/client'
+import { normalizeTinaImages } from '../lib/normalizeTinaImages'
 import { HeaderDocument, FooterDocument } from '../tina/__generated__/types'
 import fallbackHeader from '../content/navigation/header.json'
 import fallbackFooter from '../content/navigation/footer.json'
@@ -86,7 +87,10 @@ async function getNavData() {
       variables: { relativePath: 'footer.json' },
     })),
   ])
-  return { header, footer }
+  return {
+    header: { ...header, data: normalizeTinaImages(header.data) },
+    footer: { ...footer, data: normalizeTinaImages(footer.data) },
+  }
 }
 
 async function getMotionSettings() {
