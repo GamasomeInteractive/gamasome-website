@@ -26,7 +26,7 @@ async function getData(slug: string) {
   if (!raw) return null
   return {
     data: { servicePage: JSON.parse(raw) },
-    query: `query($relativePath: String!) { servicePage(relativePath: $relativePath) { id } }`,
+    query: `query($relativePath: String!) { servicePage(relativePath: $relativePath) { ... on Document { id } } }`,
     variables: { relativePath },
   }
 }
