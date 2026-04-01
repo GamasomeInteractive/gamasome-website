@@ -13,8 +13,6 @@ import SiteShell from '@/components/SiteShell'
 import SmoothScrollProvider from '@/components/SmoothScrollProvider'
 import { MotionProvider } from '@/components/MotionProvider'
 import siteMetadata from '@/data/siteMetadata'
-import client from '../tina/__generated__/client'
-import { normalizeTinaImages } from '../lib/normalizeTinaImages'
 import { HeaderDocument, FooterDocument } from '../tina/__generated__/types'
 import fallbackHeader from '../content/navigation/header.json'
 import fallbackFooter from '../content/navigation/footer.json'
@@ -75,22 +73,17 @@ export const metadata: Metadata = {
 }
 
 async function getNavData() {
-  const [header, footer] = await Promise.all([
-    client.queries.header({ relativePath: 'header.json' }).catch(() => ({
-      data: { header: fallbackHeader as any },
-      query: HeaderDocument,
-      variables: { relativePath: 'header.json' },
-    })),
-    client.queries.footer({ relativePath: 'footer.json' }).catch(() => ({
-      data: { footer: fallbackFooter as any },
-      query: FooterDocument,
-      variables: { relativePath: 'footer.json' },
-    })),
-  ])
-  return {
-    header: { ...header, data: normalizeTinaImages(header.data) },
-    footer: { ...footer, data: normalizeTinaImages(footer.data) },
+  const header = {
+    data: { header: fallbackHeader as any },
+    query: HeaderDocument,
+    variables: { relativePath: 'header.json' },
   }
+  const footer = {
+    data: { footer: fallbackFooter as any },
+    query: FooterDocument,
+    variables: { relativePath: 'footer.json' },
+  }
+  return { header, footer }
 }
 
 async function getMotionSettings() {
