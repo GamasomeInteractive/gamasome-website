@@ -7,8 +7,6 @@ import path from 'path'
 import { Space_Grotesk, Poppins } from 'next/font/google'
 import { Analytics, AnalyticsConfig } from 'pliny/analytics'
 import { SearchProvider, SearchConfig } from 'pliny/search'
-import { draftMode } from 'next/headers'
-import { VisualEditing } from 'next-sanity/visual-editing'
 import SiteShell from '@/components/SiteShell'
 import SmoothScrollProvider from '@/components/SmoothScrollProvider'
 import { MotionProvider } from '@/components/MotionProvider'
@@ -100,8 +98,7 @@ async function getMotionSettings() {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const basePath = process.env.BASE_PATH || ''
-  const [{ isEnabled: isDraftMode }, { header, footer }, motionRaw] = await Promise.all([
-    draftMode(),
+  const [{ header, footer }, motionRaw] = await Promise.all([
     getNavData(),
     getMotionSettings(),
   ])
@@ -199,8 +196,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                   footerData={footer.data}  footerQuery={footer.query}  footerVars={footer.variables}
                 >{children}</SiteShell>
               </SearchProvider>
-              {/* Click-to-edit overlay — only active when Sanity draft mode is on */}
-              {isDraftMode && <VisualEditing />}
               {/* </SectionContainer> */}
             </MotionProvider>
           </ThemeProviders>
