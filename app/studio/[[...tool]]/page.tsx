@@ -15,7 +15,3 @@ export default function StudioPage() {
   return <NextStudio config={config} />
 }
 
-// Exclude from static export
-export function generateStaticParams() {
-  return []
-}
