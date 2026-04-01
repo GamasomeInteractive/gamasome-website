@@ -1,18 +1,12 @@
-const TINA_CDN_PREFIX = `https://assets.tina.io/${process.env.NEXT_PUBLIC_TINA_CLIENT_ID}`
+// Tina Cloud API converts /static/images/foo.jpg → https://assets.tina.io/{clientId}/static/images/foo.jpg
+// Images live in git (public/static/images/), not on Tina's CDN, so CDN URLs 404.
+// This strips the CDN prefix back to the local path — safe to call on any data.
+const TINA_CDN_RE = /^https:\/\/assets\.tina\.io\/[a-f0-9-]+\//
 
-/**
- * Tina Cloud's GraphQL API converts local image paths like /static/images/foo.jpg
- * into CDN URLs like https://assets.tina.io/{clientId}/static/images/foo.jpg.
- * Since our images live in git (public/static/images/), not on Tina's CDN,
- * those CDN URLs 404. This strips the CDN prefix back to the local path.
- */
 export function normalizeTinaImages<T>(data: T): T {
   if (!data) return data
   if (typeof data === 'string') {
-    if (TINA_CDN_PREFIX && data.startsWith(TINA_CDN_PREFIX)) {
-      return data.slice(TINA_CDN_PREFIX.length) as unknown as T
-    }
-    return data
+    return (TINA_CDN_RE.test(data) ? data.replace(TINA_CDN_RE, '/') : data) as unknown as T
   }
   if (Array.isArray(data)) {
     return data.map((item) => normalizeTinaImages(item)) as unknown as T

@@ -1,5 +1,6 @@
 'use client'
 import { useTina, tinaField } from 'tinacms/dist/react'
+import { normalizeTinaImages } from '@/lib/normalizeTinaImages'
 import Link from './Link'
 import Image from 'next/image'
 import SocialIcon from '@/components/social-icons'
@@ -11,7 +12,8 @@ type Props = {
 }
 
 export default function TinaFooter({ footerData, footerQuery, footerVars }: Props) {
-  const { data } = useTina({ data: footerData, query: footerQuery, variables: footerVars })
+  const { data: rawData } = useTina({ data: footerData, query: footerQuery, variables: footerVars })
+  const data = normalizeTinaImages(rawData)
   const ftr = data.footer
 
   return (

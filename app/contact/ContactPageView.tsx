@@ -1,5 +1,6 @@
 'use client'
 import { useTina, tinaField } from 'tinacms/dist/react'
+import { normalizeTinaImages } from '@/lib/normalizeTinaImages'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { SlideFromLeft, SlideFromRight } from '@/components/AnimatedSection'
@@ -11,7 +12,8 @@ type Props = {
 }
 
 export default function ContactPageView({ pageData, pageQuery, pageVars }: Props) {
-  const { data } = useTina({ data: pageData, query: pageQuery, variables: pageVars })
+  const { data: rawData } = useTina({ data: pageData, query: pageQuery, variables: pageVars })
+  const data = normalizeTinaImages(rawData)
   const page = data.contact
 
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' })

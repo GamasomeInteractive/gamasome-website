@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { useTina, tinaField } from 'tinacms/dist/react'
+import { normalizeTinaImages } from '@/lib/normalizeTinaImages'
 import Link from '@/components/Link'
 import Image from 'next/image'
 import HeroCanvas from '@/components/HeroCanvas'
@@ -23,9 +24,12 @@ type Props = {
 }
 
 export default function AIPlatformView(props: Props) {
-  const { data: pageD }   = useTina({ data: props.pageData,   query: props.pageQuery,   variables: props.pageVars })
-  const { data: headerD } = useTina({ data: props.headerData, query: props.headerQuery, variables: props.headerVars })
-  const { data: footerD } = useTina({ data: props.footerData, query: props.footerQuery, variables: props.footerVars })
+  const { data: rawPageD }   = useTina({ data: props.pageData,   query: props.pageQuery,   variables: props.pageVars })
+  const { data: rawHeaderD } = useTina({ data: props.headerData, query: props.headerQuery, variables: props.headerVars })
+  const { data: rawFooterD } = useTina({ data: props.footerData, query: props.footerQuery, variables: props.footerVars })
+  const pageD   = normalizeTinaImages(rawPageD)
+  const headerD = normalizeTinaImages(rawHeaderD)
+  const footerD = normalizeTinaImages(rawFooterD)
 
   const page = pageD.servicePage ?? pageD.aiPlatform
   const hdr  = headerD.header

@@ -1,5 +1,6 @@
 'use client'
 import { useTina, tinaField } from 'tinacms/dist/react'
+import { normalizeTinaImages } from '@/lib/normalizeTinaImages'
 import Image from 'next/image'
 import Link from '@/components/Link'
 import {
@@ -32,7 +33,8 @@ const ENGAGEMENT_ICONS = [
 ]
 
 export default function ServicePageView({ pageData, pageQuery, pageVars, collectionKey, template = 'classic' }: Props) {
-  const { data } = useTina({ data: pageData, query: pageQuery, variables: pageVars })
+  const { data: rawData } = useTina({ data: pageData, query: pageQuery, variables: pageVars })
+  const data = normalizeTinaImages(rawData)
   const page = data[collectionKey]
 
   if (!page) return null

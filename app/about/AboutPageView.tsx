@@ -1,5 +1,6 @@
 'use client'
 import { useTina, tinaField } from 'tinacms/dist/react'
+import { normalizeTinaImages } from '@/lib/normalizeTinaImages'
 import Image from 'next/image'
 import Link from '@/components/Link'
 import { FadeIn, SlideFromLeft, SlideFromRight, SlideFromBottom } from '@/components/AnimatedSection'
@@ -11,7 +12,8 @@ type Props = {
 }
 
 export default function AboutPageView({ pageData, pageQuery, pageVars }: Props) {
-  const { data } = useTina({ data: pageData, query: pageQuery, variables: pageVars })
+  const { data: rawData } = useTina({ data: pageData, query: pageQuery, variables: pageVars })
+  const data = normalizeTinaImages(rawData)
   const page = data.about
 
   if (!page) return null

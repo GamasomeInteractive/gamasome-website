@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { useTina, tinaField } from 'tinacms/dist/react'
+import { normalizeTinaImages } from '@/lib/normalizeTinaImages'
 import Link from 'next/link'
 import Image from 'next/image'
 import Logo from '@/data/logo.svg'
@@ -13,7 +14,8 @@ type Props = {
 }
 
 export default function TinaHeader({ headerData, headerQuery, headerVars }: Props) {
-  const { data } = useTina({ data: headerData, query: headerQuery, variables: headerVars })
+  const { data: rawData } = useTina({ data: headerData, query: headerQuery, variables: headerVars })
+  const data = normalizeTinaImages(rawData)
   const hdr = data.header
 
   const [scrolled, setScrolled]   = useState(false)

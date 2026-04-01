@@ -3,7 +3,7 @@ import path from 'path'
 import { notFound } from 'next/navigation'
 import ServicePageView from '@/components/ServicePageView'
 import AIPlatformView from '../ai-platform/AIPlatformView'
-import { HeaderDocument, FooterDocument } from '../../tina/__generated__/types'
+import { HeaderDocument, FooterDocument, ServicePageDocument } from '../../tina/__generated__/types'
 import fallbackHeader from '../../content/navigation/header.json'
 import fallbackFooter from '../../content/navigation/footer.json'
 
@@ -26,7 +26,7 @@ async function getData(slug: string) {
   if (!raw) return null
   return {
     data: { servicePage: JSON.parse(raw) },
-    query: `query($relativePath: String!) { servicePage(relativePath: $relativePath) { ... on Document { id } } }`,
+    query: ServicePageDocument,
     variables: { relativePath },
   }
 }
