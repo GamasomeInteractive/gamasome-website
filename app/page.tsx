@@ -1,8 +1,7 @@
-'use client'
 import Link from '@/components/Link'
 import Image from '@/components/Image'
 import siteMetadata from '@/data/siteMetadata'
-import Head from 'next/head'
+import type { Metadata } from 'next'
 import {
   FadeIn,
   SlideFromLeft,
@@ -12,38 +11,36 @@ import {
   StaggerItem,
 } from '@/components/AnimatedSection'
 
-export default function Home() {
-  const pageTitle = `${siteMetadata.title} - Simulation & Digital Twins`
-  const pageDescription =
-    'Transform assets into physics-ready digital twins. Isaac Sim environments, synthetic data generation, and 3D asset optimization for AI and robotics.'
+export const metadata: Metadata = {
+  title: `${siteMetadata.title} - Simulation & Digital Twins`,
+  description:
+    'Transform assets into physics-ready digital twins. Isaac Sim environments, synthetic data generation, and 3D asset optimization for AI and robotics.',
+  openGraph: {
+    title: `${siteMetadata.title} - Simulation & Digital Twins`,
+    description:
+      'Transform assets into physics-ready digital twins. Isaac Sim environments, synthetic data generation, and 3D asset optimization for AI and robotics.',
+    url: siteMetadata.siteUrl,
+    type: 'website',
+    siteName: siteMetadata.title,
+    ...(siteMetadata.socialBanner && {
+      images: [`${siteMetadata.siteUrl}${siteMetadata.socialBanner}`],
+    }),
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${siteMetadata.title} - Simulation & Digital Twins`,
+    description:
+      'Transform assets into physics-ready digital twins. Isaac Sim environments, synthetic data generation, and 3D asset optimization for AI and robotics.',
+    ...(siteMetadata.twitter && { site: siteMetadata.twitter }),
+    ...(siteMetadata.socialBanner && {
+      images: [`${siteMetadata.siteUrl}${siteMetadata.socialBanner}`],
+    }),
+  },
+}
 
+export default function Home() {
   return (
     <>
-      <Head>
-        <title>{pageTitle}</title>
-        <meta name="description" content={pageDescription} />
-        <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={pageDescription} />
-        <meta property="og:url" content={siteMetadata.siteUrl} />
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content={siteMetadata.title} />
-        {siteMetadata.socialBanner && (
-          <meta
-            property="og:image"
-            content={`${siteMetadata.siteUrl}${siteMetadata.socialBanner}`}
-          />
-        )}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={pageTitle} />
-        <meta name="twitter:description" content={pageDescription} />
-        {siteMetadata.twitter && <meta name="twitter:site" content={siteMetadata.twitter} />}
-        {siteMetadata.socialBanner && (
-          <meta
-            name="twitter:image"
-            content={`${siteMetadata.siteUrl}${siteMetadata.socialBanner}`}
-          />
-        )}
-      </Head>
       <div className="relative w-full bg-white font-['Poppins']">
         {/* Banner Section */}
         <section id="home" className="relative h-screen w-full bg-[#07091B]">
