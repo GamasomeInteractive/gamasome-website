@@ -1,6 +1,7 @@
 import fs from 'fs/promises'
 import path from 'path'
 import { notFound } from 'next/navigation'
+import type { Metadata } from 'next'
 import ServicePageView from '@/components/ServicePageView'
 import AIPlatformView from '../ai-platform/AIPlatformView'
 import { HeaderDocument, FooterDocument, ServicePageDocument } from '../../tina/__generated__/types'
@@ -8,6 +9,40 @@ import fallbackHeader from '../../content/navigation/header.json'
 import fallbackFooter from '../../content/navigation/footer.json'
 
 const SERVICES_DIR = path.join(process.cwd(), 'content/pages/services')
+
+export async function generateMetadata(
+  props: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
+  const { slug } = await props.params
+  const raw = await fs.readFile(path.join(SERVICES_DIR, `${slug}.json`), 'utf-8').catch(() => null)
+  if (!raw) return {}
+
+  const d = JSON.parse(raw)
+  const hero = d.hero || {}
+  const title: string = hero.title || hero.headline || slug.replace(/-/g, ' ')
+  const description: string = hero.subtitle || hero.subheadline || hero.description || ''
+  const image: string | undefined = hero.bannerImage || hero.backgroundImage || undefined
+  const pageUrl = `https://gamasome.com/${slug}`
+
+  return {
+    title,
+    description: description.slice(0, 160),
+    alternates: { canonical: pageUrl },
+    openGraph: {
+      title,
+      description: description.slice(0, 160),
+      url: pageUrl,
+      type: 'website',
+      ...(image && { images: [image.startsWith('http') ? image : `https://gamasome.com${image}`] }),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description: description.slice(0, 160),
+      ...(image && { images: [image.startsWith('http') ? image : `https://gamasome.com${image}`] }),
+    },
+  }
+}
 
 export async function generateStaticParams() {
   try {

@@ -42,14 +42,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: siteMetadata.title,
     description: siteMetadata.description,
-    url: './',
+    url: siteMetadata.siteUrl,
     siteName: siteMetadata.title,
     images: [siteMetadata.socialBanner],
     locale: 'en_US',
     type: 'website',
   },
   alternates: {
-    canonical: './',
+    canonical: siteMetadata.siteUrl,
     types: {
       'application/rss+xml': `${siteMetadata.siteUrl}/feed.xml`,
     },
@@ -150,6 +150,40 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff" />
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
       <link rel="alternate" type="application/rss+xml" href={`${basePath}/feed.xml`} />
+      {/* Organization JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: 'Gamasome',
+            url: 'https://gamasome.com',
+            logo: 'https://gamasome.com/static/images/logo.png',
+            description: 'Gamasome offers AI, AR/VR, simulation, digital twins, game development, and metaverse solutions for enterprises worldwide.',
+            email: 'prasanna@gamasome.com',
+            sameAs: [
+              'https://www.linkedin.com/company/gamasome/',
+              'https://x.com/gamasome',
+              'https://www.youtube.com/@gamasomeinteractive3967',
+            ],
+            address: [
+              {
+                '@type': 'PostalAddress',
+                addressCountry: 'IN',
+                addressLocality: 'Bengaluru',
+                addressRegion: 'Karnataka',
+              },
+              {
+                '@type': 'PostalAddress',
+                addressCountry: 'US',
+                addressLocality: 'Mountain View',
+                addressRegion: 'CA',
+              },
+            ],
+          }),
+        }}
+      />
       {/* Layer 1: inject CMS-controlled motion tokens as CSS custom properties */}
       <style href="motion-tokens" precedence="default" dangerouslySetInnerHTML={{ __html: motionCss }} />
       <body className="bg-white pl-[calc(100vw-100%)] text-black antialiased dark:bg-gray-950 dark:text-white">
