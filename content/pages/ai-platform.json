@@ -11,7 +11,24 @@
     "secondaryCta": {
       "text": "Watch Demo",
       "href": "#how-it-works"
+    },
+    "animation": {
+      "enabled": true,
+      "primaryColor": "#2D9CDB",
+      "accentColor": "#00FCE2"
     }
+  },
+  "typography": {
+    "fontFamily": "Poppins",
+    "headingColor": "#ffffff",
+    "bodyColor": "rgba(255,255,255,0.55)",
+    "labelColor": "#00FCE2",
+    "primaryColor": "#2D9CDB",
+    "accentColor": "#00FCE2",
+    "bgPrimary": "#07091B",
+    "bgSecondary": "#0A0E24",
+    "bgStats": "#0D1127",
+    "bgFooter": "#111827"
   },
   "stats": [
     {

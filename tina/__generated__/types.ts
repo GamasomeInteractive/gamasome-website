@@ -88,8 +88,12 @@ export type Query = {
   headerConnection: HeaderConnection;
   footer: Footer;
   footerConnection: FooterConnection;
-  aiPlatform: AiPlatform;
-  aiPlatformConnection: AiPlatformConnection;
+  servicePage: ServicePage;
+  servicePageConnection: ServicePageConnection;
+  about: About;
+  aboutConnection: AboutConnection;
+  contact: Contact;
+  contactConnection: ContactConnection;
 };
 
 
@@ -159,25 +163,57 @@ export type QueryFooterConnectionArgs = {
 };
 
 
-export type QueryAiPlatformArgs = {
+export type QueryServicePageArgs = {
   relativePath?: InputMaybe<Scalars['String']['input']>;
 };
 
 
-export type QueryAiPlatformConnectionArgs = {
+export type QueryServicePageConnectionArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   after?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Float']['input']>;
   last?: InputMaybe<Scalars['Float']['input']>;
   sort?: InputMaybe<Scalars['String']['input']>;
-  filter?: InputMaybe<AiPlatformFilter>;
+  filter?: InputMaybe<ServicePageFilter>;
+};
+
+
+export type QueryAboutArgs = {
+  relativePath?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryAboutConnectionArgs = {
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<AboutFilter>;
+};
+
+
+export type QueryContactArgs = {
+  relativePath?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryContactConnectionArgs = {
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<ContactFilter>;
 };
 
 export type DocumentFilter = {
   siteSettings?: InputMaybe<SiteSettingsFilter>;
   header?: InputMaybe<HeaderFilter>;
   footer?: InputMaybe<FooterFilter>;
-  aiPlatform?: InputMaybe<AiPlatformFilter>;
+  servicePage?: InputMaybe<ServicePageFilter>;
+  about?: InputMaybe<AboutFilter>;
+  contact?: InputMaybe<ContactFilter>;
 };
 
 export type DocumentConnectionEdges = {
@@ -217,7 +253,7 @@ export type CollectionDocumentsArgs = {
   folder?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type DocumentNode = SiteSettings | Header | Footer | AiPlatform | Folder;
+export type DocumentNode = SiteSettings | Header | Footer | ServicePageClassic | ServicePageAiPlatform | About | Contact | Folder;
 
 export type SiteSettingsTheme = {
   __typename?: 'SiteSettingsTheme';
@@ -242,6 +278,13 @@ export type SiteSettingsSocial = {
   facebook?: Maybe<Scalars['String']['output']>;
 };
 
+export type SiteSettingsMotion = {
+  __typename?: 'SiteSettingsMotion';
+  easePreset?: Maybe<Scalars['String']['output']>;
+  durationScale?: Maybe<Scalars['Float']['output']>;
+  disableAnimations?: Maybe<Scalars['Boolean']['output']>;
+};
+
 export type SiteSettings = Node & Document & {
   __typename?: 'SiteSettings';
   siteName?: Maybe<Scalars['String']['output']>;
@@ -251,6 +294,7 @@ export type SiteSettings = Node & Document & {
   theme?: Maybe<SiteSettingsTheme>;
   contact?: Maybe<SiteSettingsContact>;
   social?: Maybe<SiteSettingsSocial>;
+  motion?: Maybe<SiteSettingsMotion>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
   _values: Scalars['JSON']['output'];
@@ -290,6 +334,27 @@ export type SiteSettingsSocialFilter = {
   facebook?: InputMaybe<StringFilter>;
 };
 
+export type NumberFilter = {
+  lt?: InputMaybe<Scalars['Float']['input']>;
+  lte?: InputMaybe<Scalars['Float']['input']>;
+  gte?: InputMaybe<Scalars['Float']['input']>;
+  gt?: InputMaybe<Scalars['Float']['input']>;
+  eq?: InputMaybe<Scalars['Float']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['Float']['input']>>>;
+};
+
+export type BooleanFilter = {
+  eq?: InputMaybe<Scalars['Boolean']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type SiteSettingsMotionFilter = {
+  easePreset?: InputMaybe<StringFilter>;
+  durationScale?: InputMaybe<NumberFilter>;
+  disableAnimations?: InputMaybe<BooleanFilter>;
+};
+
 export type SiteSettingsFilter = {
   siteName?: InputMaybe<StringFilter>;
   tagline?: InputMaybe<StringFilter>;
@@ -298,6 +363,7 @@ export type SiteSettingsFilter = {
   theme?: InputMaybe<SiteSettingsThemeFilter>;
   contact?: InputMaybe<SiteSettingsContactFilter>;
   social?: InputMaybe<SiteSettingsSocialFilter>;
+  motion?: InputMaybe<SiteSettingsMotionFilter>;
 };
 
 export type SiteSettingsConnectionEdges = {
@@ -321,6 +387,7 @@ export type HeaderNavLinks = {
 
 export type Header = Node & Document & {
   __typename?: 'Header';
+  logoImage?: Maybe<Scalars['String']['output']>;
   navLinks?: Maybe<Array<Maybe<HeaderNavLinks>>>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
@@ -333,6 +400,7 @@ export type HeaderNavLinksFilter = {
 };
 
 export type HeaderFilter = {
+  logoImage?: InputMaybe<ImageFilter>;
   navLinks?: InputMaybe<HeaderNavLinksFilter>;
 };
 
@@ -415,11 +483,6 @@ export type FooterLegalLinksFilter = {
   href?: InputMaybe<StringFilter>;
 };
 
-export type BooleanFilter = {
-  eq?: InputMaybe<Scalars['Boolean']['input']>;
-  exists?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
 export type FooterNavLinksFilter = {
   title?: InputMaybe<StringFilter>;
   href?: InputMaybe<StringFilter>;
@@ -449,47 +512,230 @@ export type FooterConnection = Connection & {
   edges?: Maybe<Array<Maybe<FooterConnectionEdges>>>;
 };
 
-export type AiPlatformHeroColors = {
-  __typename?: 'AiPlatformHeroColors';
+export type ServicePageClassicHeroMotion = {
+  __typename?: 'ServicePageClassicHeroMotion';
+  easePreset?: Maybe<Scalars['String']['output']>;
+  durationScale?: Maybe<Scalars['Float']['output']>;
+};
+
+export type ServicePageClassicHero = {
+  __typename?: 'ServicePageClassicHero';
+  bannerImage?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  subtitle?: Maybe<Scalars['String']['output']>;
+  ctaText?: Maybe<Scalars['String']['output']>;
+  ctaHref?: Maybe<Scalars['String']['output']>;
+  motion?: Maybe<ServicePageClassicHeroMotion>;
+};
+
+export type ServicePageClassicServicesMotion = {
+  __typename?: 'ServicePageClassicServicesMotion';
+  easePreset?: Maybe<Scalars['String']['output']>;
+  durationScale?: Maybe<Scalars['Float']['output']>;
+};
+
+export type ServicePageClassicServices = {
+  __typename?: 'ServicePageClassicServices';
+  title?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  image?: Maybe<Scalars['String']['output']>;
+  ctaText?: Maybe<Scalars['String']['output']>;
+  ctaHref?: Maybe<Scalars['String']['output']>;
+};
+
+export type ServicePageClassicEngagementMotion = {
+  __typename?: 'ServicePageClassicEngagementMotion';
+  easePreset?: Maybe<Scalars['String']['output']>;
+  durationScale?: Maybe<Scalars['Float']['output']>;
+};
+
+export type ServicePageClassicEngagementModels = {
+  __typename?: 'ServicePageClassicEngagementModels';
+  title?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+};
+
+export type ServicePageClassicSpotlightMotion = {
+  __typename?: 'ServicePageClassicSpotlightMotion';
+  easePreset?: Maybe<Scalars['String']['output']>;
+  durationScale?: Maybe<Scalars['Float']['output']>;
+};
+
+export type ServicePageClassicSpotlight = {
+  __typename?: 'ServicePageClassicSpotlight';
+  enabled?: Maybe<Scalars['Boolean']['output']>;
+  heading?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  videoUrl?: Maybe<Scalars['String']['output']>;
+  ctaText?: Maybe<Scalars['String']['output']>;
+  ctaHref?: Maybe<Scalars['String']['output']>;
+  motion?: Maybe<ServicePageClassicSpotlightMotion>;
+};
+
+export type ServicePageClassicUseCasesMotion = {
+  __typename?: 'ServicePageClassicUseCasesMotion';
+  easePreset?: Maybe<Scalars['String']['output']>;
+  durationScale?: Maybe<Scalars['Float']['output']>;
+};
+
+export type ServicePageClassicUseCases = {
+  __typename?: 'ServicePageClassicUseCases';
+  title?: Maybe<Scalars['String']['output']>;
+  videoUrl?: Maybe<Scalars['String']['output']>;
+};
+
+export type ServicePageClassicPortfolioMotion = {
+  __typename?: 'ServicePageClassicPortfolioMotion';
+  easePreset?: Maybe<Scalars['String']['output']>;
+  durationScale?: Maybe<Scalars['Float']['output']>;
+};
+
+export type ServicePageClassicPortfolio = {
+  __typename?: 'ServicePageClassicPortfolio';
+  title?: Maybe<Scalars['String']['output']>;
+  image?: Maybe<Scalars['String']['output']>;
+  link?: Maybe<Scalars['String']['output']>;
+};
+
+export type ServicePageClassicTechMotion = {
+  __typename?: 'ServicePageClassicTechMotion';
+  easePreset?: Maybe<Scalars['String']['output']>;
+  durationScale?: Maybe<Scalars['Float']['output']>;
+};
+
+export type ServicePageClassicTechnologies = {
+  __typename?: 'ServicePageClassicTechnologies';
+  name?: Maybe<Scalars['String']['output']>;
+  image?: Maybe<Scalars['String']['output']>;
+};
+
+export type ServicePageClassicCtaBoxPrimaryBtn = {
+  __typename?: 'ServicePageClassicCtaBoxPrimaryBtn';
+  text?: Maybe<Scalars['String']['output']>;
+  href?: Maybe<Scalars['String']['output']>;
+};
+
+export type ServicePageClassicCtaBoxMotion = {
+  __typename?: 'ServicePageClassicCtaBoxMotion';
+  easePreset?: Maybe<Scalars['String']['output']>;
+  durationScale?: Maybe<Scalars['Float']['output']>;
+};
+
+export type ServicePageClassicCtaBox = {
+  __typename?: 'ServicePageClassicCtaBox';
+  heading?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  primaryBtn?: Maybe<ServicePageClassicCtaBoxPrimaryBtn>;
+  motion?: Maybe<ServicePageClassicCtaBoxMotion>;
+};
+
+export type ServicePageClassic = Node & Document & {
+  __typename?: 'ServicePageClassic';
+  pageTitle?: Maybe<Scalars['String']['output']>;
+  pageDescription?: Maybe<Scalars['String']['output']>;
+  hero?: Maybe<ServicePageClassicHero>;
+  servicesHeading?: Maybe<Scalars['String']['output']>;
+  servicesMotion?: Maybe<ServicePageClassicServicesMotion>;
+  services?: Maybe<Array<Maybe<ServicePageClassicServices>>>;
+  showEngagement?: Maybe<Scalars['Boolean']['output']>;
+  engagementHeading?: Maybe<Scalars['String']['output']>;
+  engagementMotion?: Maybe<ServicePageClassicEngagementMotion>;
+  engagementModels?: Maybe<Array<Maybe<ServicePageClassicEngagementModels>>>;
+  showreelVideoUrl?: Maybe<Scalars['String']['output']>;
+  spotlight?: Maybe<ServicePageClassicSpotlight>;
+  showUseCases?: Maybe<Scalars['Boolean']['output']>;
+  useCasesHeading?: Maybe<Scalars['String']['output']>;
+  useCasesMotion?: Maybe<ServicePageClassicUseCasesMotion>;
+  useCases?: Maybe<Array<Maybe<ServicePageClassicUseCases>>>;
+  showPortfolio?: Maybe<Scalars['Boolean']['output']>;
+  portfolioHeading?: Maybe<Scalars['String']['output']>;
+  portfolioMotion?: Maybe<ServicePageClassicPortfolioMotion>;
+  portfolio?: Maybe<Array<Maybe<ServicePageClassicPortfolio>>>;
+  techHeading?: Maybe<Scalars['String']['output']>;
+  techMotion?: Maybe<ServicePageClassicTechMotion>;
+  technologies?: Maybe<Array<Maybe<ServicePageClassicTechnologies>>>;
+  ctaBox?: Maybe<ServicePageClassicCtaBox>;
+  id: Scalars['ID']['output'];
+  _sys: SystemInfo;
+  _values: Scalars['JSON']['output'];
+};
+
+export type ServicePageAiPlatformTypography = {
+  __typename?: 'ServicePageAiPlatformTypography';
+  fontFamily?: Maybe<Scalars['String']['output']>;
+  headingColor?: Maybe<Scalars['String']['output']>;
+  bodyColor?: Maybe<Scalars['String']['output']>;
+  labelColor?: Maybe<Scalars['String']['output']>;
+  primaryColor?: Maybe<Scalars['String']['output']>;
+  accentColor?: Maybe<Scalars['String']['output']>;
+  bgPrimary?: Maybe<Scalars['String']['output']>;
+  bgSecondary?: Maybe<Scalars['String']['output']>;
+  bgStats?: Maybe<Scalars['String']['output']>;
+  bgFooter?: Maybe<Scalars['String']['output']>;
+};
+
+export type ServicePageAiPlatformHeroColors = {
+  __typename?: 'ServicePageAiPlatformHeroColors';
   primaryColor?: Maybe<Scalars['String']['output']>;
   accentColor?: Maybe<Scalars['String']['output']>;
   bgColor?: Maybe<Scalars['String']['output']>;
 };
 
-export type AiPlatformHeroPrimaryCta = {
-  __typename?: 'AiPlatformHeroPrimaryCta';
+export type ServicePageAiPlatformHeroAnimation = {
+  __typename?: 'ServicePageAiPlatformHeroAnimation';
+  enabled?: Maybe<Scalars['Boolean']['output']>;
+  primaryColor?: Maybe<Scalars['String']['output']>;
+  accentColor?: Maybe<Scalars['String']['output']>;
+};
+
+export type ServicePageAiPlatformHeroPrimaryCta = {
+  __typename?: 'ServicePageAiPlatformHeroPrimaryCta';
   text?: Maybe<Scalars['String']['output']>;
   href?: Maybe<Scalars['String']['output']>;
 };
 
-export type AiPlatformHeroSecondaryCta = {
-  __typename?: 'AiPlatformHeroSecondaryCta';
+export type ServicePageAiPlatformHeroSecondaryCta = {
+  __typename?: 'ServicePageAiPlatformHeroSecondaryCta';
   text?: Maybe<Scalars['String']['output']>;
   href?: Maybe<Scalars['String']['output']>;
 };
 
-export type AiPlatformHero = {
-  __typename?: 'AiPlatformHero';
+export type ServicePageAiPlatformHeroMotion = {
+  __typename?: 'ServicePageAiPlatformHeroMotion';
+  easePreset?: Maybe<Scalars['String']['output']>;
+  durationScale?: Maybe<Scalars['Float']['output']>;
+};
+
+export type ServicePageAiPlatformHero = {
+  __typename?: 'ServicePageAiPlatformHero';
   badge?: Maybe<Scalars['String']['output']>;
   headline?: Maybe<Scalars['String']['output']>;
   headlineAccent?: Maybe<Scalars['String']['output']>;
   subheadline?: Maybe<Scalars['String']['output']>;
   backgroundImage?: Maybe<Scalars['String']['output']>;
   backgroundVideoUrl?: Maybe<Scalars['String']['output']>;
-  colors?: Maybe<AiPlatformHeroColors>;
-  primaryCta?: Maybe<AiPlatformHeroPrimaryCta>;
-  secondaryCta?: Maybe<AiPlatformHeroSecondaryCta>;
+  colors?: Maybe<ServicePageAiPlatformHeroColors>;
+  animation?: Maybe<ServicePageAiPlatformHeroAnimation>;
+  primaryCta?: Maybe<ServicePageAiPlatformHeroPrimaryCta>;
+  secondaryCta?: Maybe<ServicePageAiPlatformHeroSecondaryCta>;
+  motion?: Maybe<ServicePageAiPlatformHeroMotion>;
 };
 
-export type AiPlatformStats = {
-  __typename?: 'AiPlatformStats';
+export type ServicePageAiPlatformStats = {
+  __typename?: 'ServicePageAiPlatformStats';
   value?: Maybe<Scalars['String']['output']>;
   label?: Maybe<Scalars['String']['output']>;
   sublabel?: Maybe<Scalars['String']['output']>;
 };
 
-export type AiPlatformCapabilities = {
-  __typename?: 'AiPlatformCapabilities';
+export type ServicePageAiPlatformCapabilitiesMotion = {
+  __typename?: 'ServicePageAiPlatformCapabilitiesMotion';
+  easePreset?: Maybe<Scalars['String']['output']>;
+  durationScale?: Maybe<Scalars['Float']['output']>;
+};
+
+export type ServicePageAiPlatformCapabilities = {
+  __typename?: 'ServicePageAiPlatformCapabilities';
   icon?: Maybe<Scalars['String']['output']>;
   iconImage?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
@@ -498,8 +744,14 @@ export type AiPlatformCapabilities = {
   demoVideoUrl?: Maybe<Scalars['String']['output']>;
 };
 
-export type AiPlatformUseCases = {
-  __typename?: 'AiPlatformUseCases';
+export type ServicePageAiPlatformUseCasesMotion = {
+  __typename?: 'ServicePageAiPlatformUseCasesMotion';
+  easePreset?: Maybe<Scalars['String']['output']>;
+  durationScale?: Maybe<Scalars['Float']['output']>;
+};
+
+export type ServicePageAiPlatformUseCases = {
+  __typename?: 'ServicePageAiPlatformUseCases';
   tag?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['JSON']['output']>;
@@ -508,86 +760,263 @@ export type AiPlatformUseCases = {
   videoUrl?: Maybe<Scalars['String']['output']>;
 };
 
-export type AiPlatformHowItWorks = {
-  __typename?: 'AiPlatformHowItWorks';
+export type ServicePageAiPlatformHowItWorksMotion = {
+  __typename?: 'ServicePageAiPlatformHowItWorksMotion';
+  easePreset?: Maybe<Scalars['String']['output']>;
+  durationScale?: Maybe<Scalars['Float']['output']>;
+};
+
+export type ServicePageAiPlatformHowItWorks = {
+  __typename?: 'ServicePageAiPlatformHowItWorks';
   number?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['JSON']['output']>;
   illustration?: Maybe<Scalars['String']['output']>;
 };
 
-export type AiPlatformCtaPrimaryBtn = {
-  __typename?: 'AiPlatformCtaPrimaryBtn';
+export type ServicePageAiPlatformCtaPrimaryBtn = {
+  __typename?: 'ServicePageAiPlatformCtaPrimaryBtn';
   text?: Maybe<Scalars['String']['output']>;
   href?: Maybe<Scalars['String']['output']>;
 };
 
-export type AiPlatformCtaSecondaryBtn = {
-  __typename?: 'AiPlatformCtaSecondaryBtn';
+export type ServicePageAiPlatformCtaSecondaryBtn = {
+  __typename?: 'ServicePageAiPlatformCtaSecondaryBtn';
   text?: Maybe<Scalars['String']['output']>;
   href?: Maybe<Scalars['String']['output']>;
 };
 
-export type AiPlatformCta = {
-  __typename?: 'AiPlatformCta';
+export type ServicePageAiPlatformCtaMotion = {
+  __typename?: 'ServicePageAiPlatformCtaMotion';
+  easePreset?: Maybe<Scalars['String']['output']>;
+  durationScale?: Maybe<Scalars['Float']['output']>;
+};
+
+export type ServicePageAiPlatformCta = {
+  __typename?: 'ServicePageAiPlatformCta';
   headline?: Maybe<Scalars['String']['output']>;
   subtext?: Maybe<Scalars['String']['output']>;
   backgroundImage?: Maybe<Scalars['String']['output']>;
-  primaryBtn?: Maybe<AiPlatformCtaPrimaryBtn>;
-  secondaryBtn?: Maybe<AiPlatformCtaSecondaryBtn>;
+  primaryBtn?: Maybe<ServicePageAiPlatformCtaPrimaryBtn>;
+  secondaryBtn?: Maybe<ServicePageAiPlatformCtaSecondaryBtn>;
+  motion?: Maybe<ServicePageAiPlatformCtaMotion>;
 };
 
-export type AiPlatform = Node & Document & {
-  __typename?: 'AiPlatform';
-  hero?: Maybe<AiPlatformHero>;
-  stats?: Maybe<Array<Maybe<AiPlatformStats>>>;
+export type ServicePageAiPlatform = Node & Document & {
+  __typename?: 'ServicePageAiPlatform';
+  typography?: Maybe<ServicePageAiPlatformTypography>;
+  hero?: Maybe<ServicePageAiPlatformHero>;
+  stats?: Maybe<Array<Maybe<ServicePageAiPlatformStats>>>;
   capabilitiesLabel?: Maybe<Scalars['String']['output']>;
   capabilitiesTitle?: Maybe<Scalars['String']['output']>;
-  capabilities?: Maybe<Array<Maybe<AiPlatformCapabilities>>>;
+  capabilitiesMotion?: Maybe<ServicePageAiPlatformCapabilitiesMotion>;
+  capabilities?: Maybe<Array<Maybe<ServicePageAiPlatformCapabilities>>>;
   useCasesLabel?: Maybe<Scalars['String']['output']>;
   useCasesTitle?: Maybe<Scalars['String']['output']>;
-  useCases?: Maybe<Array<Maybe<AiPlatformUseCases>>>;
+  useCasesMotion?: Maybe<ServicePageAiPlatformUseCasesMotion>;
+  useCases?: Maybe<Array<Maybe<ServicePageAiPlatformUseCases>>>;
   howItWorksLabel?: Maybe<Scalars['String']['output']>;
   howItWorksTitle?: Maybe<Scalars['String']['output']>;
-  howItWorks?: Maybe<Array<Maybe<AiPlatformHowItWorks>>>;
-  cta?: Maybe<AiPlatformCta>;
+  howItWorksMotion?: Maybe<ServicePageAiPlatformHowItWorksMotion>;
+  howItWorks?: Maybe<Array<Maybe<ServicePageAiPlatformHowItWorks>>>;
+  cta?: Maybe<ServicePageAiPlatformCta>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
   _values: Scalars['JSON']['output'];
 };
 
-export type AiPlatformHeroColorsFilter = {
+export type ServicePage = ServicePageClassic | ServicePageAiPlatform;
+
+export type ServicePageClassicHeroMotionFilter = {
+  easePreset?: InputMaybe<StringFilter>;
+  durationScale?: InputMaybe<NumberFilter>;
+};
+
+export type ServicePageClassicHeroFilter = {
+  bannerImage?: InputMaybe<ImageFilter>;
+  title?: InputMaybe<StringFilter>;
+  subtitle?: InputMaybe<StringFilter>;
+  ctaText?: InputMaybe<StringFilter>;
+  ctaHref?: InputMaybe<StringFilter>;
+  motion?: InputMaybe<ServicePageClassicHeroMotionFilter>;
+};
+
+export type ServicePageClassicServicesMotionFilter = {
+  easePreset?: InputMaybe<StringFilter>;
+  durationScale?: InputMaybe<NumberFilter>;
+};
+
+export type ServicePageClassicServicesFilter = {
+  title?: InputMaybe<StringFilter>;
+  description?: InputMaybe<StringFilter>;
+  image?: InputMaybe<ImageFilter>;
+  ctaText?: InputMaybe<StringFilter>;
+  ctaHref?: InputMaybe<StringFilter>;
+};
+
+export type ServicePageClassicEngagementMotionFilter = {
+  easePreset?: InputMaybe<StringFilter>;
+  durationScale?: InputMaybe<NumberFilter>;
+};
+
+export type ServicePageClassicEngagementModelsFilter = {
+  title?: InputMaybe<StringFilter>;
+  description?: InputMaybe<StringFilter>;
+};
+
+export type ServicePageClassicSpotlightMotionFilter = {
+  easePreset?: InputMaybe<StringFilter>;
+  durationScale?: InputMaybe<NumberFilter>;
+};
+
+export type ServicePageClassicSpotlightFilter = {
+  enabled?: InputMaybe<BooleanFilter>;
+  heading?: InputMaybe<StringFilter>;
+  description?: InputMaybe<StringFilter>;
+  videoUrl?: InputMaybe<StringFilter>;
+  ctaText?: InputMaybe<StringFilter>;
+  ctaHref?: InputMaybe<StringFilter>;
+  motion?: InputMaybe<ServicePageClassicSpotlightMotionFilter>;
+};
+
+export type ServicePageClassicUseCasesMotionFilter = {
+  easePreset?: InputMaybe<StringFilter>;
+  durationScale?: InputMaybe<NumberFilter>;
+};
+
+export type ServicePageClassicUseCasesFilter = {
+  title?: InputMaybe<StringFilter>;
+  videoUrl?: InputMaybe<StringFilter>;
+};
+
+export type ServicePageClassicPortfolioMotionFilter = {
+  easePreset?: InputMaybe<StringFilter>;
+  durationScale?: InputMaybe<NumberFilter>;
+};
+
+export type ServicePageClassicPortfolioFilter = {
+  title?: InputMaybe<StringFilter>;
+  image?: InputMaybe<ImageFilter>;
+  link?: InputMaybe<StringFilter>;
+};
+
+export type ServicePageClassicTechMotionFilter = {
+  easePreset?: InputMaybe<StringFilter>;
+  durationScale?: InputMaybe<NumberFilter>;
+};
+
+export type ServicePageClassicTechnologiesFilter = {
+  name?: InputMaybe<StringFilter>;
+  image?: InputMaybe<ImageFilter>;
+};
+
+export type ServicePageClassicCtaBoxPrimaryBtnFilter = {
+  text?: InputMaybe<StringFilter>;
+  href?: InputMaybe<StringFilter>;
+};
+
+export type ServicePageClassicCtaBoxMotionFilter = {
+  easePreset?: InputMaybe<StringFilter>;
+  durationScale?: InputMaybe<NumberFilter>;
+};
+
+export type ServicePageClassicCtaBoxFilter = {
+  heading?: InputMaybe<StringFilter>;
+  description?: InputMaybe<StringFilter>;
+  primaryBtn?: InputMaybe<ServicePageClassicCtaBoxPrimaryBtnFilter>;
+  motion?: InputMaybe<ServicePageClassicCtaBoxMotionFilter>;
+};
+
+export type ServicePageClassicFilter = {
+  pageTitle?: InputMaybe<StringFilter>;
+  pageDescription?: InputMaybe<StringFilter>;
+  hero?: InputMaybe<ServicePageClassicHeroFilter>;
+  servicesHeading?: InputMaybe<StringFilter>;
+  servicesMotion?: InputMaybe<ServicePageClassicServicesMotionFilter>;
+  services?: InputMaybe<ServicePageClassicServicesFilter>;
+  showEngagement?: InputMaybe<BooleanFilter>;
+  engagementHeading?: InputMaybe<StringFilter>;
+  engagementMotion?: InputMaybe<ServicePageClassicEngagementMotionFilter>;
+  engagementModels?: InputMaybe<ServicePageClassicEngagementModelsFilter>;
+  showreelVideoUrl?: InputMaybe<StringFilter>;
+  spotlight?: InputMaybe<ServicePageClassicSpotlightFilter>;
+  showUseCases?: InputMaybe<BooleanFilter>;
+  useCasesHeading?: InputMaybe<StringFilter>;
+  useCasesMotion?: InputMaybe<ServicePageClassicUseCasesMotionFilter>;
+  useCases?: InputMaybe<ServicePageClassicUseCasesFilter>;
+  showPortfolio?: InputMaybe<BooleanFilter>;
+  portfolioHeading?: InputMaybe<StringFilter>;
+  portfolioMotion?: InputMaybe<ServicePageClassicPortfolioMotionFilter>;
+  portfolio?: InputMaybe<ServicePageClassicPortfolioFilter>;
+  techHeading?: InputMaybe<StringFilter>;
+  techMotion?: InputMaybe<ServicePageClassicTechMotionFilter>;
+  technologies?: InputMaybe<ServicePageClassicTechnologiesFilter>;
+  ctaBox?: InputMaybe<ServicePageClassicCtaBoxFilter>;
+};
+
+export type ServicePageAiPlatformTypographyFilter = {
+  fontFamily?: InputMaybe<StringFilter>;
+  headingColor?: InputMaybe<StringFilter>;
+  bodyColor?: InputMaybe<StringFilter>;
+  labelColor?: InputMaybe<StringFilter>;
+  primaryColor?: InputMaybe<StringFilter>;
+  accentColor?: InputMaybe<StringFilter>;
+  bgPrimary?: InputMaybe<StringFilter>;
+  bgSecondary?: InputMaybe<StringFilter>;
+  bgStats?: InputMaybe<StringFilter>;
+  bgFooter?: InputMaybe<StringFilter>;
+};
+
+export type ServicePageAiPlatformHeroColorsFilter = {
   primaryColor?: InputMaybe<StringFilter>;
   accentColor?: InputMaybe<StringFilter>;
   bgColor?: InputMaybe<StringFilter>;
 };
 
-export type AiPlatformHeroPrimaryCtaFilter = {
+export type ServicePageAiPlatformHeroAnimationFilter = {
+  enabled?: InputMaybe<BooleanFilter>;
+  primaryColor?: InputMaybe<StringFilter>;
+  accentColor?: InputMaybe<StringFilter>;
+};
+
+export type ServicePageAiPlatformHeroPrimaryCtaFilter = {
   text?: InputMaybe<StringFilter>;
   href?: InputMaybe<StringFilter>;
 };
 
-export type AiPlatformHeroSecondaryCtaFilter = {
+export type ServicePageAiPlatformHeroSecondaryCtaFilter = {
   text?: InputMaybe<StringFilter>;
   href?: InputMaybe<StringFilter>;
 };
 
-export type AiPlatformHeroFilter = {
+export type ServicePageAiPlatformHeroMotionFilter = {
+  easePreset?: InputMaybe<StringFilter>;
+  durationScale?: InputMaybe<NumberFilter>;
+};
+
+export type ServicePageAiPlatformHeroFilter = {
   badge?: InputMaybe<StringFilter>;
   headline?: InputMaybe<StringFilter>;
   headlineAccent?: InputMaybe<StringFilter>;
   subheadline?: InputMaybe<StringFilter>;
   backgroundImage?: InputMaybe<ImageFilter>;
   backgroundVideoUrl?: InputMaybe<StringFilter>;
-  colors?: InputMaybe<AiPlatformHeroColorsFilter>;
-  primaryCta?: InputMaybe<AiPlatformHeroPrimaryCtaFilter>;
-  secondaryCta?: InputMaybe<AiPlatformHeroSecondaryCtaFilter>;
+  colors?: InputMaybe<ServicePageAiPlatformHeroColorsFilter>;
+  animation?: InputMaybe<ServicePageAiPlatformHeroAnimationFilter>;
+  primaryCta?: InputMaybe<ServicePageAiPlatformHeroPrimaryCtaFilter>;
+  secondaryCta?: InputMaybe<ServicePageAiPlatformHeroSecondaryCtaFilter>;
+  motion?: InputMaybe<ServicePageAiPlatformHeroMotionFilter>;
 };
 
-export type AiPlatformStatsFilter = {
+export type ServicePageAiPlatformStatsFilter = {
   value?: InputMaybe<StringFilter>;
   label?: InputMaybe<StringFilter>;
   sublabel?: InputMaybe<StringFilter>;
+};
+
+export type ServicePageAiPlatformCapabilitiesMotionFilter = {
+  easePreset?: InputMaybe<StringFilter>;
+  durationScale?: InputMaybe<NumberFilter>;
 };
 
 export type RichTextFilter = {
@@ -596,7 +1025,7 @@ export type RichTextFilter = {
   exists?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-export type AiPlatformCapabilitiesFilter = {
+export type ServicePageAiPlatformCapabilitiesFilter = {
   icon?: InputMaybe<StringFilter>;
   iconImage?: InputMaybe<ImageFilter>;
   title?: InputMaybe<StringFilter>;
@@ -605,7 +1034,12 @@ export type AiPlatformCapabilitiesFilter = {
   demoVideoUrl?: InputMaybe<StringFilter>;
 };
 
-export type AiPlatformUseCasesFilter = {
+export type ServicePageAiPlatformUseCasesMotionFilter = {
+  easePreset?: InputMaybe<StringFilter>;
+  durationScale?: InputMaybe<NumberFilter>;
+};
+
+export type ServicePageAiPlatformUseCasesFilter = {
   tag?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
   description?: InputMaybe<RichTextFilter>;
@@ -614,57 +1048,249 @@ export type AiPlatformUseCasesFilter = {
   videoUrl?: InputMaybe<StringFilter>;
 };
 
-export type AiPlatformHowItWorksFilter = {
+export type ServicePageAiPlatformHowItWorksMotionFilter = {
+  easePreset?: InputMaybe<StringFilter>;
+  durationScale?: InputMaybe<NumberFilter>;
+};
+
+export type ServicePageAiPlatformHowItWorksFilter = {
   number?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
   description?: InputMaybe<RichTextFilter>;
   illustration?: InputMaybe<ImageFilter>;
 };
 
-export type AiPlatformCtaPrimaryBtnFilter = {
+export type ServicePageAiPlatformCtaPrimaryBtnFilter = {
   text?: InputMaybe<StringFilter>;
   href?: InputMaybe<StringFilter>;
 };
 
-export type AiPlatformCtaSecondaryBtnFilter = {
+export type ServicePageAiPlatformCtaSecondaryBtnFilter = {
   text?: InputMaybe<StringFilter>;
   href?: InputMaybe<StringFilter>;
 };
 
-export type AiPlatformCtaFilter = {
+export type ServicePageAiPlatformCtaMotionFilter = {
+  easePreset?: InputMaybe<StringFilter>;
+  durationScale?: InputMaybe<NumberFilter>;
+};
+
+export type ServicePageAiPlatformCtaFilter = {
   headline?: InputMaybe<StringFilter>;
   subtext?: InputMaybe<StringFilter>;
   backgroundImage?: InputMaybe<ImageFilter>;
-  primaryBtn?: InputMaybe<AiPlatformCtaPrimaryBtnFilter>;
-  secondaryBtn?: InputMaybe<AiPlatformCtaSecondaryBtnFilter>;
+  primaryBtn?: InputMaybe<ServicePageAiPlatformCtaPrimaryBtnFilter>;
+  secondaryBtn?: InputMaybe<ServicePageAiPlatformCtaSecondaryBtnFilter>;
+  motion?: InputMaybe<ServicePageAiPlatformCtaMotionFilter>;
 };
 
-export type AiPlatformFilter = {
-  hero?: InputMaybe<AiPlatformHeroFilter>;
-  stats?: InputMaybe<AiPlatformStatsFilter>;
+export type ServicePageAiPlatformFilter = {
+  typography?: InputMaybe<ServicePageAiPlatformTypographyFilter>;
+  hero?: InputMaybe<ServicePageAiPlatformHeroFilter>;
+  stats?: InputMaybe<ServicePageAiPlatformStatsFilter>;
   capabilitiesLabel?: InputMaybe<StringFilter>;
   capabilitiesTitle?: InputMaybe<StringFilter>;
-  capabilities?: InputMaybe<AiPlatformCapabilitiesFilter>;
+  capabilitiesMotion?: InputMaybe<ServicePageAiPlatformCapabilitiesMotionFilter>;
+  capabilities?: InputMaybe<ServicePageAiPlatformCapabilitiesFilter>;
   useCasesLabel?: InputMaybe<StringFilter>;
   useCasesTitle?: InputMaybe<StringFilter>;
-  useCases?: InputMaybe<AiPlatformUseCasesFilter>;
+  useCasesMotion?: InputMaybe<ServicePageAiPlatformUseCasesMotionFilter>;
+  useCases?: InputMaybe<ServicePageAiPlatformUseCasesFilter>;
   howItWorksLabel?: InputMaybe<StringFilter>;
   howItWorksTitle?: InputMaybe<StringFilter>;
-  howItWorks?: InputMaybe<AiPlatformHowItWorksFilter>;
-  cta?: InputMaybe<AiPlatformCtaFilter>;
+  howItWorksMotion?: InputMaybe<ServicePageAiPlatformHowItWorksMotionFilter>;
+  howItWorks?: InputMaybe<ServicePageAiPlatformHowItWorksFilter>;
+  cta?: InputMaybe<ServicePageAiPlatformCtaFilter>;
 };
 
-export type AiPlatformConnectionEdges = {
-  __typename?: 'AiPlatformConnectionEdges';
+export type ServicePageFilter = {
+  classic?: InputMaybe<ServicePageClassicFilter>;
+  aiPlatform?: InputMaybe<ServicePageAiPlatformFilter>;
+};
+
+export type ServicePageConnectionEdges = {
+  __typename?: 'ServicePageConnectionEdges';
   cursor: Scalars['String']['output'];
-  node?: Maybe<AiPlatform>;
+  node?: Maybe<ServicePage>;
 };
 
-export type AiPlatformConnection = Connection & {
-  __typename?: 'AiPlatformConnection';
+export type ServicePageConnection = Connection & {
+  __typename?: 'ServicePageConnection';
   pageInfo: PageInfo;
   totalCount: Scalars['Float']['output'];
-  edges?: Maybe<Array<Maybe<AiPlatformConnectionEdges>>>;
+  edges?: Maybe<Array<Maybe<ServicePageConnectionEdges>>>;
+};
+
+export type AboutHero = {
+  __typename?: 'AboutHero';
+  breadcrumb?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  image?: Maybe<Scalars['String']['output']>;
+  body?: Maybe<Scalars['String']['output']>;
+};
+
+export type AboutBusiness = {
+  __typename?: 'AboutBusiness';
+  heading?: Maybe<Scalars['String']['output']>;
+  videoUrl?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+};
+
+export type AboutFoundersMembers = {
+  __typename?: 'AboutFoundersMembers';
+  name?: Maybe<Scalars['String']['output']>;
+  role?: Maybe<Scalars['String']['output']>;
+  image?: Maybe<Scalars['String']['output']>;
+};
+
+export type AboutFounders = {
+  __typename?: 'AboutFounders';
+  heading?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  members?: Maybe<Array<Maybe<AboutFoundersMembers>>>;
+};
+
+export type AboutCta = {
+  __typename?: 'AboutCta';
+  heading?: Maybe<Scalars['String']['output']>;
+  ctaText?: Maybe<Scalars['String']['output']>;
+  ctaHref?: Maybe<Scalars['String']['output']>;
+};
+
+export type About = Node & Document & {
+  __typename?: 'About';
+  hero?: Maybe<AboutHero>;
+  business?: Maybe<AboutBusiness>;
+  founders?: Maybe<AboutFounders>;
+  cta?: Maybe<AboutCta>;
+  id: Scalars['ID']['output'];
+  _sys: SystemInfo;
+  _values: Scalars['JSON']['output'];
+};
+
+export type AboutHeroFilter = {
+  breadcrumb?: InputMaybe<StringFilter>;
+  title?: InputMaybe<StringFilter>;
+  image?: InputMaybe<ImageFilter>;
+  body?: InputMaybe<StringFilter>;
+};
+
+export type AboutBusinessFilter = {
+  heading?: InputMaybe<StringFilter>;
+  videoUrl?: InputMaybe<StringFilter>;
+  description?: InputMaybe<StringFilter>;
+};
+
+export type AboutFoundersMembersFilter = {
+  name?: InputMaybe<StringFilter>;
+  role?: InputMaybe<StringFilter>;
+  image?: InputMaybe<ImageFilter>;
+};
+
+export type AboutFoundersFilter = {
+  heading?: InputMaybe<StringFilter>;
+  description?: InputMaybe<StringFilter>;
+  members?: InputMaybe<AboutFoundersMembersFilter>;
+};
+
+export type AboutCtaFilter = {
+  heading?: InputMaybe<StringFilter>;
+  ctaText?: InputMaybe<StringFilter>;
+  ctaHref?: InputMaybe<StringFilter>;
+};
+
+export type AboutFilter = {
+  hero?: InputMaybe<AboutHeroFilter>;
+  business?: InputMaybe<AboutBusinessFilter>;
+  founders?: InputMaybe<AboutFoundersFilter>;
+  cta?: InputMaybe<AboutCtaFilter>;
+};
+
+export type AboutConnectionEdges = {
+  __typename?: 'AboutConnectionEdges';
+  cursor: Scalars['String']['output'];
+  node?: Maybe<About>;
+};
+
+export type AboutConnection = Connection & {
+  __typename?: 'AboutConnection';
+  pageInfo: PageInfo;
+  totalCount: Scalars['Float']['output'];
+  edges?: Maybe<Array<Maybe<AboutConnectionEdges>>>;
+};
+
+export type ContactHero = {
+  __typename?: 'ContactHero';
+  breadcrumb?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  bannerImage?: Maybe<Scalars['String']['output']>;
+};
+
+export type ContactOffices = {
+  __typename?: 'ContactOffices';
+  name?: Maybe<Scalars['String']['output']>;
+  address?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  phone?: Maybe<Scalars['String']['output']>;
+  mapsUrl?: Maybe<Scalars['String']['output']>;
+};
+
+export type ContactForm = {
+  __typename?: 'ContactForm';
+  heading?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  submitText?: Maybe<Scalars['String']['output']>;
+  formEndpoint?: Maybe<Scalars['String']['output']>;
+};
+
+export type Contact = Node & Document & {
+  __typename?: 'Contact';
+  hero?: Maybe<ContactHero>;
+  offices?: Maybe<Array<Maybe<ContactOffices>>>;
+  form?: Maybe<ContactForm>;
+  id: Scalars['ID']['output'];
+  _sys: SystemInfo;
+  _values: Scalars['JSON']['output'];
+};
+
+export type ContactHeroFilter = {
+  breadcrumb?: InputMaybe<StringFilter>;
+  title?: InputMaybe<StringFilter>;
+  bannerImage?: InputMaybe<ImageFilter>;
+};
+
+export type ContactOfficesFilter = {
+  name?: InputMaybe<StringFilter>;
+  address?: InputMaybe<StringFilter>;
+  email?: InputMaybe<StringFilter>;
+  phone?: InputMaybe<StringFilter>;
+  mapsUrl?: InputMaybe<StringFilter>;
+};
+
+export type ContactFormFilter = {
+  heading?: InputMaybe<StringFilter>;
+  description?: InputMaybe<StringFilter>;
+  submitText?: InputMaybe<StringFilter>;
+  formEndpoint?: InputMaybe<StringFilter>;
+};
+
+export type ContactFilter = {
+  hero?: InputMaybe<ContactHeroFilter>;
+  offices?: InputMaybe<ContactOfficesFilter>;
+  form?: InputMaybe<ContactFormFilter>;
+};
+
+export type ContactConnectionEdges = {
+  __typename?: 'ContactConnectionEdges';
+  cursor: Scalars['String']['output'];
+  node?: Maybe<Contact>;
+};
+
+export type ContactConnection = Connection & {
+  __typename?: 'ContactConnection';
+  pageInfo: PageInfo;
+  totalCount: Scalars['Float']['output'];
+  edges?: Maybe<Array<Maybe<ContactConnectionEdges>>>;
 };
 
 export type Mutation = {
@@ -680,8 +1306,12 @@ export type Mutation = {
   createHeader: Header;
   updateFooter: Footer;
   createFooter: Footer;
-  updateAiPlatform: AiPlatform;
-  createAiPlatform: AiPlatform;
+  updateServicePage: ServicePage;
+  createServicePage: ServicePage;
+  updateAbout: About;
+  createAbout: About;
+  updateContact: Contact;
+  createContact: Contact;
 };
 
 
@@ -754,22 +1384,48 @@ export type MutationCreateFooterArgs = {
 };
 
 
-export type MutationUpdateAiPlatformArgs = {
+export type MutationUpdateServicePageArgs = {
   relativePath: Scalars['String']['input'];
-  params: AiPlatformMutation;
+  params: ServicePageMutation;
 };
 
 
-export type MutationCreateAiPlatformArgs = {
+export type MutationCreateServicePageArgs = {
   relativePath: Scalars['String']['input'];
-  params: AiPlatformMutation;
+  params: ServicePageMutation;
+};
+
+
+export type MutationUpdateAboutArgs = {
+  relativePath: Scalars['String']['input'];
+  params: AboutMutation;
+};
+
+
+export type MutationCreateAboutArgs = {
+  relativePath: Scalars['String']['input'];
+  params: AboutMutation;
+};
+
+
+export type MutationUpdateContactArgs = {
+  relativePath: Scalars['String']['input'];
+  params: ContactMutation;
+};
+
+
+export type MutationCreateContactArgs = {
+  relativePath: Scalars['String']['input'];
+  params: ContactMutation;
 };
 
 export type DocumentUpdateMutation = {
   siteSettings?: InputMaybe<SiteSettingsMutation>;
   header?: InputMaybe<HeaderMutation>;
   footer?: InputMaybe<FooterMutation>;
-  aiPlatform?: InputMaybe<AiPlatformMutation>;
+  servicePage?: InputMaybe<ServicePageMutation>;
+  about?: InputMaybe<AboutMutation>;
+  contact?: InputMaybe<ContactMutation>;
   relativePath?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -777,7 +1433,9 @@ export type DocumentMutation = {
   siteSettings?: InputMaybe<SiteSettingsMutation>;
   header?: InputMaybe<HeaderMutation>;
   footer?: InputMaybe<FooterMutation>;
-  aiPlatform?: InputMaybe<AiPlatformMutation>;
+  servicePage?: InputMaybe<ServicePageMutation>;
+  about?: InputMaybe<AboutMutation>;
+  contact?: InputMaybe<ContactMutation>;
 };
 
 export type SiteSettingsThemeMutation = {
@@ -800,6 +1458,12 @@ export type SiteSettingsSocialMutation = {
   facebook?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type SiteSettingsMotionMutation = {
+  easePreset?: InputMaybe<Scalars['String']['input']>;
+  durationScale?: InputMaybe<Scalars['Float']['input']>;
+  disableAnimations?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
 export type SiteSettingsMutation = {
   siteName?: InputMaybe<Scalars['String']['input']>;
   tagline?: InputMaybe<Scalars['String']['input']>;
@@ -808,6 +1472,7 @@ export type SiteSettingsMutation = {
   theme?: InputMaybe<SiteSettingsThemeMutation>;
   contact?: InputMaybe<SiteSettingsContactMutation>;
   social?: InputMaybe<SiteSettingsSocialMutation>;
+  motion?: InputMaybe<SiteSettingsMotionMutation>;
 };
 
 export type HeaderNavLinksMutation = {
@@ -816,6 +1481,7 @@ export type HeaderNavLinksMutation = {
 };
 
 export type HeaderMutation = {
+  logoImage?: InputMaybe<Scalars['String']['input']>;
   navLinks?: InputMaybe<Array<InputMaybe<HeaderNavLinksMutation>>>;
 };
 
@@ -856,41 +1522,199 @@ export type FooterMutation = {
   navLinks?: InputMaybe<Array<InputMaybe<FooterNavLinksMutation>>>;
 };
 
-export type AiPlatformHeroColorsMutation = {
+export type ServicePageClassicHeroMotionMutation = {
+  easePreset?: InputMaybe<Scalars['String']['input']>;
+  durationScale?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type ServicePageClassicHeroMutation = {
+  bannerImage?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
+  ctaText?: InputMaybe<Scalars['String']['input']>;
+  ctaHref?: InputMaybe<Scalars['String']['input']>;
+  motion?: InputMaybe<ServicePageClassicHeroMotionMutation>;
+};
+
+export type ServicePageClassicServicesMotionMutation = {
+  easePreset?: InputMaybe<Scalars['String']['input']>;
+  durationScale?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type ServicePageClassicServicesMutation = {
+  title?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
+  ctaText?: InputMaybe<Scalars['String']['input']>;
+  ctaHref?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ServicePageClassicEngagementMotionMutation = {
+  easePreset?: InputMaybe<Scalars['String']['input']>;
+  durationScale?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type ServicePageClassicEngagementModelsMutation = {
+  title?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ServicePageClassicSpotlightMotionMutation = {
+  easePreset?: InputMaybe<Scalars['String']['input']>;
+  durationScale?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type ServicePageClassicSpotlightMutation = {
+  enabled?: InputMaybe<Scalars['Boolean']['input']>;
+  heading?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  videoUrl?: InputMaybe<Scalars['String']['input']>;
+  ctaText?: InputMaybe<Scalars['String']['input']>;
+  ctaHref?: InputMaybe<Scalars['String']['input']>;
+  motion?: InputMaybe<ServicePageClassicSpotlightMotionMutation>;
+};
+
+export type ServicePageClassicUseCasesMotionMutation = {
+  easePreset?: InputMaybe<Scalars['String']['input']>;
+  durationScale?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type ServicePageClassicUseCasesMutation = {
+  title?: InputMaybe<Scalars['String']['input']>;
+  videoUrl?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ServicePageClassicPortfolioMotionMutation = {
+  easePreset?: InputMaybe<Scalars['String']['input']>;
+  durationScale?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type ServicePageClassicPortfolioMutation = {
+  title?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
+  link?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ServicePageClassicTechMotionMutation = {
+  easePreset?: InputMaybe<Scalars['String']['input']>;
+  durationScale?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type ServicePageClassicTechnologiesMutation = {
+  name?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ServicePageClassicCtaBoxPrimaryBtnMutation = {
+  text?: InputMaybe<Scalars['String']['input']>;
+  href?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ServicePageClassicCtaBoxMotionMutation = {
+  easePreset?: InputMaybe<Scalars['String']['input']>;
+  durationScale?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type ServicePageClassicCtaBoxMutation = {
+  heading?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  primaryBtn?: InputMaybe<ServicePageClassicCtaBoxPrimaryBtnMutation>;
+  motion?: InputMaybe<ServicePageClassicCtaBoxMotionMutation>;
+};
+
+export type ServicePageClassicMutation = {
+  pageTitle?: InputMaybe<Scalars['String']['input']>;
+  pageDescription?: InputMaybe<Scalars['String']['input']>;
+  hero?: InputMaybe<ServicePageClassicHeroMutation>;
+  servicesHeading?: InputMaybe<Scalars['String']['input']>;
+  servicesMotion?: InputMaybe<ServicePageClassicServicesMotionMutation>;
+  services?: InputMaybe<Array<InputMaybe<ServicePageClassicServicesMutation>>>;
+  showEngagement?: InputMaybe<Scalars['Boolean']['input']>;
+  engagementHeading?: InputMaybe<Scalars['String']['input']>;
+  engagementMotion?: InputMaybe<ServicePageClassicEngagementMotionMutation>;
+  engagementModels?: InputMaybe<Array<InputMaybe<ServicePageClassicEngagementModelsMutation>>>;
+  showreelVideoUrl?: InputMaybe<Scalars['String']['input']>;
+  spotlight?: InputMaybe<ServicePageClassicSpotlightMutation>;
+  showUseCases?: InputMaybe<Scalars['Boolean']['input']>;
+  useCasesHeading?: InputMaybe<Scalars['String']['input']>;
+  useCasesMotion?: InputMaybe<ServicePageClassicUseCasesMotionMutation>;
+  useCases?: InputMaybe<Array<InputMaybe<ServicePageClassicUseCasesMutation>>>;
+  showPortfolio?: InputMaybe<Scalars['Boolean']['input']>;
+  portfolioHeading?: InputMaybe<Scalars['String']['input']>;
+  portfolioMotion?: InputMaybe<ServicePageClassicPortfolioMotionMutation>;
+  portfolio?: InputMaybe<Array<InputMaybe<ServicePageClassicPortfolioMutation>>>;
+  techHeading?: InputMaybe<Scalars['String']['input']>;
+  techMotion?: InputMaybe<ServicePageClassicTechMotionMutation>;
+  technologies?: InputMaybe<Array<InputMaybe<ServicePageClassicTechnologiesMutation>>>;
+  ctaBox?: InputMaybe<ServicePageClassicCtaBoxMutation>;
+};
+
+export type ServicePageAiPlatformTypographyMutation = {
+  fontFamily?: InputMaybe<Scalars['String']['input']>;
+  headingColor?: InputMaybe<Scalars['String']['input']>;
+  bodyColor?: InputMaybe<Scalars['String']['input']>;
+  labelColor?: InputMaybe<Scalars['String']['input']>;
+  primaryColor?: InputMaybe<Scalars['String']['input']>;
+  accentColor?: InputMaybe<Scalars['String']['input']>;
+  bgPrimary?: InputMaybe<Scalars['String']['input']>;
+  bgSecondary?: InputMaybe<Scalars['String']['input']>;
+  bgStats?: InputMaybe<Scalars['String']['input']>;
+  bgFooter?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ServicePageAiPlatformHeroColorsMutation = {
   primaryColor?: InputMaybe<Scalars['String']['input']>;
   accentColor?: InputMaybe<Scalars['String']['input']>;
   bgColor?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type AiPlatformHeroPrimaryCtaMutation = {
+export type ServicePageAiPlatformHeroAnimationMutation = {
+  enabled?: InputMaybe<Scalars['Boolean']['input']>;
+  primaryColor?: InputMaybe<Scalars['String']['input']>;
+  accentColor?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ServicePageAiPlatformHeroPrimaryCtaMutation = {
   text?: InputMaybe<Scalars['String']['input']>;
   href?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type AiPlatformHeroSecondaryCtaMutation = {
+export type ServicePageAiPlatformHeroSecondaryCtaMutation = {
   text?: InputMaybe<Scalars['String']['input']>;
   href?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type AiPlatformHeroMutation = {
+export type ServicePageAiPlatformHeroMotionMutation = {
+  easePreset?: InputMaybe<Scalars['String']['input']>;
+  durationScale?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type ServicePageAiPlatformHeroMutation = {
   badge?: InputMaybe<Scalars['String']['input']>;
   headline?: InputMaybe<Scalars['String']['input']>;
   headlineAccent?: InputMaybe<Scalars['String']['input']>;
   subheadline?: InputMaybe<Scalars['String']['input']>;
   backgroundImage?: InputMaybe<Scalars['String']['input']>;
   backgroundVideoUrl?: InputMaybe<Scalars['String']['input']>;
-  colors?: InputMaybe<AiPlatformHeroColorsMutation>;
-  primaryCta?: InputMaybe<AiPlatformHeroPrimaryCtaMutation>;
-  secondaryCta?: InputMaybe<AiPlatformHeroSecondaryCtaMutation>;
+  colors?: InputMaybe<ServicePageAiPlatformHeroColorsMutation>;
+  animation?: InputMaybe<ServicePageAiPlatformHeroAnimationMutation>;
+  primaryCta?: InputMaybe<ServicePageAiPlatformHeroPrimaryCtaMutation>;
+  secondaryCta?: InputMaybe<ServicePageAiPlatformHeroSecondaryCtaMutation>;
+  motion?: InputMaybe<ServicePageAiPlatformHeroMotionMutation>;
 };
 
-export type AiPlatformStatsMutation = {
+export type ServicePageAiPlatformStatsMutation = {
   value?: InputMaybe<Scalars['String']['input']>;
   label?: InputMaybe<Scalars['String']['input']>;
   sublabel?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type AiPlatformCapabilitiesMutation = {
+export type ServicePageAiPlatformCapabilitiesMotionMutation = {
+  easePreset?: InputMaybe<Scalars['String']['input']>;
+  durationScale?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type ServicePageAiPlatformCapabilitiesMutation = {
   icon?: InputMaybe<Scalars['String']['input']>;
   iconImage?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
@@ -899,7 +1723,12 @@ export type AiPlatformCapabilitiesMutation = {
   demoVideoUrl?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type AiPlatformUseCasesMutation = {
+export type ServicePageAiPlatformUseCasesMotionMutation = {
+  easePreset?: InputMaybe<Scalars['String']['input']>;
+  durationScale?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type ServicePageAiPlatformUseCasesMutation = {
   tag?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['JSON']['input']>;
@@ -908,60 +1737,153 @@ export type AiPlatformUseCasesMutation = {
   videoUrl?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type AiPlatformHowItWorksMutation = {
+export type ServicePageAiPlatformHowItWorksMotionMutation = {
+  easePreset?: InputMaybe<Scalars['String']['input']>;
+  durationScale?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type ServicePageAiPlatformHowItWorksMutation = {
   number?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['JSON']['input']>;
   illustration?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type AiPlatformCtaPrimaryBtnMutation = {
+export type ServicePageAiPlatformCtaPrimaryBtnMutation = {
   text?: InputMaybe<Scalars['String']['input']>;
   href?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type AiPlatformCtaSecondaryBtnMutation = {
+export type ServicePageAiPlatformCtaSecondaryBtnMutation = {
   text?: InputMaybe<Scalars['String']['input']>;
   href?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type AiPlatformCtaMutation = {
+export type ServicePageAiPlatformCtaMotionMutation = {
+  easePreset?: InputMaybe<Scalars['String']['input']>;
+  durationScale?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type ServicePageAiPlatformCtaMutation = {
   headline?: InputMaybe<Scalars['String']['input']>;
   subtext?: InputMaybe<Scalars['String']['input']>;
   backgroundImage?: InputMaybe<Scalars['String']['input']>;
-  primaryBtn?: InputMaybe<AiPlatformCtaPrimaryBtnMutation>;
-  secondaryBtn?: InputMaybe<AiPlatformCtaSecondaryBtnMutation>;
+  primaryBtn?: InputMaybe<ServicePageAiPlatformCtaPrimaryBtnMutation>;
+  secondaryBtn?: InputMaybe<ServicePageAiPlatformCtaSecondaryBtnMutation>;
+  motion?: InputMaybe<ServicePageAiPlatformCtaMotionMutation>;
 };
 
-export type AiPlatformMutation = {
-  hero?: InputMaybe<AiPlatformHeroMutation>;
-  stats?: InputMaybe<Array<InputMaybe<AiPlatformStatsMutation>>>;
+export type ServicePageAiPlatformMutation = {
+  typography?: InputMaybe<ServicePageAiPlatformTypographyMutation>;
+  hero?: InputMaybe<ServicePageAiPlatformHeroMutation>;
+  stats?: InputMaybe<Array<InputMaybe<ServicePageAiPlatformStatsMutation>>>;
   capabilitiesLabel?: InputMaybe<Scalars['String']['input']>;
   capabilitiesTitle?: InputMaybe<Scalars['String']['input']>;
-  capabilities?: InputMaybe<Array<InputMaybe<AiPlatformCapabilitiesMutation>>>;
+  capabilitiesMotion?: InputMaybe<ServicePageAiPlatformCapabilitiesMotionMutation>;
+  capabilities?: InputMaybe<Array<InputMaybe<ServicePageAiPlatformCapabilitiesMutation>>>;
   useCasesLabel?: InputMaybe<Scalars['String']['input']>;
   useCasesTitle?: InputMaybe<Scalars['String']['input']>;
-  useCases?: InputMaybe<Array<InputMaybe<AiPlatformUseCasesMutation>>>;
+  useCasesMotion?: InputMaybe<ServicePageAiPlatformUseCasesMotionMutation>;
+  useCases?: InputMaybe<Array<InputMaybe<ServicePageAiPlatformUseCasesMutation>>>;
   howItWorksLabel?: InputMaybe<Scalars['String']['input']>;
   howItWorksTitle?: InputMaybe<Scalars['String']['input']>;
-  howItWorks?: InputMaybe<Array<InputMaybe<AiPlatformHowItWorksMutation>>>;
-  cta?: InputMaybe<AiPlatformCtaMutation>;
+  howItWorksMotion?: InputMaybe<ServicePageAiPlatformHowItWorksMotionMutation>;
+  howItWorks?: InputMaybe<Array<InputMaybe<ServicePageAiPlatformHowItWorksMutation>>>;
+  cta?: InputMaybe<ServicePageAiPlatformCtaMutation>;
 };
 
-export type SiteSettingsPartsFragment = { __typename: 'SiteSettings', siteName?: string | null, tagline?: string | null, logo?: string | null, favicon?: string | null, theme?: { __typename: 'SiteSettingsTheme', primaryColor?: string | null, accentColor?: string | null, darkBg?: string | null, textColor?: string | null } | null, contact?: { __typename: 'SiteSettingsContact', email?: string | null, phone?: string | null } | null, social?: { __typename: 'SiteSettingsSocial', linkedin?: string | null, twitter?: string | null, youtube?: string | null, instagram?: string | null, facebook?: string | null } | null };
+export type ServicePageMutation = {
+  classic?: InputMaybe<ServicePageClassicMutation>;
+  aiPlatform?: InputMaybe<ServicePageAiPlatformMutation>;
+};
 
-export type HeaderPartsFragment = { __typename: 'Header', navLinks?: Array<{ __typename: 'HeaderNavLinks', title?: string | null, href?: string | null } | null> | null };
+export type AboutHeroMutation = {
+  breadcrumb?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
+  body?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type AboutBusinessMutation = {
+  heading?: InputMaybe<Scalars['String']['input']>;
+  videoUrl?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type AboutFoundersMembersMutation = {
+  name?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type AboutFoundersMutation = {
+  heading?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  members?: InputMaybe<Array<InputMaybe<AboutFoundersMembersMutation>>>;
+};
+
+export type AboutCtaMutation = {
+  heading?: InputMaybe<Scalars['String']['input']>;
+  ctaText?: InputMaybe<Scalars['String']['input']>;
+  ctaHref?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type AboutMutation = {
+  hero?: InputMaybe<AboutHeroMutation>;
+  business?: InputMaybe<AboutBusinessMutation>;
+  founders?: InputMaybe<AboutFoundersMutation>;
+  cta?: InputMaybe<AboutCtaMutation>;
+};
+
+export type ContactHeroMutation = {
+  breadcrumb?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  bannerImage?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ContactOfficesMutation = {
+  name?: InputMaybe<Scalars['String']['input']>;
+  address?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
+  mapsUrl?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ContactFormMutation = {
+  heading?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  submitText?: InputMaybe<Scalars['String']['input']>;
+  formEndpoint?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ContactMutation = {
+  hero?: InputMaybe<ContactHeroMutation>;
+  offices?: InputMaybe<Array<InputMaybe<ContactOfficesMutation>>>;
+  form?: InputMaybe<ContactFormMutation>;
+};
+
+export type SiteSettingsPartsFragment = { __typename: 'SiteSettings', siteName?: string | null, tagline?: string | null, logo?: string | null, favicon?: string | null, theme?: { __typename: 'SiteSettingsTheme', primaryColor?: string | null, accentColor?: string | null, darkBg?: string | null, textColor?: string | null } | null, contact?: { __typename: 'SiteSettingsContact', email?: string | null, phone?: string | null } | null, social?: { __typename: 'SiteSettingsSocial', linkedin?: string | null, twitter?: string | null, youtube?: string | null, instagram?: string | null, facebook?: string | null } | null, motion?: { __typename: 'SiteSettingsMotion', easePreset?: string | null, durationScale?: number | null, disableAnimations?: boolean | null } | null };
+
+export type HeaderPartsFragment = { __typename: 'Header', logoImage?: string | null, navLinks?: Array<{ __typename: 'HeaderNavLinks', title?: string | null, href?: string | null } | null> | null };
 
 export type FooterPartsFragment = { __typename: 'Footer', ctaHeadline?: string | null, ctaDescription?: string | null, copyrightName?: string | null, newsletterEnabled?: boolean | null, offices?: Array<{ __typename: 'FooterOffices', country?: string | null, flagImage?: string | null, city?: string | null, address?: string | null, email?: string | null, phone?: string | null } | null> | null, social?: { __typename: 'FooterSocial', twitter?: string | null, linkedin?: string | null, facebook?: string | null, youtube?: string | null } | null, legalLinks?: Array<{ __typename: 'FooterLegalLinks', title?: string | null, href?: string | null } | null> | null, navLinks?: Array<{ __typename: 'FooterNavLinks', title?: string | null, href?: string | null } | null> | null };
 
-export type AiPlatformPartsFragment = { __typename: 'AiPlatform', capabilitiesLabel?: string | null, capabilitiesTitle?: string | null, useCasesLabel?: string | null, useCasesTitle?: string | null, howItWorksLabel?: string | null, howItWorksTitle?: string | null, hero?: { __typename: 'AiPlatformHero', badge?: string | null, headline?: string | null, headlineAccent?: string | null, subheadline?: string | null, backgroundImage?: string | null, backgroundVideoUrl?: string | null, colors?: { __typename: 'AiPlatformHeroColors', primaryColor?: string | null, accentColor?: string | null, bgColor?: string | null } | null, primaryCta?: { __typename: 'AiPlatformHeroPrimaryCta', text?: string | null, href?: string | null } | null, secondaryCta?: { __typename: 'AiPlatformHeroSecondaryCta', text?: string | null, href?: string | null } | null } | null, stats?: Array<{ __typename: 'AiPlatformStats', value?: string | null, label?: string | null, sublabel?: string | null } | null> | null, capabilities?: Array<{ __typename: 'AiPlatformCapabilities', icon?: string | null, iconImage?: string | null, title?: string | null, description?: any | null, accentColor?: string | null, demoVideoUrl?: string | null } | null> | null, useCases?: Array<{ __typename: 'AiPlatformUseCases', tag?: string | null, title?: string | null, description?: any | null, coverImage?: string | null, accentColor?: string | null, videoUrl?: string | null } | null> | null, howItWorks?: Array<{ __typename: 'AiPlatformHowItWorks', number?: string | null, title?: string | null, description?: any | null, illustration?: string | null } | null> | null, cta?: { __typename: 'AiPlatformCta', headline?: string | null, subtext?: string | null, backgroundImage?: string | null, primaryBtn?: { __typename: 'AiPlatformCtaPrimaryBtn', text?: string | null, href?: string | null } | null, secondaryBtn?: { __typename: 'AiPlatformCtaSecondaryBtn', text?: string | null, href?: string | null } | null } | null };
+type ServicePageParts_ServicePageClassic_Fragment = { __typename: 'ServicePageClassic', pageTitle?: string | null, pageDescription?: string | null, servicesHeading?: string | null, showEngagement?: boolean | null, engagementHeading?: string | null, showreelVideoUrl?: string | null, showUseCases?: boolean | null, useCasesHeading?: string | null, showPortfolio?: boolean | null, portfolioHeading?: string | null, techHeading?: string | null, hero?: { __typename: 'ServicePageClassicHero', bannerImage?: string | null, title?: string | null, subtitle?: string | null, ctaText?: string | null, ctaHref?: string | null, motion?: { __typename: 'ServicePageClassicHeroMotion', easePreset?: string | null, durationScale?: number | null } | null } | null, servicesMotion?: { __typename: 'ServicePageClassicServicesMotion', easePreset?: string | null, durationScale?: number | null } | null, services?: Array<{ __typename: 'ServicePageClassicServices', title?: string | null, description?: string | null, image?: string | null, ctaText?: string | null, ctaHref?: string | null } | null> | null, engagementMotion?: { __typename: 'ServicePageClassicEngagementMotion', easePreset?: string | null, durationScale?: number | null } | null, engagementModels?: Array<{ __typename: 'ServicePageClassicEngagementModels', title?: string | null, description?: string | null } | null> | null, spotlight?: { __typename: 'ServicePageClassicSpotlight', enabled?: boolean | null, heading?: string | null, description?: string | null, videoUrl?: string | null, ctaText?: string | null, ctaHref?: string | null, motion?: { __typename: 'ServicePageClassicSpotlightMotion', easePreset?: string | null, durationScale?: number | null } | null } | null, useCasesMotion?: { __typename: 'ServicePageClassicUseCasesMotion', easePreset?: string | null, durationScale?: number | null } | null, useCases?: Array<{ __typename: 'ServicePageClassicUseCases', title?: string | null, videoUrl?: string | null } | null> | null, portfolioMotion?: { __typename: 'ServicePageClassicPortfolioMotion', easePreset?: string | null, durationScale?: number | null } | null, portfolio?: Array<{ __typename: 'ServicePageClassicPortfolio', title?: string | null, image?: string | null, link?: string | null } | null> | null, techMotion?: { __typename: 'ServicePageClassicTechMotion', easePreset?: string | null, durationScale?: number | null } | null, technologies?: Array<{ __typename: 'ServicePageClassicTechnologies', name?: string | null, image?: string | null } | null> | null, ctaBox?: { __typename: 'ServicePageClassicCtaBox', heading?: string | null, description?: string | null, primaryBtn?: { __typename: 'ServicePageClassicCtaBoxPrimaryBtn', text?: string | null, href?: string | null } | null, motion?: { __typename: 'ServicePageClassicCtaBoxMotion', easePreset?: string | null, durationScale?: number | null } | null } | null };
+
+type ServicePageParts_ServicePageAiPlatform_Fragment = { __typename: 'ServicePageAiPlatform', capabilitiesLabel?: string | null, capabilitiesTitle?: string | null, useCasesLabel?: string | null, useCasesTitle?: string | null, howItWorksLabel?: string | null, howItWorksTitle?: string | null, typography?: { __typename: 'ServicePageAiPlatformTypography', fontFamily?: string | null, headingColor?: string | null, bodyColor?: string | null, labelColor?: string | null, primaryColor?: string | null, accentColor?: string | null, bgPrimary?: string | null, bgSecondary?: string | null, bgStats?: string | null, bgFooter?: string | null } | null, hero?: { __typename: 'ServicePageAiPlatformHero', badge?: string | null, headline?: string | null, headlineAccent?: string | null, subheadline?: string | null, backgroundImage?: string | null, backgroundVideoUrl?: string | null, colors?: { __typename: 'ServicePageAiPlatformHeroColors', primaryColor?: string | null, accentColor?: string | null, bgColor?: string | null } | null, animation?: { __typename: 'ServicePageAiPlatformHeroAnimation', enabled?: boolean | null, primaryColor?: string | null, accentColor?: string | null } | null, primaryCta?: { __typename: 'ServicePageAiPlatformHeroPrimaryCta', text?: string | null, href?: string | null } | null, secondaryCta?: { __typename: 'ServicePageAiPlatformHeroSecondaryCta', text?: string | null, href?: string | null } | null, motion?: { __typename: 'ServicePageAiPlatformHeroMotion', easePreset?: string | null, durationScale?: number | null } | null } | null, stats?: Array<{ __typename: 'ServicePageAiPlatformStats', value?: string | null, label?: string | null, sublabel?: string | null } | null> | null, capabilitiesMotion?: { __typename: 'ServicePageAiPlatformCapabilitiesMotion', easePreset?: string | null, durationScale?: number | null } | null, capabilities?: Array<{ __typename: 'ServicePageAiPlatformCapabilities', icon?: string | null, iconImage?: string | null, title?: string | null, description?: any | null, accentColor?: string | null, demoVideoUrl?: string | null } | null> | null, useCasesMotion?: { __typename: 'ServicePageAiPlatformUseCasesMotion', easePreset?: string | null, durationScale?: number | null } | null, useCases?: Array<{ __typename: 'ServicePageAiPlatformUseCases', tag?: string | null, title?: string | null, description?: any | null, coverImage?: string | null, accentColor?: string | null, videoUrl?: string | null } | null> | null, howItWorksMotion?: { __typename: 'ServicePageAiPlatformHowItWorksMotion', easePreset?: string | null, durationScale?: number | null } | null, howItWorks?: Array<{ __typename: 'ServicePageAiPlatformHowItWorks', number?: string | null, title?: string | null, description?: any | null, illustration?: string | null } | null> | null, cta?: { __typename: 'ServicePageAiPlatformCta', headline?: string | null, subtext?: string | null, backgroundImage?: string | null, primaryBtn?: { __typename: 'ServicePageAiPlatformCtaPrimaryBtn', text?: string | null, href?: string | null } | null, secondaryBtn?: { __typename: 'ServicePageAiPlatformCtaSecondaryBtn', text?: string | null, href?: string | null } | null, motion?: { __typename: 'ServicePageAiPlatformCtaMotion', easePreset?: string | null, durationScale?: number | null } | null } | null };
+
+export type ServicePagePartsFragment = ServicePageParts_ServicePageClassic_Fragment | ServicePageParts_ServicePageAiPlatform_Fragment;
+
+export type AboutPartsFragment = { __typename: 'About', hero?: { __typename: 'AboutHero', breadcrumb?: string | null, title?: string | null, image?: string | null, body?: string | null } | null, business?: { __typename: 'AboutBusiness', heading?: string | null, videoUrl?: string | null, description?: string | null } | null, founders?: { __typename: 'AboutFounders', heading?: string | null, description?: string | null, members?: Array<{ __typename: 'AboutFoundersMembers', name?: string | null, role?: string | null, image?: string | null } | null> | null } | null, cta?: { __typename: 'AboutCta', heading?: string | null, ctaText?: string | null, ctaHref?: string | null } | null };
+
+export type ContactPartsFragment = { __typename: 'Contact', hero?: { __typename: 'ContactHero', breadcrumb?: string | null, title?: string | null, bannerImage?: string | null } | null, offices?: Array<{ __typename: 'ContactOffices', name?: string | null, address?: string | null, email?: string | null, phone?: string | null, mapsUrl?: string | null } | null> | null, form?: { __typename: 'ContactForm', heading?: string | null, description?: string | null, submitText?: string | null, formEndpoint?: string | null } | null };
 
 export type SiteSettingsQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
 }>;
 
 
-export type SiteSettingsQuery = { __typename?: 'Query', siteSettings: { __typename: 'SiteSettings', id: string, siteName?: string | null, tagline?: string | null, logo?: string | null, favicon?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, theme?: { __typename: 'SiteSettingsTheme', primaryColor?: string | null, accentColor?: string | null, darkBg?: string | null, textColor?: string | null } | null, contact?: { __typename: 'SiteSettingsContact', email?: string | null, phone?: string | null } | null, social?: { __typename: 'SiteSettingsSocial', linkedin?: string | null, twitter?: string | null, youtube?: string | null, instagram?: string | null, facebook?: string | null } | null } };
+export type SiteSettingsQuery = { __typename?: 'Query', siteSettings: { __typename: 'SiteSettings', id: string, siteName?: string | null, tagline?: string | null, logo?: string | null, favicon?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, theme?: { __typename: 'SiteSettingsTheme', primaryColor?: string | null, accentColor?: string | null, darkBg?: string | null, textColor?: string | null } | null, contact?: { __typename: 'SiteSettingsContact', email?: string | null, phone?: string | null } | null, social?: { __typename: 'SiteSettingsSocial', linkedin?: string | null, twitter?: string | null, youtube?: string | null, instagram?: string | null, facebook?: string | null } | null, motion?: { __typename: 'SiteSettingsMotion', easePreset?: string | null, durationScale?: number | null, disableAnimations?: boolean | null } | null } };
 
 export type SiteSettingsConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -973,14 +1895,14 @@ export type SiteSettingsConnectionQueryVariables = Exact<{
 }>;
 
 
-export type SiteSettingsConnectionQuery = { __typename?: 'Query', siteSettingsConnection: { __typename?: 'SiteSettingsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'SiteSettingsConnectionEdges', cursor: string, node?: { __typename: 'SiteSettings', id: string, siteName?: string | null, tagline?: string | null, logo?: string | null, favicon?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, theme?: { __typename: 'SiteSettingsTheme', primaryColor?: string | null, accentColor?: string | null, darkBg?: string | null, textColor?: string | null } | null, contact?: { __typename: 'SiteSettingsContact', email?: string | null, phone?: string | null } | null, social?: { __typename: 'SiteSettingsSocial', linkedin?: string | null, twitter?: string | null, youtube?: string | null, instagram?: string | null, facebook?: string | null } | null } | null } | null> | null } };
+export type SiteSettingsConnectionQuery = { __typename?: 'Query', siteSettingsConnection: { __typename?: 'SiteSettingsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'SiteSettingsConnectionEdges', cursor: string, node?: { __typename: 'SiteSettings', id: string, siteName?: string | null, tagline?: string | null, logo?: string | null, favicon?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, theme?: { __typename: 'SiteSettingsTheme', primaryColor?: string | null, accentColor?: string | null, darkBg?: string | null, textColor?: string | null } | null, contact?: { __typename: 'SiteSettingsContact', email?: string | null, phone?: string | null } | null, social?: { __typename: 'SiteSettingsSocial', linkedin?: string | null, twitter?: string | null, youtube?: string | null, instagram?: string | null, facebook?: string | null } | null, motion?: { __typename: 'SiteSettingsMotion', easePreset?: string | null, durationScale?: number | null, disableAnimations?: boolean | null } | null } | null } | null> | null } };
 
 export type HeaderQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
 }>;
 
 
-export type HeaderQuery = { __typename?: 'Query', header: { __typename: 'Header', id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, navLinks?: Array<{ __typename: 'HeaderNavLinks', title?: string | null, href?: string | null } | null> | null } };
+export type HeaderQuery = { __typename?: 'Query', header: { __typename: 'Header', id: string, logoImage?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, navLinks?: Array<{ __typename: 'HeaderNavLinks', title?: string | null, href?: string | null } | null> | null } };
 
 export type HeaderConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -992,7 +1914,7 @@ export type HeaderConnectionQueryVariables = Exact<{
 }>;
 
 
-export type HeaderConnectionQuery = { __typename?: 'Query', headerConnection: { __typename?: 'HeaderConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'HeaderConnectionEdges', cursor: string, node?: { __typename: 'Header', id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, navLinks?: Array<{ __typename: 'HeaderNavLinks', title?: string | null, href?: string | null } | null> | null } | null } | null> | null } };
+export type HeaderConnectionQuery = { __typename?: 'Query', headerConnection: { __typename?: 'HeaderConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'HeaderConnectionEdges', cursor: string, node?: { __typename: 'Header', id: string, logoImage?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, navLinks?: Array<{ __typename: 'HeaderNavLinks', title?: string | null, href?: string | null } | null> | null } | null } | null> | null } };
 
 export type FooterQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
@@ -1013,24 +1935,62 @@ export type FooterConnectionQueryVariables = Exact<{
 
 export type FooterConnectionQuery = { __typename?: 'Query', footerConnection: { __typename?: 'FooterConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'FooterConnectionEdges', cursor: string, node?: { __typename: 'Footer', id: string, ctaHeadline?: string | null, ctaDescription?: string | null, copyrightName?: string | null, newsletterEnabled?: boolean | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, offices?: Array<{ __typename: 'FooterOffices', country?: string | null, flagImage?: string | null, city?: string | null, address?: string | null, email?: string | null, phone?: string | null } | null> | null, social?: { __typename: 'FooterSocial', twitter?: string | null, linkedin?: string | null, facebook?: string | null, youtube?: string | null } | null, legalLinks?: Array<{ __typename: 'FooterLegalLinks', title?: string | null, href?: string | null } | null> | null, navLinks?: Array<{ __typename: 'FooterNavLinks', title?: string | null, href?: string | null } | null> | null } | null } | null> | null } };
 
-export type AiPlatformQueryVariables = Exact<{
+export type ServicePageQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
 }>;
 
 
-export type AiPlatformQuery = { __typename?: 'Query', aiPlatform: { __typename: 'AiPlatform', id: string, capabilitiesLabel?: string | null, capabilitiesTitle?: string | null, useCasesLabel?: string | null, useCasesTitle?: string | null, howItWorksLabel?: string | null, howItWorksTitle?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, hero?: { __typename: 'AiPlatformHero', badge?: string | null, headline?: string | null, headlineAccent?: string | null, subheadline?: string | null, backgroundImage?: string | null, backgroundVideoUrl?: string | null, colors?: { __typename: 'AiPlatformHeroColors', primaryColor?: string | null, accentColor?: string | null, bgColor?: string | null } | null, primaryCta?: { __typename: 'AiPlatformHeroPrimaryCta', text?: string | null, href?: string | null } | null, secondaryCta?: { __typename: 'AiPlatformHeroSecondaryCta', text?: string | null, href?: string | null } | null } | null, stats?: Array<{ __typename: 'AiPlatformStats', value?: string | null, label?: string | null, sublabel?: string | null } | null> | null, capabilities?: Array<{ __typename: 'AiPlatformCapabilities', icon?: string | null, iconImage?: string | null, title?: string | null, description?: any | null, accentColor?: string | null, demoVideoUrl?: string | null } | null> | null, useCases?: Array<{ __typename: 'AiPlatformUseCases', tag?: string | null, title?: string | null, description?: any | null, coverImage?: string | null, accentColor?: string | null, videoUrl?: string | null } | null> | null, howItWorks?: Array<{ __typename: 'AiPlatformHowItWorks', number?: string | null, title?: string | null, description?: any | null, illustration?: string | null } | null> | null, cta?: { __typename: 'AiPlatformCta', headline?: string | null, subtext?: string | null, backgroundImage?: string | null, primaryBtn?: { __typename: 'AiPlatformCtaPrimaryBtn', text?: string | null, href?: string | null } | null, secondaryBtn?: { __typename: 'AiPlatformCtaSecondaryBtn', text?: string | null, href?: string | null } | null } | null } };
+export type ServicePageQuery = { __typename?: 'Query', servicePage: { __typename: 'ServicePageClassic', id: string, pageTitle?: string | null, pageDescription?: string | null, servicesHeading?: string | null, showEngagement?: boolean | null, engagementHeading?: string | null, showreelVideoUrl?: string | null, showUseCases?: boolean | null, useCasesHeading?: string | null, showPortfolio?: boolean | null, portfolioHeading?: string | null, techHeading?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, hero?: { __typename: 'ServicePageClassicHero', bannerImage?: string | null, title?: string | null, subtitle?: string | null, ctaText?: string | null, ctaHref?: string | null, motion?: { __typename: 'ServicePageClassicHeroMotion', easePreset?: string | null, durationScale?: number | null } | null } | null, servicesMotion?: { __typename: 'ServicePageClassicServicesMotion', easePreset?: string | null, durationScale?: number | null } | null, services?: Array<{ __typename: 'ServicePageClassicServices', title?: string | null, description?: string | null, image?: string | null, ctaText?: string | null, ctaHref?: string | null } | null> | null, engagementMotion?: { __typename: 'ServicePageClassicEngagementMotion', easePreset?: string | null, durationScale?: number | null } | null, engagementModels?: Array<{ __typename: 'ServicePageClassicEngagementModels', title?: string | null, description?: string | null } | null> | null, spotlight?: { __typename: 'ServicePageClassicSpotlight', enabled?: boolean | null, heading?: string | null, description?: string | null, videoUrl?: string | null, ctaText?: string | null, ctaHref?: string | null, motion?: { __typename: 'ServicePageClassicSpotlightMotion', easePreset?: string | null, durationScale?: number | null } | null } | null, useCasesMotion?: { __typename: 'ServicePageClassicUseCasesMotion', easePreset?: string | null, durationScale?: number | null } | null, useCases?: Array<{ __typename: 'ServicePageClassicUseCases', title?: string | null, videoUrl?: string | null } | null> | null, portfolioMotion?: { __typename: 'ServicePageClassicPortfolioMotion', easePreset?: string | null, durationScale?: number | null } | null, portfolio?: Array<{ __typename: 'ServicePageClassicPortfolio', title?: string | null, image?: string | null, link?: string | null } | null> | null, techMotion?: { __typename: 'ServicePageClassicTechMotion', easePreset?: string | null, durationScale?: number | null } | null, technologies?: Array<{ __typename: 'ServicePageClassicTechnologies', name?: string | null, image?: string | null } | null> | null, ctaBox?: { __typename: 'ServicePageClassicCtaBox', heading?: string | null, description?: string | null, primaryBtn?: { __typename: 'ServicePageClassicCtaBoxPrimaryBtn', text?: string | null, href?: string | null } | null, motion?: { __typename: 'ServicePageClassicCtaBoxMotion', easePreset?: string | null, durationScale?: number | null } | null } | null } | { __typename: 'ServicePageAiPlatform', id: string, capabilitiesLabel?: string | null, capabilitiesTitle?: string | null, useCasesLabel?: string | null, useCasesTitle?: string | null, howItWorksLabel?: string | null, howItWorksTitle?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, typography?: { __typename: 'ServicePageAiPlatformTypography', fontFamily?: string | null, headingColor?: string | null, bodyColor?: string | null, labelColor?: string | null, primaryColor?: string | null, accentColor?: string | null, bgPrimary?: string | null, bgSecondary?: string | null, bgStats?: string | null, bgFooter?: string | null } | null, hero?: { __typename: 'ServicePageAiPlatformHero', badge?: string | null, headline?: string | null, headlineAccent?: string | null, subheadline?: string | null, backgroundImage?: string | null, backgroundVideoUrl?: string | null, colors?: { __typename: 'ServicePageAiPlatformHeroColors', primaryColor?: string | null, accentColor?: string | null, bgColor?: string | null } | null, animation?: { __typename: 'ServicePageAiPlatformHeroAnimation', enabled?: boolean | null, primaryColor?: string | null, accentColor?: string | null } | null, primaryCta?: { __typename: 'ServicePageAiPlatformHeroPrimaryCta', text?: string | null, href?: string | null } | null, secondaryCta?: { __typename: 'ServicePageAiPlatformHeroSecondaryCta', text?: string | null, href?: string | null } | null, motion?: { __typename: 'ServicePageAiPlatformHeroMotion', easePreset?: string | null, durationScale?: number | null } | null } | null, stats?: Array<{ __typename: 'ServicePageAiPlatformStats', value?: string | null, label?: string | null, sublabel?: string | null } | null> | null, capabilitiesMotion?: { __typename: 'ServicePageAiPlatformCapabilitiesMotion', easePreset?: string | null, durationScale?: number | null } | null, capabilities?: Array<{ __typename: 'ServicePageAiPlatformCapabilities', icon?: string | null, iconImage?: string | null, title?: string | null, description?: any | null, accentColor?: string | null, demoVideoUrl?: string | null } | null> | null, useCasesMotion?: { __typename: 'ServicePageAiPlatformUseCasesMotion', easePreset?: string | null, durationScale?: number | null } | null, useCases?: Array<{ __typename: 'ServicePageAiPlatformUseCases', tag?: string | null, title?: string | null, description?: any | null, coverImage?: string | null, accentColor?: string | null, videoUrl?: string | null } | null> | null, howItWorksMotion?: { __typename: 'ServicePageAiPlatformHowItWorksMotion', easePreset?: string | null, durationScale?: number | null } | null, howItWorks?: Array<{ __typename: 'ServicePageAiPlatformHowItWorks', number?: string | null, title?: string | null, description?: any | null, illustration?: string | null } | null> | null, cta?: { __typename: 'ServicePageAiPlatformCta', headline?: string | null, subtext?: string | null, backgroundImage?: string | null, primaryBtn?: { __typename: 'ServicePageAiPlatformCtaPrimaryBtn', text?: string | null, href?: string | null } | null, secondaryBtn?: { __typename: 'ServicePageAiPlatformCtaSecondaryBtn', text?: string | null, href?: string | null } | null, motion?: { __typename: 'ServicePageAiPlatformCtaMotion', easePreset?: string | null, durationScale?: number | null } | null } | null } };
 
-export type AiPlatformConnectionQueryVariables = Exact<{
+export type ServicePageConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
   after?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Float']['input']>;
   last?: InputMaybe<Scalars['Float']['input']>;
   sort?: InputMaybe<Scalars['String']['input']>;
-  filter?: InputMaybe<AiPlatformFilter>;
+  filter?: InputMaybe<ServicePageFilter>;
 }>;
 
 
-export type AiPlatformConnectionQuery = { __typename?: 'Query', aiPlatformConnection: { __typename?: 'AiPlatformConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'AiPlatformConnectionEdges', cursor: string, node?: { __typename: 'AiPlatform', id: string, capabilitiesLabel?: string | null, capabilitiesTitle?: string | null, useCasesLabel?: string | null, useCasesTitle?: string | null, howItWorksLabel?: string | null, howItWorksTitle?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, hero?: { __typename: 'AiPlatformHero', badge?: string | null, headline?: string | null, headlineAccent?: string | null, subheadline?: string | null, backgroundImage?: string | null, backgroundVideoUrl?: string | null, colors?: { __typename: 'AiPlatformHeroColors', primaryColor?: string | null, accentColor?: string | null, bgColor?: string | null } | null, primaryCta?: { __typename: 'AiPlatformHeroPrimaryCta', text?: string | null, href?: string | null } | null, secondaryCta?: { __typename: 'AiPlatformHeroSecondaryCta', text?: string | null, href?: string | null } | null } | null, stats?: Array<{ __typename: 'AiPlatformStats', value?: string | null, label?: string | null, sublabel?: string | null } | null> | null, capabilities?: Array<{ __typename: 'AiPlatformCapabilities', icon?: string | null, iconImage?: string | null, title?: string | null, description?: any | null, accentColor?: string | null, demoVideoUrl?: string | null } | null> | null, useCases?: Array<{ __typename: 'AiPlatformUseCases', tag?: string | null, title?: string | null, description?: any | null, coverImage?: string | null, accentColor?: string | null, videoUrl?: string | null } | null> | null, howItWorks?: Array<{ __typename: 'AiPlatformHowItWorks', number?: string | null, title?: string | null, description?: any | null, illustration?: string | null } | null> | null, cta?: { __typename: 'AiPlatformCta', headline?: string | null, subtext?: string | null, backgroundImage?: string | null, primaryBtn?: { __typename: 'AiPlatformCtaPrimaryBtn', text?: string | null, href?: string | null } | null, secondaryBtn?: { __typename: 'AiPlatformCtaSecondaryBtn', text?: string | null, href?: string | null } | null } | null } | null } | null> | null } };
+export type ServicePageConnectionQuery = { __typename?: 'Query', servicePageConnection: { __typename?: 'ServicePageConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'ServicePageConnectionEdges', cursor: string, node?: { __typename: 'ServicePageClassic', id: string, pageTitle?: string | null, pageDescription?: string | null, servicesHeading?: string | null, showEngagement?: boolean | null, engagementHeading?: string | null, showreelVideoUrl?: string | null, showUseCases?: boolean | null, useCasesHeading?: string | null, showPortfolio?: boolean | null, portfolioHeading?: string | null, techHeading?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, hero?: { __typename: 'ServicePageClassicHero', bannerImage?: string | null, title?: string | null, subtitle?: string | null, ctaText?: string | null, ctaHref?: string | null, motion?: { __typename: 'ServicePageClassicHeroMotion', easePreset?: string | null, durationScale?: number | null } | null } | null, servicesMotion?: { __typename: 'ServicePageClassicServicesMotion', easePreset?: string | null, durationScale?: number | null } | null, services?: Array<{ __typename: 'ServicePageClassicServices', title?: string | null, description?: string | null, image?: string | null, ctaText?: string | null, ctaHref?: string | null } | null> | null, engagementMotion?: { __typename: 'ServicePageClassicEngagementMotion', easePreset?: string | null, durationScale?: number | null } | null, engagementModels?: Array<{ __typename: 'ServicePageClassicEngagementModels', title?: string | null, description?: string | null } | null> | null, spotlight?: { __typename: 'ServicePageClassicSpotlight', enabled?: boolean | null, heading?: string | null, description?: string | null, videoUrl?: string | null, ctaText?: string | null, ctaHref?: string | null, motion?: { __typename: 'ServicePageClassicSpotlightMotion', easePreset?: string | null, durationScale?: number | null } | null } | null, useCasesMotion?: { __typename: 'ServicePageClassicUseCasesMotion', easePreset?: string | null, durationScale?: number | null } | null, useCases?: Array<{ __typename: 'ServicePageClassicUseCases', title?: string | null, videoUrl?: string | null } | null> | null, portfolioMotion?: { __typename: 'ServicePageClassicPortfolioMotion', easePreset?: string | null, durationScale?: number | null } | null, portfolio?: Array<{ __typename: 'ServicePageClassicPortfolio', title?: string | null, image?: string | null, link?: string | null } | null> | null, techMotion?: { __typename: 'ServicePageClassicTechMotion', easePreset?: string | null, durationScale?: number | null } | null, technologies?: Array<{ __typename: 'ServicePageClassicTechnologies', name?: string | null, image?: string | null } | null> | null, ctaBox?: { __typename: 'ServicePageClassicCtaBox', heading?: string | null, description?: string | null, primaryBtn?: { __typename: 'ServicePageClassicCtaBoxPrimaryBtn', text?: string | null, href?: string | null } | null, motion?: { __typename: 'ServicePageClassicCtaBoxMotion', easePreset?: string | null, durationScale?: number | null } | null } | null } | { __typename: 'ServicePageAiPlatform', id: string, capabilitiesLabel?: string | null, capabilitiesTitle?: string | null, useCasesLabel?: string | null, useCasesTitle?: string | null, howItWorksLabel?: string | null, howItWorksTitle?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, typography?: { __typename: 'ServicePageAiPlatformTypography', fontFamily?: string | null, headingColor?: string | null, bodyColor?: string | null, labelColor?: string | null, primaryColor?: string | null, accentColor?: string | null, bgPrimary?: string | null, bgSecondary?: string | null, bgStats?: string | null, bgFooter?: string | null } | null, hero?: { __typename: 'ServicePageAiPlatformHero', badge?: string | null, headline?: string | null, headlineAccent?: string | null, subheadline?: string | null, backgroundImage?: string | null, backgroundVideoUrl?: string | null, colors?: { __typename: 'ServicePageAiPlatformHeroColors', primaryColor?: string | null, accentColor?: string | null, bgColor?: string | null } | null, animation?: { __typename: 'ServicePageAiPlatformHeroAnimation', enabled?: boolean | null, primaryColor?: string | null, accentColor?: string | null } | null, primaryCta?: { __typename: 'ServicePageAiPlatformHeroPrimaryCta', text?: string | null, href?: string | null } | null, secondaryCta?: { __typename: 'ServicePageAiPlatformHeroSecondaryCta', text?: string | null, href?: string | null } | null, motion?: { __typename: 'ServicePageAiPlatformHeroMotion', easePreset?: string | null, durationScale?: number | null } | null } | null, stats?: Array<{ __typename: 'ServicePageAiPlatformStats', value?: string | null, label?: string | null, sublabel?: string | null } | null> | null, capabilitiesMotion?: { __typename: 'ServicePageAiPlatformCapabilitiesMotion', easePreset?: string | null, durationScale?: number | null } | null, capabilities?: Array<{ __typename: 'ServicePageAiPlatformCapabilities', icon?: string | null, iconImage?: string | null, title?: string | null, description?: any | null, accentColor?: string | null, demoVideoUrl?: string | null } | null> | null, useCasesMotion?: { __typename: 'ServicePageAiPlatformUseCasesMotion', easePreset?: string | null, durationScale?: number | null } | null, useCases?: Array<{ __typename: 'ServicePageAiPlatformUseCases', tag?: string | null, title?: string | null, description?: any | null, coverImage?: string | null, accentColor?: string | null, videoUrl?: string | null } | null> | null, howItWorksMotion?: { __typename: 'ServicePageAiPlatformHowItWorksMotion', easePreset?: string | null, durationScale?: number | null } | null, howItWorks?: Array<{ __typename: 'ServicePageAiPlatformHowItWorks', number?: string | null, title?: string | null, description?: any | null, illustration?: string | null } | null> | null, cta?: { __typename: 'ServicePageAiPlatformCta', headline?: string | null, subtext?: string | null, backgroundImage?: string | null, primaryBtn?: { __typename: 'ServicePageAiPlatformCtaPrimaryBtn', text?: string | null, href?: string | null } | null, secondaryBtn?: { __typename: 'ServicePageAiPlatformCtaSecondaryBtn', text?: string | null, href?: string | null } | null, motion?: { __typename: 'ServicePageAiPlatformCtaMotion', easePreset?: string | null, durationScale?: number | null } | null } | null } | null } | null> | null } };
+
+export type AboutQueryVariables = Exact<{
+  relativePath: Scalars['String']['input'];
+}>;
+
+
+export type AboutQuery = { __typename?: 'Query', about: { __typename: 'About', id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, hero?: { __typename: 'AboutHero', breadcrumb?: string | null, title?: string | null, image?: string | null, body?: string | null } | null, business?: { __typename: 'AboutBusiness', heading?: string | null, videoUrl?: string | null, description?: string | null } | null, founders?: { __typename: 'AboutFounders', heading?: string | null, description?: string | null, members?: Array<{ __typename: 'AboutFoundersMembers', name?: string | null, role?: string | null, image?: string | null } | null> | null } | null, cta?: { __typename: 'AboutCta', heading?: string | null, ctaText?: string | null, ctaHref?: string | null } | null } };
+
+export type AboutConnectionQueryVariables = Exact<{
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<AboutFilter>;
+}>;
+
+
+export type AboutConnectionQuery = { __typename?: 'Query', aboutConnection: { __typename?: 'AboutConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'AboutConnectionEdges', cursor: string, node?: { __typename: 'About', id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, hero?: { __typename: 'AboutHero', breadcrumb?: string | null, title?: string | null, image?: string | null, body?: string | null } | null, business?: { __typename: 'AboutBusiness', heading?: string | null, videoUrl?: string | null, description?: string | null } | null, founders?: { __typename: 'AboutFounders', heading?: string | null, description?: string | null, members?: Array<{ __typename: 'AboutFoundersMembers', name?: string | null, role?: string | null, image?: string | null } | null> | null } | null, cta?: { __typename: 'AboutCta', heading?: string | null, ctaText?: string | null, ctaHref?: string | null } | null } | null } | null> | null } };
+
+export type ContactQueryVariables = Exact<{
+  relativePath: Scalars['String']['input'];
+}>;
+
+
+export type ContactQuery = { __typename?: 'Query', contact: { __typename: 'Contact', id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, hero?: { __typename: 'ContactHero', breadcrumb?: string | null, title?: string | null, bannerImage?: string | null } | null, offices?: Array<{ __typename: 'ContactOffices', name?: string | null, address?: string | null, email?: string | null, phone?: string | null, mapsUrl?: string | null } | null> | null, form?: { __typename: 'ContactForm', heading?: string | null, description?: string | null, submitText?: string | null, formEndpoint?: string | null } | null } };
+
+export type ContactConnectionQueryVariables = Exact<{
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<ContactFilter>;
+}>;
+
+
+export type ContactConnectionQuery = { __typename?: 'Query', contactConnection: { __typename?: 'ContactConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'ContactConnectionEdges', cursor: string, node?: { __typename: 'Contact', id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, hero?: { __typename: 'ContactHero', breadcrumb?: string | null, title?: string | null, bannerImage?: string | null } | null, offices?: Array<{ __typename: 'ContactOffices', name?: string | null, address?: string | null, email?: string | null, phone?: string | null, mapsUrl?: string | null } | null> | null, form?: { __typename: 'ContactForm', heading?: string | null, description?: string | null, submitText?: string | null, formEndpoint?: string | null } | null } | null } | null> | null } };
 
 export const SiteSettingsPartsFragmentDoc = gql`
     fragment SiteSettingsParts on SiteSettings {
@@ -1059,11 +2019,18 @@ export const SiteSettingsPartsFragmentDoc = gql`
     instagram
     facebook
   }
+  motion {
+    __typename
+    easePreset
+    durationScale
+    disableAnimations
+  }
 }
     `;
 export const HeaderPartsFragmentDoc = gql`
     fragment HeaderParts on Header {
   __typename
+  logoImage
   navLinks {
     __typename
     title
@@ -1106,86 +2073,302 @@ export const FooterPartsFragmentDoc = gql`
   }
 }
     `;
-export const AiPlatformPartsFragmentDoc = gql`
-    fragment AiPlatformParts on AiPlatform {
+export const ServicePagePartsFragmentDoc = gql`
+    fragment ServicePageParts on ServicePage {
+  __typename
+  ... on ServicePageClassic {
+    pageTitle
+    pageDescription
+    hero {
+      __typename
+      bannerImage
+      title
+      subtitle
+      ctaText
+      ctaHref
+      motion {
+        __typename
+        easePreset
+        durationScale
+      }
+    }
+    servicesHeading
+    servicesMotion {
+      __typename
+      easePreset
+      durationScale
+    }
+    services {
+      __typename
+      title
+      description
+      image
+      ctaText
+      ctaHref
+    }
+    showEngagement
+    engagementHeading
+    engagementMotion {
+      __typename
+      easePreset
+      durationScale
+    }
+    engagementModels {
+      __typename
+      title
+      description
+    }
+    showreelVideoUrl
+    spotlight {
+      __typename
+      enabled
+      heading
+      description
+      videoUrl
+      ctaText
+      ctaHref
+      motion {
+        __typename
+        easePreset
+        durationScale
+      }
+    }
+    showUseCases
+    useCasesHeading
+    useCasesMotion {
+      __typename
+      easePreset
+      durationScale
+    }
+    useCases {
+      __typename
+      title
+      videoUrl
+    }
+    showPortfolio
+    portfolioHeading
+    portfolioMotion {
+      __typename
+      easePreset
+      durationScale
+    }
+    portfolio {
+      __typename
+      title
+      image
+      link
+    }
+    techHeading
+    techMotion {
+      __typename
+      easePreset
+      durationScale
+    }
+    technologies {
+      __typename
+      name
+      image
+    }
+    ctaBox {
+      __typename
+      heading
+      description
+      primaryBtn {
+        __typename
+        text
+        href
+      }
+      motion {
+        __typename
+        easePreset
+        durationScale
+      }
+    }
+  }
+  ... on ServicePageAiPlatform {
+    typography {
+      __typename
+      fontFamily
+      headingColor
+      bodyColor
+      labelColor
+      primaryColor
+      accentColor
+      bgPrimary
+      bgSecondary
+      bgStats
+      bgFooter
+    }
+    hero {
+      __typename
+      badge
+      headline
+      headlineAccent
+      subheadline
+      backgroundImage
+      backgroundVideoUrl
+      colors {
+        __typename
+        primaryColor
+        accentColor
+        bgColor
+      }
+      animation {
+        __typename
+        enabled
+        primaryColor
+        accentColor
+      }
+      primaryCta {
+        __typename
+        text
+        href
+      }
+      secondaryCta {
+        __typename
+        text
+        href
+      }
+      motion {
+        __typename
+        easePreset
+        durationScale
+      }
+    }
+    stats {
+      __typename
+      value
+      label
+      sublabel
+    }
+    capabilitiesLabel
+    capabilitiesTitle
+    capabilitiesMotion {
+      __typename
+      easePreset
+      durationScale
+    }
+    capabilities {
+      __typename
+      icon
+      iconImage
+      title
+      description
+      accentColor
+      demoVideoUrl
+    }
+    useCasesLabel
+    useCasesTitle
+    useCasesMotion {
+      __typename
+      easePreset
+      durationScale
+    }
+    useCases {
+      __typename
+      tag
+      title
+      description
+      coverImage
+      accentColor
+      videoUrl
+    }
+    howItWorksLabel
+    howItWorksTitle
+    howItWorksMotion {
+      __typename
+      easePreset
+      durationScale
+    }
+    howItWorks {
+      __typename
+      number
+      title
+      description
+      illustration
+    }
+    cta {
+      __typename
+      headline
+      subtext
+      backgroundImage
+      primaryBtn {
+        __typename
+        text
+        href
+      }
+      secondaryBtn {
+        __typename
+        text
+        href
+      }
+      motion {
+        __typename
+        easePreset
+        durationScale
+      }
+    }
+  }
+}
+    `;
+export const AboutPartsFragmentDoc = gql`
+    fragment AboutParts on About {
   __typename
   hero {
     __typename
-    badge
-    headline
-    headlineAccent
-    subheadline
-    backgroundImage
-    backgroundVideoUrl
-    colors {
-      __typename
-      primaryColor
-      accentColor
-      bgColor
-    }
-    primaryCta {
-      __typename
-      text
-      href
-    }
-    secondaryCta {
-      __typename
-      text
-      href
-    }
-  }
-  stats {
-    __typename
-    value
-    label
-    sublabel
-  }
-  capabilitiesLabel
-  capabilitiesTitle
-  capabilities {
-    __typename
-    icon
-    iconImage
+    breadcrumb
     title
-    description
-    accentColor
-    demoVideoUrl
+    image
+    body
   }
-  useCasesLabel
-  useCasesTitle
-  useCases {
+  business {
     __typename
-    tag
-    title
-    description
-    coverImage
-    accentColor
+    heading
     videoUrl
-  }
-  howItWorksLabel
-  howItWorksTitle
-  howItWorks {
-    __typename
-    number
-    title
     description
-    illustration
+  }
+  founders {
+    __typename
+    heading
+    description
+    members {
+      __typename
+      name
+      role
+      image
+    }
   }
   cta {
     __typename
-    headline
-    subtext
-    backgroundImage
-    primaryBtn {
-      __typename
-      text
-      href
-    }
-    secondaryBtn {
-      __typename
-      text
-      href
-    }
+    heading
+    ctaText
+    ctaHref
+  }
+}
+    `;
+export const ContactPartsFragmentDoc = gql`
+    fragment ContactParts on Contact {
+  __typename
+  hero {
+    __typename
+    breadcrumb
+    title
+    bannerImage
+  }
+  offices {
+    __typename
+    name
+    address
+    email
+    phone
+    mapsUrl
+  }
+  form {
+    __typename
+    heading
+    description
+    submitText
+    formEndpoint
   }
 }
     `;
@@ -1360,9 +2543,9 @@ export const FooterConnectionDocument = gql`
   }
 }
     ${FooterPartsFragmentDoc}`;
-export const AiPlatformDocument = gql`
-    query aiPlatform($relativePath: String!) {
-  aiPlatform(relativePath: $relativePath) {
+export const ServicePageDocument = gql`
+    query servicePage($relativePath: String!) {
+  servicePage(relativePath: $relativePath) {
     ... on Document {
       _sys {
         filename
@@ -1375,13 +2558,13 @@ export const AiPlatformDocument = gql`
       }
       id
     }
-    ...AiPlatformParts
+    ...ServicePageParts
   }
 }
-    ${AiPlatformPartsFragmentDoc}`;
-export const AiPlatformConnectionDocument = gql`
-    query aiPlatformConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: AiPlatformFilter) {
-  aiPlatformConnection(
+    ${ServicePagePartsFragmentDoc}`;
+export const ServicePageConnectionDocument = gql`
+    query servicePageConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: ServicePageFilter) {
+  servicePageConnection(
     before: $before
     after: $after
     first: $first
@@ -1411,12 +2594,126 @@ export const AiPlatformConnectionDocument = gql`
           }
           id
         }
-        ...AiPlatformParts
+        ...ServicePageParts
       }
     }
   }
 }
-    ${AiPlatformPartsFragmentDoc}`;
+    ${ServicePagePartsFragmentDoc}`;
+export const AboutDocument = gql`
+    query about($relativePath: String!) {
+  about(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...AboutParts
+  }
+}
+    ${AboutPartsFragmentDoc}`;
+export const AboutConnectionDocument = gql`
+    query aboutConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: AboutFilter) {
+  aboutConnection(
+    before: $before
+    after: $after
+    first: $first
+    last: $last
+    sort: $sort
+    filter: $filter
+  ) {
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+        ...AboutParts
+      }
+    }
+  }
+}
+    ${AboutPartsFragmentDoc}`;
+export const ContactDocument = gql`
+    query contact($relativePath: String!) {
+  contact(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...ContactParts
+  }
+}
+    ${ContactPartsFragmentDoc}`;
+export const ContactConnectionDocument = gql`
+    query contactConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: ContactFilter) {
+  contactConnection(
+    before: $before
+    after: $after
+    first: $first
+    last: $last
+    sort: $sort
+    filter: $filter
+  ) {
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+        ...ContactParts
+      }
+    }
+  }
+}
+    ${ContactPartsFragmentDoc}`;
 export type Requester<C= {}> = <R, V>(doc: DocumentNode, vars?: V, options?: C) => Promise<R>
   export function getSdk<C>(requester: Requester<C>) {
     return {
@@ -1438,11 +2735,23 @@ export type Requester<C= {}> = <R, V>(doc: DocumentNode, vars?: V, options?: C) 
     footerConnection(variables?: FooterConnectionQueryVariables, options?: C): Promise<{data: FooterConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: FooterConnectionQueryVariables, query: string}> {
         return requester<{data: FooterConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: FooterConnectionQueryVariables, query: string}, FooterConnectionQueryVariables>(FooterConnectionDocument, variables, options);
       },
-    aiPlatform(variables: AiPlatformQueryVariables, options?: C): Promise<{data: AiPlatformQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: AiPlatformQueryVariables, query: string}> {
-        return requester<{data: AiPlatformQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: AiPlatformQueryVariables, query: string}, AiPlatformQueryVariables>(AiPlatformDocument, variables, options);
+    servicePage(variables: ServicePageQueryVariables, options?: C): Promise<{data: ServicePageQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ServicePageQueryVariables, query: string}> {
+        return requester<{data: ServicePageQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ServicePageQueryVariables, query: string}, ServicePageQueryVariables>(ServicePageDocument, variables, options);
       },
-    aiPlatformConnection(variables?: AiPlatformConnectionQueryVariables, options?: C): Promise<{data: AiPlatformConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: AiPlatformConnectionQueryVariables, query: string}> {
-        return requester<{data: AiPlatformConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: AiPlatformConnectionQueryVariables, query: string}, AiPlatformConnectionQueryVariables>(AiPlatformConnectionDocument, variables, options);
+    servicePageConnection(variables?: ServicePageConnectionQueryVariables, options?: C): Promise<{data: ServicePageConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ServicePageConnectionQueryVariables, query: string}> {
+        return requester<{data: ServicePageConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ServicePageConnectionQueryVariables, query: string}, ServicePageConnectionQueryVariables>(ServicePageConnectionDocument, variables, options);
+      },
+    about(variables: AboutQueryVariables, options?: C): Promise<{data: AboutQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: AboutQueryVariables, query: string}> {
+        return requester<{data: AboutQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: AboutQueryVariables, query: string}, AboutQueryVariables>(AboutDocument, variables, options);
+      },
+    aboutConnection(variables?: AboutConnectionQueryVariables, options?: C): Promise<{data: AboutConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: AboutConnectionQueryVariables, query: string}> {
+        return requester<{data: AboutConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: AboutConnectionQueryVariables, query: string}, AboutConnectionQueryVariables>(AboutConnectionDocument, variables, options);
+      },
+    contact(variables: ContactQueryVariables, options?: C): Promise<{data: ContactQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ContactQueryVariables, query: string}> {
+        return requester<{data: ContactQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ContactQueryVariables, query: string}, ContactQueryVariables>(ContactDocument, variables, options);
+      },
+    contactConnection(variables?: ContactConnectionQueryVariables, options?: C): Promise<{data: ContactConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ContactConnectionQueryVariables, query: string}> {
+        return requester<{data: ContactConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ContactConnectionQueryVariables, query: string}, ContactConnectionQueryVariables>(ContactConnectionDocument, variables, options);
       }
     };
   }

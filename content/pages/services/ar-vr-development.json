@@ -1,0 +1,179 @@
+{
+  "_template": "classic",
+  "pageTitle": "AR / VR Development - Gamasome",
+  "pageDescription": "Give top-notch AR/VR experiences to your customers with cutting-edge extended reality solutions.",
+  "hero": {
+    "bannerImage": "/static/images/ai-banner.png",
+    "title": "Turn an idea into experience with us",
+    "subtitle": "Give Top notch AR / VR experience to your customers",
+    "ctaText": "Contact Us",
+    "ctaHref": "/contact",
+    "motion": {
+      "easePreset": "inherit"
+    }
+  },
+  "servicesHeading": "Our AR / VR Solutions",
+  "services": [
+    {
+      "title": "VR Experiences",
+      "description": "Create immersive virtual reality experiences that transport users to entirely new worlds. From training simulations to virtual showrooms, we build VR applications that engage and inspire.",
+      "image": "/static/images/vr1.png",
+      "ctaText": "Know More",
+      "ctaHref": "/contact"
+    },
+    {
+      "title": "VR Games",
+      "description": "Develop engaging virtual reality games with stunning visuals and intuitive interactions. Our VR game development covers all major headsets including Meta Quest, PlayStation VR, and PC VR platforms.",
+      "image": "/static/images/vr2.png",
+      "ctaText": "Know More",
+      "ctaHref": "/contact"
+    },
+    {
+      "title": "Mixed Reality Experiences",
+      "description": "Blend the physical and digital worlds with mixed reality solutions. We create MR applications that overlay digital content onto real environments for training, design visualization, and interactive marketing.",
+      "image": "/static/images/vr3.png",
+      "ctaText": "Know More",
+      "ctaHref": "/contact"
+    },
+    {
+      "title": "Marker Based AR",
+      "description": "Build augmented reality experiences triggered by image or object markers. Ideal for product packaging, print media, and interactive educational content that comes alive when viewed through a device camera.",
+      "image": "/static/images/vr4.png",
+      "ctaText": "Know More",
+      "ctaHref": "/contact"
+    },
+    {
+      "title": "Marker Less AR",
+      "description": "Create location-independent augmented reality experiences using SLAM and surface detection. Our markerless AR solutions work seamlessly in any environment without requiring physical markers.",
+      "image": "/static/images/vr5.png",
+      "ctaText": "Know More",
+      "ctaHref": "/contact"
+    },
+    {
+      "title": "Location Based AR",
+      "description": "Develop GPS and sensor-driven augmented reality experiences tied to real-world locations. Perfect for tourism, outdoor gaming, and location-specific marketing campaigns.",
+      "image": "/static/images/vr6.png",
+      "ctaText": "Know More",
+      "ctaHref": "/contact"
+    }
+  ],
+  "showEngagement": false,
+  "showreelVideoUrl": "https://www.youtube.com/embed/MGife5DIYaQ?si=EdqTdrTMUh63pXus",
+  "spotlight": {
+    "enabled": true,
+    "heading": "Increase your e-commerce conversion rate with AR experiences",
+    "description": "The Augment Reality market size is expected to expand upto 40% by the year 2030. Step up your business by implementing AR experiences with Gamasome. Our AR development services help retailers, brands, and publishers deliver interactive experiences that drive engagement and sales.",
+    "videoUrl": "https://www.youtube.com/embed/wyyox6pZ4K8?si=hmvdNnmSdBNcaNNu",
+    "ctaText": "Contact Us",
+    "ctaHref": "/contact",
+    "motion": {
+      "easePreset": "inherit"
+    }
+  },
+  "showUseCases": true,
+  "useCasesHeading": "Some of the Use cases, we've built",
+  "useCases": [
+    {
+      "title": "Health Training",
+      "videoUrl": "https://www.youtube.com/embed/bub_29SL4tU?si=jnLhy58iViN930VM"
+    },
+    {
+      "title": "Manufacturing Simulation",
+      "videoUrl": "https://www.youtube.com/embed/WXEHvnLJ5Ok?si=1kFKBZxNSf_azfMA"
+    },
+    {
+      "title": "Auto Retail Experience",
+      "videoUrl": "https://www.youtube.com/embed/3pTtgFwng5g?si=jV332s_iMp6gAJE7"
+    },
+    {
+      "title": "Furniture AR Experience",
+      "videoUrl": "https://www.youtube.com/embed/_MFZfriwROs?si=IZkKN6FsNdDB-6-N"
+    },
+    {
+      "title": "Product Visualisation",
+      "videoUrl": "https://www.youtube.com/embed/oTY0XAloXjE?si=03L6uVRveNQJAJK1"
+    },
+    {
+      "title": "Real Estate Experience",
+      "videoUrl": "https://www.youtube.com/embed/Df6coaULk9E?si=6AFwMtDngThkEMEi"
+    }
+  ],
+  "showPortfolio": false,
+  "techHeading": "Technologies We Work With",
+  "technologies": [
+    {
+      "name": "Android",
+      "image": "/static/images/android-white.png"
+    },
+    {
+      "name": "MySQL",
+      "image": "/static/images/mysql-white.png"
+    },
+    {
+      "name": "Conda",
+      "image": "/static/images/conda-techstack.png"
+    },
+    {
+      "name": "Node.js",
+      "image": "/static/images/node-t-white.png"
+    },
+    {
+      "name": "iOS",
+      "image": "/static/images/ios-white.png"
+    },
+    {
+      "name": "Python",
+      "image": "/static/images/python-techstack-1.png"
+    },
+    {
+      "name": "Laravel",
+      "image": "/static/images/laravel-white.png"
+    },
+    {
+      "name": "Unity",
+      "image": "/static/images/unity.png"
+    },
+    {
+      "name": "MediaPipe",
+      "image": "/static/images/mediapipe-techstack-1.png"
+    },
+    {
+      "name": "Unreal Engine",
+      "image": "/static/images/unreal-engine.png"
+    },
+    {
+      "name": "MongoDB",
+      "image": "/static/images/mongo-white.png"
+    },
+    {
+      "name": "WebGL",
+      "image": "/static/images/webgl.png"
+    }
+  ],
+  "ctaBox": {
+    "heading": "Do You Want to Build Your Own AR/VR Experience?",
+    "description": "Yes, we can help you build immersive extended reality solutions.",
+    "primaryBtn": {
+      "text": "Talk to our expert",
+      "href": "/contact"
+    },
+    "motion": {
+      "easePreset": "inherit"
+    }
+  },
+  "servicesMotion": {
+    "easePreset": "inherit"
+  },
+  "engagementMotion": {
+    "easePreset": "inherit"
+  },
+  "useCasesMotion": {
+    "easePreset": "inherit"
+  },
+  "portfolioMotion": {
+    "easePreset": "inherit"
+  },
+  "techMotion": {
+    "easePreset": "inherit"
+  }
+}

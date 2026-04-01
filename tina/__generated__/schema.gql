@@ -60,15 +60,21 @@ type Query {
   headerConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: HeaderFilter): HeaderConnection!
   footer(relativePath: String): Footer!
   footerConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: FooterFilter): FooterConnection!
-  aiPlatform(relativePath: String): AiPlatform!
-  aiPlatformConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: AiPlatformFilter): AiPlatformConnection!
+  servicePage(relativePath: String): ServicePage!
+  servicePageConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: ServicePageFilter): ServicePageConnection!
+  about(relativePath: String): About!
+  aboutConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: AboutFilter): AboutConnection!
+  contact(relativePath: String): Contact!
+  contactConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: ContactFilter): ContactConnection!
 }
 
 input DocumentFilter {
   siteSettings: SiteSettingsFilter
   header: HeaderFilter
   footer: FooterFilter
-  aiPlatform: AiPlatformFilter
+  servicePage: ServicePageFilter
+  about: AboutFilter
+  contact: ContactFilter
 }
 
 type DocumentConnectionEdges {
@@ -94,7 +100,7 @@ type Collection {
   documents(before: String, after: String, first: Float, last: Float, sort: String, filter: DocumentFilter, folder: String): DocumentConnection!
 }
 
-union DocumentNode = SiteSettings | Header | Footer | AiPlatform | Folder
+union DocumentNode = SiteSettings | Header | Footer | ServicePageClassic | ServicePageAiPlatform | About | Contact | Folder
 
 type SiteSettingsTheme {
   primaryColor: String
@@ -116,6 +122,12 @@ type SiteSettingsSocial {
   facebook: String
 }
 
+type SiteSettingsMotion {
+  easePreset: String
+  durationScale: Float
+  disableAnimations: Boolean
+}
+
 type SiteSettings implements Node & Document {
   siteName: String
   tagline: String
@@ -124,6 +136,7 @@ type SiteSettings implements Node & Document {
   theme: SiteSettingsTheme
   contact: SiteSettingsContact
   social: SiteSettingsSocial
+  motion: SiteSettingsMotion
   id: ID!
   _sys: SystemInfo!
   _values: JSON!
@@ -163,6 +176,27 @@ input SiteSettingsSocialFilter {
   facebook: StringFilter
 }
 
+input NumberFilter {
+  lt: Float
+  lte: Float
+  gte: Float
+  gt: Float
+  eq: Float
+  exists: Boolean
+  in: [Float]
+}
+
+input BooleanFilter {
+  eq: Boolean
+  exists: Boolean
+}
+
+input SiteSettingsMotionFilter {
+  easePreset: StringFilter
+  durationScale: NumberFilter
+  disableAnimations: BooleanFilter
+}
+
 input SiteSettingsFilter {
   siteName: StringFilter
   tagline: StringFilter
@@ -171,6 +205,7 @@ input SiteSettingsFilter {
   theme: SiteSettingsThemeFilter
   contact: SiteSettingsContactFilter
   social: SiteSettingsSocialFilter
+  motion: SiteSettingsMotionFilter
 }
 
 type SiteSettingsConnectionEdges {
@@ -190,6 +225,7 @@ type HeaderNavLinks {
 }
 
 type Header implements Node & Document {
+  logoImage: String
   navLinks: [HeaderNavLinks]
   id: ID!
   _sys: SystemInfo!
@@ -202,6 +238,7 @@ input HeaderNavLinksFilter {
 }
 
 input HeaderFilter {
+  logoImage: ImageFilter
   navLinks: HeaderNavLinksFilter
 }
 
@@ -277,11 +314,6 @@ input FooterLegalLinksFilter {
   href: StringFilter
 }
 
-input BooleanFilter {
-  eq: Boolean
-  exists: Boolean
-}
-
 input FooterNavLinksFilter {
   title: StringFilter
   href: StringFilter
@@ -309,41 +341,202 @@ type FooterConnection implements Connection {
   edges: [FooterConnectionEdges]
 }
 
-type AiPlatformHeroColors {
+type ServicePageClassicHeroMotion {
+  easePreset: String
+  durationScale: Float
+}
+
+type ServicePageClassicHero {
+  bannerImage: String
+  title: String
+  subtitle: String
+  ctaText: String
+  ctaHref: String
+  motion: ServicePageClassicHeroMotion
+}
+
+type ServicePageClassicServicesMotion {
+  easePreset: String
+  durationScale: Float
+}
+
+type ServicePageClassicServices {
+  title: String
+  description: String
+  image: String
+  ctaText: String
+  ctaHref: String
+}
+
+type ServicePageClassicEngagementMotion {
+  easePreset: String
+  durationScale: Float
+}
+
+type ServicePageClassicEngagementModels {
+  title: String
+  description: String
+}
+
+type ServicePageClassicSpotlightMotion {
+  easePreset: String
+  durationScale: Float
+}
+
+type ServicePageClassicSpotlight {
+  enabled: Boolean
+  heading: String
+  description: String
+  videoUrl: String
+  ctaText: String
+  ctaHref: String
+  motion: ServicePageClassicSpotlightMotion
+}
+
+type ServicePageClassicUseCasesMotion {
+  easePreset: String
+  durationScale: Float
+}
+
+type ServicePageClassicUseCases {
+  title: String
+  videoUrl: String
+}
+
+type ServicePageClassicPortfolioMotion {
+  easePreset: String
+  durationScale: Float
+}
+
+type ServicePageClassicPortfolio {
+  title: String
+  image: String
+  link: String
+}
+
+type ServicePageClassicTechMotion {
+  easePreset: String
+  durationScale: Float
+}
+
+type ServicePageClassicTechnologies {
+  name: String
+  image: String
+}
+
+type ServicePageClassicCtaBoxPrimaryBtn {
+  text: String
+  href: String
+}
+
+type ServicePageClassicCtaBoxMotion {
+  easePreset: String
+  durationScale: Float
+}
+
+type ServicePageClassicCtaBox {
+  heading: String
+  description: String
+  primaryBtn: ServicePageClassicCtaBoxPrimaryBtn
+  motion: ServicePageClassicCtaBoxMotion
+}
+
+type ServicePageClassic implements Node & Document {
+  pageTitle: String
+  pageDescription: String
+  hero: ServicePageClassicHero
+  servicesHeading: String
+  servicesMotion: ServicePageClassicServicesMotion
+  services: [ServicePageClassicServices]
+  showEngagement: Boolean
+  engagementHeading: String
+  engagementMotion: ServicePageClassicEngagementMotion
+  engagementModels: [ServicePageClassicEngagementModels]
+  showreelVideoUrl: String
+  spotlight: ServicePageClassicSpotlight
+  showUseCases: Boolean
+  useCasesHeading: String
+  useCasesMotion: ServicePageClassicUseCasesMotion
+  useCases: [ServicePageClassicUseCases]
+  showPortfolio: Boolean
+  portfolioHeading: String
+  portfolioMotion: ServicePageClassicPortfolioMotion
+  portfolio: [ServicePageClassicPortfolio]
+  techHeading: String
+  techMotion: ServicePageClassicTechMotion
+  technologies: [ServicePageClassicTechnologies]
+  ctaBox: ServicePageClassicCtaBox
+  id: ID!
+  _sys: SystemInfo!
+  _values: JSON!
+}
+
+type ServicePageAiPlatformTypography {
+  fontFamily: String
+  headingColor: String
+  bodyColor: String
+  labelColor: String
+  primaryColor: String
+  accentColor: String
+  bgPrimary: String
+  bgSecondary: String
+  bgStats: String
+  bgFooter: String
+}
+
+type ServicePageAiPlatformHeroColors {
   primaryColor: String
   accentColor: String
   bgColor: String
 }
 
-type AiPlatformHeroPrimaryCta {
+type ServicePageAiPlatformHeroAnimation {
+  enabled: Boolean
+  primaryColor: String
+  accentColor: String
+}
+
+type ServicePageAiPlatformHeroPrimaryCta {
   text: String
   href: String
 }
 
-type AiPlatformHeroSecondaryCta {
+type ServicePageAiPlatformHeroSecondaryCta {
   text: String
   href: String
 }
 
-type AiPlatformHero {
+type ServicePageAiPlatformHeroMotion {
+  easePreset: String
+  durationScale: Float
+}
+
+type ServicePageAiPlatformHero {
   badge: String
   headline: String
   headlineAccent: String
   subheadline: String
   backgroundImage: String
   backgroundVideoUrl: String
-  colors: AiPlatformHeroColors
-  primaryCta: AiPlatformHeroPrimaryCta
-  secondaryCta: AiPlatformHeroSecondaryCta
+  colors: ServicePageAiPlatformHeroColors
+  animation: ServicePageAiPlatformHeroAnimation
+  primaryCta: ServicePageAiPlatformHeroPrimaryCta
+  secondaryCta: ServicePageAiPlatformHeroSecondaryCta
+  motion: ServicePageAiPlatformHeroMotion
 }
 
-type AiPlatformStats {
+type ServicePageAiPlatformStats {
   value: String
   label: String
   sublabel: String
 }
 
-type AiPlatformCapabilities {
+type ServicePageAiPlatformCapabilitiesMotion {
+  easePreset: String
+  durationScale: Float
+}
+
+type ServicePageAiPlatformCapabilities {
   icon: String
   iconImage: String
   title: String
@@ -352,7 +545,12 @@ type AiPlatformCapabilities {
   demoVideoUrl: String
 }
 
-type AiPlatformUseCases {
+type ServicePageAiPlatformUseCasesMotion {
+  easePreset: String
+  durationScale: Float
+}
+
+type ServicePageAiPlatformUseCases {
   tag: String
   title: String
   description: JSON
@@ -361,81 +559,256 @@ type AiPlatformUseCases {
   videoUrl: String
 }
 
-type AiPlatformHowItWorks {
+type ServicePageAiPlatformHowItWorksMotion {
+  easePreset: String
+  durationScale: Float
+}
+
+type ServicePageAiPlatformHowItWorks {
   number: String
   title: String
   description: JSON
   illustration: String
 }
 
-type AiPlatformCtaPrimaryBtn {
+type ServicePageAiPlatformCtaPrimaryBtn {
   text: String
   href: String
 }
 
-type AiPlatformCtaSecondaryBtn {
+type ServicePageAiPlatformCtaSecondaryBtn {
   text: String
   href: String
 }
 
-type AiPlatformCta {
+type ServicePageAiPlatformCtaMotion {
+  easePreset: String
+  durationScale: Float
+}
+
+type ServicePageAiPlatformCta {
   headline: String
   subtext: String
   backgroundImage: String
-  primaryBtn: AiPlatformCtaPrimaryBtn
-  secondaryBtn: AiPlatformCtaSecondaryBtn
+  primaryBtn: ServicePageAiPlatformCtaPrimaryBtn
+  secondaryBtn: ServicePageAiPlatformCtaSecondaryBtn
+  motion: ServicePageAiPlatformCtaMotion
 }
 
-type AiPlatform implements Node & Document {
-  hero: AiPlatformHero
-  stats: [AiPlatformStats]
+type ServicePageAiPlatform implements Node & Document {
+  typography: ServicePageAiPlatformTypography
+  hero: ServicePageAiPlatformHero
+  stats: [ServicePageAiPlatformStats]
   capabilitiesLabel: String
   capabilitiesTitle: String
-  capabilities: [AiPlatformCapabilities]
+  capabilitiesMotion: ServicePageAiPlatformCapabilitiesMotion
+  capabilities: [ServicePageAiPlatformCapabilities]
   useCasesLabel: String
   useCasesTitle: String
-  useCases: [AiPlatformUseCases]
+  useCasesMotion: ServicePageAiPlatformUseCasesMotion
+  useCases: [ServicePageAiPlatformUseCases]
   howItWorksLabel: String
   howItWorksTitle: String
-  howItWorks: [AiPlatformHowItWorks]
-  cta: AiPlatformCta
+  howItWorksMotion: ServicePageAiPlatformHowItWorksMotion
+  howItWorks: [ServicePageAiPlatformHowItWorks]
+  cta: ServicePageAiPlatformCta
   id: ID!
   _sys: SystemInfo!
   _values: JSON!
 }
 
-input AiPlatformHeroColorsFilter {
+union ServicePage = ServicePageClassic | ServicePageAiPlatform
+
+input ServicePageClassicHeroMotionFilter {
+  easePreset: StringFilter
+  durationScale: NumberFilter
+}
+
+input ServicePageClassicHeroFilter {
+  bannerImage: ImageFilter
+  title: StringFilter
+  subtitle: StringFilter
+  ctaText: StringFilter
+  ctaHref: StringFilter
+  motion: ServicePageClassicHeroMotionFilter
+}
+
+input ServicePageClassicServicesMotionFilter {
+  easePreset: StringFilter
+  durationScale: NumberFilter
+}
+
+input ServicePageClassicServicesFilter {
+  title: StringFilter
+  description: StringFilter
+  image: ImageFilter
+  ctaText: StringFilter
+  ctaHref: StringFilter
+}
+
+input ServicePageClassicEngagementMotionFilter {
+  easePreset: StringFilter
+  durationScale: NumberFilter
+}
+
+input ServicePageClassicEngagementModelsFilter {
+  title: StringFilter
+  description: StringFilter
+}
+
+input ServicePageClassicSpotlightMotionFilter {
+  easePreset: StringFilter
+  durationScale: NumberFilter
+}
+
+input ServicePageClassicSpotlightFilter {
+  enabled: BooleanFilter
+  heading: StringFilter
+  description: StringFilter
+  videoUrl: StringFilter
+  ctaText: StringFilter
+  ctaHref: StringFilter
+  motion: ServicePageClassicSpotlightMotionFilter
+}
+
+input ServicePageClassicUseCasesMotionFilter {
+  easePreset: StringFilter
+  durationScale: NumberFilter
+}
+
+input ServicePageClassicUseCasesFilter {
+  title: StringFilter
+  videoUrl: StringFilter
+}
+
+input ServicePageClassicPortfolioMotionFilter {
+  easePreset: StringFilter
+  durationScale: NumberFilter
+}
+
+input ServicePageClassicPortfolioFilter {
+  title: StringFilter
+  image: ImageFilter
+  link: StringFilter
+}
+
+input ServicePageClassicTechMotionFilter {
+  easePreset: StringFilter
+  durationScale: NumberFilter
+}
+
+input ServicePageClassicTechnologiesFilter {
+  name: StringFilter
+  image: ImageFilter
+}
+
+input ServicePageClassicCtaBoxPrimaryBtnFilter {
+  text: StringFilter
+  href: StringFilter
+}
+
+input ServicePageClassicCtaBoxMotionFilter {
+  easePreset: StringFilter
+  durationScale: NumberFilter
+}
+
+input ServicePageClassicCtaBoxFilter {
+  heading: StringFilter
+  description: StringFilter
+  primaryBtn: ServicePageClassicCtaBoxPrimaryBtnFilter
+  motion: ServicePageClassicCtaBoxMotionFilter
+}
+
+input ServicePageClassicFilter {
+  pageTitle: StringFilter
+  pageDescription: StringFilter
+  hero: ServicePageClassicHeroFilter
+  servicesHeading: StringFilter
+  servicesMotion: ServicePageClassicServicesMotionFilter
+  services: ServicePageClassicServicesFilter
+  showEngagement: BooleanFilter
+  engagementHeading: StringFilter
+  engagementMotion: ServicePageClassicEngagementMotionFilter
+  engagementModels: ServicePageClassicEngagementModelsFilter
+  showreelVideoUrl: StringFilter
+  spotlight: ServicePageClassicSpotlightFilter
+  showUseCases: BooleanFilter
+  useCasesHeading: StringFilter
+  useCasesMotion: ServicePageClassicUseCasesMotionFilter
+  useCases: ServicePageClassicUseCasesFilter
+  showPortfolio: BooleanFilter
+  portfolioHeading: StringFilter
+  portfolioMotion: ServicePageClassicPortfolioMotionFilter
+  portfolio: ServicePageClassicPortfolioFilter
+  techHeading: StringFilter
+  techMotion: ServicePageClassicTechMotionFilter
+  technologies: ServicePageClassicTechnologiesFilter
+  ctaBox: ServicePageClassicCtaBoxFilter
+}
+
+input ServicePageAiPlatformTypographyFilter {
+  fontFamily: StringFilter
+  headingColor: StringFilter
+  bodyColor: StringFilter
+  labelColor: StringFilter
+  primaryColor: StringFilter
+  accentColor: StringFilter
+  bgPrimary: StringFilter
+  bgSecondary: StringFilter
+  bgStats: StringFilter
+  bgFooter: StringFilter
+}
+
+input ServicePageAiPlatformHeroColorsFilter {
   primaryColor: StringFilter
   accentColor: StringFilter
   bgColor: StringFilter
 }
 
-input AiPlatformHeroPrimaryCtaFilter {
+input ServicePageAiPlatformHeroAnimationFilter {
+  enabled: BooleanFilter
+  primaryColor: StringFilter
+  accentColor: StringFilter
+}
+
+input ServicePageAiPlatformHeroPrimaryCtaFilter {
   text: StringFilter
   href: StringFilter
 }
 
-input AiPlatformHeroSecondaryCtaFilter {
+input ServicePageAiPlatformHeroSecondaryCtaFilter {
   text: StringFilter
   href: StringFilter
 }
 
-input AiPlatformHeroFilter {
+input ServicePageAiPlatformHeroMotionFilter {
+  easePreset: StringFilter
+  durationScale: NumberFilter
+}
+
+input ServicePageAiPlatformHeroFilter {
   badge: StringFilter
   headline: StringFilter
   headlineAccent: StringFilter
   subheadline: StringFilter
   backgroundImage: ImageFilter
   backgroundVideoUrl: StringFilter
-  colors: AiPlatformHeroColorsFilter
-  primaryCta: AiPlatformHeroPrimaryCtaFilter
-  secondaryCta: AiPlatformHeroSecondaryCtaFilter
+  colors: ServicePageAiPlatformHeroColorsFilter
+  animation: ServicePageAiPlatformHeroAnimationFilter
+  primaryCta: ServicePageAiPlatformHeroPrimaryCtaFilter
+  secondaryCta: ServicePageAiPlatformHeroSecondaryCtaFilter
+  motion: ServicePageAiPlatformHeroMotionFilter
 }
 
-input AiPlatformStatsFilter {
+input ServicePageAiPlatformStatsFilter {
   value: StringFilter
   label: StringFilter
   sublabel: StringFilter
+}
+
+input ServicePageAiPlatformCapabilitiesMotionFilter {
+  easePreset: StringFilter
+  durationScale: NumberFilter
 }
 
 input RichTextFilter {
@@ -444,7 +817,7 @@ input RichTextFilter {
   exists: Boolean
 }
 
-input AiPlatformCapabilitiesFilter {
+input ServicePageAiPlatformCapabilitiesFilter {
   icon: StringFilter
   iconImage: ImageFilter
   title: StringFilter
@@ -453,7 +826,12 @@ input AiPlatformCapabilitiesFilter {
   demoVideoUrl: StringFilter
 }
 
-input AiPlatformUseCasesFilter {
+input ServicePageAiPlatformUseCasesMotionFilter {
+  easePreset: StringFilter
+  durationScale: NumberFilter
+}
+
+input ServicePageAiPlatformUseCasesFilter {
   tag: StringFilter
   title: StringFilter
   description: RichTextFilter
@@ -462,55 +840,233 @@ input AiPlatformUseCasesFilter {
   videoUrl: StringFilter
 }
 
-input AiPlatformHowItWorksFilter {
+input ServicePageAiPlatformHowItWorksMotionFilter {
+  easePreset: StringFilter
+  durationScale: NumberFilter
+}
+
+input ServicePageAiPlatformHowItWorksFilter {
   number: StringFilter
   title: StringFilter
   description: RichTextFilter
   illustration: ImageFilter
 }
 
-input AiPlatformCtaPrimaryBtnFilter {
+input ServicePageAiPlatformCtaPrimaryBtnFilter {
   text: StringFilter
   href: StringFilter
 }
 
-input AiPlatformCtaSecondaryBtnFilter {
+input ServicePageAiPlatformCtaSecondaryBtnFilter {
   text: StringFilter
   href: StringFilter
 }
 
-input AiPlatformCtaFilter {
+input ServicePageAiPlatformCtaMotionFilter {
+  easePreset: StringFilter
+  durationScale: NumberFilter
+}
+
+input ServicePageAiPlatformCtaFilter {
   headline: StringFilter
   subtext: StringFilter
   backgroundImage: ImageFilter
-  primaryBtn: AiPlatformCtaPrimaryBtnFilter
-  secondaryBtn: AiPlatformCtaSecondaryBtnFilter
+  primaryBtn: ServicePageAiPlatformCtaPrimaryBtnFilter
+  secondaryBtn: ServicePageAiPlatformCtaSecondaryBtnFilter
+  motion: ServicePageAiPlatformCtaMotionFilter
 }
 
-input AiPlatformFilter {
-  hero: AiPlatformHeroFilter
-  stats: AiPlatformStatsFilter
+input ServicePageAiPlatformFilter {
+  typography: ServicePageAiPlatformTypographyFilter
+  hero: ServicePageAiPlatformHeroFilter
+  stats: ServicePageAiPlatformStatsFilter
   capabilitiesLabel: StringFilter
   capabilitiesTitle: StringFilter
-  capabilities: AiPlatformCapabilitiesFilter
+  capabilitiesMotion: ServicePageAiPlatformCapabilitiesMotionFilter
+  capabilities: ServicePageAiPlatformCapabilitiesFilter
   useCasesLabel: StringFilter
   useCasesTitle: StringFilter
-  useCases: AiPlatformUseCasesFilter
+  useCasesMotion: ServicePageAiPlatformUseCasesMotionFilter
+  useCases: ServicePageAiPlatformUseCasesFilter
   howItWorksLabel: StringFilter
   howItWorksTitle: StringFilter
-  howItWorks: AiPlatformHowItWorksFilter
-  cta: AiPlatformCtaFilter
+  howItWorksMotion: ServicePageAiPlatformHowItWorksMotionFilter
+  howItWorks: ServicePageAiPlatformHowItWorksFilter
+  cta: ServicePageAiPlatformCtaFilter
 }
 
-type AiPlatformConnectionEdges {
+input ServicePageFilter {
+  classic: ServicePageClassicFilter
+  aiPlatform: ServicePageAiPlatformFilter
+}
+
+type ServicePageConnectionEdges {
   cursor: String!
-  node: AiPlatform
+  node: ServicePage
 }
 
-type AiPlatformConnection implements Connection {
+type ServicePageConnection implements Connection {
   pageInfo: PageInfo!
   totalCount: Float!
-  edges: [AiPlatformConnectionEdges]
+  edges: [ServicePageConnectionEdges]
+}
+
+type AboutHero {
+  breadcrumb: String
+  title: String
+  image: String
+  body: String
+}
+
+type AboutBusiness {
+  heading: String
+  videoUrl: String
+  description: String
+}
+
+type AboutFoundersMembers {
+  name: String
+  role: String
+  image: String
+}
+
+type AboutFounders {
+  heading: String
+  description: String
+  members: [AboutFoundersMembers]
+}
+
+type AboutCta {
+  heading: String
+  ctaText: String
+  ctaHref: String
+}
+
+type About implements Node & Document {
+  hero: AboutHero
+  business: AboutBusiness
+  founders: AboutFounders
+  cta: AboutCta
+  id: ID!
+  _sys: SystemInfo!
+  _values: JSON!
+}
+
+input AboutHeroFilter {
+  breadcrumb: StringFilter
+  title: StringFilter
+  image: ImageFilter
+  body: StringFilter
+}
+
+input AboutBusinessFilter {
+  heading: StringFilter
+  videoUrl: StringFilter
+  description: StringFilter
+}
+
+input AboutFoundersMembersFilter {
+  name: StringFilter
+  role: StringFilter
+  image: ImageFilter
+}
+
+input AboutFoundersFilter {
+  heading: StringFilter
+  description: StringFilter
+  members: AboutFoundersMembersFilter
+}
+
+input AboutCtaFilter {
+  heading: StringFilter
+  ctaText: StringFilter
+  ctaHref: StringFilter
+}
+
+input AboutFilter {
+  hero: AboutHeroFilter
+  business: AboutBusinessFilter
+  founders: AboutFoundersFilter
+  cta: AboutCtaFilter
+}
+
+type AboutConnectionEdges {
+  cursor: String!
+  node: About
+}
+
+type AboutConnection implements Connection {
+  pageInfo: PageInfo!
+  totalCount: Float!
+  edges: [AboutConnectionEdges]
+}
+
+type ContactHero {
+  breadcrumb: String
+  title: String
+  bannerImage: String
+}
+
+type ContactOffices {
+  name: String
+  address: String
+  email: String
+  phone: String
+  mapsUrl: String
+}
+
+type ContactForm {
+  heading: String
+  description: String
+  submitText: String
+  formEndpoint: String
+}
+
+type Contact implements Node & Document {
+  hero: ContactHero
+  offices: [ContactOffices]
+  form: ContactForm
+  id: ID!
+  _sys: SystemInfo!
+  _values: JSON!
+}
+
+input ContactHeroFilter {
+  breadcrumb: StringFilter
+  title: StringFilter
+  bannerImage: ImageFilter
+}
+
+input ContactOfficesFilter {
+  name: StringFilter
+  address: StringFilter
+  email: StringFilter
+  phone: StringFilter
+  mapsUrl: StringFilter
+}
+
+input ContactFormFilter {
+  heading: StringFilter
+  description: StringFilter
+  submitText: StringFilter
+  formEndpoint: StringFilter
+}
+
+input ContactFilter {
+  hero: ContactHeroFilter
+  offices: ContactOfficesFilter
+  form: ContactFormFilter
+}
+
+type ContactConnectionEdges {
+  cursor: String!
+  node: Contact
+}
+
+type ContactConnection implements Connection {
+  pageInfo: PageInfo!
+  totalCount: Float!
+  edges: [ContactConnectionEdges]
 }
 
 type Mutation {
@@ -525,15 +1081,21 @@ type Mutation {
   createHeader(relativePath: String!, params: HeaderMutation!): Header!
   updateFooter(relativePath: String!, params: FooterMutation!): Footer!
   createFooter(relativePath: String!, params: FooterMutation!): Footer!
-  updateAiPlatform(relativePath: String!, params: AiPlatformMutation!): AiPlatform!
-  createAiPlatform(relativePath: String!, params: AiPlatformMutation!): AiPlatform!
+  updateServicePage(relativePath: String!, params: ServicePageMutation!): ServicePage!
+  createServicePage(relativePath: String!, params: ServicePageMutation!): ServicePage!
+  updateAbout(relativePath: String!, params: AboutMutation!): About!
+  createAbout(relativePath: String!, params: AboutMutation!): About!
+  updateContact(relativePath: String!, params: ContactMutation!): Contact!
+  createContact(relativePath: String!, params: ContactMutation!): Contact!
 }
 
 input DocumentUpdateMutation {
   siteSettings: SiteSettingsMutation
   header: HeaderMutation
   footer: FooterMutation
-  aiPlatform: AiPlatformMutation
+  servicePage: ServicePageMutation
+  about: AboutMutation
+  contact: ContactMutation
   relativePath: String
 }
 
@@ -541,7 +1103,9 @@ input DocumentMutation {
   siteSettings: SiteSettingsMutation
   header: HeaderMutation
   footer: FooterMutation
-  aiPlatform: AiPlatformMutation
+  servicePage: ServicePageMutation
+  about: AboutMutation
+  contact: ContactMutation
 }
 
 input SiteSettingsThemeMutation {
@@ -564,6 +1128,12 @@ input SiteSettingsSocialMutation {
   facebook: String
 }
 
+input SiteSettingsMotionMutation {
+  easePreset: String
+  durationScale: Float
+  disableAnimations: Boolean
+}
+
 input SiteSettingsMutation {
   siteName: String
   tagline: String
@@ -572,6 +1142,7 @@ input SiteSettingsMutation {
   theme: SiteSettingsThemeMutation
   contact: SiteSettingsContactMutation
   social: SiteSettingsSocialMutation
+  motion: SiteSettingsMotionMutation
 }
 
 input HeaderNavLinksMutation {
@@ -580,6 +1151,7 @@ input HeaderNavLinksMutation {
 }
 
 input HeaderMutation {
+  logoImage: String
   navLinks: [HeaderNavLinksMutation]
 }
 
@@ -620,41 +1192,199 @@ input FooterMutation {
   navLinks: [FooterNavLinksMutation]
 }
 
-input AiPlatformHeroColorsMutation {
+input ServicePageClassicHeroMotionMutation {
+  easePreset: String
+  durationScale: Float
+}
+
+input ServicePageClassicHeroMutation {
+  bannerImage: String
+  title: String
+  subtitle: String
+  ctaText: String
+  ctaHref: String
+  motion: ServicePageClassicHeroMotionMutation
+}
+
+input ServicePageClassicServicesMotionMutation {
+  easePreset: String
+  durationScale: Float
+}
+
+input ServicePageClassicServicesMutation {
+  title: String
+  description: String
+  image: String
+  ctaText: String
+  ctaHref: String
+}
+
+input ServicePageClassicEngagementMotionMutation {
+  easePreset: String
+  durationScale: Float
+}
+
+input ServicePageClassicEngagementModelsMutation {
+  title: String
+  description: String
+}
+
+input ServicePageClassicSpotlightMotionMutation {
+  easePreset: String
+  durationScale: Float
+}
+
+input ServicePageClassicSpotlightMutation {
+  enabled: Boolean
+  heading: String
+  description: String
+  videoUrl: String
+  ctaText: String
+  ctaHref: String
+  motion: ServicePageClassicSpotlightMotionMutation
+}
+
+input ServicePageClassicUseCasesMotionMutation {
+  easePreset: String
+  durationScale: Float
+}
+
+input ServicePageClassicUseCasesMutation {
+  title: String
+  videoUrl: String
+}
+
+input ServicePageClassicPortfolioMotionMutation {
+  easePreset: String
+  durationScale: Float
+}
+
+input ServicePageClassicPortfolioMutation {
+  title: String
+  image: String
+  link: String
+}
+
+input ServicePageClassicTechMotionMutation {
+  easePreset: String
+  durationScale: Float
+}
+
+input ServicePageClassicTechnologiesMutation {
+  name: String
+  image: String
+}
+
+input ServicePageClassicCtaBoxPrimaryBtnMutation {
+  text: String
+  href: String
+}
+
+input ServicePageClassicCtaBoxMotionMutation {
+  easePreset: String
+  durationScale: Float
+}
+
+input ServicePageClassicCtaBoxMutation {
+  heading: String
+  description: String
+  primaryBtn: ServicePageClassicCtaBoxPrimaryBtnMutation
+  motion: ServicePageClassicCtaBoxMotionMutation
+}
+
+input ServicePageClassicMutation {
+  pageTitle: String
+  pageDescription: String
+  hero: ServicePageClassicHeroMutation
+  servicesHeading: String
+  servicesMotion: ServicePageClassicServicesMotionMutation
+  services: [ServicePageClassicServicesMutation]
+  showEngagement: Boolean
+  engagementHeading: String
+  engagementMotion: ServicePageClassicEngagementMotionMutation
+  engagementModels: [ServicePageClassicEngagementModelsMutation]
+  showreelVideoUrl: String
+  spotlight: ServicePageClassicSpotlightMutation
+  showUseCases: Boolean
+  useCasesHeading: String
+  useCasesMotion: ServicePageClassicUseCasesMotionMutation
+  useCases: [ServicePageClassicUseCasesMutation]
+  showPortfolio: Boolean
+  portfolioHeading: String
+  portfolioMotion: ServicePageClassicPortfolioMotionMutation
+  portfolio: [ServicePageClassicPortfolioMutation]
+  techHeading: String
+  techMotion: ServicePageClassicTechMotionMutation
+  technologies: [ServicePageClassicTechnologiesMutation]
+  ctaBox: ServicePageClassicCtaBoxMutation
+}
+
+input ServicePageAiPlatformTypographyMutation {
+  fontFamily: String
+  headingColor: String
+  bodyColor: String
+  labelColor: String
+  primaryColor: String
+  accentColor: String
+  bgPrimary: String
+  bgSecondary: String
+  bgStats: String
+  bgFooter: String
+}
+
+input ServicePageAiPlatformHeroColorsMutation {
   primaryColor: String
   accentColor: String
   bgColor: String
 }
 
-input AiPlatformHeroPrimaryCtaMutation {
+input ServicePageAiPlatformHeroAnimationMutation {
+  enabled: Boolean
+  primaryColor: String
+  accentColor: String
+}
+
+input ServicePageAiPlatformHeroPrimaryCtaMutation {
   text: String
   href: String
 }
 
-input AiPlatformHeroSecondaryCtaMutation {
+input ServicePageAiPlatformHeroSecondaryCtaMutation {
   text: String
   href: String
 }
 
-input AiPlatformHeroMutation {
+input ServicePageAiPlatformHeroMotionMutation {
+  easePreset: String
+  durationScale: Float
+}
+
+input ServicePageAiPlatformHeroMutation {
   badge: String
   headline: String
   headlineAccent: String
   subheadline: String
   backgroundImage: String
   backgroundVideoUrl: String
-  colors: AiPlatformHeroColorsMutation
-  primaryCta: AiPlatformHeroPrimaryCtaMutation
-  secondaryCta: AiPlatformHeroSecondaryCtaMutation
+  colors: ServicePageAiPlatformHeroColorsMutation
+  animation: ServicePageAiPlatformHeroAnimationMutation
+  primaryCta: ServicePageAiPlatformHeroPrimaryCtaMutation
+  secondaryCta: ServicePageAiPlatformHeroSecondaryCtaMutation
+  motion: ServicePageAiPlatformHeroMotionMutation
 }
 
-input AiPlatformStatsMutation {
+input ServicePageAiPlatformStatsMutation {
   value: String
   label: String
   sublabel: String
 }
 
-input AiPlatformCapabilitiesMutation {
+input ServicePageAiPlatformCapabilitiesMotionMutation {
+  easePreset: String
+  durationScale: Float
+}
+
+input ServicePageAiPlatformCapabilitiesMutation {
   icon: String
   iconImage: String
   title: String
@@ -663,7 +1393,12 @@ input AiPlatformCapabilitiesMutation {
   demoVideoUrl: String
 }
 
-input AiPlatformUseCasesMutation {
+input ServicePageAiPlatformUseCasesMotionMutation {
+  easePreset: String
+  durationScale: Float
+}
+
+input ServicePageAiPlatformUseCasesMutation {
   tag: String
   title: String
   description: JSON
@@ -672,44 +1407,129 @@ input AiPlatformUseCasesMutation {
   videoUrl: String
 }
 
-input AiPlatformHowItWorksMutation {
+input ServicePageAiPlatformHowItWorksMotionMutation {
+  easePreset: String
+  durationScale: Float
+}
+
+input ServicePageAiPlatformHowItWorksMutation {
   number: String
   title: String
   description: JSON
   illustration: String
 }
 
-input AiPlatformCtaPrimaryBtnMutation {
+input ServicePageAiPlatformCtaPrimaryBtnMutation {
   text: String
   href: String
 }
 
-input AiPlatformCtaSecondaryBtnMutation {
+input ServicePageAiPlatformCtaSecondaryBtnMutation {
   text: String
   href: String
 }
 
-input AiPlatformCtaMutation {
+input ServicePageAiPlatformCtaMotionMutation {
+  easePreset: String
+  durationScale: Float
+}
+
+input ServicePageAiPlatformCtaMutation {
   headline: String
   subtext: String
   backgroundImage: String
-  primaryBtn: AiPlatformCtaPrimaryBtnMutation
-  secondaryBtn: AiPlatformCtaSecondaryBtnMutation
+  primaryBtn: ServicePageAiPlatformCtaPrimaryBtnMutation
+  secondaryBtn: ServicePageAiPlatformCtaSecondaryBtnMutation
+  motion: ServicePageAiPlatformCtaMotionMutation
 }
 
-input AiPlatformMutation {
-  hero: AiPlatformHeroMutation
-  stats: [AiPlatformStatsMutation]
+input ServicePageAiPlatformMutation {
+  typography: ServicePageAiPlatformTypographyMutation
+  hero: ServicePageAiPlatformHeroMutation
+  stats: [ServicePageAiPlatformStatsMutation]
   capabilitiesLabel: String
   capabilitiesTitle: String
-  capabilities: [AiPlatformCapabilitiesMutation]
+  capabilitiesMotion: ServicePageAiPlatformCapabilitiesMotionMutation
+  capabilities: [ServicePageAiPlatformCapabilitiesMutation]
   useCasesLabel: String
   useCasesTitle: String
-  useCases: [AiPlatformUseCasesMutation]
+  useCasesMotion: ServicePageAiPlatformUseCasesMotionMutation
+  useCases: [ServicePageAiPlatformUseCasesMutation]
   howItWorksLabel: String
   howItWorksTitle: String
-  howItWorks: [AiPlatformHowItWorksMutation]
-  cta: AiPlatformCtaMutation
+  howItWorksMotion: ServicePageAiPlatformHowItWorksMotionMutation
+  howItWorks: [ServicePageAiPlatformHowItWorksMutation]
+  cta: ServicePageAiPlatformCtaMutation
+}
+
+input ServicePageMutation {
+  classic: ServicePageClassicMutation
+  aiPlatform: ServicePageAiPlatformMutation
+}
+
+input AboutHeroMutation {
+  breadcrumb: String
+  title: String
+  image: String
+  body: String
+}
+
+input AboutBusinessMutation {
+  heading: String
+  videoUrl: String
+  description: String
+}
+
+input AboutFoundersMembersMutation {
+  name: String
+  role: String
+  image: String
+}
+
+input AboutFoundersMutation {
+  heading: String
+  description: String
+  members: [AboutFoundersMembersMutation]
+}
+
+input AboutCtaMutation {
+  heading: String
+  ctaText: String
+  ctaHref: String
+}
+
+input AboutMutation {
+  hero: AboutHeroMutation
+  business: AboutBusinessMutation
+  founders: AboutFoundersMutation
+  cta: AboutCtaMutation
+}
+
+input ContactHeroMutation {
+  breadcrumb: String
+  title: String
+  bannerImage: String
+}
+
+input ContactOfficesMutation {
+  name: String
+  address: String
+  email: String
+  phone: String
+  mapsUrl: String
+}
+
+input ContactFormMutation {
+  heading: String
+  description: String
+  submitText: String
+  formEndpoint: String
+}
+
+input ContactMutation {
+  hero: ContactHeroMutation
+  offices: [ContactOfficesMutation]
+  form: ContactFormMutation
 }
 
 schema {

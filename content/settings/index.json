@@ -1,4 +1,5 @@
 {
+  "themePreset": "dark-cosmic",
   "siteName": "Gamasome",
   "tagline": "Bring Intelligence to the Physical World",
   "logo": "",
@@ -7,7 +8,7 @@
     "primaryColor": "#2D9CDB",
     "accentColor": "#00FCE2",
     "darkBg": "#07091B",
-    "textColor": "#FFFFFF"
+    "textColor": "#ffffff"
   },
   "contact": {
     "email": "hello@gamasome.com",
@@ -18,5 +19,10 @@
     "twitter": "",
     "youtube": "",
     "instagram": ""
+  },
+  "motion": {
+    "easePreset": "cinematic",
+    "durationScale": 1.0,
+    "disableAnimations": false
   }
 }

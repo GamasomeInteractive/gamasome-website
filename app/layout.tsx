@@ -2,6 +2,8 @@ import 'css/tailwind.css'
 import 'pliny/search/algolia.css'
 import 'remark-github-blockquote-alert/alert.css'
 
+import fs from 'fs/promises'
+import path from 'path'
 import { Space_Grotesk, Poppins } from 'next/font/google'
 import { Analytics, AnalyticsConfig } from 'pliny/analytics'
 import { SearchProvider, SearchConfig } from 'pliny/search'
@@ -9,8 +11,14 @@ import { draftMode } from 'next/headers'
 import { VisualEditing } from 'next-sanity/visual-editing'
 import SiteShell from '@/components/SiteShell'
 import SmoothScrollProvider from '@/components/SmoothScrollProvider'
+import { MotionProvider } from '@/components/MotionProvider'
 import siteMetadata from '@/data/siteMetadata'
+import client from '../tina/__generated__/client'
+import { HeaderDocument, FooterDocument } from '../tina/__generated__/types'
+import fallbackHeader from '../content/navigation/header.json'
+import fallbackFooter from '../content/navigation/footer.json'
 import { ThemeProviders } from './theme-providers'
+import { buildMotionCss } from '@/lib/motion'
 import { Metadata } from 'next'
 
 const space_grotesk = Space_Grotesk({
@@ -65,9 +73,52 @@ export const metadata: Metadata = {
   },
 }
 
+async function getNavData() {
+  const [header, footer] = await Promise.all([
+    client.queries.header({ relativePath: 'header.json' }).catch(() => ({
+      data: { header: fallbackHeader as any },
+      query: HeaderDocument,
+      variables: { relativePath: 'header.json' },
+    })),
+    client.queries.footer({ relativePath: 'footer.json' }).catch(() => ({
+      data: { footer: fallbackFooter as any },
+      query: FooterDocument,
+      variables: { relativePath: 'footer.json' },
+    })),
+  ])
+  return { header, footer }
+}
+
+async function getMotionSettings() {
+  try {
+    const raw = await fs.readFile(
+      path.join(process.cwd(), 'content/settings/index.json'),
+      'utf-8',
+    )
+    return (JSON.parse(raw).motion ?? {}) as Record<string, unknown>
+  } catch {
+    return {}
+  }
+}
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const basePath = process.env.BASE_PATH || ''
-  const { isEnabled: isDraftMode } = await draftMode()
+  const [{ isEnabled: isDraftMode }, { header, footer }, motionRaw] = await Promise.all([
+    draftMode(),
+    getNavData(),
+    getMotionSettings(),
+  ])
+
+  const motionSettings = {
+    easePreset:        ((motionRaw.easePreset as string) || 'cinematic') as 'smooth' | 'cinematic' | 'inOut' | 'snap',
+    durationScale:     (motionRaw.durationScale     as number)  ?? 1.0,
+    disableAnimations: (motionRaw.disableAnimations as boolean) ?? false,
+  }
+  const motionCss = buildMotionCss(
+    motionSettings.easePreset as any,
+    motionSettings.durationScale,
+    motionSettings.disableAnimations,
+  )
 
   return (
     <html
@@ -102,17 +153,25 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff" />
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
       <link rel="alternate" type="application/rss+xml" href={`${basePath}/feed.xml`} />
+      {/* Layer 1: inject CMS-controlled motion tokens as CSS custom properties */}
+      <style href="motion-tokens" precedence="default" dangerouslySetInnerHTML={{ __html: motionCss }} />
       <body className="bg-white pl-[calc(100vw-100%)] text-black antialiased dark:bg-gray-950 dark:text-white">
         <SmoothScrollProvider>
           <ThemeProviders>
-            <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
-            {/* <SectionContainer> */}
-            <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
-              <SiteShell>{children}</SiteShell>
-            </SearchProvider>
-            {/* Click-to-edit overlay — only active when Sanity draft mode is on */}
-            {isDraftMode && <VisualEditing />}
-            {/* </SectionContainer> */}
+            {/* Layer 2: provide CMS motion settings to Framer Motion components */}
+            <MotionProvider settings={motionSettings}>
+              <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
+              {/* <SectionContainer> */}
+              <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
+                <SiteShell
+                  headerData={header.data}  headerQuery={header.query}  headerVars={header.variables}
+                  footerData={footer.data}  footerQuery={footer.query}  footerVars={footer.variables}
+                >{children}</SiteShell>
+              </SearchProvider>
+              {/* Click-to-edit overlay — only active when Sanity draft mode is on */}
+              {isDraftMode && <VisualEditing />}
+              {/* </SectionContainer> */}
+            </MotionProvider>
           </ThemeProviders>
         </SmoothScrollProvider>
       </body>

@@ -1,0 +1,138 @@
+{
+  "_template": "classic",
+  "pageTitle": "Robotics Solutions - Gamasome",
+  "pageDescription": "End-to-end robotics development, simulation, and deployment services for modern enterprises.",
+  "hero": {
+    "bannerImage": "/static/images/ai-banner.png",
+    "title": "Intelligent Robotics Solutions for Modern Enterprises",
+    "subtitle": "End-to-end robotics development, simulation, and deployment services",
+    "ctaText": "Explore Our Robotics Services",
+    "ctaHref": "/contact",
+    "motion": {
+      "easePreset": "inherit"
+    }
+  },
+  "servicesHeading": "Our Robotics Solutions",
+  "services": [
+    {
+      "title": "Autonomous Mobile Robot Navigation",
+      "description": "Build advanced vision-based navigation stacks for Autonomous Mobile Robots (AMR) using cutting-edge SLAM, path planning, and obstacle avoidance algorithms. Our solutions enable robots to navigate complex environments with precision and reliability.",
+      "image": "/static/images/robotics-amr.jpg",
+      "ctaText": "Contact Us",
+      "ctaHref": "/contact"
+    },
+    {
+      "title": "Physics-Based Simulation & Digital Twins",
+      "description": "Create photo-realistic simulation environments in Isaac Sim and Unreal Engine to test and validate robot behaviors before physical deployment. Reduce development costs and accelerate time-to-market with our digital twin solutions.",
+      "image": "/static/images/robotics-simulation.jpg",
+      "ctaText": "Contact Us",
+      "ctaHref": "/contact"
+    },
+    {
+      "title": "Fleet Management & Mission Control",
+      "description": "Develop integrated mission control systems to monitor, control, and manage your robot fleet in real-time. Our platforms provide centralized dashboards, task scheduling, and performance analytics for multi-robot deployments.",
+      "image": "/static/images/robotics-fleet.jpg",
+      "ctaText": "Contact Us",
+      "ctaHref": "/contact"
+    },
+    {
+      "title": "AI-Powered Object Recognition & Volume Estimation",
+      "description": "Build custom Vision Language Models (VLMs) that enable robots to identify objects, estimate volumes, and understand spatial relationships in unstructured environments. From warehouse picking to agricultural harvesting.",
+      "image": "/static/images/robotics-vision.jpg",
+      "ctaText": "Contact Us",
+      "ctaHref": "/contact"
+    }
+  ],
+  "showEngagement": true,
+  "engagementHeading": "How We Work",
+  "engagementModels": [
+    {
+      "title": "Retainer-Based",
+      "description": "Dedicated teams on a monthly retainer for ongoing robotics projects."
+    },
+    {
+      "title": "Managed Service",
+      "description": "End-to-end project ownership with defined SLAs and deliverables."
+    },
+    {
+      "title": "Time & Material",
+      "description": "Flexible engagement based on effort and resources utilized."
+    },
+    {
+      "title": "Fixed Project",
+      "description": "Well-scoped projects with defined timelines and fixed pricing."
+    }
+  ],
+  "showUseCases": false,
+  "showPortfolio": false,
+  "techHeading": "Technologies We Work With",
+  "technologies": [
+    {
+      "name": "Python",
+      "image": "/static/images/python-techstack-1.png"
+    },
+    {
+      "name": "Conda",
+      "image": "/static/images/conda-techstack.png"
+    },
+    {
+      "name": "MediaPipe",
+      "image": "/static/images/mediapipe-techstack-1.png"
+    },
+    {
+      "name": "Unity",
+      "image": "/static/images/unity.png"
+    },
+    {
+      "name": "Unreal Engine",
+      "image": "/static/images/unreal-engine.png"
+    },
+    {
+      "name": "Node.js",
+      "image": "/static/images/node-t-white.png"
+    },
+    {
+      "name": "Android",
+      "image": "/static/images/android-white.png"
+    },
+    {
+      "name": "MongoDB",
+      "image": "/static/images/mongo-white.png"
+    },
+    {
+      "name": "MySQL",
+      "image": "/static/images/mysql-white.png"
+    },
+    {
+      "name": "WebGL",
+      "image": "/static/images/webgl.png"
+    }
+  ],
+  "ctaBox": {
+    "heading": "Ready to Build Intelligent Robotics Solutions?",
+    "description": "Let us help you develop, simulate, and deploy your robotics systems.",
+    "primaryBtn": {
+      "text": "Talk to our expert",
+      "href": "/contact"
+    },
+    "motion": {
+      "easePreset": "inherit"
+    }
+  },
+  "template": "classic",
+  "servicesMotion": {
+    "easePreset": "inherit"
+  },
+  "engagementMotion": {
+    "easePreset": "inherit"
+  },
+  "useCasesMotion": {
+    "easePreset": "inherit"
+  },
+  "portfolioMotion": {
+    "easePreset": "inherit"
+  },
+  "techMotion": {
+    "easePreset": "inherit"
+  }
+}

@@ -24,10 +24,17 @@ fragment SiteSettingsParts on SiteSettings {
     instagram
     facebook
   }
+  motion {
+    __typename
+    easePreset
+    durationScale
+    disableAnimations
+  }
 }
 
 fragment HeaderParts on Header {
   __typename
+  logoImage
   navLinks {
     __typename
     title
@@ -69,84 +76,298 @@ fragment FooterParts on Footer {
   }
 }
 
-fragment AiPlatformParts on AiPlatform {
+fragment ServicePageParts on ServicePage {
+  __typename
+  ... on ServicePageClassic {
+    pageTitle
+    pageDescription
+    hero {
+      __typename
+      bannerImage
+      title
+      subtitle
+      ctaText
+      ctaHref
+      motion {
+        __typename
+        easePreset
+        durationScale
+      }
+    }
+    servicesHeading
+    servicesMotion {
+      __typename
+      easePreset
+      durationScale
+    }
+    services {
+      __typename
+      title
+      description
+      image
+      ctaText
+      ctaHref
+    }
+    showEngagement
+    engagementHeading
+    engagementMotion {
+      __typename
+      easePreset
+      durationScale
+    }
+    engagementModels {
+      __typename
+      title
+      description
+    }
+    showreelVideoUrl
+    spotlight {
+      __typename
+      enabled
+      heading
+      description
+      videoUrl
+      ctaText
+      ctaHref
+      motion {
+        __typename
+        easePreset
+        durationScale
+      }
+    }
+    showUseCases
+    useCasesHeading
+    useCasesMotion {
+      __typename
+      easePreset
+      durationScale
+    }
+    useCases {
+      __typename
+      title
+      videoUrl
+    }
+    showPortfolio
+    portfolioHeading
+    portfolioMotion {
+      __typename
+      easePreset
+      durationScale
+    }
+    portfolio {
+      __typename
+      title
+      image
+      link
+    }
+    techHeading
+    techMotion {
+      __typename
+      easePreset
+      durationScale
+    }
+    technologies {
+      __typename
+      name
+      image
+    }
+    ctaBox {
+      __typename
+      heading
+      description
+      primaryBtn {
+        __typename
+        text
+        href
+      }
+      motion {
+        __typename
+        easePreset
+        durationScale
+      }
+    }
+  }
+  ... on ServicePageAiPlatform {
+    typography {
+      __typename
+      fontFamily
+      headingColor
+      bodyColor
+      labelColor
+      primaryColor
+      accentColor
+      bgPrimary
+      bgSecondary
+      bgStats
+      bgFooter
+    }
+    hero {
+      __typename
+      badge
+      headline
+      headlineAccent
+      subheadline
+      backgroundImage
+      backgroundVideoUrl
+      colors {
+        __typename
+        primaryColor
+        accentColor
+        bgColor
+      }
+      animation {
+        __typename
+        enabled
+        primaryColor
+        accentColor
+      }
+      primaryCta {
+        __typename
+        text
+        href
+      }
+      secondaryCta {
+        __typename
+        text
+        href
+      }
+      motion {
+        __typename
+        easePreset
+        durationScale
+      }
+    }
+    stats {
+      __typename
+      value
+      label
+      sublabel
+    }
+    capabilitiesLabel
+    capabilitiesTitle
+    capabilitiesMotion {
+      __typename
+      easePreset
+      durationScale
+    }
+    capabilities {
+      __typename
+      icon
+      iconImage
+      title
+      description
+      accentColor
+      demoVideoUrl
+    }
+    useCasesLabel
+    useCasesTitle
+    useCasesMotion {
+      __typename
+      easePreset
+      durationScale
+    }
+    useCases {
+      __typename
+      tag
+      title
+      description
+      coverImage
+      accentColor
+      videoUrl
+    }
+    howItWorksLabel
+    howItWorksTitle
+    howItWorksMotion {
+      __typename
+      easePreset
+      durationScale
+    }
+    howItWorks {
+      __typename
+      number
+      title
+      description
+      illustration
+    }
+    cta {
+      __typename
+      headline
+      subtext
+      backgroundImage
+      primaryBtn {
+        __typename
+        text
+        href
+      }
+      secondaryBtn {
+        __typename
+        text
+        href
+      }
+      motion {
+        __typename
+        easePreset
+        durationScale
+      }
+    }
+  }
+}
+
+fragment AboutParts on About {
   __typename
   hero {
     __typename
-    badge
-    headline
-    headlineAccent
-    subheadline
-    backgroundImage
-    backgroundVideoUrl
-    colors {
-      __typename
-      primaryColor
-      accentColor
-      bgColor
-    }
-    primaryCta {
-      __typename
-      text
-      href
-    }
-    secondaryCta {
-      __typename
-      text
-      href
-    }
-  }
-  stats {
-    __typename
-    value
-    label
-    sublabel
-  }
-  capabilitiesLabel
-  capabilitiesTitle
-  capabilities {
-    __typename
-    icon
-    iconImage
+    breadcrumb
     title
-    description
-    accentColor
-    demoVideoUrl
+    image
+    body
   }
-  useCasesLabel
-  useCasesTitle
-  useCases {
+  business {
     __typename
-    tag
-    title
-    description
-    coverImage
-    accentColor
+    heading
     videoUrl
-  }
-  howItWorksLabel
-  howItWorksTitle
-  howItWorks {
-    __typename
-    number
-    title
     description
-    illustration
+  }
+  founders {
+    __typename
+    heading
+    description
+    members {
+      __typename
+      name
+      role
+      image
+    }
   }
   cta {
     __typename
-    headline
-    subtext
-    backgroundImage
-    primaryBtn {
-      __typename
-      text
-      href
-    }
-    secondaryBtn {
-      __typename
-      text
-      href
-    }
+    heading
+    ctaText
+    ctaHref
+  }
+}
+
+fragment ContactParts on Contact {
+  __typename
+  hero {
+    __typename
+    breadcrumb
+    title
+    bannerImage
+  }
+  offices {
+    __typename
+    name
+    address
+    email
+    phone
+    mapsUrl
+  }
+  form {
+    __typename
+    heading
+    description
+    submitText
+    formEndpoint
   }
 }

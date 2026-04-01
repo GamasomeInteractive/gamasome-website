@@ -1,0 +1,156 @@
+{
+  "_template": "classic",
+  "pageTitle": "AI Solutions - Gamasome",
+  "pageDescription": "Add intelligence to your business with Gamasome's AI development services.",
+  "hero": {
+    "bannerImage": "/static/images/home-banner.png",
+    "title": "Add intelligence to your Business",
+    "subtitle": "The Best AI development company in India",
+    "ctaText": "Explore our Services",
+    "ctaHref": "/contact",
+    "motion": {
+      "easePreset": "inherit"
+    }
+  },
+  "servicesHeading": "Gamasome's AI Services",
+  "services": [
+    {
+      "title": "Computer Vision & Deep Learning",
+      "description": "Elevate your business by incorporating Deep learning and computer vision into your product. Our computer vision services help businesses leverage the power of AI to automate visual inspection, object detection, and image recognition tasks.",
+      "image": "/static/images/computer-vision.png",
+      "ctaText": "Contact Us",
+      "ctaHref": "/contact"
+    },
+    {
+      "title": "Exploratory Analysis & Prediction Algo",
+      "description": "Get comprehensive insights into your business data and discover risks, dangers, and hidden opportunities. Our predictive analytics services use machine learning algorithms to forecast trends and support data-driven decision making.",
+      "image": "/static/images/prediction.png",
+      "ctaText": "Contact Us",
+      "ctaHref": "/contact"
+    },
+    {
+      "title": "Natural Language Processing",
+      "description": "Reach out to customers and develop products and interfaces in multiple languages. Our NLP solutions enable businesses to analyze text, extract insights from unstructured data, and build intelligent conversational interfaces.",
+      "image": "/static/images/natural-lang.png",
+      "ctaText": "Contact Us",
+      "ctaHref": "/contact"
+    },
+    {
+      "title": "Data Modelling",
+      "description": "Analyze your business data and gather requirements to better understand your data landscape. Our data modelling services help you design robust data architectures that power AI applications and business intelligence systems.",
+      "image": "/static/images/data-model.png",
+      "ctaText": "Contact Us",
+      "ctaHref": "/contact"
+    }
+  ],
+  "showEngagement": false,
+  "showreelVideoUrl": "",
+  "spotlight": {
+    "enabled": true,
+    "heading": "Introducing our Mobile Phone based Spatial AI Technology G-Space",
+    "description": "With your cell phone, you can now scan and transform real-time things into 3D models for any platform. G-Space enables businesses to create digital twins of physical spaces and objects using nothing more than a smartphone camera.",
+    "videoUrl": "https://www.youtube.com/embed/YdX2GvanxeI",
+    "ctaText": "Contact Us",
+    "ctaHref": "/contact",
+    "motion": {
+      "easePreset": "inherit"
+    }
+  },
+  "showUseCases": false,
+  "showPortfolio": true,
+  "portfolioHeading": "Our Recent Works",
+  "portfolio": [
+    {
+      "title": "CV converged with IoT for Renal",
+      "image": "/static/images/renal.png",
+      "link": ""
+    },
+    {
+      "title": "Recommendation Engine for MyAutoIQ",
+      "image": "/static/images/myauto.png",
+      "link": ""
+    },
+    {
+      "title": "Auto customer profiling for SalesIQ",
+      "image": "/static/images/salesiq.png",
+      "link": ""
+    }
+  ],
+  "techHeading": "Technologies We Work With",
+  "technologies": [
+    {
+      "name": "Android",
+      "image": "/static/images/android-white.png"
+    },
+    {
+      "name": "MySQL",
+      "image": "/static/images/mysql-white.png"
+    },
+    {
+      "name": "Conda",
+      "image": "/static/images/conda-techstack.png"
+    },
+    {
+      "name": "Node.js",
+      "image": "/static/images/node-t-white.png"
+    },
+    {
+      "name": "iOS",
+      "image": "/static/images/ios-white.png"
+    },
+    {
+      "name": "Python",
+      "image": "/static/images/python-techstack-1.png"
+    },
+    {
+      "name": "Laravel",
+      "image": "/static/images/laravel-white.png"
+    },
+    {
+      "name": "Unity",
+      "image": "/static/images/unity.png"
+    },
+    {
+      "name": "MediaPipe",
+      "image": "/static/images/mediapipe-techstack-1.png"
+    },
+    {
+      "name": "Unreal Engine",
+      "image": "/static/images/unreal-engine.png"
+    },
+    {
+      "name": "MongoDB",
+      "image": "/static/images/mongo-white.png"
+    },
+    {
+      "name": "WebGL",
+      "image": "/static/images/webgl.png"
+    }
+  ],
+  "ctaBox": {
+    "heading": "Do You Want to Build Your Own AI Platform?",
+    "description": "Yes, we can help you build intelligent AI-powered solutions for your business.",
+    "primaryBtn": {
+      "text": "Talk to our expert",
+      "href": "/contact"
+    },
+    "motion": {
+      "easePreset": "inherit"
+    }
+  },
+  "servicesMotion": {
+    "easePreset": "inherit"
+  },
+  "engagementMotion": {
+    "easePreset": "inherit"
+  },
+  "useCasesMotion": {
+    "easePreset": "inherit"
+  },
+  "portfolioMotion": {
+    "easePreset": "inherit"
+  },
+  "techMotion": {
+    "easePreset": "inherit"
+  }
+}

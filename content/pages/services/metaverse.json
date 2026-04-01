@@ -1,0 +1,169 @@
+{
+  "_template": "classic",
+  "pageTitle": "Metaverse Development - Gamasome",
+  "pageDescription": "Get your business into the metaverse with Gamasome's cutting-edge metaverse development solutions.",
+  "hero": {
+    "bannerImage": "/static/images/metaverse-banner.png",
+    "title": "Get your Business into the Metaverse",
+    "subtitle": "with Gamasome - The metaverse development company",
+    "ctaText": "Enter Our Metaverse",
+    "ctaHref": "/contact",
+    "motion": {
+      "easePreset": "inherit"
+    }
+  },
+  "servicesHeading": "So, what can we build for you in the metaverse?",
+  "services": [
+    {
+      "title": "Virtual Experiences",
+      "description": "Hang out with people, go to new virtual places and experience the digital world. Check out how Gamasome can help you build your dream world and help you reach out to a new horizon.",
+      "image": "/static/images/meta1.png",
+      "ctaText": "Know More",
+      "ctaHref": "/contact"
+    },
+    {
+      "title": "Real Estates / Offices",
+      "description": "Start virtual offices or buy and rule over virtual lands. Dive into our metaverse to start designing your reality and establish your business presence in the virtual world.",
+      "image": "/static/images/meta2.png",
+      "ctaText": "Know More",
+      "ctaHref": "/contact"
+    },
+    {
+      "title": "Gaming Experience",
+      "description": "Elevate your gaming experience by stepping into the metaverse. Get in touch with us to immerse into the world of gaming and create next-generation gaming experiences.",
+      "image": "/static/images/meta3.png",
+      "ctaText": "Know More",
+      "ctaHref": "/contact"
+    },
+    {
+      "title": "Virtual Parties / Trade Shows / Events",
+      "description": "Meet new people, check out your friends, see your favorite idol's performance, and watch stage shows in the metaverse. Enter our metaverse to connect with people from all over the world virtually.",
+      "image": "/static/images/meta4.png",
+      "ctaText": "Know More",
+      "ctaHref": "/contact"
+    },
+    {
+      "title": "2D, 3D Assets As NFTs To Interact",
+      "description": "Bring your favorite real-world objects or people and interact with them in the metaverse. Check out how we can help you create and connect with your favorites in the metaverse.",
+      "image": "/static/images/meta5.png",
+      "ctaText": "Know More",
+      "ctaHref": "/contact"
+    },
+    {
+      "title": "Assets As Tradable NFTs",
+      "description": "Convert your actual assets as NFTs to trade and invest in the metaverse. Contact us to know how we enhance your metaverse trading and investment game.",
+      "image": "/static/images/meta6.png",
+      "ctaText": "Know More",
+      "ctaHref": "/contact"
+    }
+  ],
+  "showEngagement": false,
+  "spotlight": {
+    "enabled": true,
+    "heading": "Create your digital support agent in the Metaverse",
+    "description": "Reach out your warm support to your customers virtually through Metaverse. Try out our support agent creation platform and deploy an always-on digital representative for your brand.",
+    "videoUrl": "https://www.youtube.com/embed/YdX2GvanxeI",
+    "ctaText": "Try It Now",
+    "ctaHref": "/contact",
+    "motion": {
+      "easePreset": "inherit"
+    }
+  },
+  "showUseCases": false,
+  "showPortfolio": true,
+  "portfolioHeading": "Metaverse Platforms We Build On",
+  "portfolio": [
+    {
+      "title": "Sandbox Development",
+      "image": "/static/images/sand.png",
+      "link": ""
+    },
+    {
+      "title": "Roblox Development",
+      "image": "/static/images/roblox.png",
+      "link": ""
+    },
+    {
+      "title": "Decentraland Development",
+      "image": "/static/images/decent.png",
+      "link": ""
+    }
+  ],
+  "techHeading": "Technologies We Work With",
+  "technologies": [
+    {
+      "name": "Android",
+      "image": "/static/images/android-white.png"
+    },
+    {
+      "name": "MySQL",
+      "image": "/static/images/mysql-white.png"
+    },
+    {
+      "name": "Conda",
+      "image": "/static/images/conda-techstack.png"
+    },
+    {
+      "name": "Node.js",
+      "image": "/static/images/node-t-white.png"
+    },
+    {
+      "name": "iOS",
+      "image": "/static/images/ios-white.png"
+    },
+    {
+      "name": "Python",
+      "image": "/static/images/python-techstack-1.png"
+    },
+    {
+      "name": "Laravel",
+      "image": "/static/images/laravel-white.png"
+    },
+    {
+      "name": "Unity",
+      "image": "/static/images/unity.png"
+    },
+    {
+      "name": "MediaPipe",
+      "image": "/static/images/mediapipe-techstack-1.png"
+    },
+    {
+      "name": "Unreal Engine",
+      "image": "/static/images/unreal-engine.png"
+    },
+    {
+      "name": "MongoDB",
+      "image": "/static/images/mongo-white.png"
+    },
+    {
+      "name": "WebGL",
+      "image": "/static/images/webgl.png"
+    }
+  ],
+  "ctaBox": {
+    "heading": "Do You Want to Build Your Own Legacy Metaverse?",
+    "description": "Yes, we can help you build your own metaverse experience.",
+    "primaryBtn": {
+      "text": "Talk to our expert",
+      "href": "/contact"
+    },
+    "motion": {
+      "easePreset": "inherit"
+    }
+  },
+  "servicesMotion": {
+    "easePreset": "inherit"
+  },
+  "engagementMotion": {
+    "easePreset": "inherit"
+  },
+  "useCasesMotion": {
+    "easePreset": "inherit"
+  },
+  "portfolioMotion": {
+    "easePreset": "inherit"
+  },
+  "techMotion": {
+    "easePreset": "inherit"
+  }
+}

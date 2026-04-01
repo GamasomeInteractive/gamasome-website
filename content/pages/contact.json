@@ -1,0 +1,29 @@
+{
+  "hero": {
+    "breadcrumb": "HOME > Contact us",
+    "title": "Contact us",
+    "bannerImage": "/static/images/contact.png"
+  },
+  "offices": [
+    {
+      "name": "India Office",
+      "address": "No.1794, 36/3, 27th Main Rd, near Power Station, 2nd Sector, ITI Layout, 7th Sector, HSR Layout, Bengaluru, Karnataka 560102, India",
+      "email": "prasanna@gamasome.com",
+      "phone": "+91 8012223541",
+      "mapsUrl": ""
+    },
+    {
+      "name": "USA Office",
+      "address": "599 Fairchild Dr, Mountain View, CA 94043",
+      "email": "prasanna@gamasome.com",
+      "phone": "+1 (530) 364-8775",
+      "mapsUrl": ""
+    }
+  ],
+  "form": {
+    "heading": "Get in touch with us",
+    "description": "For more info or inquiry about our products, project, and pricing please feel free to get in touch with us.",
+    "submitText": "Start your project",
+    "formEndpoint": "https://script.google.com/macros/s/AKfycbwD1GRUEx9yKwcnT-JFgx7dw_tRb5v6NDGmpUuXip97ALo1xcSNNZQ01sIGgokj-rmM/exec"
+  }
+}

@@ -1,14 +1,25 @@
 'use client'
 import { usePathname } from 'next/navigation'
-import Header from './Header'
-import Footer from './Footer'
+import TinaHeader from './TinaHeader'
+import TinaFooter from './TinaFooter'
 
-export default function SiteShell({ children }: { children: React.ReactNode }) {
+type Props = {
+  children: React.ReactNode
+  headerData: any;  headerQuery: string;  headerVars: object
+  footerData: any;  footerQuery: string;  footerVars: object
+}
+
+export default function SiteShell({ children, headerData, headerQuery, headerVars, footerData, footerQuery, footerVars }: Props) {
   const pathname = usePathname()
+
   const isAdmin =
+    pathname === '/ai-platform' || pathname === '/ai-platform/' ||
     pathname?.startsWith('/studio') ||
     pathname?.startsWith('/admin') ||
-    pathname?.startsWith('/tina')
+    pathname?.startsWith('/tina') ||
+    pathname?.startsWith('/version-history') ||
+    pathname?.startsWith('/theme-picker') ||
+    pathname?.startsWith('/template-picker')
 
   if (isAdmin) {
     return <>{children}</>
@@ -16,9 +27,9 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <Header />
+      <TinaHeader headerData={headerData} headerQuery={headerQuery} headerVars={headerVars} />
       <main className="mb-auto">{children}</main>
-      <Footer />
+      <TinaFooter footerData={footerData} footerQuery={footerQuery} footerVars={footerVars} />
     </>
   )
 }

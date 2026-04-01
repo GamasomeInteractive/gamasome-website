@@ -1,0 +1,26 @@
+{
+  "hero": {
+    "breadcrumb": "HOME > About",
+    "title": "A brief history",
+    "image": "/static/images/about.png",
+    "body": "Incorporated in the Year 2014, Gamasome is driven by an appetite for apps and all things innovation. Since then, we've developed applications that are being used by millions of users all over the world.\n\nWe use natural user interfaces, gesture and motion interactivity, voice assistants, computer vision, AR, VR, and XR technologies to bring ideas to life.\n\nOur insistence on best-in-class creative and development processes ensures Gamasome always delivers better products faster than the competition.\n\nThe studio that has been developing VR/AR/XR simulations for businesses ranging from Fortune 500 to up-and-coming startups."
+  },
+  "business": {
+    "heading": "Gamasome solutions for your business",
+    "videoUrl": "https://www.youtube.com/embed/ckrF37YZPVY?si=6pV3_JYR7a3EOPZp",
+    "description": "We deliver end-to-end technology solutions that help businesses harness the power of AI, XR, and immersive experiences."
+  },
+  "founders": {
+    "heading": "Our Founders",
+    "description": "We're a family born out of a passion to use new technology to turn dreams and ideas into reality.",
+    "members": [
+      { "name": "MOHAN SIVAM", "role": "FOUNDER & CEO", "image": "/static/images/mohan.png" },
+      { "name": "PRASANNA VENKATESAN", "role": "CO-FOUNDER & COO", "image": "/static/images/prasanna.png" }
+    ]
+  },
+  "cta": {
+    "heading": "Ready to start a project?",
+    "ctaText": "Get started",
+    "ctaHref": "/contact"
+  }
+}

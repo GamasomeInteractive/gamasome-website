@@ -1,0 +1,137 @@
+{
+  "_template": "classic",
+  "pageTitle": "AI Avatars & Conversational AI - Gamasome",
+  "pageDescription": "Create intelligent digital avatars and conversational experiences with photorealistic AI.",
+  "hero": {
+    "bannerImage": "/static/images/avatar-banner.jpg",
+    "title": "Create Intelligent Digital Avatars & Conversational Experiences",
+    "subtitle": "Photorealistic avatars with personalized behavior and lifelike interaction",
+    "ctaText": "Explore AI Avatar Solutions",
+    "ctaHref": "/contact",
+    "motion": {
+      "easePreset": "inherit"
+    }
+  },
+  "servicesHeading": "AI Avatar & Conversational Solutions",
+  "services": [
+    {
+      "title": "Photorealistic Digital Avatars",
+      "description": "Create stunning photorealistic digital avatars for customer engagement, virtual assistants, and brand representation. Our avatars leverage the latest in real-time rendering and AI animation to deliver lifelike digital humans.",
+      "image": "/static/images/avatar-photorealistic.jpg",
+      "ctaText": "Contact Us",
+      "ctaHref": "/contact"
+    },
+    {
+      "title": "Personalized Avatar Behavior & Animation",
+      "description": "Develop custom personality traits and behavioral patterns for your digital avatars. Our AI systems learn from interactions to deliver increasingly personalized and engaging experiences that adapt to each user.",
+      "image": "/static/images/avatar-behavior.jpg",
+      "ctaText": "Contact Us",
+      "ctaHref": "/contact"
+    },
+    {
+      "title": "Realistic Lip Sync & Voice Integration",
+      "description": "Implement advanced lip-sync technology that synchronizes avatar speech with realistic facial movements. Integrate text-to-speech and voice cloning to give your digital humans a unique and authentic voice.",
+      "image": "/static/images/avatar-lipsync.jpg",
+      "ctaText": "Contact Us",
+      "ctaHref": "/contact"
+    },
+    {
+      "title": "Conversational AI & NLP Integration",
+      "description": "Build intelligent conversational systems powered by natural language processing and large language models. Our avatars can hold meaningful, context-aware conversations across customer service, education, and entertainment.",
+      "image": "/static/images/avatar-conversational.jpg",
+      "ctaText": "Contact Us",
+      "ctaHref": "/contact"
+    }
+  ],
+  "showEngagement": true,
+  "engagementHeading": "How We Work",
+  "engagementModels": [
+    {
+      "title": "Retainer-Based",
+      "description": "Dedicated teams on a monthly retainer for ongoing avatar projects."
+    },
+    {
+      "title": "Managed Service",
+      "description": "End-to-end project ownership with defined SLAs and deliverables."
+    },
+    {
+      "title": "Time & Material",
+      "description": "Flexible engagement based on effort and resources utilized."
+    },
+    {
+      "title": "Fixed Project",
+      "description": "Well-scoped projects with defined timelines and fixed pricing."
+    }
+  ],
+  "showUseCases": false,
+  "showPortfolio": false,
+  "techHeading": "Technologies We Work With",
+  "technologies": [
+    {
+      "name": "Python",
+      "image": "/static/images/python-techstack-1.png"
+    },
+    {
+      "name": "Unity",
+      "image": "/static/images/unity.png"
+    },
+    {
+      "name": "Unreal Engine",
+      "image": "/static/images/unreal-engine.png"
+    },
+    {
+      "name": "Node.js",
+      "image": "/static/images/node-t-white.png"
+    },
+    {
+      "name": "MediaPipe",
+      "image": "/static/images/mediapipe-techstack-1.png"
+    },
+    {
+      "name": "Conda",
+      "image": "/static/images/conda-techstack.png"
+    },
+    {
+      "name": "MongoDB",
+      "image": "/static/images/mongo-white.png"
+    },
+    {
+      "name": "MySQL",
+      "image": "/static/images/mysql-white.png"
+    },
+    {
+      "name": "Android",
+      "image": "/static/images/android-white.png"
+    },
+    {
+      "name": "iOS",
+      "image": "/static/images/ios-white.png"
+    }
+  ],
+  "ctaBox": {
+    "heading": "Ready to Create Intelligent Digital Avatars?",
+    "description": "Let us help you build photorealistic, AI-powered conversational experiences.",
+    "primaryBtn": {
+      "text": "Talk to our expert",
+      "href": "/contact"
+    },
+    "motion": {
+      "easePreset": "inherit"
+    }
+  },
+  "servicesMotion": {
+    "easePreset": "inherit"
+  },
+  "engagementMotion": {
+    "easePreset": "inherit"
+  },
+  "useCasesMotion": {
+    "easePreset": "inherit"
+  },
+  "portfolioMotion": {
+    "easePreset": "inherit"
+  },
+  "techMotion": {
+    "easePreset": "inherit"
+  }
+}

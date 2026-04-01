@@ -1,0 +1,175 @@
+{
+  "_template": "classic",
+  "pageTitle": "Game Development - Gamasome",
+  "pageDescription": "Top game development company in India building AR/VR, mobile, and desktop games.",
+  "hero": {
+    "bannerImage": "/static/images/game-development-banner.png",
+    "title": "Sculpt your Games with Gamasome",
+    "subtitle": "Top Game development company in India",
+    "ctaText": "Contact Us",
+    "ctaHref": "/contact",
+    "motion": {
+      "easePreset": "inherit"
+    }
+  },
+  "servicesHeading": "Our Expertise Platforms",
+  "services": [
+    {
+      "title": "AR / VR Game Development",
+      "description": "We excel in building immersive AR and VR games for all major headsets. Our VR games push the boundaries of interactive entertainment with stunning visuals and intuitive mechanics.",
+      "image": "/static/images/game1.png",
+      "ctaText": "Know More",
+      "ctaHref": "/contact"
+    },
+    {
+      "title": "Mobile Game Development",
+      "description": "Build engaging mobile games for iOS and Android with high performance and monetization strategies. From casual hyper-casual games to complex RPGs, we cover the full mobile game spectrum.",
+      "image": "/static/images/game2.png",
+      "ctaText": "Know More",
+      "ctaHref": "/contact"
+    },
+    {
+      "title": "Desktop Game Development",
+      "description": "Create PC and console games using Unity and Unreal Engine. Our desktop game development covers single-player, multiplayer, and MMO game architectures with professional-grade production quality.",
+      "image": "/static/images/game3.png",
+      "ctaText": "Know More",
+      "ctaHref": "/contact"
+    }
+  ],
+  "showEngagement": false,
+  "spotlight": {
+    "enabled": true,
+    "heading": "How we converge Deep Tech in our Games",
+    "description": "Using our cutting-edge game production platform, we've created some of the most engaging games that keep players hooked and entertained. With our AI-powered unified game development services, we support all possible types of game development for all available platforms.",
+    "videoUrl": "https://www.youtube.com/embed/f_YS2UxyzxA?si=zjgpitM6dXmSswNp",
+    "ctaText": "Contact Us",
+    "ctaHref": "/contact",
+    "motion": {
+      "easePreset": "inherit"
+    }
+  },
+  "showUseCases": true,
+  "useCasesHeading": "Our Game Development Solutions",
+  "useCases": [
+    {
+      "title": "ARPG / RPG MMRPG",
+      "videoUrl": "https://www.youtube.com/embed/VXXBRvyIDZY?si=ab4wf6e7GmbMKrJI"
+    },
+    {
+      "title": "Shooting Games",
+      "videoUrl": "https://www.youtube.com/embed/2EJ9i3kCfpA?si=HeOC1lXObelFjf17"
+    },
+    {
+      "title": "MOBA Games",
+      "videoUrl": "https://www.youtube.com/embed/hN9GfrTuF4k?si=sQt38i1UcP7HxlWe"
+    },
+    {
+      "title": "Simulations / Sports",
+      "videoUrl": "https://www.youtube.com/embed/WWAVZCzkF78?si=rISDHqDcuSafzqfG"
+    },
+    {
+      "title": "Racing Games",
+      "videoUrl": "https://www.youtube.com/embed/yN4Sq3uqjCM?si=EDv5g6fO-3_AO1Cb"
+    },
+    {
+      "title": "Arcade & Adventure",
+      "videoUrl": "https://www.youtube.com/embed/lSrUbtoZbNE?si=1itxYRg9PRDmXcd2"
+    }
+  ],
+  "showPortfolio": true,
+  "portfolioHeading": "Our Game Portfolio",
+  "portfolio": [
+    {
+      "title": "Sky Piper Arcade",
+      "image": "/static/images/game1.png",
+      "link": ""
+    },
+    {
+      "title": "United Warfare",
+      "image": "/static/images/game2.png",
+      "link": ""
+    },
+    {
+      "title": "The Sprout",
+      "image": "/static/images/game3.png",
+      "link": ""
+    }
+  ],
+  "techHeading": "Technologies We Work With",
+  "technologies": [
+    {
+      "name": "Android",
+      "image": "/static/images/android-white.png"
+    },
+    {
+      "name": "MySQL",
+      "image": "/static/images/mysql-white.png"
+    },
+    {
+      "name": "Conda",
+      "image": "/static/images/conda-techstack.png"
+    },
+    {
+      "name": "Node.js",
+      "image": "/static/images/node-t-white.png"
+    },
+    {
+      "name": "iOS",
+      "image": "/static/images/ios-white.png"
+    },
+    {
+      "name": "Python",
+      "image": "/static/images/python-techstack-1.png"
+    },
+    {
+      "name": "Laravel",
+      "image": "/static/images/laravel-white.png"
+    },
+    {
+      "name": "Unity",
+      "image": "/static/images/unity.png"
+    },
+    {
+      "name": "MediaPipe",
+      "image": "/static/images/mediapipe-techstack-1.png"
+    },
+    {
+      "name": "Unreal Engine",
+      "image": "/static/images/unreal-engine.png"
+    },
+    {
+      "name": "MongoDB",
+      "image": "/static/images/mongo-white.png"
+    },
+    {
+      "name": "WebGL",
+      "image": "/static/images/webgl.png"
+    }
+  ],
+  "ctaBox": {
+    "heading": "Do You Want to Build Your Own Game?",
+    "description": "Yes, we can help you develop and launch your dream game for your playerbase.",
+    "primaryBtn": {
+      "text": "Talk to our expert",
+      "href": "/contact"
+    },
+    "motion": {
+      "easePreset": "inherit"
+    }
+  },
+  "servicesMotion": {
+    "easePreset": "inherit"
+  },
+  "engagementMotion": {
+    "easePreset": "inherit"
+  },
+  "useCasesMotion": {
+    "easePreset": "inherit"
+  },
+  "portfolioMotion": {
+    "easePreset": "inherit"
+  },
+  "techMotion": {
+    "easePreset": "inherit"
+  }
+}

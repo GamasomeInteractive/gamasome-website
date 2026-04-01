@@ -5,8 +5,13 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { Float, Sphere, Points, PointMaterial } from '@react-three/drei'
 import * as THREE from 'three'
 
+interface ColorProps {
+  primaryColor: string
+  accentColor: string
+}
+
 // ── Wireframe icosahedron — the "AI brain" ──────────────────────────
-function AIBrainSphere() {
+function AIBrainSphere({ primaryColor, accentColor }: ColorProps) {
   const outerRef = useRef<THREE.Mesh>(null)
   const innerRef = useRef<THREE.Mesh>(null)
 
@@ -25,17 +30,17 @@ function AIBrainSphere() {
       {/* Outer wireframe */}
       <mesh ref={outerRef}>
         <icosahedronGeometry args={[2.2, 2]} />
-        <meshBasicMaterial color="#2D9CDB" wireframe transparent opacity={0.55} />
+        <meshBasicMaterial color={primaryColor} wireframe transparent opacity={0.55} />
       </mesh>
       {/* Inner wireframe */}
       <mesh ref={innerRef}>
         <icosahedronGeometry args={[1.4, 1]} />
-        <meshBasicMaterial color="#00FCE2" wireframe transparent opacity={0.28} />
+        <meshBasicMaterial color={accentColor} wireframe transparent opacity={0.28} />
       </mesh>
       {/* Soft core glow */}
       <Sphere args={[1.0, 16, 16]}>
         <meshStandardMaterial
-          color="#2D9CDB"
+          color={primaryColor}
           emissive="#0a3a5c"
           emissiveIntensity={2}
           transparent
@@ -47,7 +52,7 @@ function AIBrainSphere() {
 }
 
 // ── Orbiting rings (using native torusGeometry) ─────────────────────
-function OrbitalRings() {
+function OrbitalRings({ primaryColor, accentColor }: ColorProps) {
   const ring1 = useRef<THREE.Mesh>(null)
   const ring2 = useRef<THREE.Mesh>(null)
   const ring3 = useRef<THREE.Mesh>(null)
@@ -74,22 +79,22 @@ function OrbitalRings() {
     <>
       <mesh ref={ring1}>
         <torusGeometry args={[3.2, 0.012, 8, 90]} />
-        <meshBasicMaterial color="#2D9CDB" transparent opacity={0.45} />
+        <meshBasicMaterial color={primaryColor} transparent opacity={0.45} />
       </mesh>
       <mesh ref={ring2}>
         <torusGeometry args={[2.7, 0.008, 8, 90]} />
-        <meshBasicMaterial color="#00FCE2" transparent opacity={0.3} />
+        <meshBasicMaterial color={accentColor} transparent opacity={0.3} />
       </mesh>
       <mesh ref={ring3}>
         <torusGeometry args={[3.7, 0.006, 8, 90]} />
-        <meshBasicMaterial color="#2D9CDB" transparent opacity={0.2} />
+        <meshBasicMaterial color={primaryColor} transparent opacity={0.2} />
       </mesh>
     </>
   )
 }
 
 // ── Floating particle cloud ─────────────────────────────────────────
-function ParticleCloud() {
+function ParticleCloud({ accentColor }: Pick<ColorProps, 'accentColor'>) {
   const ref = useRef<THREE.Points>(null)
 
   const positions = useMemo(() => {
@@ -113,7 +118,7 @@ function ParticleCloud() {
   return (
     <Points ref={ref} positions={positions} stride={3}>
       <PointMaterial
-        color="#00FCE2"
+        color={accentColor}
         size={0.032}
         sizeAttenuation
         transparent
@@ -125,16 +130,16 @@ function ParticleCloud() {
 }
 
 // ── Small floating data-node dots ───────────────────────────────────
-function DataNodes() {
+function DataNodes({ primaryColor, accentColor }: ColorProps) {
   const data = useMemo(
     () =>
       Array.from({ length: 12 }, (_, i) => ({
         base: [(Math.random() - 0.5) * 9, (Math.random() - 0.5) * 9, (Math.random() - 0.5) * 5] as const,
         speed: 0.3 + Math.random() * 0.5,
         offset: (i / 12) * Math.PI * 2,
-        color: i % 2 === 0 ? '#2D9CDB' : '#00FCE2',
+        color: i % 2 === 0 ? primaryColor : accentColor,
       })),
-    []
+    [primaryColor, accentColor]
   )
 
   const refs = useRef<(THREE.Mesh | null)[]>([])
@@ -162,7 +167,15 @@ function DataNodes() {
 }
 
 // ── Main canvas ─────────────────────────────────────────────────────
-export default function HeroScene() {
+interface HeroSceneProps {
+  primaryColor?: string
+  accentColor?: string
+}
+
+export default function HeroScene({
+  primaryColor = '#2D9CDB',
+  accentColor = '#00FCE2',
+}: HeroSceneProps) {
   return (
     <Canvas
       camera={{ position: [0, 0, 9], fov: 50 }}
@@ -171,13 +184,13 @@ export default function HeroScene() {
       style={{ background: 'transparent' }}
     >
       <ambientLight intensity={0.4} />
-      <pointLight position={[5, 5, 5]} intensity={1} color="#2D9CDB" />
-      <pointLight position={[-5, -3, 3]} intensity={0.5} color="#00FCE2" />
+      <pointLight position={[5, 5, 5]} intensity={1} color={primaryColor} />
+      <pointLight position={[-5, -3, 3]} intensity={0.5} color={accentColor} />
 
-      <AIBrainSphere />
-      <OrbitalRings />
-      <ParticleCloud />
-      <DataNodes />
+      <AIBrainSphere primaryColor={primaryColor} accentColor={accentColor} />
+      <OrbitalRings primaryColor={primaryColor} accentColor={accentColor} />
+      <ParticleCloud accentColor={accentColor} />
+      <DataNodes primaryColor={primaryColor} accentColor={accentColor} />
     </Canvas>
   )
 }
