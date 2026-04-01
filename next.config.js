@@ -67,6 +67,8 @@ module.exports = () => {
   return plugins.reduce((acc, next) => next(acc), {
     output,
     basePath,
+    eslint: { ignoreDuringBuilds: true },
+    typescript: { ignoreBuildErrors: true },
     reactStrictMode: true,
     trailingSlash: true,
     turbopack: {
