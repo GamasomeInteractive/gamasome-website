@@ -1,4 +1,4 @@
-import { defineConfig } from 'tinacms'
+import { defineConfig, LocalAuthProvider, TinaCloudAuthProvider } from 'tinacms'
 import { VersionHistoryScreen, VersionHistoryIcon } from './VersionHistoryScreen'
 import { ThemePickerScreen, ThemePickerIcon } from './ThemePickerScreen'
 import { TemplatePickerScreen, TemplatePickerIcon } from './TemplatePickerScreen'
@@ -355,8 +355,11 @@ export default defineConfig({
     return cms
   },
   branch: process.env.GITHUB_BRANCH || 'main',
-  clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID || null,
-  token: process.env.TINA_TOKEN || null,
+  // Self-hosted: point to our own API instead of Tina Cloud
+  contentApiUrlOverride: '/api/tina/gql',
+  authProvider: process.env.TINA_PUBLIC_IS_LOCAL === 'true'
+    ? new LocalAuthProvider()
+    : new TinaCloudAuthProvider(),
 
   build: {
     outputFolder: 'admin',
