@@ -49,4 +49,4 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   return tinaBackend(req, res)
 }
 
-export const config = { api: { bodyParser: false } }
+export const config = { api: { bodyParser: { sizeLimit: '10mb' } } }
