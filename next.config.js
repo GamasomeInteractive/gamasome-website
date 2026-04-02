@@ -82,11 +82,8 @@ module.exports = () => {
     },
     transpilePackages: [
       '@tinacms/datalayer',
-      'tinacms',
-      'tinacms-authjs',
       'tinacms-gitprovider-github',
       'upstash-redis-level',
-      'color-string',
     ],
     experimental: {
       esmExternals: false,
