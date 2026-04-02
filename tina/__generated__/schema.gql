@@ -133,6 +133,7 @@ type SiteSettings implements Node & Document {
   tagline: String
   logo: String
   favicon: String
+  homePage: String
   theme: SiteSettingsTheme
   contact: SiteSettingsContact
   social: SiteSettingsSocial
@@ -202,6 +203,7 @@ input SiteSettingsFilter {
   tagline: StringFilter
   logo: ImageFilter
   favicon: ImageFilter
+  homePage: StringFilter
   theme: SiteSettingsThemeFilter
   contact: SiteSettingsContactFilter
   social: SiteSettingsSocialFilter
@@ -1139,6 +1141,7 @@ input SiteSettingsMutation {
   tagline: String
   logo: String
   favicon: String
+  homePage: String
   theme: SiteSettingsThemeMutation
   contact: SiteSettingsContactMutation
   social: SiteSettingsSocialMutation

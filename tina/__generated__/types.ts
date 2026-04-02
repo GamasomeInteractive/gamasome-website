@@ -291,6 +291,7 @@ export type SiteSettings = Node & Document & {
   tagline?: Maybe<Scalars['String']['output']>;
   logo?: Maybe<Scalars['String']['output']>;
   favicon?: Maybe<Scalars['String']['output']>;
+  homePage?: Maybe<Scalars['String']['output']>;
   theme?: Maybe<SiteSettingsTheme>;
   contact?: Maybe<SiteSettingsContact>;
   social?: Maybe<SiteSettingsSocial>;
@@ -360,6 +361,7 @@ export type SiteSettingsFilter = {
   tagline?: InputMaybe<StringFilter>;
   logo?: InputMaybe<ImageFilter>;
   favicon?: InputMaybe<ImageFilter>;
+  homePage?: InputMaybe<StringFilter>;
   theme?: InputMaybe<SiteSettingsThemeFilter>;
   contact?: InputMaybe<SiteSettingsContactFilter>;
   social?: InputMaybe<SiteSettingsSocialFilter>;
@@ -1469,6 +1471,7 @@ export type SiteSettingsMutation = {
   tagline?: InputMaybe<Scalars['String']['input']>;
   logo?: InputMaybe<Scalars['String']['input']>;
   favicon?: InputMaybe<Scalars['String']['input']>;
+  homePage?: InputMaybe<Scalars['String']['input']>;
   theme?: InputMaybe<SiteSettingsThemeMutation>;
   contact?: InputMaybe<SiteSettingsContactMutation>;
   social?: InputMaybe<SiteSettingsSocialMutation>;
@@ -1862,7 +1865,7 @@ export type ContactMutation = {
   form?: InputMaybe<ContactFormMutation>;
 };
 
-export type SiteSettingsPartsFragment = { __typename: 'SiteSettings', siteName?: string | null, tagline?: string | null, logo?: string | null, favicon?: string | null, theme?: { __typename: 'SiteSettingsTheme', primaryColor?: string | null, accentColor?: string | null, darkBg?: string | null, textColor?: string | null } | null, contact?: { __typename: 'SiteSettingsContact', email?: string | null, phone?: string | null } | null, social?: { __typename: 'SiteSettingsSocial', linkedin?: string | null, twitter?: string | null, youtube?: string | null, instagram?: string | null, facebook?: string | null } | null, motion?: { __typename: 'SiteSettingsMotion', easePreset?: string | null, durationScale?: number | null, disableAnimations?: boolean | null } | null };
+export type SiteSettingsPartsFragment = { __typename: 'SiteSettings', siteName?: string | null, tagline?: string | null, logo?: string | null, favicon?: string | null, homePage?: string | null, theme?: { __typename: 'SiteSettingsTheme', primaryColor?: string | null, accentColor?: string | null, darkBg?: string | null, textColor?: string | null } | null, contact?: { __typename: 'SiteSettingsContact', email?: string | null, phone?: string | null } | null, social?: { __typename: 'SiteSettingsSocial', linkedin?: string | null, twitter?: string | null, youtube?: string | null, instagram?: string | null, facebook?: string | null } | null, motion?: { __typename: 'SiteSettingsMotion', easePreset?: string | null, durationScale?: number | null, disableAnimations?: boolean | null } | null };
 
 export type HeaderPartsFragment = { __typename: 'Header', logoImage?: string | null, navLinks?: Array<{ __typename: 'HeaderNavLinks', title?: string | null, href?: string | null } | null> | null };
 
@@ -1883,7 +1886,7 @@ export type SiteSettingsQueryVariables = Exact<{
 }>;
 
 
-export type SiteSettingsQuery = { __typename?: 'Query', siteSettings: { __typename: 'SiteSettings', id: string, siteName?: string | null, tagline?: string | null, logo?: string | null, favicon?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, theme?: { __typename: 'SiteSettingsTheme', primaryColor?: string | null, accentColor?: string | null, darkBg?: string | null, textColor?: string | null } | null, contact?: { __typename: 'SiteSettingsContact', email?: string | null, phone?: string | null } | null, social?: { __typename: 'SiteSettingsSocial', linkedin?: string | null, twitter?: string | null, youtube?: string | null, instagram?: string | null, facebook?: string | null } | null, motion?: { __typename: 'SiteSettingsMotion', easePreset?: string | null, durationScale?: number | null, disableAnimations?: boolean | null } | null } };
+export type SiteSettingsQuery = { __typename?: 'Query', siteSettings: { __typename: 'SiteSettings', id: string, siteName?: string | null, tagline?: string | null, logo?: string | null, favicon?: string | null, homePage?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, theme?: { __typename: 'SiteSettingsTheme', primaryColor?: string | null, accentColor?: string | null, darkBg?: string | null, textColor?: string | null } | null, contact?: { __typename: 'SiteSettingsContact', email?: string | null, phone?: string | null } | null, social?: { __typename: 'SiteSettingsSocial', linkedin?: string | null, twitter?: string | null, youtube?: string | null, instagram?: string | null, facebook?: string | null } | null, motion?: { __typename: 'SiteSettingsMotion', easePreset?: string | null, durationScale?: number | null, disableAnimations?: boolean | null } | null } };
 
 export type SiteSettingsConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -1895,7 +1898,7 @@ export type SiteSettingsConnectionQueryVariables = Exact<{
 }>;
 
 
-export type SiteSettingsConnectionQuery = { __typename?: 'Query', siteSettingsConnection: { __typename?: 'SiteSettingsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'SiteSettingsConnectionEdges', cursor: string, node?: { __typename: 'SiteSettings', id: string, siteName?: string | null, tagline?: string | null, logo?: string | null, favicon?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, theme?: { __typename: 'SiteSettingsTheme', primaryColor?: string | null, accentColor?: string | null, darkBg?: string | null, textColor?: string | null } | null, contact?: { __typename: 'SiteSettingsContact', email?: string | null, phone?: string | null } | null, social?: { __typename: 'SiteSettingsSocial', linkedin?: string | null, twitter?: string | null, youtube?: string | null, instagram?: string | null, facebook?: string | null } | null, motion?: { __typename: 'SiteSettingsMotion', easePreset?: string | null, durationScale?: number | null, disableAnimations?: boolean | null } | null } | null } | null> | null } };
+export type SiteSettingsConnectionQuery = { __typename?: 'Query', siteSettingsConnection: { __typename?: 'SiteSettingsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'SiteSettingsConnectionEdges', cursor: string, node?: { __typename: 'SiteSettings', id: string, siteName?: string | null, tagline?: string | null, logo?: string | null, favicon?: string | null, homePage?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, theme?: { __typename: 'SiteSettingsTheme', primaryColor?: string | null, accentColor?: string | null, darkBg?: string | null, textColor?: string | null } | null, contact?: { __typename: 'SiteSettingsContact', email?: string | null, phone?: string | null } | null, social?: { __typename: 'SiteSettingsSocial', linkedin?: string | null, twitter?: string | null, youtube?: string | null, instagram?: string | null, facebook?: string | null } | null, motion?: { __typename: 'SiteSettingsMotion', easePreset?: string | null, durationScale?: number | null, disableAnimations?: boolean | null } | null } | null } | null> | null } };
 
 export type HeaderQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
@@ -1999,6 +2002,7 @@ export const SiteSettingsPartsFragmentDoc = gql`
   tagline
   logo
   favicon
+  homePage
   theme {
     __typename
     primaryColor
@@ -2800,7 +2804,7 @@ export const ExperimentalGetTinaClient = () =>
   getSdk(
     generateRequester(
       createClient({
-        url: "http://localhost:4001/graphql",
+        url: "https://content.tinajs.io/2.2/content/2abb3762-55de-4389-b972-27840cdc864e/github/main",
         queries,
       })
     )

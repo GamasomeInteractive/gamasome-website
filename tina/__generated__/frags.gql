@@ -4,6 +4,7 @@ fragment SiteSettingsParts on SiteSettings {
   tagline
   logo
   favicon
+  homePage
   theme {
     __typename
     primaryColor
