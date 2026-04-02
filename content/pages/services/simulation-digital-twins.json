@@ -2,8 +2,8 @@
   "pageTitle": "Simulation & Digital Twins - Gamasome",
   "pageDescription": "Transform assets into physics-ready digital twins for AI training and robotics testing.",
   "hero": {
-    "bannerImage": "/static/images/sim-banner.jpg",
-    "title": "Transform Your Assets into Simulation-Ready Digital Twins",
+    "bannerImage": "/uploads/static/images/sim-banner.jpg",
+    "title": "Transform Your Assets into Simulation-Ready Digital Twin",
     "subtitle": "Physics-optimized 3D assets for AI training and robotics testing",
     "ctaText": "Explore Simulation Services",
     "ctaHref": "/contact",
@@ -19,28 +19,28 @@
     {
       "title": "Physics-Optimized 3D Asset Development",
       "description": "Transform simple digital assets into physics-supported, sim-ready 3D models optimized for robotics simulation and AI model training. We ensure accurate physics properties, proper collision meshes, and realistic material properties for Isaac Sim, Unreal Engine, and other major simulation platforms.",
-      "image": "/static/images/sim-3d-assets.jpg",
+      "image": "/uploads/static/images/sim-3d-assets.jpg",
       "ctaText": "Contact Us",
       "ctaHref": "/contact"
     },
     {
       "title": "Synthetic Data Generation Environments",
       "description": "Create photo-realistic virtual worlds for generating high-quality synthetic training data. Our environments feature accurate lighting, materials, and physics simulation, producing data that closely matches real-world conditions — ideal for training computer vision models and testing autonomous systems.",
-      "image": "/static/images/sim-synthetic.jpg",
+      "image": "/uploads/static/images/sim-synthetic.jpg",
       "ctaText": "Contact Us",
       "ctaHref": "/contact"
     },
     {
       "title": "Digital Twins for Industrial Machinery",
       "description": "Develop high-fidelity digital twins of industrial and agricultural machinery for performance optimization and predictive maintenance. Our digital twins integrate sensor data, physics simulation, and real-time monitoring to provide actionable insights for operational efficiency.",
-      "image": "/static/images/sim-industrial.jpg",
+      "image": "/uploads/static/images/sim-industrial.jpg",
       "ctaText": "Contact Us",
       "ctaHref": "/contact"
     },
     {
       "title": "Custom Isaac Sim Test Environments",
       "description": "Build specialized testing environments in NVIDIA Isaac Sim tailored to your robotics applications. We create scenarios that simulate edge cases, challenging conditions, and real-world variability to accelerate your development cycle before physical deployment.",
-      "image": "/static/images/sim-isaac-env.jpg",
+      "image": "/uploads/static/images/sim-isaac-env.jpg",
       "ctaText": "Contact Us",
       "ctaHref": "/contact"
     }
@@ -83,43 +83,43 @@
   "technologies": [
     {
       "name": "Unity",
-      "image": "/static/images/unity.png"
+      "image": "/uploads/static/images/unity.png"
     },
     {
       "name": "Unreal Engine",
-      "image": "/static/images/unreal-engine.png"
+      "image": "/uploads/static/images/unreal-engine.png"
     },
     {
       "name": "Python",
-      "image": "/static/images/python-techstack-1.png"
+      "image": "/uploads/static/images/python-techstack-1.png"
     },
     {
       "name": "Conda",
-      "image": "/static/images/conda-techstack.png"
+      "image": "/uploads/static/images/conda-techstack.png"
     },
     {
       "name": "WebGL",
-      "image": "/static/images/webgl.png"
+      "image": "/uploads/static/images/webgl.png"
     },
     {
       "name": "Node.js",
-      "image": "/static/images/node-t-white.png"
+      "image": "/uploads/static/images/node-t-white.png"
     },
     {
       "name": "MediaPipe",
-      "image": "/static/images/mediapipe-techstack-1.png"
+      "image": "/uploads/static/images/mediapipe-techstack-1.png"
     },
     {
       "name": "MySQL",
-      "image": "/static/images/mysql-white.png"
+      "image": "/uploads/static/images/mysql-white.png"
     },
     {
       "name": "MongoDB",
-      "image": "/static/images/mongo-white.png"
+      "image": "/uploads/static/images/mongo-white.png"
     },
     {
       "name": "Android",
-      "image": "/static/images/android-white.png"
+      "image": "/uploads/static/images/android-white.png"
     }
   ],
   "ctaBox": {
