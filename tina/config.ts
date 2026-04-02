@@ -381,24 +381,6 @@ export default defineConfig({
           { type: 'image', name: 'logo', label: 'Logo Image' },
           { type: 'image', name: 'favicon', label: 'Favicon' },
           {
-            type: 'string',
-            name: 'homePage',
-            label: '🏠 Home Page',
-            ui: {
-              description: 'Choose which service page is shown at gamasome.com/',
-            },
-            options: [
-              { value: 'simulation-digital-twins', label: 'Simulation & Digital Twins' },
-              { value: 'ai-solutions',              label: 'AI Solutions' },
-              { value: 'ai-platform',               label: 'AI Platform' },
-              { value: 'ar-vr-development',         label: 'AR / VR Development' },
-              { value: 'game-development',          label: 'Game Development' },
-              { value: 'metaverse',                 label: 'Metaverse' },
-              { value: 'robotics-solutions',        label: 'Robotics Solutions' },
-              { value: 'ai-avatars-platform',       label: 'AI Avatars Platform' },
-            ],
-          },
-          {
             type: 'object',
             name: 'theme',
             label: '🎨 Theme Colors',
