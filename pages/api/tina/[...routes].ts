@@ -74,7 +74,7 @@ const indexingPromise = ensureIndexed().catch((err) =>
 const databaseClient = {
   request: async ({ query, variables }: { query: string; variables: object }) => {
     await indexingPromise
-    return resolve({ database, query, variables })
+    return resolve({ config: { useRelativeMedia: true }, database, query, variables })
   },
 }
 
