@@ -85,7 +85,11 @@ module.exports = () => {
       'tinacms-authjs',
       'tinacms-gitprovider-github',
       'upstash-redis-level',
+      'color-string',
     ],
+    experimental: {
+      esmExternals: false,
+    },
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
     images: {
       remotePatterns: [
