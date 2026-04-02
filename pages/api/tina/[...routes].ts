@@ -2,8 +2,7 @@ import { TinaNodeBackend, LocalBackendAuthProvider } from '@tinacms/datalayer'
 import { GitHubProvider as TinaGitHubProvider } from 'tinacms-gitprovider-github'
 import { Redis } from '@upstash/redis'
 import { RedisLevel } from 'upstash-redis-level'
-import { getServerSession } from 'next-auth/next'
-import authOptions from '../../../lib/authOptions'
+import { getToken } from 'next-auth/jwt'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === 'true'
@@ -25,13 +24,15 @@ const gitProvider = new TinaGitHubProvider({
 
 // Custom auth provider — replaces tinacms-authjs (which imports tinacms UI
 // and drags in @udecode/plate-* browser-only packages, crashing the server)
+// getToken reads the JWT directly from the cookie — more reliable than
+// getServerSession which can have side effects with Tina's response object
 const customAuthProvider = {
-  isAuthorized: async (req: NextApiRequest, res: NextApiResponse) => {
-    const session = await getServerSession(req, res, authOptions)
-    if (!session?.user) {
+  isAuthorized: async (req: NextApiRequest, _res: NextApiResponse) => {
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+    if (!token) {
       return { isAuthorized: false, errorCode: 401, errorMessage: 'Unauthorized' }
     }
-    if ((session.user as any).role !== 'user') {
+    if (token.role !== 'user') {
       return { isAuthorized: false, errorCode: 403, errorMessage: 'Forbidden' }
     }
     return { isAuthorized: true }
