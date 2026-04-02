@@ -1,11 +1,21 @@
-import { TinaNodeBackend, LocalBackendAuthProvider, createDatabase, resolve } from '@tinacms/datalayer'
+import {
+  TinaNodeBackend,
+  LocalBackendAuthProvider,
+  createDatabase,
+  resolve,
+  FilesystemBridge,
+} from '@tinacms/datalayer'
 import { GitHubProvider as TinaGitHubProvider } from 'tinacms-gitprovider-github'
 import { Redis } from '@upstash/redis'
 import { RedisLevel } from 'upstash-redis-level'
 import { getToken } from 'next-auth/jwt'
+import path from 'path'
+import fs from 'fs'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === 'true'
+
+const rootPath = process.cwd()
 
 const gitProvider = new TinaGitHubProvider({
   branch: process.env.GITHUB_BRANCH || 'main',
@@ -22,12 +32,48 @@ const databaseAdapter = new RedisLevel({
   namespace: process.env.GITHUB_BRANCH || 'main',
 })
 
-const database = createDatabase({ gitProvider, databaseAdapter })
+// FilesystemBridge lets the database read generated schema files from disk
+const bridge = new FilesystemBridge(rootPath)
 
-// Wrap database + resolve into a databaseClient with the .request() interface
-// that TinaNodeBackend expects. This keeps everything in-process — no HTTP calls.
+const database = createDatabase({
+  gitProvider,
+  databaseAdapter,
+  bridge,
+})
+
+// Seed Redis with schema+content from tina/__generated__ if empty.
+// Runs once on cold start. The generated files exist on Vercel because
+// tinacms build runs before next build in our build script.
+async function ensureIndexed() {
+  try {
+    const schema = await database.getGraphQLSchema()
+    if (schema) return // already indexed
+  } catch {
+    // not indexed yet — fall through
+  }
+  console.log('[tina] Redis empty — indexing content from filesystem')
+  const generatedDir = path.join(rootPath, 'tina/__generated__')
+  const graphQLSchema = JSON.parse(
+    fs.readFileSync(path.join(generatedDir, '_graphql.json'), 'utf-8')
+  )
+  const tinaSchema = JSON.parse(
+    fs.readFileSync(path.join(generatedDir, '_schema.json'), 'utf-8')
+  )
+  const lookup = JSON.parse(
+    fs.readFileSync(path.join(generatedDir, '_lookup.json'), 'utf-8')
+  )
+  await database.indexContent({ graphQLSchema, tinaSchema, lookup })
+  console.log('[tina] indexContent complete')
+}
+
+// Kick off indexing immediately at module load (cold start)
+const indexingPromise = ensureIndexed().catch((err) =>
+  console.error('[tina] indexing error:', err)
+)
+
 const databaseClient = {
   request: async ({ query, variables }: { query: string; variables: object }) => {
+    await indexingPromise
     return resolve({ database, query, variables })
   },
 }
