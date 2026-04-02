@@ -356,7 +356,7 @@ export default defineConfig({
   },
   branch: process.env.GITHUB_BRANCH || 'main',
   // Self-hosted: point to our own API routes instead of Tina Cloud
-  contentApiUrlOverride: '/api/tina/gql',
+  contentApiUrlOverride: '/api/tina/gql/',
   authProvider: new LocalAuthProvider(),
 
   build: {
