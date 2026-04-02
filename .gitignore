@@ -46,4 +46,7 @@ yarn-error.log*
 # Contentlayer
 .contentlayer
 
+# Tina auto-generated (rebuilt on every tinacms build)
+tina/__generated__
+
 .vercel
