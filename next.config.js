@@ -80,6 +80,15 @@ module.exports = () => {
         },
       },
     },
+    experimental: {
+      esmExternals: 'loose',
+    },
+    serverExternalPackages: [
+      '@tinacms/datalayer',
+      'tinacms-authjs',
+      'tinacms-gitprovider-github',
+      'upstash-redis-level',
+    ],
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
     images: {
       remotePatterns: [

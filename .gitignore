@@ -50,3 +50,5 @@ yarn-error.log*
 tina/__generated__
 
 .vercel
+
+.vercel
