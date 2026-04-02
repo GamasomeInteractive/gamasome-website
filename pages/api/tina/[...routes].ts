@@ -1,13 +1,9 @@
-import { TinaNodeBackend, LocalBackendAuthProvider } from '@tinacms/datalayer'
+import { TinaNodeBackend, LocalBackendAuthProvider, createDatabase, resolve } from '@tinacms/datalayer'
 import { GitHubProvider as TinaGitHubProvider } from 'tinacms-gitprovider-github'
 import { Redis } from '@upstash/redis'
 import { RedisLevel } from 'upstash-redis-level'
 import { getToken } from 'next-auth/jwt'
 import type { NextApiRequest, NextApiResponse } from 'next'
-
-// The generated databaseClient from tinacms build — has the .request() method
-// tinacms build runs before next build in our build script, so this file exists on Vercel
-import databaseClient from '../../../tina/__generated__/client'
 
 const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === 'true'
 
@@ -17,6 +13,24 @@ const gitProvider = new TinaGitHubProvider({
   repo: 'gamasome-website',
   token: process.env.GITHUB_PERSONAL_ACCESS_TOKEN!,
 })
+
+const databaseAdapter = new RedisLevel({
+  redis: new Redis({
+    url: process.env.UPSTASH_REDIS_REST_URL!,
+    token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+  }),
+  namespace: process.env.GITHUB_BRANCH || 'main',
+})
+
+const database = createDatabase({ gitProvider, databaseAdapter })
+
+// Wrap database + resolve into a databaseClient with the .request() interface
+// that TinaNodeBackend expects. This keeps everything in-process — no HTTP calls.
+const databaseClient = {
+  request: async ({ query, variables }: { query: string; variables: object }) => {
+    return resolve({ database, query, variables })
+  },
+}
 
 const tinaBackend = TinaNodeBackend({
   authProvider: isLocal
