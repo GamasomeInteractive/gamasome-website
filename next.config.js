@@ -80,10 +80,7 @@ module.exports = () => {
         },
       },
     },
-    experimental: {
-      esmExternals: 'loose',
-    },
-    serverExternalPackages: [
+    transpilePackages: [
       '@tinacms/datalayer',
       'tinacms-authjs',
       'tinacms-gitprovider-github',
