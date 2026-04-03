@@ -367,6 +367,16 @@ export default defineConfig({
     tina: {
       mediaRoot: 'static/images',
       publicFolder: 'public',
+      static: true,
+    },
+  },
+
+  // Override preview URL — images live in git (public/static/images/),
+  // not on Tina CDN, so strip the CDN prefix and serve from our own domain.
+  ui: {
+    previewSrc: ({ src }: { src: string }) => {
+      const CDN_RE = /^https:\/\/assets\.tina\.io\/[a-f0-9-]+\//
+      return src.replace(CDN_RE, '/')
     },
   },
 
