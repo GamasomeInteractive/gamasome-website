@@ -1,34 +1,7 @@
-import { defineConfig, LocalAuthProvider, AbstractAuthProvider } from 'tinacms'
+import { defineConfig } from 'tinacms'
 import { VersionHistoryScreen, VersionHistoryIcon } from './VersionHistoryScreen'
 import { ThemePickerScreen, ThemePickerIcon } from './ThemePickerScreen'
 import { TemplatePickerScreen, TemplatePickerIcon } from './TemplatePickerScreen'
-
-// Client-side auth provider for self-hosted Tina with GitHub OAuth (next-auth).
-// tina/config.ts is compiled into the static admin SPA by tinacms build —
-// it never runs on the Next.js server, so importing tinacms here is safe.
-class GitHubNextAuthProvider extends AbstractAuthProvider {
-  async authenticate() {
-    const callbackUrl = encodeURIComponent(window.location.href)
-    window.location.href = `/api/auth/signin/github?callbackUrl=${callbackUrl}`
-    return { access_token: '', id_token: '', refresh_token: '' }
-  }
-  async getUser() {
-    try {
-      const res = await fetch('/api/auth/session')
-      const session = await res.json()
-      return session?.user ?? null
-    } catch {
-      return null
-    }
-  }
-  async getToken() {
-    return { id_token: '' }
-  }
-  async logout() {
-    await fetch('/api/auth/signout', { method: 'POST' })
-    window.location.href = '/'
-  }
-}
 
 // ── Section motion override fields (reused in each section) ──────────
 function sectionMotionFields() {
@@ -382,11 +355,8 @@ export default defineConfig({
     return cms
   },
   branch: process.env.GITHUB_BRANCH || 'main',
-  // Self-hosted: point to our own API routes instead of Tina Cloud
-  contentApiUrlOverride: '/api/tina/gql/',
-  authProvider: process.env.TINA_PUBLIC_IS_LOCAL === 'true'
-    ? new LocalAuthProvider()
-    : new GitHubNextAuthProvider(),
+  clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID || null,
+  token: process.env.TINA_TOKEN || null,
 
   build: {
     outputFolder: 'admin',

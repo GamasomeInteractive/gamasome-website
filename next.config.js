@@ -80,12 +80,6 @@ module.exports = () => {
         },
       },
     },
-    serverExternalPackages: [
-      '@tinacms/datalayer',
-      '@tinacms/graphql',
-      'tinacms-gitprovider-github',
-      'upstash-redis-level',
-    ],
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
     images: {
       remotePatterns: [
