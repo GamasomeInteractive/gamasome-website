@@ -80,14 +80,12 @@ module.exports = () => {
         },
       },
     },
-    transpilePackages: [
+    serverExternalPackages: [
       '@tinacms/datalayer',
+      '@tinacms/graphql',
       'tinacms-gitprovider-github',
       'upstash-redis-level',
     ],
-    experimental: {
-      esmExternals: false,
-    },
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
     images: {
       remotePatterns: [
