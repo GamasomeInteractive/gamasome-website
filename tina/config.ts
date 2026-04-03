@@ -363,6 +363,13 @@ export default defineConfig({
     publicFolder: 'public',
   },
 
+  media: {
+    tina: {
+      mediaRoot: 'static/images',
+      publicFolder: 'public',
+    },
+  },
+
   schema: {
     collections: [
       // ── GLOBAL SITE SETTINGS ───────────────────────────────────────
