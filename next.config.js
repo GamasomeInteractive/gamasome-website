@@ -12,7 +12,7 @@ const ContentSecurityPolicy = `
   img-src * blob: data:;
   media-src *.s3.amazonaws.com;
   connect-src *;
-  font-src 'self' fonts.gstatic.com;
+  font-src 'self' fonts.gstatic.com data:;
   frame-src giscus.app 'self';
   frame-ancestors 'self'
 `
