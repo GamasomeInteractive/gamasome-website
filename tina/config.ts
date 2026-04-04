@@ -382,7 +382,7 @@ export default defineConfig({
 
   schema: {
     collections: [
-      // ── GLOBAL SITE SETTINGS ───────────────────────────────────────
+      // ── GLOBAL SITE SETTINGS ─────────────────────────────────────────
       {
         label: '⚙️ Site Settings',
         name: 'siteSettings',
