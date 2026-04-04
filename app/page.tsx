@@ -1,5 +1,6 @@
 import fs from 'fs/promises'
 import path from 'path'
+// HOME_SLUG: to change the home page, update the HOME_SLUG constant in this file
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import ServicePageView from '@/components/ServicePageView'
@@ -9,16 +10,10 @@ import fallbackHeader from '../content/navigation/header.json'
 import fallbackFooter from '../content/navigation/footer.json'
 
 const SERVICES_DIR = path.join(process.cwd(), 'content/pages/services')
-const SETTINGS_FILE = path.join(process.cwd(), 'content/settings/index.json')
+const HOME_SLUG = 'simulation-digital-twins'
 
 async function getHomeSlug(): Promise<string> {
-  try {
-    const raw = await fs.readFile(SETTINGS_FILE, 'utf-8')
-    const settings = JSON.parse(raw)
-    return settings.homePage || 'simulation-digital-twins'
-  } catch {
-    return 'simulation-digital-twins'
-  }
+  return HOME_SLUG
 }
 
 async function getPageData(slug: string) {
