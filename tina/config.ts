@@ -711,6 +711,50 @@ export default defineConfig({
           },
         ],
       },
+      // ── BLOG POSTS ──────────────────────────────────────────────────
+      {
+        label: '📝 Blog Posts',
+        name: 'blog',
+        path: 'data/blog',
+        format: 'mdx',
+        match: { include: '**/*' },
+        ui: {
+          filename: {
+            slugify: (values: any) =>
+              (values?.title || 'untitled')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/(^-|-$)/g, ''),
+          },
+        },
+        fields: [
+          { type: 'string', name: 'title', label: 'Title', isTitle: true, required: true },
+          { type: 'datetime', name: 'date', label: 'Publish Date', required: true },
+          { type: 'datetime', name: 'lastmod', label: 'Last Modified (optional)' },
+          {
+            type: 'string', name: 'tags', label: 'Tags', list: true,
+            ui: { component: 'tags' },
+          },
+          { type: 'boolean', name: 'draft', label: 'Draft (hidden on site)' },
+          { type: 'string', name: 'summary', label: 'Summary / Excerpt', ui: { component: 'textarea' } },
+          {
+            type: 'string', name: 'images', label: 'Featured Images (URLs)', list: true,
+          },
+          {
+            type: 'string', name: 'authors', label: 'Authors', list: true,
+          },
+          {
+            type: 'string', name: 'layout', label: 'Layout',
+            options: [
+              { value: 'PostLayout', label: 'Post Layout (with TOC & author)' },
+              { value: 'PostSimple', label: 'Post Simple (minimal)' },
+              { value: 'PostBanner', label: 'Post Banner (full-width image)' },
+            ],
+          },
+          { type: 'string', name: 'canonicalUrl', label: 'Canonical URL (optional)' },
+          { type: 'rich-text', name: 'body', label: 'Body', isBody: true },
+        ],
+      },
     ],
   },
 })
