@@ -30,5 +30,12 @@
     "ga4Id": "",
     "clarityId": "",
     "gscVerification": ""
+  },
+  "globalSeo": {
+    "defaultTitle": "Gamasome — Physical AI & Robotics Data Solutions",
+    "titleSuffix": " | Gamasome",
+    "defaultDescription": "Gamasome provides AI, simulation, digital twins, robotics and data solutions for enterprises worldwide.",
+    "defaultOgImage": "/static/images/logo.png",
+    "twitterHandle": "@gamasome"
   }
 }

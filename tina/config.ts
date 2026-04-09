@@ -39,10 +39,60 @@ function sectionMotionFields() {
 }
 
 // ── Shared field groups reused across all service pages ──────────────
+function seoFields() {
+  return {
+    type: 'object' as const,
+    name: 'seo',
+    label: '🔍 SEO',
+    fields: [
+      {
+        type: 'string' as const, name: 'metaTitle', label: 'Meta Title',
+        ui: { description: 'Recommended: 50–60 characters. Leave blank to use the hero title.' },
+      },
+      {
+        type: 'string' as const, name: 'metaDescription', label: 'Meta Description',
+        ui: { component: 'textarea', description: 'Recommended: 150–160 characters.' },
+      },
+      {
+        type: 'string' as const, name: 'keywords', label: 'Focus Keywords (comma-separated)',
+        ui: { description: 'For reference only — not rendered as a meta tag (Google ignores it). Helps your team track target keywords per page.' },
+      },
+      { type: 'image' as const, name: 'ogImage', label: 'OG / Social Share Image (1200×630px recommended)' },
+      {
+        type: 'string' as const, name: 'canonicalUrl', label: 'Canonical URL',
+        ui: { description: 'Only set if this page duplicates another URL. Leave blank for the default canonical.' },
+      },
+      {
+        type: 'string' as const, name: 'robots', label: 'Robots',
+        options: [
+          { value: 'index, follow',     label: 'Index & Follow (default)' },
+          { value: 'noindex, follow',   label: 'No Index, Follow' },
+          { value: 'index, nofollow',   label: 'Index, No Follow' },
+          { value: 'noindex, nofollow', label: 'No Index, No Follow' },
+        ],
+      },
+      {
+        type: 'string' as const, name: 'changefreq', label: 'Sitemap Change Frequency',
+        options: [
+          { value: 'daily',   label: 'Daily' },
+          { value: 'weekly',  label: 'Weekly (default)' },
+          { value: 'monthly', label: 'Monthly' },
+          { value: 'yearly',  label: 'Yearly' },
+        ],
+      },
+      {
+        type: 'number' as const, name: 'priority', label: 'Sitemap Priority (0.0 – 1.0)',
+        ui: { description: 'Home = 1.0, service pages = 0.8, blog = 0.6. Default: 0.8' },
+      },
+    ],
+  }
+}
+
 function servicePageFields() {
   return [
     { type: 'string' as const, name: 'pageTitle',       label: 'SEO Page Title' },
     { type: 'string' as const, name: 'pageDescription', label: 'SEO Description', ui: { component: 'textarea' } },
+    seoFields(),
     {
       type: 'object' as const, name: 'hero', label: '🖼 Hero Banner',
       fields: [
@@ -508,6 +558,31 @@ export default defineConfig({
               },
             ],
           },
+          {
+            type: 'object',
+            name: 'globalSeo',
+            label: '🌐 Global SEO Defaults',
+            ui: { description: 'Fallback values used when a page has no SEO fields set.' },
+            fields: [
+              {
+                type: 'string', name: 'defaultTitle', label: 'Default Meta Title',
+                ui: { description: 'Used on pages without a custom meta title. e.g. "Gamasome — Physical AI & Robotics Data"' },
+              },
+              {
+                type: 'string', name: 'titleSuffix', label: 'Title Suffix',
+                ui: { description: 'Appended to every page title. e.g. " | Gamasome"' },
+              },
+              {
+                type: 'string', name: 'defaultDescription', label: 'Default Meta Description',
+                ui: { component: 'textarea', description: '150–160 characters. Used when a page has no description.' },
+              },
+              { type: 'image', name: 'defaultOgImage', label: 'Default OG / Social Share Image' },
+              {
+                type: 'string', name: 'twitterHandle', label: 'Twitter / X Handle',
+                ui: { description: 'e.g. @gamasome' },
+              },
+            ],
+          },
         ],
       },
 
@@ -777,6 +852,7 @@ export default defineConfig({
             ],
           },
           { type: 'string', name: 'canonicalUrl', label: 'Canonical URL (optional)' },
+          seoFields(),
           {
             type: 'object', name: 'faqs', label: '❓ FAQs (for FAQ schema — boosts SEO)', list: true,
             ui: { itemProps: (item: any) => ({ label: item?.question ?? 'FAQ' }) },

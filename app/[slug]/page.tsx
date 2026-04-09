@@ -18,28 +18,33 @@ export async function generateMetadata(
   if (!raw) return {}
 
   const d = JSON.parse(raw)
+  const seo = d.seo || {}
   const hero = d.hero || {}
-  const title: string = hero.title || hero.headline || slug.replace(/-/g, ' ')
-  const description: string = hero.subtitle || hero.subheadline || hero.description || ''
-  const image: string | undefined = hero.bannerImage || hero.backgroundImage || undefined
-  const pageUrl = `https://gamasome.com/${slug}`
+
+  const title: string = seo.metaTitle || d.pageTitle || hero.title || hero.headline || slug.replace(/-/g, ' ')
+  const description: string = seo.metaDescription || d.pageDescription || hero.subtitle || hero.description || ''
+  const pageUrl: string = seo.canonicalUrl || `https://gamasome.com/${slug}`
+  const rawImage: string | undefined = seo.ogImage || hero.bannerImage || hero.backgroundImage
+  const image = rawImage ? (rawImage.startsWith('http') ? rawImage : `https://gamasome.com${rawImage}`) : undefined
+  const robots: string = seo.robots || 'index, follow'
 
   return {
     title,
     description: description.slice(0, 160),
+    robots,
     alternates: { canonical: pageUrl },
     openGraph: {
       title,
       description: description.slice(0, 160),
       url: pageUrl,
       type: 'website',
-      ...(image && { images: [image.startsWith('http') ? image : `https://gamasome.com${image}`] }),
+      ...(image && { images: [image] }),
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description: description.slice(0, 160),
-      ...(image && { images: [image.startsWith('http') ? image : `https://gamasome.com${image}`] }),
+      ...(image && { images: [image] }),
     },
   }
 }
