@@ -186,13 +186,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           }),
         }}
       />
+      {analyticsSettings.gscVerification && (
+        <meta name="google-site-verification" content={analyticsSettings.gscVerification} />
+      )}
       {/* Layer 1: inject CMS-controlled motion tokens as CSS custom properties */}
       <style href="motion-tokens" precedence="default" dangerouslySetInnerHTML={{ __html: motionCss }} />
-      <head>
-        {analyticsSettings.gscVerification && (
-          <meta name="google-site-verification" content={analyticsSettings.gscVerification} />
-        )}
-      </head>
       <body className="bg-white pl-[calc(100vw-100%)] text-black antialiased dark:bg-gray-950 dark:text-white">
         {analyticsSettings.ga4Id && (
           <GoogleAnalytics measurementId={analyticsSettings.ga4Id} />
