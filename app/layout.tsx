@@ -14,6 +14,7 @@ import siteMetadata from '@/data/siteMetadata'
 import { HeaderDocument, FooterDocument } from '../tina/__generated__/types'
 import fallbackHeader from '../content/navigation/header.json'
 import fallbackFooter from '../content/navigation/footer.json'
+import MicrosoftClarity from '@/components/MicrosoftClarity'
 import { ThemeProviders } from './theme-providers'
 import { buildMotionCss } from '@/lib/motion'
 import { Metadata } from 'next'
@@ -35,6 +36,9 @@ export const metadata: Metadata = {
   title: {
     default: siteMetadata.title,
     template: `%s | ${siteMetadata.title}`,
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GSC_VERIFICATION,
   },
   description: siteMetadata.description,
   openGraph: {
@@ -184,6 +188,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       {/* Layer 1: inject CMS-controlled motion tokens as CSS custom properties */}
       <style href="motion-tokens" precedence="default" dangerouslySetInnerHTML={{ __html: motionCss }} />
       <body className="bg-white pl-[calc(100vw-100%)] text-black antialiased dark:bg-gray-950 dark:text-white">
+        {process.env.NEXT_PUBLIC_CLARITY_ID && (
+          <MicrosoftClarity projectId={process.env.NEXT_PUBLIC_CLARITY_ID} />
+        )}
         <SmoothScrollProvider>
           <ThemeProviders>
             {/* Layer 2: provide CMS motion settings to Framer Motion components */}
