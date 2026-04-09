@@ -25,5 +25,10 @@
     "easePreset": "cinematic",
     "durationScale": 1.0,
     "disableAnimations": false
+  },
+  "analytics": {
+    "ga4Id": "",
+    "clarityId": "",
+    "gscVerification": ""
   }
 }

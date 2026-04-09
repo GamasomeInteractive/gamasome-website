@@ -483,6 +483,31 @@ export default defineConfig({
               },
             ],
           },
+          {
+            type: 'object',
+            name: 'analytics',
+            label: '📊 Analytics & Search Console',
+            fields: [
+              {
+                type: 'string',
+                name: 'ga4Id',
+                label: 'Google Analytics 4 ID',
+                ui: { description: 'Format: G-XXXXXXXXXX — from GA4 → Admin → Data Streams → Measurement ID' },
+              },
+              {
+                type: 'string',
+                name: 'clarityId',
+                label: 'Microsoft Clarity Project ID',
+                ui: { description: 'From MS Clarity → Settings → Overview → Project ID' },
+              },
+              {
+                type: 'string',
+                name: 'gscVerification',
+                label: 'Google Search Console Verification Code',
+                ui: { description: 'Only the code value from the <meta name="google-site-verification" content="..."> tag' },
+              },
+            ],
+          },
         ],
       },
 

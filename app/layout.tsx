@@ -15,6 +15,7 @@ import { HeaderDocument, FooterDocument } from '../tina/__generated__/types'
 import fallbackHeader from '../content/navigation/header.json'
 import fallbackFooter from '../content/navigation/footer.json'
 import MicrosoftClarity from '@/components/MicrosoftClarity'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 import { ThemeProviders } from './theme-providers'
 import { buildMotionCss } from '@/lib/motion'
 import { Metadata } from 'next'
@@ -36,9 +37,6 @@ export const metadata: Metadata = {
   title: {
     default: siteMetadata.title,
     template: `%s | ${siteMetadata.title}`,
-  },
-  verification: {
-    google: process.env.NEXT_PUBLIC_GSC_VERIFICATION,
   },
   description: siteMetadata.description,
   openGraph: {
@@ -88,13 +86,13 @@ async function getNavData() {
   return { header, footer }
 }
 
-async function getMotionSettings() {
+async function getSettings() {
   try {
     const raw = await fs.readFile(
       path.join(process.cwd(), 'content/settings/index.json'),
       'utf-8',
     )
-    return (JSON.parse(raw).motion ?? {}) as Record<string, unknown>
+    return JSON.parse(raw) as Record<string, any>
   } catch {
     return {}
   }
@@ -102,10 +100,13 @@ async function getMotionSettings() {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const basePath = process.env.BASE_PATH || ''
-  const [{ header, footer }, motionRaw] = await Promise.all([
+  const [{ header, footer }, settings] = await Promise.all([
     getNavData(),
-    getMotionSettings(),
+    getSettings(),
   ])
+
+  const motionRaw = settings.motion ?? {}
+  const analyticsSettings = settings.analytics ?? {}
 
   const motionSettings = {
     easePreset:        ((motionRaw.easePreset as string) || 'cinematic') as 'smooth' | 'cinematic' | 'inOut' | 'snap',
@@ -187,9 +188,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       />
       {/* Layer 1: inject CMS-controlled motion tokens as CSS custom properties */}
       <style href="motion-tokens" precedence="default" dangerouslySetInnerHTML={{ __html: motionCss }} />
+      <head>
+        {analyticsSettings.gscVerification && (
+          <meta name="google-site-verification" content={analyticsSettings.gscVerification} />
+        )}
+      </head>
       <body className="bg-white pl-[calc(100vw-100%)] text-black antialiased dark:bg-gray-950 dark:text-white">
-        {process.env.NEXT_PUBLIC_CLARITY_ID && (
-          <MicrosoftClarity projectId={process.env.NEXT_PUBLIC_CLARITY_ID} />
+        {analyticsSettings.ga4Id && (
+          <GoogleAnalytics measurementId={analyticsSettings.ga4Id} />
+        )}
+        {analyticsSettings.clarityId && (
+          <MicrosoftClarity projectId={analyticsSettings.clarityId} />
         )}
         <SmoothScrollProvider>
           <ThemeProviders>
