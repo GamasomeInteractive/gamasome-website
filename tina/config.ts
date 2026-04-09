@@ -752,6 +752,14 @@ export default defineConfig({
             ],
           },
           { type: 'string', name: 'canonicalUrl', label: 'Canonical URL (optional)' },
+          {
+            type: 'object', name: 'faqs', label: '❓ FAQs (for FAQ schema — boosts SEO)', list: true,
+            ui: { itemProps: (item: any) => ({ label: item?.question ?? 'FAQ' }) },
+            fields: [
+              { type: 'string', name: 'question', label: 'Question', required: true },
+              { type: 'string', name: 'answer', label: 'Answer', required: true, ui: { component: 'textarea' } },
+            ],
+          },
           { type: 'rich-text', name: 'body', label: 'Body', isBody: true },
         ],
       },

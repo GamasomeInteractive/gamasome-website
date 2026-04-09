@@ -81,6 +81,41 @@ async function getNavData() {
   }
 }
 
+function buildServiceSchema(slug: string, parsed: any) {
+  const hero = parsed.hero || {}
+  const name: string = hero.title || hero.headline || slug.replace(/-/g, ' ')
+  const description: string = hero.subtitle || hero.subheadline || hero.description || parsed.pageDescription || ''
+  const url = `https://gamasome.com/${slug}`
+  const image: string | undefined = hero.bannerImage
+    ? hero.bannerImage.startsWith('http') ? hero.bannerImage : `https://gamasome.com${hero.bannerImage}`
+    : undefined
+
+  const serviceSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name,
+    description,
+    url,
+    provider: {
+      '@type': 'Organization',
+      name: 'Gamasome',
+      url: 'https://gamasome.com',
+    },
+    ...(image && { image }),
+  }
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://gamasome.com' },
+      { '@type': 'ListItem', position: 2, name, item: url },
+    ],
+  }
+
+  return [serviceSchema, breadcrumbSchema]
+}
+
 export default async function ServiceSlugPage(props: { params: Promise<{ slug: string }> }) {
   const { slug } = await props.params
 
@@ -94,25 +129,36 @@ export default async function ServiceSlugPage(props: { params: Promise<{ slug: s
   const parsed = JSON.parse(raw!)
   const tinaCmsTemplate = parsed._template as string | undefined
   const layoutTemplate  = (parsed.template || 'classic') as string
+  const schemas = buildServiceSchema(slug, parsed)
 
   if (tinaCmsTemplate === 'aiPlatform') {
     const { header, footer } = await getNavData()
     return (
-      <AIPlatformView
-        pageData={page.data}   pageQuery={page.query}   pageVars={page.variables}
-        headerData={header.data} headerQuery={header.query} headerVars={header.variables}
-        footerData={footer.data} footerQuery={footer.query} footerVars={footer.variables}
-      />
+      <>
+        {schemas.map((s, i) => (
+          <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
+        ))}
+        <AIPlatformView
+          pageData={page.data}   pageQuery={page.query}   pageVars={page.variables}
+          headerData={header.data} headerQuery={header.query} headerVars={header.variables}
+          footerData={footer.data} footerQuery={footer.query} footerVars={footer.variables}
+        />
+      </>
     )
   }
 
   return (
-    <ServicePageView
-      pageData={page.data}
-      pageQuery={page.query}
-      pageVars={page.variables}
-      collectionKey="servicePage"
-      template={layoutTemplate}
-    />
+    <>
+      {schemas.map((s, i) => (
+        <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
+      ))}
+      <ServicePageView
+        pageData={page.data}
+        pageQuery={page.query}
+        pageVars={page.variables}
+        collectionKey="servicePage"
+        template={layoutTemplate}
+      />
+    </>
   )
 }
