@@ -432,6 +432,7 @@ export default defineConfig({
         label: '⚙️ Site Settings',
         name: 'siteSettings',
         path: 'content/settings',
+        match: { include: 'index' },
         format: 'json',
         ui: {
           global: true,
