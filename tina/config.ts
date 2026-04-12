@@ -809,7 +809,7 @@ export default defineConfig({
         name: 'blog',
         path: 'data/blog',
         format: 'mdx',
-        match: { include: '**/*' },
+        match: { include: '**/*', exclude: 'deriving-ols-estimator' },
         ui: {
           filename: {
             slugify: (values: any) =>
