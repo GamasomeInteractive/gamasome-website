@@ -13,7 +13,7 @@ const ContentSecurityPolicy = `
   media-src *.s3.amazonaws.com;
   connect-src *;
   font-src 'self' fonts.gstatic.com data:;
-  frame-src giscus.app 'self';
+  frame-src giscus.app 'self' www.youtube.com youtube-nocookie.com;
   frame-ancestors 'self'
 `
 
