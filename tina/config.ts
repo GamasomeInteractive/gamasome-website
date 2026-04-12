@@ -407,6 +407,9 @@ export default defineConfig({
   branch: process.env.GITHUB_BRANCH || 'main',
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID || null,
   token: process.env.TINA_TOKEN || null,
+  // Explicit content API URL — prevents vite parse errors caused by certain UUIDs
+  // being inlined by esbuild at build-time (Vercel environment)
+  contentApiUrlOverride: process.env.TINA_CONTENT_API_URL || undefined,
 
   build: {
     outputFolder: 'admin',
