@@ -46,14 +46,8 @@ yarn-error.log*
 # Contentlayer
 .contentlayer
 
-# Tina auto-generated (rebuilt on every tinacms build) — except prebuild which Tina Cloud reads
-tina/__generated__/_lookup.json
-tina/__generated__/client.ts
-tina/__generated__/frags.gql
-tina/__generated__/queries.gql
-tina/__generated__/schema.gql
-tina/__generated__/static-media.json
-tina/__generated__/types.ts
+# Tina auto-generated (rebuilt on every tinacms build)
+tina/__generated__
 
 .vercel
 
