@@ -1404,7 +1404,7 @@ var config_default = defineConfig({
         label: "\u{1F4DD} Blog Posts",
         name: "blog",
         path: "data/blog",
-        format: "mdx",
+        format: "md",
         match: { include: "**/*", exclude: "deriving-ols-estimator" },
         ui: {
           filename: {

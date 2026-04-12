@@ -808,7 +808,7 @@ export default defineConfig({
         label: '📝 Blog Posts',
         name: 'blog',
         path: 'data/blog',
-        format: 'mdx',
+        format: 'md',
         match: { include: '**/*', exclude: 'deriving-ols-estimator' },
         ui: {
           filename: {
