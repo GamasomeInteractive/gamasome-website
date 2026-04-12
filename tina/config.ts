@@ -812,7 +812,7 @@ export default defineConfig({
         label: '📝 Blog Posts',
         name: 'blog',
         path: 'data/blog',
-        format: 'md',
+        format: 'mdx',
         match: { include: '**/*', exclude: 'deriving-ols-estimator' },
         ui: {
           filename: {
