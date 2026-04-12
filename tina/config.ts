@@ -1,3 +1,4 @@
+// schema v2 – analytics, globalSeo, seoFields, blog collection
 import { defineConfig } from 'tinacms'
 import { VersionHistoryScreen, VersionHistoryIcon } from './VersionHistoryScreen'
 import { ThemePickerScreen, ThemePickerIcon } from './ThemePickerScreen'
@@ -30,7 +31,6 @@ function sectionMotionFields() {
         label: 'Duration Scale',
         ui: {
           description: 'Leave blank to inherit. 1.0 = normal · 0.5 = 2× faster · 2.0 = 2× slower',
-          // @ts-expect-error placeholder is valid HTML but not typed in TinaCMS
           placeholder: '1.0',
         },
       },
@@ -421,14 +421,6 @@ export default defineConfig({
     },
   },
 
-  // Override preview URL — images live in git (public/static/images/),
-  // not on Tina CDN, so strip the CDN prefix and serve from our own domain.
-  ui: {
-    previewSrc: ({ src }: { src: string }) => {
-      const CDN_RE = /^https:\/\/assets\.tina\.io\/[a-f0-9-]+\//
-      return src.replace(CDN_RE, '/')
-    },
-  },
 
   schema: {
     collections: [
