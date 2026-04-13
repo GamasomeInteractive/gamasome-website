@@ -1,11 +1,20 @@
 'use client'
 
 import { ThemeProvider } from 'next-themes'
-import siteMetadata from '@/data/siteMetadata'
 
-export function ThemeProviders({ children }: { children: React.ReactNode }) {
+interface Props {
+  children: React.ReactNode
+  colorScheme?: string // 'light' | 'dark' | 'system'
+}
+
+export function ThemeProviders({ children, colorScheme = 'light' }: Props) {
   return (
-    <ThemeProvider attribute="class" defaultTheme={siteMetadata.theme} enableSystem>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme={colorScheme}
+      enableSystem={colorScheme === 'system'}
+      forcedTheme={colorScheme === 'system' ? undefined : colorScheme}
+    >
       {children}
     </ThemeProvider>
   )

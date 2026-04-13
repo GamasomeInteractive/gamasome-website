@@ -459,6 +459,19 @@ export default defineConfig({
               { value: 'robotics-solutions',        label: 'Robotics Solutions' },
             ],
           },
+          {
+            type: 'string',
+            name: 'colorScheme',
+            label: '🌓 Blog & Content Theme',
+            ui: {
+              description: 'Controls light/dark mode for blog posts and content pages. Service pages always use their own dark styling.',
+            },
+            options: [
+              { value: 'light',  label: 'Light (default)' },
+              { value: 'dark',   label: 'Dark' },
+              { value: 'system', label: 'Follow visitor OS preference' },
+            ],
+          },
           { type: 'image', name: 'logo', label: 'Logo Image' },
           { type: 'image', name: 'favicon', label: 'Favicon' },
           {

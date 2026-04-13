@@ -105,6 +105,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     getSettings(),
   ])
 
+  const colorScheme = (settings.colorScheme as string) || 'light'
   const motionRaw = settings.motion ?? {}
   const analyticsSettings = settings.analytics ?? {}
 
@@ -199,7 +200,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <MicrosoftClarity projectId={analyticsSettings.clarityId} />
         )}
         <SmoothScrollProvider>
-          <ThemeProviders>
+          <ThemeProviders colorScheme={colorScheme}>
             {/* Layer 2: provide CMS motion settings to Framer Motion components */}
             <MotionProvider settings={motionSettings}>
               <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
