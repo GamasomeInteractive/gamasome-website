@@ -10,10 +10,16 @@ import fallbackHeader from '../content/navigation/header.json'
 import fallbackFooter from '../content/navigation/footer.json'
 
 const SERVICES_DIR = path.join(process.cwd(), 'content/pages/services')
-const HOME_SLUG = 'simulation-digital-twins'
+const SETTINGS_FILE = path.join(process.cwd(), 'content/settings/index.json')
+const FALLBACK_SLUG = 'simulation-digital-twins'
 
 async function getHomeSlug(): Promise<string> {
-  return HOME_SLUG
+  try {
+    const raw = await fs.readFile(SETTINGS_FILE, 'utf-8')
+    const settings = JSON.parse(raw)
+    if (settings.homePage) return settings.homePage
+  } catch {}
+  return FALLBACK_SLUG
 }
 
 async function getPageData(slug: string) {
