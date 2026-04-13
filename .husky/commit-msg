@@ -1,0 +1,9 @@
+# Block commits that contain Claude co-author lines.
+# To change this, edit .husky/commit-msg
+if grep -qi "Co-Authored-By:.*Claude\|Co-Authored-By:.*noreply@anthropic" "$1"; then
+  echo ""
+  echo "ERROR: Commit message contains a Claude co-author line."
+  echo "Remove the 'Co-Authored-By: Claude ...' line and try again."
+  echo ""
+  exit 1
+fi
