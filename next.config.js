@@ -4,7 +4,10 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
-// You might need to insert additional domains in script-src if you are using external services
+// IMPORTANT: frame-src must always include www.youtube.com youtube-nocookie.com
+// — removing them silently breaks all YouTube iframes on AR/VR and game-dev pages.
+// IMPORTANT: normalizeTinaImages (lib/normalizeTinaImages.ts) must prepend /static/images/
+// when stripping Tina CDN URLs — see lib/normalizeTinaImages.test.ts for regression tests.
 const ContentSecurityPolicy = `
   default-src 'self';
   script-src 'self' 'unsafe-eval' 'unsafe-inline' giscus.app analytics.umami.is cloud.umami.is us-assets.i.posthog.com www.googletagmanager.com *.clarity.ms;
