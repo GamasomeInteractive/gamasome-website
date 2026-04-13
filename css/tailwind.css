@@ -2,6 +2,11 @@
 @plugin "@tailwindcss/forms";
 @plugin '@tailwindcss/typography';
 
+/* Make dark: utilities respond to the .dark class (set by next-themes)
+   instead of the OS media query. Without this, Tailwind v4 defaults to
+   @media (prefers-color-scheme: dark) and next-themes has no effect. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Core theme configuration */
 @theme {
   /* Font families */
