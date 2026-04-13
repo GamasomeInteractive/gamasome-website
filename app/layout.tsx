@@ -192,7 +192,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       )}
       {/* Layer 1: inject CMS-controlled motion tokens as CSS custom properties */}
       <style href="motion-tokens" precedence="default" dangerouslySetInnerHTML={{ __html: motionCss }} />
-      <body className="bg-white pl-[calc(100vw-100%)] text-black antialiased dark:bg-gray-950 dark:text-white">
+      <body className="bg-white text-black antialiased dark:bg-gray-950 dark:text-white">
         {analyticsSettings.ga4Id && (
           <GoogleAnalytics measurementId={analyticsSettings.ga4Id} />
         )}
