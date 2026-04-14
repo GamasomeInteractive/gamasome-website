@@ -7,7 +7,7 @@ const siteMetadata = {
   headerTitle: '',
   language: 'en-us',
   theme: 'light', // system, dark or light
-  siteUrl: 'https://gamasome.com',
+  siteUrl: 'https://www.gamasome.com',
   siteRepo: 'https://github.com/GamasomeInteractive/gamasome-website',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
   socialBanner: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
