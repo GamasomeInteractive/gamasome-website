@@ -99,6 +99,13 @@ module.exports = () => {
     },
     async redirects() {
       return [
+        // Canonical www redirect — non-www → www (permanent 308 for SEO)
+        {
+          source: '/:path*',
+          has: [{ type: 'host', value: 'gamasome.com' }],
+          destination: 'https://www.gamasome.com/:path*',
+          permanent: true,
+        },
         {
           source: '/admin',
           destination: '/admin/index.html',
