@@ -6,31 +6,55 @@ import path from 'path'
 
 export const dynamic = 'force-static'
 
+function getSitemapSettings() {
+  try {
+    const raw = fs.readFileSync(
+      path.join(process.cwd(), 'content/settings/index.json'),
+      'utf-8',
+    )
+    return JSON.parse(raw).sitemap ?? {}
+  } catch {
+    return {}
+  }
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const siteUrl = siteMetadata.siteUrl
   const today = new Date().toISOString().split('T')[0]
+  const settings = getSitemapSettings()
 
-  const blogRoutes = allBlogs
-    .filter((post) => !post.draft)
-    .map((post) => ({
-      url: `${siteUrl}/${post.path}`,
-      lastModified: post.lastmod || post.date,
-    }))
+  const changefreq = (settings.defaultChangefreq ?? 'weekly') as MetadataRoute.Sitemap[number]['changeFrequency']
+  const includeBlogs: boolean = settings.includeBlogs ?? true
+  const includeServicePages: boolean = settings.includeServicePages ?? true
 
-  const coreRoutes = ['', 'about', 'contact'].map((route) => ({
+  const coreRoutes: MetadataRoute.Sitemap = ['', 'about', 'contact'].map((route) => ({
     url: route ? `${siteUrl}/${route}` : siteUrl,
     lastModified: today,
+    changeFrequency: changefreq,
     priority: route === '' ? 1.0 : 0.8,
   }))
 
-  const servicesDir = path.join(process.cwd(), 'content/pages/services')
-  const serviceRoutes = fs.existsSync(servicesDir)
-    ? fs
-        .readdirSync(servicesDir)
-        .filter((f) => f.endsWith('.json'))
-        .map((f) => ({
-          url: `${siteUrl}/${f.replace('.json', '')}`,
-          lastModified: today,
+  const serviceRoutes: MetadataRoute.Sitemap = (() => {
+    if (!includeServicePages) return []
+    const servicesDir = path.join(process.cwd(), 'content/pages/services')
+    if (!fs.existsSync(servicesDir)) return []
+    return fs
+      .readdirSync(servicesDir)
+      .filter((f) => f.endsWith('.json'))
+      .map((f) => ({
+        url: `${siteUrl}/${f.replace('.json', '')}`,
+        lastModified: today,
+        changeFrequency: changefreq,
+      }))
+  })()
+
+  const blogRoutes: MetadataRoute.Sitemap = includeBlogs
+    ? allBlogs
+        .filter((post) => !post.draft)
+        .map((post) => ({
+          url: `${siteUrl}/${post.path}`,
+          lastModified: post.lastmod || post.date,
+          changeFrequency: changefreq,
         }))
     : []
 

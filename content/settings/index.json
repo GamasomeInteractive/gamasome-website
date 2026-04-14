@@ -27,6 +27,15 @@
     "durationScale": 1,
     "disableAnimations": false
   },
+  "robotsTxt": {
+    "blockAiCrawlers": false,
+    "customRules": []
+  },
+  "sitemap": {
+    "defaultChangefreq": "weekly",
+    "includeBlogs": true,
+    "includeServicePages": true
+  },
   "analytics": {
     "ga4Id": "G-56E96KJN9Q",
     "clarityId": "wb3s2wv51k",

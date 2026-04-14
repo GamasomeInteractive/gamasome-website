@@ -587,6 +587,73 @@ export default defineConfig({
           },
           {
             type: 'object',
+            name: 'robotsTxt',
+            label: '🤖 Robots.txt',
+            ui: { description: 'Controls which crawlers can access your site. Changes take effect on next deployment.' },
+            fields: [
+              {
+                type: 'boolean',
+                name: 'blockAiCrawlers',
+                label: 'Block AI Training Crawlers',
+                ui: { description: 'Blocks GPTBot, CCBot, Claude-Web, Anthropic-AI, Google-Extended, PerplexityBot from crawling your content for AI training.' },
+              },
+              {
+                type: 'object',
+                name: 'customRules',
+                label: 'Custom Disallow Rules',
+                list: true,
+                ui: {
+                  description: 'Add paths you want to block from all crawlers (e.g. /admin, /private).',
+                  itemProps: (item) => ({ label: item?.path ?? 'Rule' }),
+                },
+                fields: [
+                  {
+                    type: 'string',
+                    name: 'path',
+                    label: 'Disallow Path',
+                    ui: { description: 'e.g. /admin or /private' },
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: 'object',
+            name: 'sitemap',
+            label: '🗺 Sitemap',
+            ui: { description: 'Controls what appears in /sitemap.xml. Changes take effect on next deployment.' },
+            fields: [
+              {
+                type: 'string',
+                name: 'defaultChangefreq',
+                label: 'Default Change Frequency',
+                ui: { description: 'How often pages are likely to change. Used by search engines for crawl scheduling.' },
+                options: [
+                  { value: 'always',  label: 'Always' },
+                  { value: 'hourly',  label: 'Hourly' },
+                  { value: 'daily',   label: 'Daily' },
+                  { value: 'weekly',  label: 'Weekly' },
+                  { value: 'monthly', label: 'Monthly' },
+                  { value: 'yearly',  label: 'Yearly' },
+                  { value: 'never',   label: 'Never' },
+                ],
+              },
+              {
+                type: 'boolean',
+                name: 'includeBlogs',
+                label: 'Include Blog Posts',
+                ui: { description: 'Include all published blog posts in sitemap.xml.' },
+              },
+              {
+                type: 'boolean',
+                name: 'includeServicePages',
+                label: 'Include Service Pages',
+                ui: { description: 'Include all service pages (AI, AR/VR, Robotics, etc.) in sitemap.xml.' },
+              },
+            ],
+          },
+          {
+            type: 'object',
             name: 'globalSeo',
             label: '🌐 Global SEO Defaults',
             ui: { description: 'Fallback values used when a page has no SEO fields set.' },
