@@ -31,7 +31,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
         .map((f) => ({
           url: `${siteUrl}/${f.replace('.json', '')}`,
           lastModified: today,
-          priority: 0.9,
         }))
     : []
 
