@@ -1,0 +1,28 @@
+# Pre-push checks — runs before every git push
+# ─────────────────────────────────────────────────────────────────────────────
+
+# 1. If tina/config.ts changed in commits being pushed,
+#    tina-lock.json must also be updated (re-run: npx tinacms dev --no-server)
+LOCAL=$(git rev-parse @)
+REMOTE=$(git rev-parse @{u} 2>/dev/null || echo "")
+
+if [ -n "$REMOTE" ]; then
+  COMMITS_RANGE="$REMOTE..$LOCAL"
+else
+  COMMITS_RANGE="HEAD~1..HEAD"
+fi
+
+TINA_CONFIG_CHANGED=$(git diff --name-only "$COMMITS_RANGE" 2>/dev/null | grep -c "tina/config.ts" || true)
+TINA_LOCK_CHANGED=$(git diff --name-only "$COMMITS_RANGE" 2>/dev/null | grep -c "tina/tina-lock.json" || true)
+
+if [ "$TINA_CONFIG_CHANGED" -gt 0 ] && [ "$TINA_LOCK_CHANGED" -eq 0 ]; then
+  echo ""
+  echo "ERROR: tina/config.ts was changed but tina-lock.json was not regenerated."
+  echo "Run the following, then commit tina/tina-lock.json before pushing:"
+  echo ""
+  echo "  npx tinacms dev --no-server"
+  echo "  git add tina/tina-lock.json"
+  echo "  git commit -m 'chore: regenerate tina-lock.json'"
+  echo ""
+  exit 1
+fi
