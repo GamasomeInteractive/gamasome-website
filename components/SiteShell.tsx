@@ -7,21 +7,36 @@ type Props = {
   children: React.ReactNode
   headerData: any;  headerQuery: string;  headerVars: object
   footerData: any;  footerQuery: string;  footerVars: object
+  bareSlugs?: string[]
+  homePageIsBare?: boolean
 }
 
-export default function SiteShell({ children, headerData, headerQuery, headerVars, footerData, footerQuery, footerVars }: Props) {
-  const pathname = usePathname()
+export default function SiteShell({
+  children,
+  headerData, headerQuery, headerVars,
+  footerData, footerQuery, footerVars,
+  bareSlugs = [],
+  homePageIsBare = false,
+}: Props) {
+  const pathname = usePathname() ?? ''
+
+  // Strip trailing slash for matching
+  const normalized = pathname.replace(/\/$/, '') || '/'
+
+  // Bare pages render their own header/footer (AIPlatformView template).
+  // Skip the global SiteShell header/footer for them to avoid duplicates.
+  const isBareSlug = bareSlugs.some((slug) => normalized === `/${slug}`)
+  const isBareHome = homePageIsBare && normalized === '/'
 
   const isAdmin =
-    pathname === '/ai-platform' || pathname === '/ai-platform/' ||
-    pathname?.startsWith('/studio') ||
-    pathname?.startsWith('/admin') ||
-    pathname?.startsWith('/tina') ||
-    pathname?.startsWith('/version-history') ||
-    pathname?.startsWith('/theme-picker') ||
-    pathname?.startsWith('/template-picker')
+    normalized.startsWith('/studio') ||
+    normalized.startsWith('/admin') ||
+    normalized.startsWith('/tina') ||
+    normalized.startsWith('/version-history') ||
+    normalized.startsWith('/theme-picker') ||
+    normalized.startsWith('/template-picker')
 
-  if (isAdmin) {
+  if (isAdmin || isBareSlug || isBareHome) {
     return <>{children}</>
   }
 

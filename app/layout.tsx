@@ -98,12 +98,38 @@ async function getSettings() {
   }
 }
 
+// Pages with their own header/footer (rendered via AIPlatformView).
+// SiteShell uses this list to suppress the global TinaHeader/TinaFooter
+// to avoid double headers/footers.
+async function getBareSlugs(): Promise<string[]> {
+  try {
+    const dir = path.join(process.cwd(), 'content/pages/services')
+    const files = await fs.readdir(dir)
+    const slugs: string[] = []
+    for (const f of files) {
+      if (!f.endsWith('.json')) continue
+      const raw = await fs.readFile(path.join(dir, f), 'utf-8')
+      try {
+        const json = JSON.parse(raw)
+        if (json._template === 'aiPlatform') {
+          slugs.push(f.replace('.json', ''))
+        }
+      } catch {}
+    }
+    return slugs
+  } catch {
+    return []
+  }
+}
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const basePath = process.env.BASE_PATH || ''
-  const [{ header, footer }, settings] = await Promise.all([
+  const [{ header, footer }, settings, bareSlugs] = await Promise.all([
     getNavData(),
     getSettings(),
+    getBareSlugs(),
   ])
+  const homePage = (settings.homePage as string) || ''
 
   const colorScheme = (settings.colorScheme as string) || 'light'
   const motionRaw = settings.motion ?? {}
@@ -209,6 +235,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 <SiteShell
                   headerData={header.data}  headerQuery={header.query}  headerVars={header.variables}
                   footerData={footer.data}  footerQuery={footer.query}  footerVars={footer.variables}
+                  bareSlugs={bareSlugs}
+                  homePageIsBare={bareSlugs.includes(homePage)}
                 >{children}</SiteShell>
               </SearchProvider>
               {/* </SectionContainer> */}

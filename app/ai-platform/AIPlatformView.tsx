@@ -335,7 +335,7 @@ export default function AIPlatformView(props: Props) {
                 {security.map((s: any, i: number) => (
                   <StaggerItem key={i} className="flex items-start gap-3 rounded-xl border border-white/[0.08] bg-white/[0.03] p-5">
                     <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-sm" style={{ background: `${accentColor}22`, color: accentColor }}>✓</span>
-                    <span className="text-base font-medium" data-tina-field={tinaField(s, 'title')}>{s.title}</span>
+                    <span className="text-base font-medium text-white" data-tina-field={tinaField(s, 'title')}>{s.title}</span>
                   </StaggerItem>
                 ))}
               </StaggerContainer>
@@ -368,7 +368,7 @@ export default function AIPlatformView(props: Props) {
                   <tbody>
                     {comparison.rows.map((row: any, i: number) => (
                       <tr key={i} className={i % 2 === 0 ? 'bg-white/[0.02]' : 'bg-transparent'}>
-                        <td className="border-t border-white/[0.06] px-6 py-5 text-sm font-semibold">{row.activity}</td>
+                        <td className="border-t border-white/[0.06] px-6 py-5 text-sm font-semibold text-white">{row.activity}</td>
                         <td className="border-t border-white/[0.06] px-6 py-5 text-sm font-semibold" style={{ color: accentColor }}>{row.gamasome}</td>
                         <td className="border-t border-white/[0.06] px-6 py-5 text-sm text-white/55">{row.vendors}</td>
                       </tr>
