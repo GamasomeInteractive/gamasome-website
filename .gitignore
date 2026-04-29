@@ -28,6 +28,10 @@ public/sitemap.xml
 # search
 /public/search.json
 
+# source documents (briefs, references — not for the build)
+*.docx
+Gamasome-FD.pdf
+
 # misc
 .DS_Store
 

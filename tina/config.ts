@@ -449,6 +449,7 @@ export default defineConfig({
               description: 'Which service page renders at gamasome.com/ (the root URL). Changes take effect on next deployment.',
             },
             options: [
+              { value: 'physical-ai-data',          label: 'Physical AI Data Collection' },
               { value: 'simulation-digital-twins', label: 'Simulation & Digital Twins' },
               { value: 'ai-solutions',              label: 'AI Solutions' },
               { value: 'ai-platform',               label: 'AI Platform' },
