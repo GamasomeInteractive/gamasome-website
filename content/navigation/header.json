@@ -1,6 +1,7 @@
 {
   "navLinks": [
     { "title": "Home", "href": "/home" },
+    { "title": "Physical AI Data", "href": "/physical-ai-data" },
     { "title": "AI Platform", "href": "/ai-platform" },
     { "title": "Robotics Solutions", "href": "/robotics-solutions" },
     { "title": "Simulation & Digital Twins", "href": "/simulation-digital-twins" },
