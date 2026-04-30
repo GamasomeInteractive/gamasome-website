@@ -34,6 +34,7 @@
   "newsletterEnabled": true,
   "navLinks": [
     { "title": "Home", "href": "/home" },
+    { "title": "Physical AI Data Collection", "href": "/physical-ai-data-collection" },
     { "title": "AI Platform", "href": "/ai-platform" },
     { "title": "Robotics Solutions", "href": "/robotics-solutions" },
     { "title": "AI Solutions", "href": "/ai-solutions" },
