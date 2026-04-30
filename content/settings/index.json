@@ -2,7 +2,7 @@
   "themePreset": "dark-cosmic",
   "siteName": "Gamasome",
   "tagline": "Bring Intelligence to the Physical World",
-  "homePage": "simulation-digital-twins",
+  "homePage": "physical-ai-data",
   "colorScheme": "light",
   "logo": "",
   "favicon": "",
@@ -27,6 +27,11 @@
     "durationScale": 1,
     "disableAnimations": false
   },
+  "analytics": {
+    "ga4Id": "G-56E96KJN9Q",
+    "clarityId": "wb3s2wv51k",
+    "gscVerification": "google-site-verification=Se7gmmTsZ0HdHNkpRlKR0yCmBAZPEQye4WQRRFUBquI"
+  },
   "robotsTxt": {
     "blockAiCrawlers": false,
     "customRules": []
@@ -35,11 +40,6 @@
     "defaultChangefreq": "weekly",
     "includeBlogs": true,
     "includeServicePages": true
-  },
-  "analytics": {
-    "ga4Id": "G-56E96KJN9Q",
-    "clarityId": "wb3s2wv51k",
-    "gscVerification": "google-site-verification=Se7gmmTsZ0HdHNkpRlKR0yCmBAZPEQye4WQRRFUBquI"
   },
   "globalSeo": {
     "defaultTitle": "Gamasome — Physical AI & Robotics Data Solutions",
