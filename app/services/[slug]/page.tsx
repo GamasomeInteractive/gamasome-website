@@ -3,10 +3,10 @@ import path from 'path'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import ServicePageView from '@/components/ServicePageView'
-import AIPlatformView from '../ai-platform/AIPlatformView'
-import { HeaderDocument, FooterDocument, ServicePageDocument } from '../../tina/__generated__/types'
-import fallbackHeader from '../../content/navigation/header.json'
-import fallbackFooter from '../../content/navigation/footer.json'
+import AIPlatformView from '../../ai-platform/AIPlatformView'
+import { HeaderDocument, FooterDocument, ServicePageDocument } from '../../../tina/__generated__/types'
+import fallbackHeader from '../../../content/navigation/header.json'
+import fallbackFooter from '../../../content/navigation/footer.json'
 
 const SERVICES_DIR = path.join(process.cwd(), 'content/pages/services')
 
@@ -23,9 +23,9 @@ export async function generateMetadata(
 
   const title: string = seo.metaTitle || d.pageTitle || hero.title || hero.headline || slug.replace(/-/g, ' ')
   const description: string = seo.metaDescription || d.pageDescription || hero.subtitle || hero.description || ''
-  const pageUrl: string = seo.canonicalUrl || `https://gamasome.com/${slug}`
+  const pageUrl: string = seo.canonicalUrl || `https://www.gamasome.com/services/${slug}`
   const rawImage: string | undefined = seo.ogImage || hero.bannerImage || hero.backgroundImage
-  const image = rawImage ? (rawImage.startsWith('http') ? rawImage : `https://gamasome.com${rawImage}`) : undefined
+  const image = rawImage ? (rawImage.startsWith('http') ? rawImage : `https://www.gamasome.com${rawImage}`) : undefined
   const robots: string = seo.robots || 'index, follow'
 
   return {
@@ -90,9 +90,9 @@ function buildServiceSchema(slug: string, parsed: any) {
   const hero = parsed.hero || {}
   const name: string = hero.title || hero.headline || slug.replace(/-/g, ' ')
   const description: string = hero.subtitle || hero.subheadline || hero.description || parsed.pageDescription || ''
-  const url = `https://gamasome.com/${slug}`
+  const url = `https://www.gamasome.com/services/${slug}`
   const image: string | undefined = hero.bannerImage
-    ? hero.bannerImage.startsWith('http') ? hero.bannerImage : `https://gamasome.com${hero.bannerImage}`
+    ? hero.bannerImage.startsWith('http') ? hero.bannerImage : `https://www.gamasome.com${hero.bannerImage}`
     : undefined
 
   const serviceSchema = {
@@ -104,7 +104,7 @@ function buildServiceSchema(slug: string, parsed: any) {
     provider: {
       '@type': 'Organization',
       name: 'Gamasome',
-      url: 'https://gamasome.com',
+      url: 'https://www.gamasome.com',
     },
     ...(image && { image }),
   }
@@ -113,8 +113,9 @@ function buildServiceSchema(slug: string, parsed: any) {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://gamasome.com' },
-      { '@type': 'ListItem', position: 2, name, item: url },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.gamasome.com' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://www.gamasome.com/services' },
+      { '@type': 'ListItem', position: 3, name, item: url },
     ],
   }
 

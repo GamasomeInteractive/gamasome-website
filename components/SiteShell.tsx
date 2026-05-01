@@ -25,7 +25,7 @@ export default function SiteShell({
 
   // Bare pages render their own header/footer (AIPlatformView template).
   // Skip the global SiteShell header/footer for them to avoid duplicates.
-  const isBareSlug = bareSlugs.some((slug) => normalized === `/${slug}`)
+  const isBareSlug = bareSlugs.some((slug) => normalized === `/services/${slug}`)
   const isBareHome = homePageIsBare && normalized === '/'
 
   const isAdmin =

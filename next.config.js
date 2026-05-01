@@ -98,6 +98,25 @@ module.exports = () => {
       unoptimized,
     },
     async redirects() {
+      // Service pages were previously at /{slug}; now they live under /services/{slug}.
+      // Each old URL permanent-redirects (308) to its new home for SEO continuity.
+      const serviceSlugs = [
+        'physical-ai-data-collection',
+        'simulation-digital-twins',
+        'ai-platform',
+        'ai-solutions',
+        'ai-avatars-platform',
+        'ar-vr-development',
+        'game-development',
+        'metaverse',
+        'robotics-solutions',
+      ]
+      const serviceRedirects = serviceSlugs.map((slug) => ({
+        source: `/${slug}`,
+        destination: `/services/${slug}`,
+        permanent: true,
+      }))
+
       return [
         // Canonical www redirect — non-www → www (permanent 308 for SEO)
         {
@@ -106,6 +125,7 @@ module.exports = () => {
           destination: 'https://www.gamasome.com/:path*',
           permanent: true,
         },
+        ...serviceRedirects,
         {
           source: '/admin',
           destination: '/admin/index.html',

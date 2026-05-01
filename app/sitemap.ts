@@ -42,7 +42,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       .readdirSync(servicesDir)
       .filter((f) => f.endsWith('.json'))
       .map((f) => ({
-        url: `${siteUrl}/${f.replace('.json', '')}`,
+        url: `${siteUrl}/services/${f.replace('.json', '')}`,
         lastModified: today,
         changeFrequency: changefreq,
       }))

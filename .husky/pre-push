@@ -1,8 +1,12 @@
 # Pre-push checks — runs before every git push
 # ─────────────────────────────────────────────────────────────────────────────
 
-# 1. If tina/config.ts changed in commits being pushed,
-#    tina-lock.json must also be updated (re-run: npx tinacms dev --no-server)
+# 1. If tina/config.ts changed in commits being pushed, verify tina-lock.json
+#    is in sync. We do this by running tinacms regen and checking if the lock
+#    file ends up dirty afterward — meaning the schema changed but the lock
+#    wasn't regenerated. Pure callback/router/ui changes don't touch the lock,
+#    so this avoids the false positive of file-presence checks.
+
 LOCAL=$(git rev-parse @)
 REMOTE=$(git rev-parse @{u} 2>/dev/null || echo "")
 
@@ -13,16 +17,33 @@ else
 fi
 
 TINA_CONFIG_CHANGED=$(git diff --name-only "$COMMITS_RANGE" 2>/dev/null | grep -c "tina/config.ts" || true)
-TINA_LOCK_CHANGED=$(git diff --name-only "$COMMITS_RANGE" 2>/dev/null | grep -c "tina/tina-lock.json" || true)
 
-if [ "$TINA_CONFIG_CHANGED" -gt 0 ] && [ "$TINA_LOCK_CHANGED" -eq 0 ]; then
-  echo ""
-  echo "ERROR: tina/config.ts was changed but tina-lock.json was not regenerated."
-  echo "Run the following, then commit tina/tina-lock.json before pushing:"
-  echo ""
-  echo "  npx tinacms dev --no-server"
-  echo "  git add tina/tina-lock.json"
-  echo "  git commit -m 'chore: regenerate tina-lock.json'"
-  echo ""
-  exit 1
+if [ "$TINA_CONFIG_CHANGED" -gt 0 ]; then
+  echo "tina/config.ts changed — verifying tina-lock.json is in sync..."
+
+  # Stash any working-tree changes so the regen runs against committed state
+  STASHED=0
+  if ! git diff --quiet || ! git diff --cached --quiet; then
+    git stash push --include-untracked --quiet --message "pre-push-lock-check"
+    STASHED=1
+  fi
+
+  npx tinacms dev --no-server > /dev/null 2>&1 || true
+
+  if ! git diff --quiet -- tina/tina-lock.json; then
+    git checkout -- tina/tina-lock.json
+    [ "$STASHED" -eq 1 ] && git stash pop --quiet
+    echo ""
+    echo "ERROR: tina/config.ts schema changes are not reflected in tina-lock.json."
+    echo "Run the following, then commit tina/tina-lock.json before pushing:"
+    echo ""
+    echo "  npx tinacms dev --no-server"
+    echo "  git add tina/tina-lock.json"
+    echo "  git commit -m 'chore: regenerate tina-lock.json'"
+    echo ""
+    exit 1
+  fi
+
+  [ "$STASHED" -eq 1 ] && git stash pop --quiet
+  echo "tina-lock.json is in sync."
 fi

@@ -34,11 +34,11 @@
   "newsletterEnabled": true,
   "navLinks": [
     { "title": "Home", "href": "/home" },
-    { "title": "Physical AI Data Collection", "href": "/physical-ai-data-collection" },
-    { "title": "AI Platform", "href": "/ai-platform" },
-    { "title": "Robotics Solutions", "href": "/robotics-solutions" },
-    { "title": "AI Solutions", "href": "/ai-solutions" },
-    { "title": "AR / VR Development", "href": "/ar-vr-development" },
+    { "title": "Physical AI Data Collection", "href": "/services/physical-ai-data-collection" },
+    { "title": "AI Platform", "href": "/services/ai-platform" },
+    { "title": "Robotics Solutions", "href": "/services/robotics-solutions" },
+    { "title": "AI Solutions", "href": "/services/ai-solutions" },
+    { "title": "AR / VR Development", "href": "/services/ar-vr-development" },
     { "title": "Blog", "href": "/blog" },
     { "title": "About Us", "href": "/about" },
     { "title": "Contact Us", "href": "/contact" }

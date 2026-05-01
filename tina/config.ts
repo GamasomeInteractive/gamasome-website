@@ -798,7 +798,7 @@ export default defineConfig({
           allowedActions: { create: true, delete: true },
           // @ts-expect-error itemProps is valid TinaCMS API but not in the TypeScript definitions
           itemProps: (item: any) => ({ label: item?.hero?.title || item?.hero?.headline || item?._sys?.filename || 'Page' }),
-          router: ({ document }: { document: any }) => `/${document._sys.filename}`,
+          router: ({ document }: { document: any }) => `/services/${document._sys.filename}`,
         },
         templates: [
           {
