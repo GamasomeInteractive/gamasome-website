@@ -31,7 +31,8 @@
     },
     {
       "title": "AR / VR Development",
-      "href": "/services/ar-vr-development/"
+      "href": "/services/ar-vr-development/",
+      "hidden": true
     },
     {
       "title": "Metaverse Development",
