@@ -26,15 +26,24 @@ const SERVICES_DIR = path.join(REPO_ROOT, 'content/pages/services')
 const SITE_URL = 'https://www.gamasome.com'
 
 describe('buildServiceSitemapUrls', () => {
-  it('emits one URL per JSON file in content/pages/services/', () => {
-    const files = fs.readdirSync(SERVICES_DIR).filter((f) => f.endsWith('.json'))
+  it('emits one URL per non-hidden JSON file in content/pages/services/', () => {
+    const visibleFiles = fs.readdirSync(SERVICES_DIR)
+      .filter((f) => f.endsWith('.json'))
+      .filter((f) => {
+        try {
+          const parsed = JSON.parse(fs.readFileSync(path.join(SERVICES_DIR, f), 'utf-8'))
+          return parsed?.hidden !== true
+        } catch {
+          return true
+        }
+      })
     const entries = buildServiceSitemapUrls(SITE_URL, SERVICES_DIR)
 
     assert.equal(
       entries.length,
-      files.length,
-      `Sitemap entry count (${entries.length}) does not match service JSON file count (${files.length}). ` +
-      `New pages added via Tina CMS must appear in the sitemap.`,
+      visibleFiles.length,
+      `Sitemap entry count (${entries.length}) does not match visible service JSON count (${visibleFiles.length}). ` +
+      `New pages added via Tina CMS must appear in the sitemap (unless hidden:true).`,
     )
   })
 

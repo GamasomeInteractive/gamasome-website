@@ -33,7 +33,7 @@ export default function TinaFooter({ footerData, footerQuery, footerVars }: Prop
         <div>
           <h3 className="font-['Poppins'] text-base font-medium sm:text-lg">Company</h3>
           <div className="mt-4 flex flex-col gap-2">
-            {ftr?.navLinks?.map((link: any, i: number) => (
+            {ftr?.navLinks?.filter((l: any) => !l?.hidden).map((link: any, i: number) => (
               <Link key={i} href={link.href} className="font-['Poppins'] text-sm font-normal hover:underline sm:text-base" data-tina-field={tinaField(link, 'title')}>
                 {link.title}
               </Link>
@@ -79,7 +79,7 @@ export default function TinaFooter({ footerData, footerQuery, footerVars }: Prop
       {/* Bottom bar */}
       <div className="mx-auto mt-12 flex max-w-7xl flex-col items-center justify-between gap-4 px-4 md:flex-row">
         <p className="text-center font-['Poppins'] text-sm font-normal text-white underline">
-          {ftr?.legalLinks?.map((link: any, i: number) => (
+          {ftr?.legalLinks?.filter((l: any) => !l?.hidden).map((link: any, i: number) => (
             <span key={link.href}>
               {i > 0 && ' | '}
               <Link href={link.href} className="font-['Poppins']" data-tina-field={tinaField(link, 'title')}>{link.title}</Link>

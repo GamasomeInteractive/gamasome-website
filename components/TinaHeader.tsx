@@ -66,7 +66,7 @@ export default function TinaHeader({ headerData, headerQuery, headerVars }: Prop
               </svg>
             </button>
             <nav className="flex flex-col space-y-6">
-              {hdr?.navLinks?.map((link: any, i: number) => (
+              {hdr?.navLinks?.filter((l: any) => !l?.hidden).map((link: any, i: number) => (
                 <Link
                   key={i}
                   href={link.href}

@@ -104,6 +104,14 @@ function seoFields() {
 
 function servicePageFields() {
   return [
+    {
+      type: 'boolean' as const,
+      name: 'hidden',
+      label: '🙈 Hide this page',
+      ui: {
+        description: 'Hidden pages are 404 to visitors and skipped from the sitemap, but the content is preserved. Use this to temporarily take a page offline without deleting it.',
+      },
+    },
     { type: 'string' as const, name: 'pageTitle',       label: 'SEO Page Title' },
     { type: 'string' as const, name: 'pageDescription', label: 'SEO Description', ui: { component: 'textarea' } },
     seoFields(),
@@ -224,6 +232,15 @@ function servicePageFields() {
 // ── AI Platform template fields (reused inside servicePage templates) ────────
 function aiPlatformTemplateFields() {
   return [
+    // ── Visibility ────────────────────────────────────────────────────────
+    {
+      type: 'boolean' as const,
+      name: 'hidden',
+      label: '🙈 Hide this page',
+      ui: {
+        description: 'Hidden pages are 404 to visitors and skipped from the sitemap, but the content is preserved. Use this to temporarily take a page offline without deleting it.',
+      },
+    },
     // ── Typography & Colors ───────────────────────────────────────────────
     {
       type: 'object' as const,
@@ -718,11 +735,19 @@ export default defineConfig({
             label: 'Navigation Links',
             list: true,
             ui: {
-              itemProps: (item) => ({ label: item?.title ?? 'Link' }),
+              itemProps: (item) => ({
+                label: `${item?.hidden ? '🙈 ' : ''}${item?.title ?? 'Link'}`,
+              }),
             },
             fields: [
               { type: 'string', name: 'title', label: 'Menu Label' },
               { type: 'string', name: 'href', label: 'URL Path (e.g. /services/ai-platform/)', ui: { parse: normalizeInternalHref } },
+              {
+                type: 'boolean',
+                name: 'hidden',
+                label: 'Hide from menu',
+                ui: { description: 'Hide this item without deleting it. Useful for temporary removals.' },
+              },
             ],
           },
         ],
@@ -778,10 +803,20 @@ export default defineConfig({
             name: 'legalLinks',
             label: '📄 Legal Links',
             list: true,
-            ui: { itemProps: (item) => ({ label: item?.title ?? 'Link' }) },
+            ui: {
+              itemProps: (item) => ({
+                label: `${item?.hidden ? '🙈 ' : ''}${item?.title ?? 'Link'}`,
+              }),
+            },
             fields: [
               { type: 'string', name: 'title', label: 'Label' },
               { type: 'string', name: 'href', label: 'URL Path', ui: { parse: normalizeInternalHref } },
+              {
+                type: 'boolean',
+                name: 'hidden',
+                label: 'Hide from footer',
+                ui: { description: 'Hide this item without deleting it.' },
+              },
             ],
           },
           { type: 'string', name: 'copyrightName', label: 'Copyright Name' },
@@ -791,10 +826,20 @@ export default defineConfig({
             name: 'navLinks',
             label: '🔗 Footer Nav Links (Company column)',
             list: true,
-            ui: { itemProps: (item) => ({ label: item?.title ?? 'Link' }) },
+            ui: {
+              itemProps: (item) => ({
+                label: `${item?.hidden ? '🙈 ' : ''}${item?.title ?? 'Link'}`,
+              }),
+            },
             fields: [
               { type: 'string', name: 'title', label: 'Label' },
               { type: 'string', name: 'href', label: 'URL Path', ui: { parse: normalizeInternalHref } },
+              {
+                type: 'boolean',
+                name: 'hidden',
+                label: 'Hide from footer',
+                ui: { description: 'Hide this item without deleting it.' },
+              },
             ],
           },
         ],
@@ -811,7 +856,9 @@ export default defineConfig({
         ui: {
           allowedActions: { create: true, delete: true },
           // @ts-expect-error itemProps is valid TinaCMS API but not in the TypeScript definitions
-          itemProps: (item: any) => ({ label: item?.hero?.title || item?.hero?.headline || item?._sys?.filename || 'Page' }),
+          itemProps: (item: any) => ({
+            label: `${item?.hidden ? '🙈 ' : ''}${item?.hero?.title || item?.hero?.headline || item?._sys?.filename || 'Page'}`,
+          }),
           router: ({ document }: { document: any }) => `/services/${document._sys.filename}`,
         },
         templates: [

@@ -10,8 +10,9 @@
  *  - URL shape: `${siteUrl}/services/${slug}/` (trailing slash mandatory —
  *    matches `trailingSlash: true` in next.config.js so sitemap, canonical
  *    tags, and live URLs are all identical strings).
- *  - Reads every `*.json` under `servicesDir`. No filtering — Tina is the
- *    source of truth for what's published.
+ *  - Reads every `*.json` under `servicesDir` and SKIPS pages where
+ *    `hidden === true` (CMS-toggleable visibility — preserves the JSON
+ *    while removing the URL from sitemap).
  */
 import fs from 'fs'
 import path from 'path'
@@ -32,6 +33,15 @@ export function buildServiceSitemapUrls(
   return fs
     .readdirSync(servicesDir)
     .filter((f) => f.endsWith('.json'))
+    .filter((f) => {
+      try {
+        const raw = fs.readFileSync(path.join(servicesDir, f), 'utf-8')
+        const parsed = JSON.parse(raw)
+        return parsed?.hidden !== true
+      } catch {
+        return true
+      }
+    })
     .map((f) => {
       const slug = f.replace(/\.json$/, '')
       return {

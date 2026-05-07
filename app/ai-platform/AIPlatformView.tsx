@@ -129,7 +129,7 @@ export default function AIPlatformView(props: Props) {
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
               <nav className="flex flex-col space-y-6">
-                {hdr?.navLinks?.map((link: any, i: number) => (
+                {hdr?.navLinks?.filter((l: any) => !l?.hidden).map((link: any, i: number) => (
                   <Link key={i} href={link.href} onClick={() => setMenuOpen(false)}
                     className="text-xl font-semibold text-white sm:text-2xl md:text-3xl"
                     data-tina-field={tinaField(link, 'title')}
@@ -461,7 +461,7 @@ export default function AIPlatformView(props: Props) {
           <div>
             <h3 className="text-base font-medium sm:text-lg">Company</h3>
             <div className="mt-4 flex flex-col gap-2">
-              {ftr?.navLinks?.map((link: any, i: number) => (
+              {ftr?.navLinks?.filter((l: any) => !l?.hidden).map((link: any, i: number) => (
                 <Link key={i} href={link.href} className="text-sm font-normal hover:underline sm:text-base" data-tina-field={tinaField(link, 'title')}>{link.title}</Link>
               ))}
             </div>
@@ -498,7 +498,7 @@ export default function AIPlatformView(props: Props) {
         </div>
         <div className="mx-auto mt-12 flex max-w-7xl flex-col items-center justify-between gap-4 px-4 md:flex-row">
           <p className="text-center text-sm font-normal text-white underline">
-            {ftr?.legalLinks?.map((link: any, i: number) => (
+            {ftr?.legalLinks?.filter((l: any) => !l?.hidden).map((link: any, i: number) => (
               <span key={link.href}>{i > 0 && ' | '}<Link href={link.href} data-tina-field={tinaField(link, 'title')}>{link.title}</Link></span>
             ))}{' '}| © <span data-tina-field={tinaField(ftr, 'copyrightName')}>{ftr?.copyrightName}</span> | {new Date().getFullYear()}. All Rights Reserved.
           </p>

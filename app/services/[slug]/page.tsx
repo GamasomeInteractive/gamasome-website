@@ -18,6 +18,13 @@ export async function generateMetadata(
   if (!raw) return {}
 
   const d = JSON.parse(raw)
+
+  // Hidden pages: return minimal metadata with noindex so search engines
+  // and crawlers stay away even if a stale link reaches the URL.
+  if (d?.hidden === true) {
+    return { robots: 'noindex, nofollow' }
+  }
+
   const seo = d.seo || {}
   const hero = d.hero || {}
 
@@ -52,9 +59,20 @@ export async function generateMetadata(
 export async function generateStaticParams() {
   try {
     const files = await fs.readdir(SERVICES_DIR)
-    return files
-      .filter((f) => f.endsWith('.json'))
-      .map((f) => ({ slug: f.replace('.json', '') }))
+    const out: { slug: string }[] = []
+    for (const f of files) {
+      if (!f.endsWith('.json')) continue
+      try {
+        const raw = await fs.readFile(path.join(SERVICES_DIR, f), 'utf-8')
+        const parsed = JSON.parse(raw)
+        // Hidden pages still 404; we don't pre-render them either.
+        if (parsed?.hidden === true) continue
+      } catch {
+        // If parse fails, fall through and include the slug.
+      }
+      out.push({ slug: f.replace('.json', '') })
+    }
+    return out
   } catch {
     return []
   }
@@ -133,6 +151,9 @@ export default async function ServiceSlugPage(props: { params: Promise<{ slug: s
   if (!page || !raw) notFound()
 
   const parsed = JSON.parse(raw!)
+
+  // CMS-toggleable visibility: hidden pages 404 to visitors but the JSON stays.
+  if (parsed?.hidden === true) notFound()
   const tinaCmsTemplate = parsed._template as string | undefined
   const layoutTemplate  = (parsed.template || 'classic') as string
   const schemas = buildServiceSchema(slug, parsed)
