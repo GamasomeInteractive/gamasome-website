@@ -54,9 +54,12 @@ fi
 #    Tests are pure (no contentlayer / next), so they're fast and reliable.
 
 echo "Running lib tests..."
-if ! yarn --silent test:lib > /dev/null 2>&1; then
+TEST_OUT=$(yarn test:lib 2>&1)
+TEST_EXIT=$?
+if [ "$TEST_EXIT" -ne 0 ]; then
+  echo "$TEST_OUT" | tail -30
   echo ""
-  echo "ERROR: lib tests failed. Run 'yarn test:lib' to see details."
+  echo "ERROR: lib tests failed. Run 'yarn test:lib' locally to see full output."
   echo "Most common cause: a service page in content/pages/services/ is not"
   echo "appearing in the sitemap (URL pattern drift)."
   echo ""
