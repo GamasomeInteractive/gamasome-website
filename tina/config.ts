@@ -4,17 +4,18 @@ import { VersionHistoryScreen, VersionHistoryIcon } from './VersionHistoryScreen
 import { ThemePickerScreen, ThemePickerIcon } from './ThemePickerScreen'
 import { TemplatePickerScreen, TemplatePickerIcon } from './TemplatePickerScreen'
 
-// ── URL consistency validator ───────────────────────────────────────
-// Internal paths must end with '/' to match next.config.js trailingSlash:true.
-// Without this, sitemap URLs and live page URLs drift apart, hurting SEO.
-// External (http/https) and anchor (#) links are exempt.
-function validateInternalHref(value: unknown): string | undefined {
-  if (typeof value !== 'string' || !value) return
-  if (/^https?:\/\//.test(value)) return
-  if (value.startsWith('#') || value.startsWith('mailto:') || value.startsWith('tel:')) return
-  if (!value.endsWith('/')) {
-    return 'Internal URLs must end with a trailing slash for SEO consistency (e.g. /services/ai-platform/).'
-  }
+// ── URL consistency auto-fix ────────────────────────────────────────
+// next.config.js has trailingSlash:true, so every live URL ends with '/'.
+// On save, append '/' to internal paths automatically — no error, no
+// blocking. External (http/https), mailto/tel, and anchor links are exempt.
+//
+// Wired via `ui: { parse: normalizeInternalHref }` on every href field.
+// Returning a new value here makes Tina save the corrected version.
+function normalizeInternalHref(value: unknown): string {
+  if (typeof value !== 'string' || !value) return (value as string) ?? ''
+  if (/^https?:\/\//.test(value)) return value
+  if (value.startsWith('#') || value.startsWith('mailto:') || value.startsWith('tel:')) return value
+  return value.endsWith('/') ? value : `${value}/`
 }
 
 // ── Section motion override fields (reused in each section) ──────────
@@ -721,7 +722,7 @@ export default defineConfig({
             },
             fields: [
               { type: 'string', name: 'title', label: 'Menu Label' },
-              { type: 'string', name: 'href', label: 'URL Path (e.g. /services/ai-platform/)', ui: { validate: validateInternalHref } },
+              { type: 'string', name: 'href', label: 'URL Path (e.g. /services/ai-platform/)', ui: { parse: normalizeInternalHref } },
             ],
           },
         ],
@@ -780,7 +781,7 @@ export default defineConfig({
             ui: { itemProps: (item) => ({ label: item?.title ?? 'Link' }) },
             fields: [
               { type: 'string', name: 'title', label: 'Label' },
-              { type: 'string', name: 'href', label: 'URL Path', ui: { validate: validateInternalHref } },
+              { type: 'string', name: 'href', label: 'URL Path', ui: { parse: normalizeInternalHref } },
             ],
           },
           { type: 'string', name: 'copyrightName', label: 'Copyright Name' },
@@ -793,7 +794,7 @@ export default defineConfig({
             ui: { itemProps: (item) => ({ label: item?.title ?? 'Link' }) },
             fields: [
               { type: 'string', name: 'title', label: 'Label' },
-              { type: 'string', name: 'href', label: 'URL Path', ui: { validate: validateInternalHref } },
+              { type: 'string', name: 'href', label: 'URL Path', ui: { parse: normalizeInternalHref } },
             ],
           },
         ],
