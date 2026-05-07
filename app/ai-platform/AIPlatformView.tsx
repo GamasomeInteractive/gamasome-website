@@ -6,6 +6,7 @@ import Link from '@/components/Link'
 import Image from 'next/image'
 import HeroCanvas from '@/components/HeroCanvas'
 import SectionMotion from '@/components/SectionMotion'
+import SectionSnap from '@/components/SectionSnap'
 import SocialIcon from '@/components/social-icons'
 import Logo from '@/data/logo.svg'
 import MenuIcon from '@/data/menu-icon.svg'
@@ -143,6 +144,7 @@ export default function AIPlatformView(props: Props) {
       </header>
 
       {/* ── PAGE SECTIONS ─────────────────────────────────────────────── */}
+      <SectionSnap />
       <div className="w-full">
 
         {/* ── HERO ───────────────────────────────────────────────────── */}
@@ -150,22 +152,18 @@ export default function AIPlatformView(props: Props) {
           <div className="pointer-events-none absolute inset-0 z-0" style={{ background: `radial-gradient(ellipse 80% 55% at 60% 40%, ${primaryColor}24 0%, transparent 65%)` }} />
           <div className="pointer-events-none absolute inset-0 z-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.8) 1px, transparent 1px)', backgroundSize: '64px 64px' }} />
 
-          {/* Mobile / tablet: contained thumbnail-size 3D scene in the top-right */}
+          {/* Single fluid 3D thumbnail — scales continuously with viewport at every width.
+              clamp(min, preferred, max):
+                - 140px floor on tiny phones (<= ~440px viewport)
+                - 32vw fluid scaling across phones, tablets, and desktops
+                - 600px ceiling so it doesn't become huge on 4K monitors
+              Positioned top-right; vertically centered on lg+ for desktop balance. */}
           <div
-            className="pointer-events-none absolute top-28 right-4 z-0 h-48 w-48 overflow-hidden sm:top-32 sm:right-6 sm:h-56 sm:w-56 md:h-64 md:w-64 lg:hidden"
-            data-tina-field={tinaField(hero, 'animation')}
-          >
-            {hero?.animation?.enabled !== false && (
-              <HeroCanvas
-                primaryColor={hero?.animation?.primaryColor || primaryColor}
-                accentColor={hero?.animation?.accentColor || accentColor}
-              />
-            )}
-          </div>
-
-          {/* Desktop: full half-screen 3D scene on the right */}
-          <div
-            className="pointer-events-none absolute inset-y-0 right-0 z-0 hidden w-1/2 lg:block"
+            className="pointer-events-none absolute right-4 top-28 z-0 overflow-hidden sm:right-6 sm:top-32 lg:right-10 lg:top-1/2 lg:-translate-y-1/2"
+            style={{
+              width: 'clamp(140px, 32vw, 600px)',
+              height: 'clamp(140px, 32vw, 600px)',
+            }}
             data-tina-field={tinaField(hero, 'animation')}
           >
             {hero?.animation?.enabled !== false && (

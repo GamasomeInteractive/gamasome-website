@@ -20,6 +20,9 @@ export default function SmoothScrollProvider({ children }: { children: React.Rea
       infinite: false,
     })
 
+    // Expose for SectionSnap and other components that need scrollTo()
+    ;(window as any).__lenis = lenis
+
     let rafId: number
     function raf(time: number) {
       lenis.raf(time)
@@ -30,6 +33,7 @@ export default function SmoothScrollProvider({ children }: { children: React.Rea
     return () => {
       cancelAnimationFrame(rafId)
       lenis.destroy()
+      delete (window as any).__lenis
     }
   }, [pathname]) // re-init on every route change
 
