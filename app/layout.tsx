@@ -152,72 +152,74 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       className={`${poppins.variable} scroll-smooth`}
       suppressHydrationWarning
     >
-      <link
-        rel="apple-touch-icon"
-        sizes="76x76"
-        href={`${basePath}/static/favicons/apple-touch-icon.png`}
-      />
-      <link
-        rel="icon"
-        type="image/png"
-        sizes="32x32"
-        href={`${basePath}/static/favicons/favicon-32x32.png`}
-      />
-      <link
-        rel="icon"
-        type="image/png"
-        sizes="16x16"
-        href={`${basePath}/static/favicons/favicon-16x16.png`}
-      />
-      <link rel="manifest" href={`${basePath}/static/favicons/site.webmanifest`} />
-      <link
-        rel="mask-icon"
-        href={`${basePath}/static/favicons/safari-pinned-tab.svg`}
-        color="#5bbad5"
-      />
-      <meta name="msapplication-TileColor" content="#000000" />
-      <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff" />
-      <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
-      <link rel="alternate" type="application/rss+xml" href={`${basePath}/feed.xml`} />
-      {/* Organization JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Organization',
-            name: 'Gamasome',
-            url: 'https://gamasome.com',
-            logo: 'https://gamasome.com/static/images/logo.png',
-            description: 'Gamasome offers AI, AR/VR, simulation, digital twins, game development, and metaverse solutions for enterprises worldwide.',
-            email: 'prasanna@gamasome.com',
-            sameAs: [
-              'https://www.linkedin.com/company/gamasome/',
-              'https://x.com/gamasome',
-              'https://www.youtube.com/@gamasomeinteractive3967',
-            ],
-            address: [
-              {
-                '@type': 'PostalAddress',
-                addressCountry: 'IN',
-                addressLocality: 'Bengaluru',
-                addressRegion: 'Karnataka',
-              },
-              {
-                '@type': 'PostalAddress',
-                addressCountry: 'US',
-                addressLocality: 'Mountain View',
-                addressRegion: 'CA',
-              },
-            ],
-          }),
-        }}
-      />
-      {analyticsSettings.gscVerification && (
-        <meta name="google-site-verification" content={analyticsSettings.gscVerification} />
-      )}
-      {/* Layer 1: inject CMS-controlled motion tokens as CSS custom properties */}
-      <style href="motion-tokens" precedence="default" dangerouslySetInnerHTML={{ __html: motionCss }} />
+      <head>
+        <link
+          rel="apple-touch-icon"
+          sizes="76x76"
+          href={`${basePath}/static/favicons/apple-touch-icon.png`}
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href={`${basePath}/static/favicons/favicon-32x32.png`}
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href={`${basePath}/static/favicons/favicon-16x16.png`}
+        />
+        <link rel="manifest" href={`${basePath}/static/favicons/site.webmanifest`} />
+        <link
+          rel="mask-icon"
+          href={`${basePath}/static/favicons/safari-pinned-tab.svg`}
+          color="#5bbad5"
+        />
+        <meta name="msapplication-TileColor" content="#000000" />
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff" />
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
+        <link rel="alternate" type="application/rss+xml" href={`${basePath}/feed.xml`} />
+        {/* Organization JSON-LD */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: 'Gamasome',
+              url: 'https://gamasome.com',
+              logo: 'https://gamasome.com/static/images/logo.png',
+              description: 'Gamasome offers AI, AR/VR, simulation, digital twins, game development, and metaverse solutions for enterprises worldwide.',
+              email: 'prasanna@gamasome.com',
+              sameAs: [
+                'https://www.linkedin.com/company/gamasome/',
+                'https://x.com/gamasome',
+                'https://www.youtube.com/@gamasomeinteractive3967',
+              ],
+              address: [
+                {
+                  '@type': 'PostalAddress',
+                  addressCountry: 'IN',
+                  addressLocality: 'Bengaluru',
+                  addressRegion: 'Karnataka',
+                },
+                {
+                  '@type': 'PostalAddress',
+                  addressCountry: 'US',
+                  addressLocality: 'Mountain View',
+                  addressRegion: 'CA',
+                },
+              ],
+            }),
+          }}
+        />
+        {analyticsSettings.gscVerification && (
+          <meta name="google-site-verification" content={analyticsSettings.gscVerification} />
+        )}
+        {/* Layer 1: inject CMS-controlled motion tokens as CSS custom properties */}
+        <style href="motion-tokens" precedence="default" dangerouslySetInnerHTML={{ __html: motionCss }} />
+      </head>
       <body className="bg-white text-black antialiased dark:bg-gray-950 dark:text-white">
         {analyticsSettings.ga4Id && (
           <GoogleAnalytics measurementId={analyticsSettings.ga4Id} />
