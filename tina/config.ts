@@ -4,6 +4,19 @@ import { VersionHistoryScreen, VersionHistoryIcon } from './VersionHistoryScreen
 import { ThemePickerScreen, ThemePickerIcon } from './ThemePickerScreen'
 import { TemplatePickerScreen, TemplatePickerIcon } from './TemplatePickerScreen'
 
+// ── URL consistency validator ───────────────────────────────────────
+// Internal paths must end with '/' to match next.config.js trailingSlash:true.
+// Without this, sitemap URLs and live page URLs drift apart, hurting SEO.
+// External (http/https) and anchor (#) links are exempt.
+function validateInternalHref(value: unknown): string | undefined {
+  if (typeof value !== 'string' || !value) return
+  if (/^https?:\/\//.test(value)) return
+  if (value.startsWith('#') || value.startsWith('mailto:') || value.startsWith('tel:')) return
+  if (!value.endsWith('/')) {
+    return 'Internal URLs must end with a trailing slash for SEO consistency (e.g. /services/ai-platform/).'
+  }
+}
+
 // ── Section motion override fields (reused in each section) ──────────
 function sectionMotionFields() {
   return {
@@ -708,7 +721,7 @@ export default defineConfig({
             },
             fields: [
               { type: 'string', name: 'title', label: 'Menu Label' },
-              { type: 'string', name: 'href', label: 'URL Path (e.g. /ai-platform)' },
+              { type: 'string', name: 'href', label: 'URL Path (e.g. /services/ai-platform/)', ui: { validate: validateInternalHref } },
             ],
           },
         ],
@@ -767,7 +780,7 @@ export default defineConfig({
             ui: { itemProps: (item) => ({ label: item?.title ?? 'Link' }) },
             fields: [
               { type: 'string', name: 'title', label: 'Label' },
-              { type: 'string', name: 'href', label: 'URL Path' },
+              { type: 'string', name: 'href', label: 'URL Path', ui: { validate: validateInternalHref } },
             ],
           },
           { type: 'string', name: 'copyrightName', label: 'Copyright Name' },
@@ -780,7 +793,7 @@ export default defineConfig({
             ui: { itemProps: (item) => ({ label: item?.title ?? 'Link' }) },
             fields: [
               { type: 'string', name: 'title', label: 'Label' },
-              { type: 'string', name: 'href', label: 'URL Path' },
+              { type: 'string', name: 'href', label: 'URL Path', ui: { validate: validateInternalHref } },
             ],
           },
         ],

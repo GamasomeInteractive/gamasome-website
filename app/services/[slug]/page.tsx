@@ -23,7 +23,7 @@ export async function generateMetadata(
 
   const title: string = seo.metaTitle || d.pageTitle || hero.title || hero.headline || slug.replace(/-/g, ' ')
   const description: string = seo.metaDescription || d.pageDescription || hero.subtitle || hero.description || ''
-  const pageUrl: string = seo.canonicalUrl || `https://www.gamasome.com/services/${slug}`
+  const pageUrl: string = seo.canonicalUrl || `https://www.gamasome.com/services/${slug}/`
   const rawImage: string | undefined = seo.ogImage || hero.bannerImage || hero.backgroundImage
   const image = rawImage ? (rawImage.startsWith('http') ? rawImage : `https://www.gamasome.com${rawImage}`) : undefined
   const robots: string = seo.robots || 'index, follow'
@@ -90,7 +90,7 @@ function buildServiceSchema(slug: string, parsed: any) {
   const hero = parsed.hero || {}
   const name: string = hero.title || hero.headline || slug.replace(/-/g, ' ')
   const description: string = hero.subtitle || hero.subheadline || hero.description || parsed.pageDescription || ''
-  const url = `https://www.gamasome.com/services/${slug}`
+  const url = `https://www.gamasome.com/services/${slug}/`
   const image: string | undefined = hero.bannerImage
     ? hero.bannerImage.startsWith('http') ? hero.bannerImage : `https://www.gamasome.com${hero.bannerImage}`
     : undefined
@@ -113,8 +113,8 @@ function buildServiceSchema(slug: string, parsed: any) {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.gamasome.com' },
-      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://www.gamasome.com/services' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.gamasome.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://www.gamasome.com/services/' },
       { '@type': 'ListItem', position: 3, name, item: url },
     ],
   }

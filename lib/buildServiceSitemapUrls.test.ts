@@ -38,13 +38,18 @@ describe('buildServiceSitemapUrls', () => {
     )
   })
 
-  it('uses the /services/{slug} URL shape for every entry', () => {
+  it('uses the /services/{slug}/ URL shape with trailing slash for every entry', () => {
     const entries = buildServiceSitemapUrls(SITE_URL, SERVICES_DIR)
     for (const e of entries) {
       assert.equal(
         e.url,
-        `${SITE_URL}/services/${e.slug}`,
-        `Service "${e.slug}" did not produce a /services/ URL — sitemap pattern drifted.`,
+        `${SITE_URL}/services/${e.slug}/`,
+        `Service "${e.slug}" did not produce a /services/{slug}/ URL — sitemap pattern drifted.`,
+      )
+      assert.equal(
+        e.url.endsWith('/'),
+        true,
+        `Service "${e.slug}" URL must end with / to match next.config.js trailingSlash:true.`,
       )
     }
   })
@@ -55,11 +60,12 @@ describe('buildServiceSitemapUrls', () => {
     assert.equal(found, true, 'physical-ai-data-collection must be in the sitemap')
   })
 
-  it('strips trailing slashes from siteUrl', () => {
+  it('strips trailing slashes from siteUrl while preserving slug trailing slash', () => {
     const entries = buildServiceSitemapUrls('https://example.com/', SERVICES_DIR)
     for (const e of entries) {
       assert.equal(e.url.startsWith('https://example.com/services/'), true)
       assert.equal(e.url.includes('//services'), false)
+      assert.equal(e.url.endsWith('/'), true)
     }
   })
 

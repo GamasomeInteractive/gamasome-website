@@ -7,7 +7,9 @@
  *     created service page is guaranteed to land in /sitemap.xml.
  *
  * Contract — KEEP STABLE:
- *  - URL shape: `${siteUrl}/services/${slug}`
+ *  - URL shape: `${siteUrl}/services/${slug}/` (trailing slash mandatory —
+ *    matches `trailingSlash: true` in next.config.js so sitemap, canonical
+ *    tags, and live URLs are all identical strings).
  *  - Reads every `*.json` under `servicesDir`. No filtering — Tina is the
  *    source of truth for what's published.
  */
@@ -35,7 +37,7 @@ export function buildServiceSitemapUrls(
       return {
         slug,
         filePath: path.join(servicesDir, f),
-        url: `${trimmedSiteUrl}/services/${slug}`,
+        url: `${trimmedSiteUrl}/services/${slug}/`,
       }
     })
 }

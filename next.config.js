@@ -113,7 +113,7 @@ module.exports = () => {
       ]
       const serviceRedirects = serviceSlugs.map((slug) => ({
         source: `/${slug}`,
-        destination: `/services/${slug}`,
+        destination: `/services/${slug}/`,
         permanent: true,
       }))
 
