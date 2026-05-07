@@ -1,17 +1,57 @@
 {
   "navLinks": [
-    { "title": "Home", "href": "/" },
-    { "title": "Physical AI Data Collection", "href": "/services/physical-ai-data-collection/" },
-    { "title": "AI Platform", "href": "/services/ai-platform/" },
-    { "title": "Robotics Solutions", "href": "/services/robotics-solutions/" },
-    { "title": "Simulation & Digital Twins", "href": "/services/simulation-digital-twins/" },
-    { "title": "AI Avatars & Conversational AI", "href": "/services/ai-avatars-platform/" },
-    { "title": "AI Solutions", "href": "/services/ai-solutions/" },
-    { "title": "AR / VR Development", "href": "/services/ar-vr-development/" },
-    { "title": "Metaverse Development", "href": "/services/metaverse/" },
-    { "title": "Game Development", "href": "/services/game-development/" },
-    { "title": "Blog", "href": "/blog/" },
-    { "title": "About Us", "href": "/about/" },
-    { "title": "Contact Us", "href": "/contact/" }
+    {
+      "title": "Home",
+      "href": "/"
+    },
+    {
+      "title": "Physical AI Data Collection",
+      "href": "/services/physical-ai-data-collection/"
+    },
+    {
+      "title": "AI Platform",
+      "href": "/services/ai-platform/"
+    },
+    {
+      "title": "Robotics Solutions",
+      "href": "/services/robotics-solutions/"
+    },
+    {
+      "title": "Simulation & Digital Twins",
+      "href": "/services/simulation-digital-twins/"
+    },
+    {
+      "title": "AI Avatars & Conversational AI",
+      "href": "/services/ai-avatars-platform/",
+      "hidden": true
+    },
+    {
+      "title": "AI Solutions",
+      "href": "/services/ai-solutions/"
+    },
+    {
+      "title": "AR / VR Development",
+      "href": "/services/ar-vr-development/"
+    },
+    {
+      "title": "Metaverse Development",
+      "href": "/services/metaverse/"
+    },
+    {
+      "title": "Game Development",
+      "href": "/services/game-development/"
+    },
+    {
+      "title": "Blog",
+      "href": "/blog/"
+    },
+    {
+      "title": "About Us",
+      "href": "/about/"
+    },
+    {
+      "title": "Contact Us",
+      "href": "/contact/"
+    }
   ]
 }
