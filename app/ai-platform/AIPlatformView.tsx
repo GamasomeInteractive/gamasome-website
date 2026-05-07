@@ -151,7 +151,7 @@ export default function AIPlatformView(props: Props) {
           <div className="pointer-events-none absolute inset-0 z-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.8) 1px, transparent 1px)', backgroundSize: '64px 64px' }} />
 
           <div
-            className="absolute inset-y-0 right-0 z-0 w-full lg:w-1/2"
+            className="pointer-events-none absolute top-24 right-4 z-0 h-56 w-56 sm:h-64 sm:w-64 md:right-6 md:h-72 md:w-72 lg:inset-y-0 lg:top-auto lg:right-0 lg:h-auto lg:w-1/2"
             data-tina-field={tinaField(hero, 'animation')}
           >
             {hero?.animation?.enabled !== false && (
