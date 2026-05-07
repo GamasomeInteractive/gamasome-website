@@ -150,8 +150,22 @@ export default function AIPlatformView(props: Props) {
           <div className="pointer-events-none absolute inset-0 z-0" style={{ background: `radial-gradient(ellipse 80% 55% at 60% 40%, ${primaryColor}24 0%, transparent 65%)` }} />
           <div className="pointer-events-none absolute inset-0 z-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.8) 1px, transparent 1px)', backgroundSize: '64px 64px' }} />
 
+          {/* Mobile / tablet: contained thumbnail-size 3D scene in the top-right */}
           <div
-            className="pointer-events-none absolute top-24 right-4 z-0 h-56 w-56 sm:h-64 sm:w-64 md:right-6 md:h-72 md:w-72 lg:inset-y-0 lg:top-auto lg:right-0 lg:h-auto lg:w-1/2"
+            className="pointer-events-none absolute top-28 right-4 z-0 h-48 w-48 overflow-hidden sm:top-32 sm:right-6 sm:h-56 sm:w-56 md:h-64 md:w-64 lg:hidden"
+            data-tina-field={tinaField(hero, 'animation')}
+          >
+            {hero?.animation?.enabled !== false && (
+              <HeroCanvas
+                primaryColor={hero?.animation?.primaryColor || primaryColor}
+                accentColor={hero?.animation?.accentColor || accentColor}
+              />
+            )}
+          </div>
+
+          {/* Desktop: full half-screen 3D scene on the right */}
+          <div
+            className="pointer-events-none absolute inset-y-0 right-0 z-0 hidden w-1/2 lg:block"
             data-tina-field={tinaField(hero, 'animation')}
           >
             {hero?.animation?.enabled !== false && (
