@@ -3,6 +3,7 @@ import { allBlogs } from 'contentlayer/generated'
 import siteMetadata from '@/data/siteMetadata'
 import fs from 'fs'
 import path from 'path'
+import { buildServiceSitemapUrls } from '@/lib/buildServiceSitemapUrls'
 
 export const dynamic = 'force-static'
 
@@ -34,19 +35,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route === '' ? 1.0 : 0.8,
   }))
 
-  const serviceRoutes: MetadataRoute.Sitemap = (() => {
-    if (!includeServicePages) return []
-    const servicesDir = path.join(process.cwd(), 'content/pages/services')
-    if (!fs.existsSync(servicesDir)) return []
-    return fs
-      .readdirSync(servicesDir)
-      .filter((f) => f.endsWith('.json'))
-      .map((f) => ({
-        url: `${siteUrl}/services/${f.replace('.json', '')}`,
+  const serviceRoutes: MetadataRoute.Sitemap = includeServicePages
+    ? buildServiceSitemapUrls(siteUrl).map(({ url }) => ({
+        url,
         lastModified: today,
         changeFrequency: changefreq,
       }))
-  })()
+    : []
 
   const blogRoutes: MetadataRoute.Sitemap = includeBlogs
     ? allBlogs

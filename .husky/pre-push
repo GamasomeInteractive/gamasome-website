@@ -47,3 +47,19 @@ if [ "$TINA_CONFIG_CHANGED" -gt 0 ]; then
   [ "$STASHED" -eq 1 ] && git stash pop --quiet
   echo "tina-lock.json is in sync."
 fi
+
+# 2. Run lib tests — guards against:
+#    - sitemap silently dropping service pages added via Tina CMS
+#    - normalizeTinaImages regressing on Tina CDN → local path mapping
+#    Tests are pure (no contentlayer / next), so they're fast and reliable.
+
+echo "Running lib tests..."
+if ! yarn --silent test:lib > /dev/null 2>&1; then
+  echo ""
+  echo "ERROR: lib tests failed. Run 'yarn test:lib' to see details."
+  echo "Most common cause: a service page in content/pages/services/ is not"
+  echo "appearing in the sitemap (URL pattern drift)."
+  echo ""
+  exit 1
+fi
+echo "lib tests passed."
