@@ -36,7 +36,8 @@
     },
     {
       "title": "Metaverse Development",
-      "href": "/services/metaverse/"
+      "href": "/services/metaverse/",
+      "hidden": true
     },
     {
       "title": "Game Development",
