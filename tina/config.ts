@@ -451,7 +451,10 @@ export default defineConfig({
     tina: {
       mediaRoot: 'static/images',
       publicFolder: 'public',
-      static: true,
+      // static:true is READ-ONLY (no uploads). Keep false so editors can upload
+      // cover images. Locally, uploads require the Tina backend — run `yarn cms`
+      // (tinacms dev), NOT `yarn dev`; files are written to public/static/images.
+      static: false,
     },
   },
 
