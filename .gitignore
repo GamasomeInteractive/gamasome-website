@@ -17,6 +17,12 @@
 public/sitemap.xml
 .vercel
 
+# cloudflare / opennext
+/.open-next/
+/.wrangler/
+.dev.vars
+cloudflare-env.d.ts
+
 # production
 /build
 /out
