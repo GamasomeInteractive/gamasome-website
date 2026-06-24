@@ -1025,7 +1025,8 @@ export default defineConfig({
           { type: 'boolean', name: 'draft', label: 'Draft (hidden on site)' },
           { type: 'string', name: 'summary', label: 'Summary / Excerpt', ui: { component: 'textarea' } },
           {
-            type: 'string', name: 'images', label: 'Featured Images (URLs)', list: true,
+            type: 'image', name: 'images', label: 'Featured Images', list: true,
+            description: 'Upload or pick the cover image(s). First image is used as the post cover.',
           },
           {
             type: 'string', name: 'authors', label: 'Authors', list: true,
