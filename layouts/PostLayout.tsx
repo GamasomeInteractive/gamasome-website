@@ -4,20 +4,14 @@ import { ReactNode } from 'react'
 import { CoreContent, sortPosts, allCoreContent } from 'pliny/utils/contentlayer'
 import type { Blog, Authors } from 'contentlayer/generated'
 import { allBlogs } from 'contentlayer/generated'
-import Comments from '@/components/Comments'
 import Link from '@/components/Link'
 import Image from '@/components/Image'
-import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 import TableOfContents from '@/components/TableOfContents'
 import ArticleActions from '@/components/ArticleActions'
 import { MDXLayoutRenderer } from 'pliny/mdx-components'
 import { components } from '@/components/MDXComponents'
-
-const editUrl = (path) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
-const discussUrl = (path) =>
-  `https://mobile.twitter.com/search?q=${encodeURIComponent(`${siteMetadata.siteUrl}/${path}`)}`
 
 type CtaContent = { eyebrow?: string; heading?: string; body?: string; buttonLabel?: string; buttonHref?: string }
 
@@ -56,7 +50,7 @@ function cleanCta(c?: CtaContent): CtaContent {
   return Object.fromEntries(Object.entries(c).filter(([, v]) => typeof v === 'string' && v.trim() !== ''))
 }
 
-type AuthorWithBio = CoreContent<Authors> & { bioCode?: string }
+type AuthorWithBio = CoreContent<Authors> & { bioCode?: string; bio?: string }
 
 interface LayoutProps {
   content: CoreContent<Blog>
@@ -66,9 +60,8 @@ interface LayoutProps {
   children: ReactNode
 }
 
-export default function PostLayout({ content, authorDetails, next, prev, children }: LayoutProps) {
-  const { filePath, path, slug, date, lastmod, title, tags, readingTime, toc, images, faqs } =
-    content
+export default function PostLayout({ content, authorDetails, children }: LayoutProps) {
+  const { path, slug, date, lastmod, title, tags, readingTime, toc, images, faqs } = content
   const faqList = (Array.isArray(faqs) ? faqs : []) as Array<{ question: string; answer: string }>
   const { rail: ctaRail, banner: ctaBanner } = getBlogCta()
   const basePath = path.split('/')[0]
@@ -92,9 +85,11 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
       <ScrollTopAndComment />
 
       {/* ── Top panel — two-column dark hero ─────────────────────────────── */}
-      <section className="relative w-full overflow-hidden bg-[#07091B]">
-        <div className="absolute inset-0 bg-[#000B71]" />
-        <div className="absolute inset-0 bg-black/40" />
+      <section className="relative z-20 w-full bg-[#07091B]">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 bg-[#000B71]" />
+          <div className="absolute inset-0 bg-black/40" />
+        </div>
         <div className="relative z-10 mx-auto max-w-6xl px-4 pt-36 pb-14 sm:px-6 lg:pt-44 lg:pb-24 xl:px-0">
           <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
             {/* Left column */}
@@ -125,23 +120,89 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
               {/* Author + last updated */}
               <div className="mt-7 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
                 {primaryAuthor && (
-                  <div className="flex items-center gap-2.5">
+                  <div className="group relative flex items-center gap-2.5">
                     {primaryAuthor.avatar && (
                       <Image
                         src={primaryAuthor.avatar}
                         width={36}
                         height={36}
                         alt={primaryAuthor.name}
-                        className="h-9 w-9 rounded-full object-cover ring-2 ring-white/20"
+                        className="h-9 w-9 rounded-full object-cover ring-2 ring-sky-400/70"
                       />
                     )}
                     {authorLink ? (
-                      <Link href={authorLink} className="font-medium text-white hover:underline">
+                      <Link href={authorLink} className="font-medium text-white underline decoration-white/40 underline-offset-4 hover:decoration-white">
                         {primaryAuthor.name}
                       </Link>
                     ) : (
-                      <span className="font-medium text-white">{primaryAuthor.name}</span>
+                      <span className="font-medium text-white underline decoration-white/40 underline-offset-4">
+                        {primaryAuthor.name}
+                      </span>
                     )}
+
+                    {/* Hover profile card */}
+                    <div className="invisible absolute top-full left-0 z-30 pt-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
+                      <div className="relative w-[20rem] rounded-2xl bg-white p-5 text-left shadow-2xl ring-1 ring-black/5 sm:w-[22rem]">
+                        {/* upward arrow */}
+                        <div className="absolute -top-2 left-8 h-4 w-4 rotate-45 rounded-tl-sm bg-white ring-1 ring-black/5" />
+                        <div className="relative flex items-start gap-3.5">
+                          {primaryAuthor.avatar && (
+                            <Image
+                              src={primaryAuthor.avatar}
+                              width={56}
+                              height={56}
+                              alt={primaryAuthor.name}
+                              className="h-14 w-14 shrink-0 rounded-full object-cover"
+                            />
+                          )}
+                          <div className="min-w-0">
+                            <p className="text-base leading-snug font-bold text-gray-900">
+                              {primaryAuthor.name}
+                            </p>
+                            {(primaryAuthor.occupation || primaryAuthor.company) && (
+                              <p className="mt-0.5 text-sm text-gray-500">
+                                {[primaryAuthor.occupation, primaryAuthor.company]
+                                  .filter(Boolean)
+                                  .join(', ')}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+
+                        {primaryAuthor.bio && (
+                          <p className="relative mt-4 line-clamp-6 text-sm leading-relaxed text-gray-700">
+                            {primaryAuthor.bio}
+                          </p>
+                        )}
+
+                        <div className="relative mt-4 flex items-center justify-between border-t border-gray-100 pt-3">
+                          {primaryAuthor.linkedin ? (
+                            <Link
+                              href={primaryAuthor.linkedin}
+                              className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#0A66C2] hover:underline"
+                            >
+                              <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.27c-.97 0-1.75-.79-1.75-1.76s.78-1.75 1.75-1.75 1.75.79 1.75 1.75-.78 1.76-1.75 1.76zm13.5 12.27h-3v-5.6c0-3.37-4-3.12-4 0v5.6h-3v-11h3v1.53c1.4-2.59 7-2.78 7 2.48v6.99z" />
+                              </svg>
+                              LinkedIn
+                            </Link>
+                          ) : (
+                            <span />
+                          )}
+                          {authorLink && (
+                            <Link
+                              href={authorLink}
+                              className="group/link inline-flex items-center gap-1 text-sm font-semibold text-gray-900 hover:text-[#000B71]"
+                            >
+                              Full profile
+                              <svg className="h-4 w-4 transition-transform duration-200 group-hover/link:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                              </svg>
+                            </Link>
+                          )}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
                 {primaryAuthor && <span className="hidden text-white/30 sm:inline">|</span>}
@@ -204,51 +265,9 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
           <div className={toc && toc.length > 0 ? 'xl:col-span-6' : 'xl:col-span-9'}>
             <div className="prose prose-lg max-w-none pb-8">{children}</div>
 
-            <div className="border-t border-gray-200 pt-6 pb-6 text-sm text-gray-500">
-              <Link href={discussUrl(path)} rel="nofollow">
-                Discuss on Twitter
-              </Link>
-              {` • `}
-              <Link href={editUrl(filePath)}>View on GitHub</Link>
-            </div>
-
-            {/* Footer: tags + prev/next */}
+            {/* Footer: prev/next */}
             <footer className="border-t border-gray-200 pt-6 text-sm leading-5 font-medium">
-              {tags && tags.length > 0 && (
-                <div className="pb-6">
-                  <h2 className="mb-2 text-xs tracking-wide text-gray-500 uppercase">Tags</h2>
-                  <div className="flex flex-wrap">
-                    {tags.map((tag) => (
-                      <Tag key={tag} text={tag} />
-                    ))}
-                  </div>
-                </div>
-              )}
-              {(next || prev) && (
-                <div className="flex flex-col justify-between gap-6 border-t border-gray-200 py-6 sm:flex-row">
-                  {prev && prev.path && (
-                    <div>
-                      <h2 className="text-xs tracking-wide text-gray-500 uppercase">
-                        Previous Article
-                      </h2>
-                      <div className="text-[#000B71] hover:underline">
-                        <Link href={`/${prev.path}`}>{prev.title}</Link>
-                      </div>
-                    </div>
-                  )}
-                  {next && next.path && (
-                    <div className="sm:text-right">
-                      <h2 className="text-xs tracking-wide text-gray-500 uppercase">
-                        Next Article
-                      </h2>
-                      <div className="text-[#000B71] hover:underline">
-                        <Link href={`/${next.path}`}>{next.title}</Link>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-              <div className="border-t border-gray-200 pt-6">
+              <div className="pt-6">
                 <Link
                   href={`/${basePath}`}
                   className="text-[#000B71] hover:underline"
@@ -258,12 +277,6 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                 </Link>
               </div>
             </footer>
-
-            {siteMetadata.comments && (
-              <div className="border-t border-gray-200 pt-6 pb-6 text-center text-gray-500" id="comment">
-                <Comments slug={slug} />
-              </div>
-            )}
           </div>
 
           {/* Sticky CTA rail — desktop */}

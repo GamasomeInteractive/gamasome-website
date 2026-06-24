@@ -93,9 +93,17 @@ export default async function Page(props: { params: Promise<{ slug: string[] }> 
   const authorList = post?.authors || ['default']
   const authorDetails = authorList.map((author) => {
     const authorResults = allAuthors.find((p) => p.slug === author)
+    const raw = (authorResults as Authors)?.body?.raw as string | undefined
     return {
       ...coreContent(authorResults as Authors),
       bioCode: (authorResults as Authors)?.body?.code as string | undefined,
+      bio: raw
+        ? raw
+            .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1') // markdown links → text
+            .replace(/[#*_`>]/g, '')
+            .replace(/\s+/g, ' ')
+            .trim()
+        : undefined,
     }
   })
   const mainContent = coreContent(post)
