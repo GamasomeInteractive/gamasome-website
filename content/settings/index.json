@@ -47,5 +47,20 @@
     "defaultDescription": "Gamasome provides AI, simulation, digital twins, robotics and data solutions for enterprises worldwide.",
     "defaultOgImage": "/static/images/logo.png",
     "twitterHandle": "@gamasome"
+  },
+  "blogCta": {
+    "rail": {
+      "eyebrow": "Work with us",
+      "heading": "Build your AI vision with GamaSome",
+      "body": "From simulation and digital twins to physical AI — let's scope your project together.",
+      "buttonLabel": "Book a free consultation",
+      "buttonHref": "/contact"
+    },
+    "banner": {
+      "heading": "Ready to bring AI into your product?",
+      "body": "Talk to our team about simulation, digital twins, and physical AI built for your use case.",
+      "buttonLabel": "Book a free consultation",
+      "buttonHref": "/contact"
+    }
   }
 }

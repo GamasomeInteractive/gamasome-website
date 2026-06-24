@@ -88,8 +88,15 @@
 
 @layer utilities {
   .prose {
+    /* Body — generous, readable, dark-gray on white (reference text format) */
+    & :where(p, li) {
+      color: var(--color-gray-700);
+      line-height: 1.8;
+    }
     & a {
       color: var(--color-primary-500);
+      text-decoration: underline;
+      text-underline-offset: 2px;
       &:hover {
         color: var(--color-primary-600);
       }
@@ -97,12 +104,45 @@
         color: var(--color-primary-400);
       }
     }
+    /* Headings — bold, near-black, with breathing room above each section */
     & :where(h1, h2) {
       font-weight: 700;
       letter-spacing: var(--tracking-tight);
+      color: var(--color-gray-900);
+    }
+    & :where(h2) {
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
     }
     & h3 {
       font-weight: 600;
+      color: var(--color-gray-900);
+      margin-top: 1.75rem;
+      margin-bottom: 0.75rem;
+    }
+    /* Bullet lists — solid markers in the brand accent, bold lead-ins darker */
+    & :where(ul) {
+      list-style-type: disc;
+    }
+    & :where(li) {
+      margin-top: 0.4rem;
+      margin-bottom: 0.4rem;
+    }
+    & :where(li)::marker {
+      color: var(--color-primary-500);
+    }
+    & :where(strong) {
+      color: var(--color-gray-900);
+      font-weight: 600;
+    }
+    /* Callout / quote — light panel with a brand-accent left border */
+    & :where(blockquote) {
+      border-left: 4px solid var(--color-primary-500);
+      background: var(--color-gray-50);
+      border-radius: 0 0.5rem 0.5rem 0;
+      padding: 0.75rem 1.25rem;
+      font-style: normal;
+      color: var(--color-gray-700);
     }
     & :where(code):not(pre code) {
       color: var(--color-indigo-500);

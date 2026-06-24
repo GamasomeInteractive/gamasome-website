@@ -709,6 +709,37 @@ export default defineConfig({
               },
             ],
           },
+          {
+            type: 'object',
+            name: 'blogCta',
+            label: '📣 Blog Call-to-Action',
+            ui: { description: 'Edits the CTA box and bottom banner shown on every blog post.' },
+            fields: [
+              {
+                type: 'object',
+                name: 'rail',
+                label: 'Sidebar CTA box',
+                fields: [
+                  { type: 'string', name: 'eyebrow', label: 'Eyebrow / Badge' },
+                  { type: 'string', name: 'heading', label: 'Heading' },
+                  { type: 'string', name: 'body', label: 'Body', ui: { component: 'textarea' } },
+                  { type: 'string', name: 'buttonLabel', label: 'Button Label' },
+                  { type: 'string', name: 'buttonHref', label: 'Button Link' },
+                ],
+              },
+              {
+                type: 'object',
+                name: 'banner',
+                label: 'Bottom CTA banner',
+                fields: [
+                  { type: 'string', name: 'heading', label: 'Heading' },
+                  { type: 'string', name: 'body', label: 'Body', ui: { component: 'textarea' } },
+                  { type: 'string', name: 'buttonLabel', label: 'Button Label' },
+                  { type: 'string', name: 'buttonHref', label: 'Button Link' },
+                ],
+              },
+            ],
+          },
         ],
       },
 
@@ -998,6 +1029,12 @@ export default defineConfig({
           },
           {
             type: 'string', name: 'authors', label: 'Authors', list: true,
+            description: 'Pick author(s). Values are author file slugs in data/authors.',
+            options: [
+              { value: 'prasanna-venkatesan', label: 'Prasanna Venkatesan (Founder & CEO)' },
+              { value: 'default', label: 'Tails Azimuth (template)' },
+              { value: 'sparrowhawk', label: 'Sparrow Hawk (template)' },
+            ],
           },
           {
             type: 'string', name: 'layout', label: 'Layout',
@@ -1018,6 +1055,34 @@ export default defineConfig({
             ],
           },
           { type: 'rich-text', name: 'body', label: 'Body', isBody: true },
+        ],
+      },
+      // ── AUTHORS ─────────────────────────────────────────────────────
+      {
+        label: '👤 Authors',
+        name: 'author',
+        path: 'data/authors',
+        format: 'mdx',
+        ui: {
+          filename: {
+            slugify: (values: any) =>
+              (values?.name || 'author')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/(^-|-$)/g, ''),
+          },
+        },
+        fields: [
+          { type: 'string', name: 'name', label: 'Name', isTitle: true, required: true },
+          { type: 'image', name: 'avatar', label: 'Avatar' },
+          { type: 'string', name: 'occupation', label: 'Occupation / Title' },
+          { type: 'string', name: 'company', label: 'Company' },
+          { type: 'string', name: 'email', label: 'Email' },
+          { type: 'string', name: 'twitter', label: 'Twitter / X URL' },
+          { type: 'string', name: 'linkedin', label: 'LinkedIn URL' },
+          { type: 'string', name: 'github', label: 'GitHub URL' },
+          { type: 'string', name: 'bluesky', label: 'Bluesky URL' },
+          { type: 'rich-text', name: 'body', label: 'Bio', isBody: true },
         ],
       },
     ],

@@ -1,0 +1,69 @@
+---
+title: 'How Physical AI Is Powering Next-Generation Robotics'
+date: '2026-06-24'
+tags: ['Physical AI', 'Robotics', 'Automation']
+draft: false
+summary: 'Physical AI is moving robots from scripted machines to adaptive systems that perceive, reason, and act in the real world. Here is how it works, where it is already paying off, and what to plan for.'
+images: ['/static/images/robotics-fleet.jpg']
+faqs:
+  - question: 'What is Physical AI?'
+    answer: 'Physical AI refers to AI systems that perceive and act in the real world through sensors and actuators — combining perception, reasoning, and control so robots can adapt to messy, changing environments instead of following fixed scripts.'
+  - question: 'How is Physical AI different from traditional robotics automation?'
+    answer: 'Traditional automation repeats pre-programmed motions in a controlled setting. Physical AI lets a robot sense its surroundings, handle variation, and recover from the unexpected — so it works in dynamic environments without re-programming for every change.'
+  - question: 'What data do I need to train Physical AI systems?'
+    answer: 'You need high-quality, diverse sensor data — camera, depth, LiDAR, and motion — ideally paired with simulation. A blend of real-world capture and synthetic data from digital twins gives the coverage needed to train robust models safely.'
+authors: ['prasanna-venkatesan']
+layout: 'PostLayout'
+---
+
+The last decade of robotics was about precision in controlled spaces. The next one is about adaptability in the real world — and that shift is being driven by Physical AI.
+
+## From Scripted Machines to Adaptive Systems
+
+For years, industrial robots delivered enormous value by doing one thing extremely well: repeating an exact motion, millions of times, in a tightly controlled cell. The moment the environment changed — a part arriving at a new angle, a bin only half full — the system stalled.
+
+Physical AI changes the contract. Instead of encoding every motion in advance, it gives machines the ability to **perceive** their surroundings, **reason** about what to do, and **act** accordingly. The robot becomes a system that adapts rather than a script that runs.
+
+### The Three Capabilities That Define It
+
+A Physical AI system stands on three pillars working together in real time:
+
+- **Perception** — fusing camera, depth, LiDAR, and force data into an understanding of the scene.
+- **Reasoning** — deciding the next action from goals and context, not a fixed lookup table.
+- **Control** — translating decisions into smooth, safe motion the hardware can execute.
+
+## Why Now
+
+Three trends converged to make this practical at scale.
+
+### Better Sensors, Lower Cost
+
+Depth cameras and solid-state LiDAR that once cost as much as the robot now ship at commodity prices, giving every machine a rich, real-time view of its environment.
+
+### Simulation and Digital Twins
+
+Training a robot only in the physical world is slow and risky. **Digital twins** let teams generate millions of varied scenarios — different lighting, layouts, and edge cases — so models learn safely before touching real hardware.
+
+### Foundation Models for the Physical World
+
+Large models pre-trained on diverse robot and scene data now transfer to new tasks with far less task-specific data, collapsing development timelines from months to weeks.
+
+## Where It Is Already Paying Off
+
+This is not a future promise — it is shipping today across several domains:
+
+- **Warehouse and logistics** — autonomous mobile robots that navigate crowded, changing floors and pick varied SKUs without re-programming.
+- **Manufacturing** — adaptive assembly and inspection that tolerate part variation instead of demanding perfectly fixtured inputs.
+- **Field robotics** — inspection and maintenance in environments too unstructured for scripted automation.
+
+## What to Plan For
+
+Teams that succeed with Physical AI tend to get a few things right early.
+
+- **Invest in data first** — diverse, well-labelled sensor data paired with simulation is the real moat, not the model architecture.
+- **Close the sim-to-real gap** — validate in a digital twin, then transfer with structured real-world testing.
+- **Design for safe failure** — adaptive systems will hit the unexpected; graceful recovery matters more than never failing.
+
+## The Takeaway
+
+Physical AI turns robots from machines that repeat into systems that understand. The organizations that win will be the ones that treat **data and simulation** as core infrastructure — because in the physical world, that is where intelligence actually comes from.

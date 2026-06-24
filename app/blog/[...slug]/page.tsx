@@ -93,7 +93,10 @@ export default async function Page(props: { params: Promise<{ slug: string[] }> 
   const authorList = post?.authors || ['default']
   const authorDetails = authorList.map((author) => {
     const authorResults = allAuthors.find((p) => p.slug === author)
-    return coreContent(authorResults as Authors)
+    return {
+      ...coreContent(authorResults as Authors),
+      bioCode: (authorResults as Authors)?.body?.code as string | undefined,
+    }
   })
   const mainContent = coreContent(post)
   const jsonLd = post.structuredData

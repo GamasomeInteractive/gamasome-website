@@ -53,10 +53,10 @@ export default function BlogList({ posts }: { posts: CorePost[] }) {
               type="text"
               onChange={(e) => setSearchValue(e.target.value)}
               placeholder="Search articles"
-              className="focus:border-primary-500 focus:ring-primary-500 block w-full rounded-md border border-gray-300 bg-white px-4 py-2 font-['Poppins'] text-gray-900"
+              className="block w-full rounded-full border border-gray-200 bg-white px-5 py-3 font-['Poppins'] text-gray-900 shadow-sm transition focus:border-[#000B71] focus:ring-2 focus:ring-[#000B71]/20 focus:outline-none"
             />
             <svg
-              className="absolute top-3 right-3 h-5 w-5 text-gray-400"
+              className="absolute top-3.5 right-4 h-5 w-5 text-gray-400"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -93,48 +93,68 @@ export default function BlogList({ posts }: { posts: CorePost[] }) {
             const image = post.images?.[0]
 
             return (
-              <div
+              <Link
                 key={post.slug}
-                className={`${animClass} flex h-full w-full max-w-[461px] flex-col bg-white opacity-0 shadow-lg`}
+                href={`/blog/${post.slug}`}
+                className={`${animClass} group relative flex h-[420px] w-full max-w-[461px] flex-col justify-end overflow-hidden rounded-2xl opacity-0 shadow-lg ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl`}
                 data-animate
                 style={{ animationDelay: delay }}
               >
-                <div className="relative h-[300px] w-full overflow-hidden">
-                  {image ? (
-                    <Image
-                      src={image}
-                      alt={post.title}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-blue-100 to-blue-300">
-                      <div className="text-lg font-semibold text-gray-600">Blog Image</div>
-                    </div>
-                  )}
-                </div>
-                <div className="flex flex-1 flex-col px-6 pt-4 pb-6">
-                  <h3 className="mb-4 font-['Poppins'] text-xl leading-[175%] font-semibold tracking-[0.02em] text-[#001930] capitalize sm:text-2xl">
+                {/* Cover */}
+                {image ? (
+                  <Image
+                    src={image}
+                    alt={post.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#000B71] to-[#2D9CDB]" />
+                )}
+
+                {/* Dark gradient for legibility */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/5" />
+
+                {/* Category pill */}
+                {post.tags?.[0] && (
+                  <span className="absolute top-4 left-4 z-10 rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold tracking-wide text-white uppercase ring-1 ring-inset ring-white/25 backdrop-blur">
+                    {post.tags[0]}
+                  </span>
+                )}
+
+                {/* Overlaid content */}
+                <div className="relative z-10 p-6">
+                  <time className="font-['Poppins'] text-xs font-medium tracking-[0.06em] text-white/70 uppercase">
+                    {new Date(post.date).toLocaleDateString('en-US', {
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric',
+                    })}
+                  </time>
+                  <h3 className="mt-2 line-clamp-3 font-['Poppins'] text-xl leading-snug font-semibold text-white sm:text-2xl">
                     {post.title}
                   </h3>
                   {post.summary && (
-                    <p className="mb-6 w-full max-w-[400px] flex-1 font-['Poppins'] text-sm leading-[160%] font-normal text-[#001930] sm:text-base">
+                    <p className="mt-2 line-clamp-2 font-['Poppins'] text-sm leading-relaxed text-white/70">
                       {post.summary}
                     </p>
                   )}
-                  <div className="flex justify-center">
-                    <Link
-                      href={`/blog/${post.slug}`}
-                      className="flex h-[40px] w-[161.6px] items-center justify-center rounded-full border border-[#2D9CDB] bg-white shadow-[0px_4px_26px_rgba(0,0,0,0.06)] transition-shadow hover:shadow-[0px_10px_50px_rgba(0,0,0,0.05)]"
+                  <span className="mt-4 inline-flex items-center gap-1.5 font-['Poppins'] text-sm font-semibold text-white">
+                    Read more
+                    <svg
+                      className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      aria-hidden="true"
                     >
-                      <span className="text-center font-['Poppins'] text-sm leading-5 font-normal text-[#2D9CDB] sm:text-base">
-                        Read More
-                      </span>
-                    </Link>
-                  </div>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                    </svg>
+                  </span>
                 </div>
-              </div>
+              </Link>
             )
           })}
         </div>
