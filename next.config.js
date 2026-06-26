@@ -126,6 +126,12 @@ module.exports = () => {
           permanent: true,
         },
         ...serviceRedirects,
+        // Blog slug renamed — preserve old URL for SEO continuity.
+        {
+          source: '/blog/physical-ai-powering-next-gen-robotics',
+          destination: '/blog/physical-ai-robotics/',
+          permanent: true,
+        },
         {
           source: '/admin',
           destination: '/admin/index.html',
