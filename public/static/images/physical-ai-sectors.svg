@@ -1,0 +1,30 @@
+<svg viewBox="0 0 760 215" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Physical AI is deployed across manufacturing, logistics, healthcare, mobility, and humanoid robots in 2026">
+  <text x="20" y="24" font-family="sans-serif" font-size="15" font-weight="700" fill="#14213d">Where physical AI is working in 2026</text>
+  <g font-family="sans-serif">
+    <rect x="18" y="42" width="140" height="158" rx="12" fill="#f8fafc" stroke="#e6ebf5"/>
+    <circle cx="88" cy="92" r="30" fill="#eff6ff"/>
+    <g fill="#2563eb"><rect x="76" y="92" width="9" height="14"/><rect x="87" y="92" width="9" height="14"/><rect x="84" y="80" width="4" height="12"/></g>
+    <text x="88" y="150" text-anchor="middle" font-size="14" font-weight="700" fill="#14213d">Manufacturing</text>
+    <text x="88" y="170" text-anchor="middle" font-size="11.5" fill="#64748b">Tesla · Atlas</text>
+    <rect x="167" y="42" width="140" height="158" rx="12" fill="#f8fafc" stroke="#e6ebf5"/>
+    <circle cx="237" cy="92" r="30" fill="#eef2ff"/>
+    <g fill="none" stroke="#4f46e5" stroke-width="2.5"><rect x="223" y="80" width="28" height="24" rx="2"/><line x1="223" y1="88" x2="251" y2="88"/><line x1="237" y1="80" x2="237" y2="104"/></g>
+    <text x="237" y="150" text-anchor="middle" font-size="14" font-weight="700" fill="#14213d">Logistics</text>
+    <text x="237" y="170" text-anchor="middle" font-size="11.5" fill="#64748b">Amazon · Digit</text>
+    <rect x="316" y="42" width="140" height="158" rx="12" fill="#f8fafc" stroke="#e6ebf5"/>
+    <circle cx="386" cy="92" r="30" fill="#f0fdfa"/>
+    <g fill="#0d9488"><rect x="381" y="78" width="10" height="28" rx="2"/><rect x="372" y="87" width="28" height="10" rx="2"/></g>
+    <text x="386" y="150" text-anchor="middle" font-size="14" font-weight="700" fill="#14213d">Healthcare</text>
+    <text x="386" y="170" text-anchor="middle" font-size="11.5" fill="#64748b">Surgical robots</text>
+    <rect x="465" y="42" width="140" height="158" rx="12" fill="#f8fafc" stroke="#e6ebf5"/>
+    <circle cx="535" cy="92" r="30" fill="#fff7ed"/>
+    <g><rect x="519" y="90" width="32" height="12" rx="4" fill="#f59e0b"/><path d="M524 90 Q528 82 535 82 L543 82 Q548 82 549 90 Z" fill="#f59e0b"/><circle cx="526" cy="104" r="4" fill="#14213d"/><circle cx="544" cy="104" r="4" fill="#14213d"/></g>
+    <text x="535" y="150" text-anchor="middle" font-size="14" font-weight="700" fill="#14213d">Mobility</text>
+    <text x="535" y="170" text-anchor="middle" font-size="11.5" fill="#64748b">Self-driving</text>
+    <rect x="614" y="42" width="140" height="158" rx="12" fill="#f8fafc" stroke="#e6ebf5"/>
+    <circle cx="684" cy="92" r="30" fill="#f5f3ff"/>
+    <g fill="#7c3aed"><rect x="676" y="82" width="16" height="14" rx="4"/><rect x="678" y="98" width="12" height="11" rx="2"/><circle cx="681" cy="89" r="2" fill="#fff"/><circle cx="687" cy="89" r="2" fill="#fff"/></g>
+    <text x="684" y="150" text-anchor="middle" font-size="14" font-weight="700" fill="#14213d">Humanoids</text>
+    <text x="684" y="170" text-anchor="middle" font-size="11.5" fill="#64748b">AgiBot · Figure</text>
+  </g>
+</svg>

@@ -1,0 +1,24 @@
+<svg viewBox="0 0 760 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The physical AI loop: perceive with sensors, reason with an AI model, act with actuators, then repeat">
+  <defs><marker id="ah" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#64748b"/></marker></defs>
+  <g fill="none" stroke="#64748b" stroke-width="2.5">
+    <path d="M256 116 Q380 46 504 116" marker-end="url(#ah)"/>
+    <path d="M560 216 Q545 312 462 314" marker-end="url(#ah)"/>
+    <path d="M298 308 Q190 296 138 214" marker-end="url(#ah)"/>
+  </g>
+  <text x="380" y="150" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="600" fill="#94a3b8">continuous real-time loop</text>
+  <circle cx="166" cy="150" r="84" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5"/>
+  <g transform="translate(166,112)"><path d="M-24 0 Q0 -18 24 0 Q0 18 -24 0 Z" fill="#ffffff" stroke="#2563eb" stroke-width="2.5"/><circle cx="0" cy="0" r="7" fill="#2563eb"/></g>
+  <text x="166" y="158" text-anchor="middle" font-family="sans-serif" font-size="19" font-weight="700" fill="#14213d">Perceive</text>
+  <text x="166" y="180" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#475569">Cameras · LiDAR</text>
+  <text x="166" y="196" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#475569">depth · IMUs</text>
+  <circle cx="594" cy="150" r="84" fill="#eef2ff" stroke="#4f46e5" stroke-width="2.5"/>
+  <g transform="translate(594,110)"><rect x="-17" y="-17" width="34" height="34" rx="6" fill="#ffffff" stroke="#4f46e5" stroke-width="2.5"/><rect x="-6" y="-6" width="12" height="12" rx="3" fill="#4f46e5"/><g stroke="#4f46e5" stroke-width="2.5"><line x1="-17" y1="-7" x2="-24" y2="-7"/><line x1="-17" y1="7" x2="-24" y2="7"/><line x1="17" y1="-7" x2="24" y2="-7"/><line x1="17" y1="7" x2="24" y2="7"/><line x1="-7" y1="-17" x2="-7" y2="-24"/><line x1="7" y1="-17" x2="7" y2="-24"/><line x1="-7" y1="17" x2="-7" y2="24"/><line x1="7" y1="17" x2="7" y2="24"/></g></g>
+  <text x="594" y="158" text-anchor="middle" font-family="sans-serif" font-size="19" font-weight="700" fill="#14213d">Reason</text>
+  <text x="594" y="180" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#475569">AI model plans</text>
+  <text x="594" y="196" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#475569">the next action</text>
+  <circle cx="380" cy="320" r="84" fill="#f0fdfa" stroke="#0d9488" stroke-width="2.5"/>
+  <g transform="translate(380,284)" fill="#0d9488"><g><rect x="-4.5" y="-23" width="9" height="11" rx="2"/><rect x="-4.5" y="-23" width="9" height="11" rx="2" transform="rotate(45)"/><rect x="-4.5" y="-23" width="9" height="11" rx="2" transform="rotate(90)"/><rect x="-4.5" y="-23" width="9" height="11" rx="2" transform="rotate(135)"/><rect x="-4.5" y="-23" width="9" height="11" rx="2" transform="rotate(180)"/><rect x="-4.5" y="-23" width="9" height="11" rx="2" transform="rotate(225)"/><rect x="-4.5" y="-23" width="9" height="11" rx="2" transform="rotate(270)"/><rect x="-4.5" y="-23" width="9" height="11" rx="2" transform="rotate(315)"/></g><circle r="15"/><circle r="6.5" fill="#f0fdfa"/></g>
+  <text x="380" y="330" text-anchor="middle" font-family="sans-serif" font-size="19" font-weight="700" fill="#14213d">Act</text>
+  <text x="380" y="352" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#475569">Motors · grippers</text>
+  <text x="380" y="368" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#475569">wheels · arms</text>
+</svg>
