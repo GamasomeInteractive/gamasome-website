@@ -49,12 +49,20 @@ export async function generateMetadata(props: {
     }
   })
 
+  const seo = (post as any).seo as { metaTitle?: string; metaDescription?: string; canonicalUrl?: string } | undefined
+  const metaTitle = seo?.metaTitle || post.title
+  const metaDescription = seo?.metaDescription || post.summary
+  const canonicalUrl = seo?.canonicalUrl || post.canonicalUrl || `${siteMetadata.siteUrl}/blog/${slug}`
+
   return {
-    title: post.title,
-    description: post.summary,
+    title: metaTitle,
+    description: metaDescription,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
-      title: post.title,
-      description: post.summary,
+      title: metaTitle,
+      description: metaDescription,
       siteName: siteMetadata.title,
       locale: 'en_US',
       type: 'article',
@@ -66,8 +74,8 @@ export async function generateMetadata(props: {
     },
     twitter: {
       card: 'summary_large_image',
-      title: post.title,
-      description: post.summary,
+      title: metaTitle,
+      description: metaDescription,
       images: imageList,
     },
   }
