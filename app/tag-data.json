@@ -1,9 +1,9 @@
 {
   "ai": 2,
-  "physical-ai": 1,
-  "robotics": 1,
-  "automation": 1,
   "simulation": 1,
   "digital-twins": 1,
-  "industry-40": 1
+  "industry-40": 1,
+  "physical-ai": 2,
+  "robotics": 2,
+  "automation": 2
 }

@@ -1,0 +1,42 @@
+<svg viewBox="0 0 480 420" xmlns="http://www.w3.org/2000/svg" role="img" width="100%" height="100%" aria-label="Live teleoperation data capture session dashboard showing four camera views, a force-torque waveform, and episode recording status">
+  <rect x="0" y="0" width="480" height="420" rx="14" fill="#161b24" stroke="#2a3241"/>
+  <circle cx="26" cy="28" r="5" fill="#ffb020">
+    <animate attributeName="opacity" values="1;0.25;1" dur="1.6s" repeatCount="indefinite"/>
+  </circle>
+  <text x="40" y="32" font-family="IBM Plex Mono, monospace" font-size="12" fill="#ffb020">REC · EPISODE 00842</text>
+  <text x="454" y="32" font-family="IBM Plex Mono, monospace" font-size="12" fill="#93a0b4" text-anchor="end">00:42:11</text>
+
+  <!-- 4 camera viewports -->
+  <g font-family="IBM Plex Mono, monospace" font-size="9" fill="#5b6577">
+    <!-- cam 1 -->
+    <rect x="24" y="52" width="204" height="126" rx="6" fill="#10131a" stroke="#2a3241"/>
+    <text x="32" y="68" fill="#4c8dff">CAM · WRIST</text>
+    <rect x="90" y="95" width="52" height="34" rx="4" fill="#232b38" stroke="#3a4456"/>
+    <path d="M 60 155 L 100 110 L 130 130 L 150 100" stroke="#4c8dff" stroke-width="2" fill="none" opacity="0.8"/>
+    <circle cx="150" cy="100" r="3.5" fill="#4c8dff"/>
+
+    <!-- cam 2 -->
+    <rect x="252" y="52" width="204" height="126" rx="6" fill="#10131a" stroke="#2a3241"/>
+    <text x="260" y="68" fill="#4c8dff">CAM · OVERHEAD</text>
+    <circle cx="330" cy="130" r="20" fill="none" stroke="#3a4456"/>
+    <rect x="380" y="120" width="40" height="24" rx="3" fill="#232b38" stroke="#3a4456"/>
+    <path d="M 300 150 L 340 120 L 380 132" stroke="#ffb020" stroke-width="2" fill="none" opacity="0.8"/>
+
+    <!-- cam 3 -->
+    <rect x="24" y="192" width="204" height="126" rx="6" fill="#10131a" stroke="#2a3241"/>
+    <text x="32" y="208" fill="#4c8dff">CAM · SIDE-LEFT</text>
+    <rect x="60" y="250" width="150" height="8" fill="#232b38"/>
+    <path d="M 80 250 L 110 210 L 150 225 L 180 200" stroke="#33c98f" stroke-width="2" fill="none" opacity="0.8"/>
+
+    <!-- cam 4 -->
+    <rect x="252" y="192" width="204" height="126" rx="6" fill="#10131a" stroke="#2a3241"/>
+    <text x="260" y="208" fill="#4c8dff">CAM · SIDE-RIGHT</text>
+    <rect x="290" y="250" width="150" height="8" fill="#232b38"/>
+    <path d="M 300 260 L 330 220 L 370 240 L 410 215" stroke="#33c98f" stroke-width="2" fill="none" opacity="0.8"/>
+  </g>
+
+  <!-- waveform strip -->
+  <rect x="24" y="332" width="432" height="64" rx="6" fill="#10131a" stroke="#2a3241"/>
+  <text x="32" y="348" font-family="IBM Plex Mono, monospace" font-size="9" fill="#93a0b4">FORCE / TORQUE — JOINT 4</text>
+  <polyline points="32,378 55,368 78,382 101,360 124,384 147,366 170,376 193,358 216,380 239,364 262,378 285,368 308,388 331,362 354,374 377,366 400,380 423,364 446,376" fill="none" stroke="#ffb020" stroke-width="1.6"/>
+</svg>

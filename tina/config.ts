@@ -230,7 +230,7 @@ function servicePageFields() {
 }
 
 // ── AI Platform template fields (reused inside servicePage templates) ────────
-function aiPlatformTemplateFields() {
+function aiPlatformTemplateFields(): any[] {
   return [
     // ── Visibility ────────────────────────────────────────────────────────
     {
@@ -284,7 +284,16 @@ function aiPlatformTemplateFields() {
         { type: 'string' as const, name: 'headlineAccent',     label: 'Headline Accent (line 2 — gradient)' },
         { type: 'string' as const, name: 'subheadline',        label: 'Sub-headline', ui: { component: 'textarea' } },
         { type: 'image'  as const, name: 'backgroundImage',    label: 'Background Image (optional)' },
+        { type: 'image'  as const, name: 'image',              label: 'Hero Showcase Image (replaces 3D animation when set)' },
+        { type: 'string' as const, name: 'imageAlt',           label: 'Hero Showcase Image Alt Text' },
         { type: 'string' as const, name: 'backgroundVideoUrl', label: 'Background Video URL (YouTube embed)' },
+        {
+          type: 'object' as const, name: 'trustBadges', label: 'Trust Badges (pills under CTAs)', list: true,
+          ui: { itemProps: (item: any) => ({ label: item?.text ?? 'Badge' }) },
+          fields: [
+            { type: 'string' as const, name: 'text', label: 'Badge Text' },
+          ],
+        },
         {
           type: 'object' as const, name: 'colors', label: '🎨 Section Colors (overrides global theme)',
           fields: [
@@ -326,8 +335,132 @@ function aiPlatformTemplateFields() {
         { type: 'string' as const, name: 'value',    label: 'Value (e.g. 50M+)' },
         { type: 'string' as const, name: 'label',    label: 'Label (e.g. Training Samples)' },
         { type: 'string' as const, name: 'sublabel', label: 'Sub-label' },
+        { type: 'string' as const, name: 'descHtml', label: 'Description (single line, supports <a> links — overrides label/sub-label)', ui: { component: 'textarea' } },
       ],
     },
+    // ── Direct Answer ─────────────────────────────────────────────────────
+    { type: 'string' as const, name: 'directAnswerLabel', label: 'Direct Answer — Section Label' },
+    { type: 'string' as const, name: 'directAnswerTitle', label: 'Direct Answer — Heading' },
+    {
+      type: 'object' as const, name: 'directAnswerBody', label: 'Direct Answer — Body Paragraphs', list: true,
+      ui: { itemProps: (item: any) => ({ label: item?.text?.slice(0, 50) ?? 'Paragraph' }) },
+      fields: [{ type: 'string' as const, name: 'text', label: 'Paragraph', ui: { component: 'textarea' } }],
+    },
+    { type: 'string' as const, name: 'directAnswerChecklistTitle', label: 'Direct Answer — Checklist Heading' },
+    {
+      type: 'object' as const, name: 'directAnswerChecklist', label: 'Direct Answer — Checklist Items', list: true,
+      ui: { itemProps: (item: any) => ({ label: item?.text ?? 'Item' }) },
+      fields: [{ type: 'string' as const, name: 'text', label: 'Item' }],
+    },
+    // ── Methods Table ─────────────────────────────────────────────────────
+    { type: 'string' as const, name: 'methodsLabel', label: 'Methods — Section Label' },
+    { type: 'string' as const, name: 'methodsTitle', label: 'Methods — Heading' },
+    { type: 'string' as const, name: 'methodsDescription', label: 'Methods — Description', ui: { component: 'textarea' } },
+    {
+      type: 'object' as const, name: 'methodsTable', label: '▦ Methods Comparison Table',
+      fields: [
+        { type: 'string' as const, name: 'headers', label: 'Column Headers', list: true },
+        {
+          type: 'object' as const, name: 'rows', label: 'Rows', list: true,
+          ui: { itemProps: (item: any) => ({ label: item?.method ?? 'Method' }) },
+          fields: [
+            { type: 'string' as const, name: 'method',      label: 'Method' },
+            { type: 'string' as const, name: 'methodSub',   label: 'Method Sub-text' },
+            { type: 'string' as const, name: 'bestFor',     label: 'Best for' },
+            { type: 'string' as const, name: 'fidelity',    label: 'Data fidelity' },
+            { type: 'string' as const, name: 'scalability', label: 'Scalability' },
+          ],
+        },
+      ],
+    },
+    { type: 'string' as const, name: 'methodsFootnote', label: 'Methods — Footnote', ui: { component: 'textarea' } },
+    // ── Pitfalls (What teams get wrong) ───────────────────────────────────
+    { type: 'string' as const, name: 'pitfallsLabel', label: 'Pitfalls — Section Label' },
+    { type: 'string' as const, name: 'pitfallsTitle', label: 'Pitfalls — Heading' },
+    { type: 'string' as const, name: 'pitfallsDescription', label: 'Pitfalls — Description', ui: { component: 'textarea' } },
+    {
+      type: 'object' as const, name: 'pitfalls', label: '⚠️ Pitfalls', list: true,
+      ui: { itemProps: (item: any) => ({ label: item?.title ?? 'Pitfall' }) },
+      fields: [
+        { type: 'string' as const, name: 'title',       label: 'Title' },
+        { type: 'string' as const, name: 'description', label: 'Description', ui: { component: 'textarea' } },
+      ],
+    },
+    // ── Costs ─────────────────────────────────────────────────────────────
+    { type: 'string' as const, name: 'costsLabel', label: 'Costs — Section Label' },
+    { type: 'string' as const, name: 'costsTitle', label: 'Costs — Heading' },
+    { type: 'string' as const, name: 'costsIntro', label: 'Costs — Intro', ui: { component: 'textarea' } },
+    {
+      type: 'object' as const, name: 'costs', label: '💸 Cost Items', list: true,
+      ui: { itemProps: (item: any) => ({ label: item?.text ?? 'Cost item' }) },
+      fields: [{ type: 'string' as const, name: 'text', label: 'Item' }],
+    },
+    { type: 'string' as const, name: 'costsOutro', label: 'Costs — Closing Line', ui: { component: 'textarea' } },
+    // ── FAQ ───────────────────────────────────────────────────────────────
+    { type: 'string' as const, name: 'faqLabel', label: 'FAQ — Section Label' },
+    { type: 'string' as const, name: 'faqTitle', label: 'FAQ — Heading' },
+    {
+      type: 'object' as const, name: 'faqs', label: '❓ FAQ Items', list: true,
+      ui: { itemProps: (item: any) => ({ label: item?.question ?? 'Question' }) },
+      fields: [
+        { type: 'string' as const, name: 'question', label: 'Question' },
+        { type: 'string' as const, name: 'answer',   label: 'Answer', ui: { component: 'textarea' } },
+      ],
+    },
+    // ── Quality Framework (two-column) ────────────────────────────────────
+    { type: 'string' as const, name: 'qualityLabel', label: 'Quality — Section Label' },
+    { type: 'string' as const, name: 'qualityTitle', label: 'Quality — Heading' },
+    { type: 'string' as const, name: 'qualityDescription', label: 'Quality — Description', ui: { component: 'textarea' } },
+    {
+      type: 'object' as const, name: 'qualityList', label: '📐 Quality Dimensions', list: true,
+      ui: { itemProps: (item: any) => ({ label: `${item?.score ?? ''} ${item?.title ?? ''}` }) },
+      fields: [
+        { type: 'string' as const, name: 'score',       label: 'Score Label (e.g. 01 / TASK)' },
+        { type: 'string' as const, name: 'title',       label: 'Title' },
+        { type: 'string' as const, name: 'description', label: 'Description', ui: { component: 'textarea' } },
+      ],
+    },
+    { type: 'string' as const, name: 'qualityCardTitle', label: 'Quality — Side Card Heading' },
+    { type: 'string' as const, name: 'qualityCardHtml', label: 'Quality — Side Card HTML (supports <p> and <a> links)', ui: { component: 'textarea' } },
+    // ── Problems (Why It Matters) ─────────────────────────────────────────
+    { type: 'string' as const, name: 'problemsLabel', label: 'Problems — Section Label' },
+    { type: 'string' as const, name: 'problemsTitle', label: 'Problems — Heading' },
+    { type: 'string' as const, name: 'problemsDescription', label: 'Problems — Description', ui: { component: 'textarea' } },
+    {
+      type: 'object' as const, name: 'problems', label: '⚠️ Problems / Why It Matters', list: true,
+      ui: { itemProps: (item: any) => ({ label: item?.title ?? 'Problem' }) },
+      fields: [
+        { type: 'string' as const, name: 'icon',        label: 'Icon (emoji, optional)' },
+        { type: 'string' as const, name: 'title',       label: 'Title' },
+        { type: 'string' as const, name: 'description', label: 'Description (supports <a> links)', ui: { component: 'textarea' } },
+      ],
+    },
+    // ── Multimodal (Delivery Formats) ─────────────────────────────────────
+    { type: 'string' as const, name: 'multimodalLabel', label: 'Multimodal — Section Label' },
+    { type: 'string' as const, name: 'multimodalTitle', label: 'Multimodal — Heading' },
+    { type: 'string' as const, name: 'multimodalDescription', label: 'Multimodal — Description', ui: { component: 'textarea' } },
+    {
+      type: 'object' as const, name: 'multimodal', label: '🔀 Multimodal / Delivery Formats', list: true,
+      ui: { itemProps: (item: any) => ({ label: item?.title ?? 'Item' }) },
+      fields: [
+        { type: 'string' as const, name: 'icon',        label: 'Icon (emoji)' },
+        { type: 'string' as const, name: 'title',       label: 'Title' },
+        { type: 'string' as const, name: 'description', label: 'Description', ui: { component: 'textarea' } },
+      ],
+    },
+    // ── Security (checklist) ──────────────────────────────────────────────
+    { type: 'string' as const, name: 'securityLabel', label: 'Security — Section Label' },
+    { type: 'string' as const, name: 'securityTitle', label: 'Security — Heading' },
+    { type: 'string' as const, name: 'securityDescription', label: 'Security — Description', ui: { component: 'textarea' } },
+    {
+      type: 'object' as const, name: 'security', label: '🔒 Security / Checklist', list: true,
+      ui: { itemProps: (item: any) => ({ label: item?.title ?? 'Item' }) },
+      fields: [
+        { type: 'string' as const, name: 'title', label: 'Item', ui: { component: 'textarea' } },
+      ],
+    },
+    // ── How It Works description (label/title/list defined below) ─────────
+    { type: 'string' as const, name: 'howItWorksDescription', label: 'How It Works — Description', ui: { component: 'textarea' } },
     // ── Capabilities ──────────────────────────────────────────────────────
     { type: 'string' as const, name: 'capabilitiesLabel', label: 'Capabilities — Section Label' },
     { type: 'string' as const, name: 'capabilitiesTitle', label: 'Capabilities — Heading' },
@@ -367,6 +500,7 @@ function aiPlatformTemplateFields() {
       ],
     },
     // ── How It Works ──────────────────────────────────────────────────────
+    { type: 'boolean' as const, name: 'howItWorksPipeline', label: 'Use left-aligned STAGE pipeline layout (instead of centered circles)' },
     { type: 'string' as const, name: 'howItWorksLabel', label: 'How It Works — Section Label' },
     { type: 'string' as const, name: 'howItWorksTitle', label: 'How It Works — Heading' },
     {
@@ -387,9 +521,18 @@ function aiPlatformTemplateFields() {
     {
       type: 'object' as const, name: 'cta', label: '📣 CTA Section',
       fields: [
+        { type: 'string' as const, name: 'label',    label: 'Eyebrow Label (e.g. Next Step) — enables HTML-style CTA when badges are set' },
         { type: 'string' as const, name: 'headline', label: 'Headline' },
         { type: 'string' as const, name: 'subtext',  label: 'Sub-text', ui: { component: 'textarea' } },
         { type: 'image'  as const, name: 'backgroundImage', label: 'Background Image' },
+        {
+          type: 'object' as const, name: 'badges', label: 'Footer Badge Links (switches CTA to HTML-style layout)', list: true,
+          ui: { itemProps: (item: any) => ({ label: item?.text ?? 'Badge' }) },
+          fields: [
+            { type: 'string' as const, name: 'text', label: 'Text' },
+            { type: 'string' as const, name: 'href', label: 'URL' },
+          ],
+        },
         {
           type: 'object' as const, name: 'primaryBtn', label: 'Primary Button',
           fields: [

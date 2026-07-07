@@ -38,13 +38,19 @@ export default function AIPlatformView(props: Props) {
 
   const {
     hero, stats,
+    directAnswerLabel, directAnswerTitle, directAnswerBody, directAnswerChecklistTitle, directAnswerChecklist,
     problemsLabel, problemsTitle, problemsDescription, problems,
+    methodsLabel, methodsTitle, methodsDescription, methodsTable, methodsFootnote,
     capabilitiesLabel, capabilitiesTitle, capabilitiesDescription, capabilitiesMotion, capabilities,
     useCasesLabel, useCasesTitle, useCasesMotion, useCases,
     multimodalLabel, multimodalTitle, multimodalDescription, multimodal,
     securityLabel, securityTitle, securityDescription, security,
+    qualityLabel, qualityTitle, qualityDescription, qualityList, qualityCardTitle, qualityCardHtml,
+    pitfallsLabel, pitfallsTitle, pitfallsDescription, pitfalls,
+    costsLabel, costsTitle, costsIntro, costs, costsOutro,
     comparisonLabel, comparisonTitle, comparisonDescription, comparison,
-    howItWorksLabel, howItWorksTitle, howItWorksDescription, howItWorksMotion, howItWorks,
+    howItWorksLabel, howItWorksTitle, howItWorksDescription, howItWorksMotion, howItWorks, howItWorksPipeline,
+    faqLabel, faqTitle, faqs,
     cta,
   } = page
 
@@ -164,17 +170,23 @@ export default function AIPlatformView(props: Props) {
               width: 'clamp(140px, 32vw, 600px)',
               height: 'clamp(140px, 32vw, 600px)',
             }}
-            data-tina-field={tinaField(hero, 'animation')}
+            data-tina-field={tinaField(hero, hero?.image ? 'image' : 'animation')}
           >
-            {hero?.animation?.enabled !== false && (
+            {hero?.image ? (
+              <img
+                src={hero.image}
+                alt={hero?.imageAlt || hero?.badge || ''}
+                className="h-full w-full object-contain"
+              />
+            ) : hero?.animation?.enabled !== false ? (
               <HeroCanvas
                 primaryColor={hero?.animation?.primaryColor || primaryColor}
                 accentColor={hero?.animation?.accentColor || accentColor}
               />
-            )}
+            ) : null}
           </div>
 
-          <div className="container relative z-10 mx-auto px-6 pb-20 pt-40 md:px-16 lg:w-1/2">
+          <div className="container relative z-10 mx-auto px-6 pb-20 pt-40 md:px-16 lg:w-[80%]">
             <SlideFromLeft>
               <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border px-4 py-1.5" style={{ borderColor: `${accentColor}59` }}>
                 <span className="h-1.5 w-1.5 animate-pulse rounded-full" style={{ background: accentColor }} />
@@ -199,13 +211,28 @@ export default function AIPlatformView(props: Props) {
                   </Link>
                 </div>
               </SlideFromBottom>
+              {hero?.trustBadges && hero.trustBadges.length > 0 && (
+                <SlideFromBottom delay={0.45} distance={30}>
+                  <div className="mt-8 flex flex-wrap gap-2.5">
+                    {hero.trustBadges.map((badge: any, i: number) => (
+                      <span
+                        key={i}
+                        className="gama-body rounded-md border border-white/[0.12] px-3 py-1.5 text-xs font-medium"
+                        data-tina-field={tinaField(badge, 'text')}
+                      >
+                        {badge?.text}
+                      </span>
+                    ))}
+                  </div>
+                </SlideFromBottom>
+              )}
             </SlideFromLeft>
           </div>
 
-          <div className="absolute bottom-10 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2">
+          {/* <div className="absolute bottom-10 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2">
             <div className="h-10 w-px bg-gradient-to-b from-white/20 to-transparent" />
             <span className="text-[10px] tracking-widest text-white/25 uppercase">Scroll</span>
-          </div>
+          </div> */}
         </SectionMotion>
 
         {/* ── STATS ──────────────────────────────────────────────────── */}
@@ -216,13 +243,59 @@ export default function AIPlatformView(props: Props) {
               <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
                 {stats.map((stat: any, i: number) => (
                   <FadeIn key={i} delay={i * 0.1}>
-                    <div data-tina-field={tinaField(stat, 'value')}>
-                      <div className="text-4xl font-bold md:text-5xl" style={gradientText}>{stat.value}</div>
-                      <div className="mt-1 text-base font-semibold text-white">{stat.label}</div>
-                      <div className="mt-0.5 text-sm text-white/35">{stat.sublabel}</div>
+                    <div className="flex h-full flex-col" data-tina-field={tinaField(stat, 'value')}>
+                      <div className="flex min-h-[2.5em] items-end text-4xl leading-tight font-bold md:text-5xl" style={gradientText}>{stat.value}</div>
+                      {stat.descHtml ? (
+                        <p className="mt-3 text-sm leading-relaxed text-white/45 [&_a]:font-medium [&_a]:text-[#4c8dff] [&_a]:underline" data-tina-field={tinaField(stat, 'descHtml')} dangerouslySetInnerHTML={{ __html: stat.descHtml }} />
+                      ) : (
+                        <>
+                          <div className="mt-3 min-h-[2.5em] text-base font-semibold text-white">{stat.label}</div>
+                          <div className="mt-0.5 text-sm text-white/35">{stat.sublabel}</div>
+                        </>
+                      )}
                     </div>
                   </FadeIn>
                 ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ── DIRECT ANSWER ──────────────────────────────────────────── */}
+        {directAnswerTitle && (
+          <section className="py-28">
+            <div className="container mx-auto px-6 md:px-16">
+              <FadeIn>
+                {directAnswerLabel && (
+                  <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'directAnswerLabel')}>{directAnswerLabel}</p>
+                )}
+                <h2 className="max-w-3xl text-4xl font-bold md:text-5xl" data-tina-field={tinaField(page, 'directAnswerTitle')}>{directAnswerTitle}</h2>
+              </FadeIn>
+              <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-start">
+                <FadeIn>
+                  <div>
+                    {directAnswerBody?.map((para: any, i: number) => (
+                      <p key={i} className="gama-body mb-4 text-base leading-relaxed">{typeof para === 'string' ? para : para?.text}</p>
+                    ))}
+                  </div>
+                </FadeIn>
+                {directAnswerChecklist && directAnswerChecklist.length > 0 && (
+                  <FadeIn delay={0.1}>
+                    <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-8">
+                      {directAnswerChecklistTitle && (
+                        <h3 className="mb-5 text-xl font-bold">{directAnswerChecklistTitle}</h3>
+                      )}
+                      <ul className="flex flex-col gap-3">
+                        {directAnswerChecklist.map((item: any, i: number) => (
+                          <li key={i} className="flex items-start gap-3">
+                            <span className="mt-0.5 shrink-0 font-bold" style={{ color: accentColor }}>✓</span>
+                            <span className="gama-body text-[15px] leading-relaxed">{typeof item === 'string' ? item : item?.text}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </FadeIn>
+                )}
               </div>
             </div>
           </section>
@@ -244,9 +317,9 @@ export default function AIPlatformView(props: Props) {
               <StaggerContainer className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" staggerDelay={0.08}>
                 {problems.map((p: any, i: number) => (
                   <StaggerItem key={i} className="group relative rounded-2xl border border-white/[0.08] bg-white/[0.03] p-7 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06]">
-                    <div className="mb-4 text-3xl" data-tina-field={tinaField(p, 'icon')}>{p.icon}</div>
+                    {p.icon && <div className="mb-4 text-3xl" data-tina-field={tinaField(p, 'icon')}>{p.icon}</div>}
                     <h3 className="mb-2 text-lg font-bold" data-tina-field={tinaField(p, 'title')}>{p.title}</h3>
-                    <p className="gama-body text-sm leading-relaxed" data-tina-field={tinaField(p, 'description')}>{p.description}</p>
+                    <p className="gama-body text-sm leading-relaxed [&_a]:font-medium [&_a]:text-[#4c8dff] [&_a]:underline" data-tina-field={tinaField(p, 'description')} dangerouslySetInnerHTML={{ __html: p.description }} />
                   </StaggerItem>
                 ))}
               </StaggerContainer>
@@ -254,7 +327,112 @@ export default function AIPlatformView(props: Props) {
           </section>
         )}
 
+        {/* ── METHODS TABLE ──────────────────────────────────────────── */}
+        {methodsTable && methodsTable.rows && methodsTable.rows.length > 0 && (
+          <section className="py-28">
+            <div className="container mx-auto px-6 md:px-16">
+              <FadeIn>
+                {methodsLabel && (
+                  <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'methodsLabel')}>{methodsLabel}</p>
+                )}
+                <h2 className="max-w-3xl text-4xl font-bold md:text-5xl" data-tina-field={tinaField(page, 'methodsTitle')}>{methodsTitle}</h2>
+                {methodsDescription && (
+                  <p className="gama-body mt-4 max-w-3xl text-base" data-tina-field={tinaField(page, 'methodsDescription')}>{methodsDescription}</p>
+                )}
+              </FadeIn>
+              <FadeIn className="mt-12 overflow-x-auto">
+                <table className="w-full min-w-[720px] border-separate border-spacing-0 overflow-hidden rounded-2xl border border-white/[0.08]">
+                  <thead>
+                    <tr style={{ background: bgSecondary }}>
+                      {methodsTable.headers?.map((h: string, i: number) => (
+                        <th key={i} className="px-6 py-5 text-left text-sm font-bold tracking-wide uppercase" style={{ color: accentColor }}>{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {methodsTable.rows.map((row: any, i: number) => (
+                      <tr key={i} className={i % 2 === 0 ? 'bg-white/[0.02]' : 'bg-transparent'}>
+                        <td className="border-t border-white/[0.06] px-6 py-5 align-top text-sm">
+                          <span className="font-semibold text-white">{row.method}</span>
+                          {row.methodSub && <span className="mt-1 block text-[13px] text-white/45">{row.methodSub}</span>}
+                        </td>
+                        <td className="border-t border-white/[0.06] px-6 py-5 align-top text-sm text-white/70">{row.bestFor}</td>
+                        <td className="border-t border-white/[0.06] px-6 py-5 align-top text-sm text-white/70">{row.fidelity}</td>
+                        <td className="border-t border-white/[0.06] px-6 py-5 align-top text-sm text-white/70">{row.scalability}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </FadeIn>
+              {methodsFootnote && (
+                <p className="gama-body mt-6 text-[13.5px] [&_a]:font-medium [&_a]:text-[#4c8dff] [&_a]:underline" data-tina-field={tinaField(page, 'methodsFootnote')} dangerouslySetInnerHTML={{ __html: methodsFootnote }} />
+              )}
+            </div>
+          </section>
+        )}
+
+        {/* ── HOW IT WORKS (process — directly below Collection Methods) ── */}
+        <SectionMotion motion={howItWorksMotion} as="section" id="how-it-works" className="py-28" style={{ background: bgSecondary }}>
+          <div className="container mx-auto px-6 md:px-16">
+            {howItWorksPipeline ? (
+              <>
+                {/* Left-aligned STAGE pipeline (matches the source HTML) */}
+                <FadeIn>
+                  {howItWorksLabel && (
+                    <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'howItWorksLabel')}>{howItWorksLabel}</p>
+                  )}
+                  <h2 className="max-w-3xl text-4xl font-bold md:text-5xl" data-tina-field={tinaField(page, 'howItWorksTitle')}>{howItWorksTitle}</h2>
+                  {howItWorksDescription && (
+                    <p className="gama-body mt-4 max-w-3xl text-base" data-tina-field={tinaField(page, 'howItWorksDescription')}>{howItWorksDescription}</p>
+                  )}
+                </FadeIn>
+                <StaggerContainer className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6" staggerDelay={0.06}>
+                  {howItWorks?.map((step: any, i: number) => (
+                    <StaggerItem key={i} className="rounded-xl border border-white/[0.1] bg-white/[0.03] p-5">
+                      <span className="mb-2 block text-[11px] font-bold tracking-[0.12em] uppercase" style={{ color: primaryColor }} data-tina-field={tinaField(step, 'number')}>STAGE {i + 1}</span>
+                      <h4 className="mb-1.5 text-[15px] font-bold text-white" data-tina-field={tinaField(step, 'title')}>{step.title}</h4>
+                      <p className="gama-body text-[13.5px] leading-relaxed" data-tina-field={tinaField(step, 'description')}>
+                        {typeof step.description === 'string' ? step.description : step.description?.children?.[0]?.children?.[0]?.text ?? ''}
+                      </p>
+                    </StaggerItem>
+                  ))}
+                </StaggerContainer>
+              </>
+            ) : (
+              <>
+                <FadeIn className="text-center">
+                  <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'howItWorksLabel')}>{howItWorksLabel}</p>
+                  <h2 className="text-4xl font-bold md:text-5xl" data-tina-field={tinaField(page, 'howItWorksTitle')}>{howItWorksTitle}</h2>
+                  {howItWorksDescription && (
+                    <p className="gama-body mx-auto mt-4 max-w-3xl text-base" data-tina-field={tinaField(page, 'howItWorksDescription')}>{howItWorksDescription}</p>
+                  )}
+                </FadeIn>
+                <div className="relative mt-20">
+                  <div className="absolute top-8 left-[18%] right-[18%] hidden h-px md:block"
+                    style={{ background: `linear-gradient(to right, transparent, ${primaryColor}4D, transparent)` }} />
+                  <div className={`grid grid-cols-1 gap-12 ${howItWorks && howItWorks.length > 3 ? 'md:grid-cols-3 lg:grid-cols-3' : 'md:grid-cols-3'}`}>
+                    {howItWorks?.map((step: any, i: number) => (
+                      <SlideFromBottom key={i} delay={i * 0.1}>
+                        <div className="text-center">
+                          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full text-2xl font-bold"
+                            style={{ border: `1px solid ${primaryColor}66`, background: `${primaryColor}1A`, color: primaryColor }}
+                            data-tina-field={tinaField(step, 'number')}>{step.number}</div>
+                          <h3 className="mb-3 text-xl font-bold" data-tina-field={tinaField(step, 'title')}>{step.title}</h3>
+                          <p className="gama-body mx-auto max-w-xs text-sm leading-relaxed" data-tina-field={tinaField(step, 'description')}>
+                            {typeof step.description === 'string' ? step.description : step.description?.children?.[0]?.children?.[0]?.text ?? ''}
+                          </p>
+                        </div>
+                      </SlideFromBottom>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </SectionMotion>
+
         {/* ── CAPABILITIES ───────────────────────────────────────────── */}
+        {capabilities && capabilities.length > 0 && (
         <SectionMotion motion={capabilitiesMotion} as="section" className="py-28">
           <div className="container mx-auto px-6 md:px-16">
             <FadeIn>
@@ -279,53 +457,50 @@ export default function AIPlatformView(props: Props) {
             </StaggerContainer>
           </div>
         </SectionMotion>
+        )}
 
-        {/* ── USE CASES ──────────────────────────────────────────────── */}
-        <SectionMotion motion={useCasesMotion} as="section" className="py-28" style={{ background: bgSecondary }}>
-          <div className="container mx-auto px-6 md:px-16">
-            <FadeIn>
-              <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'useCasesLabel')}>{useCasesLabel}</p>
-              <h2 className="max-w-xl text-4xl font-bold md:text-5xl" data-tina-field={tinaField(page, 'useCasesTitle')}>{useCasesTitle}</h2>
-            </FadeIn>
-            <StaggerContainer className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" staggerDelay={0.08}>
-              {useCases?.map((uc: any, i: number) => (
-                <StaggerItem key={i} className="group relative overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.03] p-8 transition-all duration-300 hover:border-white/15 hover:bg-white/[0.05]">
-                  <div className="absolute right-0 bottom-0 left-0 h-0.5 opacity-50 group-hover:opacity-100" style={{ background: uc.accentColor }} />
-                  <span className="mb-5 inline-block rounded-full px-3 py-1 text-[10px] font-bold tracking-widest uppercase"
-                    style={{ color: uc.accentColor, backgroundColor: `${uc.accentColor}18`, border: `1px solid ${uc.accentColor}30` }}
-                    data-tina-field={tinaField(uc, 'tag')}>{uc.tag}</span>
-                  <h3 className="mb-3 text-lg font-bold" data-tina-field={tinaField(uc, 'title')}>{uc.title}</h3>
-                  <p className="gama-body text-sm leading-relaxed" data-tina-field={tinaField(uc, 'description')}>
-                    {typeof uc.description === 'string' ? uc.description : uc.description?.children?.[0]?.children?.[0]?.text ?? ''}
-                  </p>
-                </StaggerItem>
-              ))}
-            </StaggerContainer>
-          </div>
-        </SectionMotion>
-
-        {/* ── MULTIMODAL ─────────────────────────────────────────────── */}
-        {multimodal && multimodal.length > 0 && (
-          <section className="py-28">
+        {/* ── QUALITY FRAMEWORK (Episode Integrity Score — two-column) ── */}
+        {qualityList && qualityList.length > 0 && (
+          <section className="py-28" style={{ background: bgSecondary }}>
             <div className="container mx-auto px-6 md:px-16">
               <FadeIn>
-                {multimodalLabel && (
-                  <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'multimodalLabel')}>{multimodalLabel}</p>
+                {qualityLabel && (
+                  <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'qualityLabel')}>{qualityLabel}</p>
                 )}
-                <h2 className="max-w-3xl text-4xl font-bold md:text-5xl" data-tina-field={tinaField(page, 'multimodalTitle')}>{multimodalTitle}</h2>
-                {multimodalDescription && (
-                  <p className="gama-body mt-4 max-w-3xl text-base" data-tina-field={tinaField(page, 'multimodalDescription')}>{multimodalDescription}</p>
+                <h2 className="max-w-3xl text-4xl font-bold md:text-5xl" data-tina-field={tinaField(page, 'qualityTitle')}>{qualityTitle}</h2>
+                {qualityDescription && (
+                  <p className="gama-body mt-4 max-w-2xl text-lg" data-tina-field={tinaField(page, 'qualityDescription')}>{qualityDescription}</p>
                 )}
               </FadeIn>
-              <StaggerContainer className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2" staggerDelay={0.1}>
-                {multimodal.map((m: any, i: number) => (
-                  <StaggerItem key={i} className="group relative rounded-2xl border border-white/[0.08] bg-white/[0.03] p-8 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06]">
-                    <div className="mb-4 text-3xl" data-tina-field={tinaField(m, 'icon')}>{m.icon}</div>
-                    <h3 className="mb-3 text-xl font-bold" data-tina-field={tinaField(m, 'title')}>{m.title}</h3>
-                    <p className="gama-body text-sm leading-relaxed" data-tina-field={tinaField(m, 'description')}>{m.description}</p>
-                  </StaggerItem>
-                ))}
-              </StaggerContainer>
+              <div className="mt-14 grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-start">
+                <FadeIn>
+                  <div>
+                    {qualityList.map((q: any, i: number) => (
+                      <div key={i} className={`grid grid-cols-[auto_1fr] gap-5 py-4 ${i > 0 ? 'border-t border-white/[0.08]' : ''}`}>
+                        <span className="pt-0.5 font-mono text-[13px] font-semibold tracking-wider whitespace-nowrap" style={{ color: accentColor }} data-tina-field={tinaField(q, 'score')}>{q.score}</span>
+                        <div>
+                          <h4 className="mb-1 text-base font-bold text-white" data-tina-field={tinaField(q, 'title')}>{q.title}</h4>
+                          <p className="gama-body text-sm leading-relaxed" data-tina-field={tinaField(q, 'description')}>{q.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </FadeIn>
+                {qualityCardHtml && (
+                  <FadeIn delay={0.1}>
+                    <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-8">
+                      {qualityCardTitle && (
+                        <h3 className="mb-4 text-xl font-bold" data-tina-field={tinaField(page, 'qualityCardTitle')}>{qualityCardTitle}</h3>
+                      )}
+                      <div
+                        className="gama-body text-sm leading-relaxed [&_a]:font-medium [&_a]:text-[#4c8dff] [&_a]:underline [&_p]:mb-4 [&_p:last-child]:mb-0"
+                        data-tina-field={tinaField(page, 'qualityCardHtml')}
+                        dangerouslySetInnerHTML={{ __html: qualityCardHtml }}
+                      />
+                    </div>
+                  </FadeIn>
+                )}
+              </div>
             </div>
           </section>
         )}
@@ -354,6 +529,111 @@ export default function AIPlatformView(props: Props) {
             </div>
           </section>
         )}
+
+        {/* ── PITFALLS (what teams get wrong) ────────────────────────── */}
+        {pitfalls && pitfalls.length > 0 && (
+          <section className="py-28">
+            <div className="container mx-auto px-6 md:px-16">
+              <FadeIn>
+                {pitfallsLabel && (
+                  <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'pitfallsLabel')}>{pitfallsLabel}</p>
+                )}
+                <h2 className="max-w-3xl text-4xl font-bold md:text-5xl" data-tina-field={tinaField(page, 'pitfallsTitle')}>{pitfallsTitle}</h2>
+                {pitfallsDescription && (
+                  <p className="gama-body mt-4 max-w-3xl text-base" data-tina-field={tinaField(page, 'pitfallsDescription')}>{pitfallsDescription}</p>
+                )}
+              </FadeIn>
+              <StaggerContainer className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2" staggerDelay={0.08}>
+                {pitfalls.map((p: any, i: number) => (
+                  <StaggerItem key={i} className="group relative rounded-2xl border border-white/[0.08] bg-white/[0.03] p-8 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06]">
+                    <h3 className="mb-3 text-lg font-bold" data-tina-field={tinaField(p, 'title')}>{p.title}</h3>
+                    <p className="gama-body text-sm leading-relaxed [&_a]:font-medium [&_a]:text-[#4c8dff] [&_a]:underline" data-tina-field={tinaField(p, 'description')} dangerouslySetInnerHTML={{ __html: p.description }} />
+                  </StaggerItem>
+                ))}
+              </StaggerContainer>
+            </div>
+          </section>
+        )}
+
+        {/* ── COSTS ──────────────────────────────────────────────────── */}
+        {costs && costs.length > 0 && (
+          <section className="py-28" style={{ background: bgSecondary }}>
+            <div className="container mx-auto px-6 md:px-16">
+              <FadeIn>
+                {costsLabel && (
+                  <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'costsLabel')}>{costsLabel}</p>
+                )}
+                <h2 className="max-w-3xl text-4xl font-bold md:text-5xl" data-tina-field={tinaField(page, 'costsTitle')}>{costsTitle}</h2>
+                {costsIntro && (
+                  <p className="gama-body mt-4 max-w-3xl text-base" data-tina-field={tinaField(page, 'costsIntro')}>{costsIntro}</p>
+                )}
+              </FadeIn>
+              <StaggerContainer className="mt-10 flex max-w-3xl flex-col gap-3" staggerDelay={0.06}>
+                {costs.map((c: any, i: number) => (
+                  <StaggerItem key={i} className="flex items-start gap-3">
+                    <span className="mt-0.5 shrink-0 font-bold" style={{ color: accentColor }}>✓</span>
+                    <span className="gama-body text-[15px] leading-relaxed">{typeof c === 'string' ? c : c?.text}</span>
+                  </StaggerItem>
+                ))}
+              </StaggerContainer>
+              {costsOutro && (
+                <FadeIn>
+                  <p className="gama-body mt-8 max-w-3xl text-base" data-tina-field={tinaField(page, 'costsOutro')}>{costsOutro}</p>
+                </FadeIn>
+              )}
+            </div>
+          </section>
+        )}
+
+        {/* ── MULTIMODAL (delivery formats) ──────────────────────────── */}
+        {multimodal && multimodal.length > 0 && (
+          <section className="py-28">
+            <div className="container mx-auto px-6 md:px-16">
+              <FadeIn>
+                {multimodalLabel && (
+                  <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'multimodalLabel')}>{multimodalLabel}</p>
+                )}
+                <h2 className="max-w-3xl text-4xl font-bold md:text-5xl" data-tina-field={tinaField(page, 'multimodalTitle')}>{multimodalTitle}</h2>
+                {multimodalDescription && (
+                  <p className="gama-body mt-4 max-w-3xl text-base" data-tina-field={tinaField(page, 'multimodalDescription')}>{multimodalDescription}</p>
+                )}
+              </FadeIn>
+              <StaggerContainer className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2" staggerDelay={0.1}>
+                {multimodal.map((m: any, i: number) => (
+                  <StaggerItem key={i} className="group relative rounded-2xl border border-white/[0.08] bg-white/[0.03] p-8 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06]">
+                    <div className="mb-4 text-3xl" data-tina-field={tinaField(m, 'icon')}>{m.icon}</div>
+                    <h3 className="mb-3 text-xl font-bold" data-tina-field={tinaField(m, 'title')}>{m.title}</h3>
+                    <p className="gama-body text-sm leading-relaxed" data-tina-field={tinaField(m, 'description')}>{m.description}</p>
+                  </StaggerItem>
+                ))}
+              </StaggerContainer>
+            </div>
+          </section>
+        )}
+
+        {/* ── USE CASES (industries) ─────────────────────────────────── */}
+        <SectionMotion motion={useCasesMotion} as="section" className="py-28" style={{ background: bgSecondary }}>
+          <div className="container mx-auto px-6 md:px-16">
+            <FadeIn>
+              <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'useCasesLabel')}>{useCasesLabel}</p>
+              <h2 className="max-w-xl text-4xl font-bold md:text-5xl" data-tina-field={tinaField(page, 'useCasesTitle')}>{useCasesTitle}</h2>
+            </FadeIn>
+            <StaggerContainer className={`mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 ${useCases?.length === 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3'}`} staggerDelay={0.08}>
+              {useCases?.map((uc: any, i: number) => (
+                <StaggerItem key={i} className="group relative overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.03] p-8 transition-all duration-300 hover:border-white/15 hover:bg-white/[0.05]">
+                  <div className="absolute right-0 bottom-0 left-0 h-0.5 opacity-50 group-hover:opacity-100" style={{ background: uc.accentColor }} />
+                  <span className="mb-5 inline-block rounded-full px-3 py-1 text-[10px] font-bold tracking-widest uppercase"
+                    style={{ color: uc.accentColor, backgroundColor: `${uc.accentColor}18`, border: `1px solid ${uc.accentColor}30` }}
+                    data-tina-field={tinaField(uc, 'tag')}>{uc.tag}</span>
+                  <h3 className="mb-3 text-lg font-bold" data-tina-field={tinaField(uc, 'title')}>{uc.title}</h3>
+                  <p className="gama-body text-sm leading-relaxed" data-tina-field={tinaField(uc, 'description')}>
+                    {typeof uc.description === 'string' ? uc.description : uc.description?.children?.[0]?.children?.[0]?.text ?? ''}
+                  </p>
+                </StaggerItem>
+              ))}
+            </StaggerContainer>
+          </div>
+        </SectionMotion>
 
         {/* ── COMPARISON ─────────────────────────────────────────────── */}
         {comparison && comparison.rows && comparison.rows.length > 0 && (
@@ -392,60 +672,88 @@ export default function AIPlatformView(props: Props) {
           </section>
         )}
 
-        {/* ── HOW IT WORKS ───────────────────────────────────────────── */}
-        <SectionMotion motion={howItWorksMotion} as="section" id="how-it-works" className="py-28" style={{ background: bgSecondary }}>
-          <div className="container mx-auto px-6 md:px-16">
-            <FadeIn className="text-center">
-              <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'howItWorksLabel')}>{howItWorksLabel}</p>
-              <h2 className="text-4xl font-bold md:text-5xl" data-tina-field={tinaField(page, 'howItWorksTitle')}>{howItWorksTitle}</h2>
-              {howItWorksDescription && (
-                <p className="gama-body mx-auto mt-4 max-w-3xl text-base" data-tina-field={tinaField(page, 'howItWorksDescription')}>{howItWorksDescription}</p>
-              )}
-            </FadeIn>
-            <div className="relative mt-20">
-              <div className="absolute top-8 left-[18%] right-[18%] hidden h-px md:block"
-                style={{ background: `linear-gradient(to right, transparent, ${primaryColor}4D, transparent)` }} />
-              <div className={`grid grid-cols-1 gap-12 ${howItWorks && howItWorks.length > 3 ? 'md:grid-cols-3 lg:grid-cols-3' : 'md:grid-cols-3'}`}>
-                {howItWorks?.map((step: any, i: number) => (
-                  <SlideFromBottom key={i} delay={i * 0.1}>
-                    <div className="text-center">
-                      <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full text-2xl font-bold"
-                        style={{ border: `1px solid ${primaryColor}66`, background: `${primaryColor}1A`, color: primaryColor }}
-                        data-tina-field={tinaField(step, 'number')}>{step.number}</div>
-                      <h3 className="mb-3 text-xl font-bold" data-tina-field={tinaField(step, 'title')}>{step.title}</h3>
-                      <p className="gama-body mx-auto max-w-xs text-sm leading-relaxed" data-tina-field={tinaField(step, 'description')}>
-                        {typeof step.description === 'string' ? step.description : step.description?.children?.[0]?.children?.[0]?.text ?? ''}
-                      </p>
-                    </div>
-                  </SlideFromBottom>
+        {/* ── FAQ ────────────────────────────────────────────────────── */}
+        {faqs && faqs.length > 0 && (
+          <section className="py-28">
+            <div className="container mx-auto px-6 md:px-16">
+              <FadeIn>
+                {faqLabel && (
+                  <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'faqLabel')}>{faqLabel}</p>
+                )}
+                <h2 className="max-w-3xl text-4xl font-bold md:text-5xl" data-tina-field={tinaField(page, 'faqTitle')}>{faqTitle}</h2>
+              </FadeIn>
+              <FadeIn className="mx-auto mt-12 max-w-3xl">
+                {faqs.map((f: any, i: number) => (
+                  <details key={i} className="group border-b border-white/[0.1] py-5" open={i === 0}>
+                    <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-lg font-semibold text-white [&::-webkit-details-marker]:hidden">
+                      <span data-tina-field={tinaField(f, 'question')}>{f.question}</span>
+                      <span className="shrink-0 text-2xl transition-transform duration-300 group-open:rotate-45" style={{ color: accentColor }}>+</span>
+                    </summary>
+                    <p className="gama-body mt-4 text-base leading-relaxed" data-tina-field={tinaField(f, 'answer')}>{f.answer}</p>
+                  </details>
                 ))}
-              </div>
+              </FadeIn>
             </div>
-          </div>
-        </SectionMotion>
+          </section>
+        )}
 
         {/* ── CTA ────────────────────────────────────────────────────── */}
         <SectionMotion motion={cta?.motion} as="section" className="py-28" style={{ background: bgSecondary }}>
           <div className="container mx-auto px-6 md:px-16">
             <FadeIn>
-              <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] p-12 text-center md:p-20">
-                <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${primaryColor}1A, transparent, ${accentColor}0F)` }} />
-                <div className="pointer-events-none absolute inset-0" style={{ background: `radial-gradient(ellipse 60% 50% at 50% 50%, ${primaryColor}21 0%, transparent 70%)` }} />
-                <div className="relative">
-                  <h2 className="mx-auto max-w-3xl text-4xl font-bold md:text-5xl lg:text-6xl" data-tina-field={tinaField(cta, 'headline')}>{cta?.headline}</h2>
-                  <p className="gama-body mx-auto mt-6 max-w-xl text-lg" data-tina-field={tinaField(cta, 'subtext')}>{cta?.subtext}</p>
-                  <div className="mt-10 flex flex-wrap justify-center gap-4">
-                    <Link href={cta?.primaryBtn?.href ?? '/contact'} data-tina-field={tinaField(cta?.primaryBtn, 'text')}
-                      className="inline-flex h-[52px] items-center rounded-full px-10 font-semibold text-white transition"
-                      style={{ background: primaryColor }}>
-                      {cta?.primaryBtn?.text}
-                    </Link>
-                    <Link href={cta?.secondaryBtn?.href ?? '/contact'} data-tina-field={tinaField(cta?.secondaryBtn, 'text')} className="inline-flex h-[52px] items-center rounded-full border border-white/20 px-10 font-semibold text-white transition hover:border-white/40">
-                      {cta?.secondaryBtn?.text}
-                    </Link>
+              {cta?.badges && cta.badges.length > 0 ? (
+                /* HTML-style final CTA: centered, eyebrow, amber primary, badge links */
+                <div className="relative overflow-hidden py-8 text-center">
+                  <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(ellipse 70% 60% at 50% 0%, rgba(255,176,32,0.10), transparent 60%)' }} />
+                  <div className="relative">
+                    {cta?.label && (
+                      <p className="gama-label mb-4 flex items-center justify-center gap-2 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(cta, 'label')}>
+                        <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: accentColor }} />
+                        {cta.label}
+                      </p>
+                    )}
+                    <h2 className="mx-auto max-w-2xl text-4xl font-bold md:text-5xl" data-tina-field={tinaField(cta, 'headline')}>{cta?.headline}</h2>
+                    <p className="gama-body mx-auto mt-6 max-w-xl text-base" data-tina-field={tinaField(cta, 'subtext')}>{cta?.subtext}</p>
+                    <div className="mt-10 flex flex-wrap justify-center gap-3.5">
+                      <Link href={cta?.primaryBtn?.href ?? '/contact'} data-tina-field={tinaField(cta?.primaryBtn, 'text')}
+                        className="inline-flex h-[50px] items-center rounded-lg px-6 font-mono text-sm font-medium text-[#191203] transition hover:brightness-110"
+                        style={{ background: '#ffb020' }}>
+                        {cta?.primaryBtn?.text}
+                      </Link>
+                      <Link href={cta?.secondaryBtn?.href ?? '/contact'} data-tina-field={tinaField(cta?.secondaryBtn, 'text')} className="inline-flex h-[50px] items-center rounded-lg border border-white/15 px-6 font-mono text-sm font-medium text-white transition hover:border-white/35">
+                        {cta?.secondaryBtn?.text}
+                      </Link>
+                    </div>
+                    <div className="mt-5 flex flex-wrap justify-center gap-2.5">
+                      {cta.badges.map((b: any, i: number) => (
+                        <Link key={i} href={b?.href ?? '#'} data-tina-field={tinaField(b, 'text')}
+                          className="rounded-md border border-white/[0.12] px-3 py-1.5 font-mono text-xs text-white/60 transition hover:border-white/25 hover:text-white">
+                          {b?.text} →
+                        </Link>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] p-12 text-center md:p-20">
+                  <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${primaryColor}1A, transparent, ${accentColor}0F)` }} />
+                  <div className="pointer-events-none absolute inset-0" style={{ background: `radial-gradient(ellipse 60% 50% at 50% 50%, ${primaryColor}21 0%, transparent 70%)` }} />
+                  <div className="relative">
+                    <h2 className="mx-auto max-w-3xl text-4xl font-bold md:text-5xl lg:text-6xl" data-tina-field={tinaField(cta, 'headline')}>{cta?.headline}</h2>
+                    <p className="gama-body mx-auto mt-6 max-w-xl text-lg" data-tina-field={tinaField(cta, 'subtext')}>{cta?.subtext}</p>
+                    <div className="mt-10 flex flex-wrap justify-center gap-4">
+                      <Link href={cta?.primaryBtn?.href ?? '/contact'} data-tina-field={tinaField(cta?.primaryBtn, 'text')}
+                        className="inline-flex h-[52px] items-center rounded-full px-10 font-semibold text-white transition"
+                        style={{ background: primaryColor }}>
+                        {cta?.primaryBtn?.text}
+                      </Link>
+                      <Link href={cta?.secondaryBtn?.href ?? '/contact'} data-tina-field={tinaField(cta?.secondaryBtn, 'text')} className="inline-flex h-[52px] items-center rounded-full border border-white/20 px-10 font-semibold text-white transition hover:border-white/40">
+                        {cta?.secondaryBtn?.text}
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              )}
             </FadeIn>
           </div>
         </SectionMotion>

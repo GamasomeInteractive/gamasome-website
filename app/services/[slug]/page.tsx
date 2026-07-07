@@ -137,7 +137,22 @@ function buildServiceSchema(slug: string, parsed: any) {
     ],
   }
 
-  return [serviceSchema, breadcrumbSchema]
+  const schemas: any[] = [serviceSchema, breadcrumbSchema]
+
+  const faqs = parsed.faqs as Array<{ question: string; answer: string }> | undefined
+  if (faqs && faqs.length > 0) {
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.question,
+        acceptedAnswer: { '@type': 'Answer', text: f.answer },
+      })),
+    })
+  }
+
+  return schemas
 }
 
 export default async function ServiceSlugPage(props: { params: Promise<{ slug: string }> }) {

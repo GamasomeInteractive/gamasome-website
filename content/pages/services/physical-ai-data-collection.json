@@ -1,29 +1,36 @@
 {
   "_template": "aiPlatform",
-  "pageTitle": "Physical AI Data Collection for Real-World Robot Training",
-  "pageDescription": "Scale your AI models with accurate, human-in-the-loop annotation across images, video, LiDAR & multimodal data.",
+  "pageTitle": "Physical AI Data Collection Services & Robot Datasets",
+  "pageDescription": "Scale robot training data with expert teleoperation, multi-sensor capture, and quality-scored datasets built for imitation learning and VLA models.",
   "seo": {
-    "metaTitle": "Physical AI Data Collection for Real-World Robot Training",
-    "metaDescription": "Scale your AI models with accurate, human-in-the-loop annotation across images, video, LiDAR & multimodal data. End-to-end Physical AI data pipeline.",
-    "keywords": "physical ai, robot training data, lidar annotation, multimodal data, sensor fusion, robotics dataset",
+    "metaTitle": "Physical AI Data Collection Services & Robot Datasets",
+    "metaDescription": "Scale robot training data with expert teleoperation, multi-sensor capture, and quality-scored datasets built for imitation learning and VLA models.",
+    "keywords": "physical ai data collection, robot training data, teleoperation data, imitation learning, vla models, rlds, lerobot, robot datasets",
     "robots": "index, follow",
     "changefreq": "weekly"
   },
   "hero": {
-    "badge": "Physical AI Data",
-    "headline": "Physical AI data collection for",
-    "headlineAccent": "real-world robot training",
-    "subheadline": "Scale your AI models with accurate, human-in-the-loop annotation across images, video, LiDAR & multimodal data.",
+    "badge": "Physical AI Data Collection",
+    "headline": "Robot training data collected, calibrated, and",
+    "headlineAccent": "quality-scored for real deployment",
+    "subheadline": "Most physical AI programs don't stall on model architecture. They stall because nobody owns the unglamorous work of getting clean, diverse, well-labeled robot demonstrations out of the real world. We run the teleoperation rigs, operator programs, and calibration pipelines so your team gets training-ready datasets.",
     "primaryCta": {
-      "text": "Talk To Expert",
+      "text": "Scope a Data Collection Pilot",
       "href": "/contact"
     },
     "secondaryCta": {
-      "text": "Checkout Sample Data",
-      "href": "#capabilities"
+      "text": "See How It Works",
+      "href": "#how-it-works"
     },
+    "image": "/static/images/physical-ai-capture-dashboard.svg",
+    "imageAlt": "Live teleoperation data capture session dashboard showing four camera views, a force-torque waveform, and episode recording status",
+    "trustBadges": [
+      { "text": "Teleoperation + kinesthetic + hybrid capture" },
+      { "text": "RLDS · HDF5 · Zarr · LeRobot delivery" },
+      { "text": "Franka · UR5e · ViperX · humanoid rigs" }
+    ],
     "animation": {
-      "enabled": true,
+      "enabled": false,
       "primaryColor": "#2D9CDB",
       "accentColor": "#00FCE2"
     }
@@ -40,181 +47,171 @@
     "bgStats": "#0D1127",
     "bgFooter": "#111827"
   },
-  "problemsLabel": "The Challenge",
-  "problemsTitle": "Collecting Real-World Data Is Harder Than It Looks",
-  "problemsDescription": "Training robots on clean, well-labeled real-world data is one of the hardest bottlenecks in Physical AI development. Here's what most teams run into:",
+  "stats": [
+    { "value": "$7.48B → $52.4B", "descHtml": "AI training dataset market, 2026–2035, <a href=\"https://www.businessresearchinsights.com/market-reports/ai-training-dataset-market-110110\" target=\"_blank\" rel=\"noopener\">Business Research Insights</a>" },
+    { "value": "1M+ episodes", "descHtml": "Open X-Embodiment spans 22 robots, 21 institutions, <a href=\"https://arxiv.org/pdf/2402.05741\" target=\"_blank\" rel=\"noopener\">robot foundation model review</a>" },
+    { "value": "110,000+ sequences", "descHtml": "RH20T contact-rich manipulation set, <a href=\"https://www.ibm.com/think/news/the-data-gap-holding-back-robotics\" target=\"_blank\" rel=\"noopener\">IBM</a>" },
+    { "value": "~10,000 hours", "descHtml": "Demonstration data behind Physical Intelligence's π₀, <a href=\"https://robocloud-dashboard.vercel.app/learn/blog/robot-teleoperation-data-collection\" target=\"_blank\" rel=\"noopener\">RoboCloud Hub</a>" }
+  ],
+  "directAnswerLabel": "Direct Answer",
+  "directAnswerTitle": "What is physical AI data collection?",
+  "directAnswerBody": [
+    { "text": "Physical AI data collection is the operational work of capturing real-world robot demonstrations and multi-sensor recordings that a model can actually learn from: teleoperated episodes, kinesthetic demonstrations, human video, and hybrid autonomous rollouts, each logged with camera views, joint states, force data, and task labels." },
+    { "text": "It's the layer that sits between \"we have a robot and an idea for a foundation model\" and \"we have a dataset our training pipeline can consume.\" Skip it, or treat it as an afterthought, and even a well-designed model architecture has nothing reliable to learn from." }
+  ],
+  "directAnswerChecklistTitle": "You need this if you're building:",
+  "directAnswerChecklist": [
+    { "text": "An imitation learning or VLA policy for a specific manipulation task" },
+    { "text": "A generalist robot foundation model that needs broad task coverage" },
+    { "text": "A fine-tune of an existing model (GR00T, π₀, OpenVLA) on your own hardware" },
+    { "text": "An evaluation suite to benchmark policy performance before deployment" }
+  ],
+  "problemsLabel": "Why It Matters",
+  "problemsTitle": "The bottleneck in physical AI isn't compute. It's real-world data.",
+  "problemsDescription": "Language models learned from a decade of internet text. Robots don't have that luxury — every demonstration of \"pick up this part\" or \"fold this towel\" has to be physically performed, recorded, and labeled by someone.",
   "problems": [
     {
-      "icon": "📉",
-      "title": "Data scarcity",
-      "description": "Real-world environments are unpredictable. Getting enough diverse, high-quality data takes time that most teams don't have."
+      "title": "Volume without diversity fails",
+      "description": "Datasets skew toward a handful of \"head\" tasks while rare \"tail\" tasks get only a few examples. Research on long-tail imitation learning shows policies degrade sharply on exactly those under-represented tasks — the ones most likely to show up in real deployments. <a href=\"https://arxiv.org/html/2602.06512\" target=\"_blank\" rel=\"noopener\">Read the study</a>."
     },
     {
-      "icon": "💸",
-      "title": "High collection costs",
-      "description": "Fieldwork, hardware, logistics, and labor add up fast when you're doing it yourself."
+      "title": "Curated beats large",
+      "description": "A well-curated set of roughly 500 demonstrations fine-tuning a 7B parameter model has been shown to outperform a poorly curated fine-tune of a 70B model on manipulation benchmarks. Quality control decides outcomes more than raw scale. <a href=\"https://www.roboticscenter.ai/state-of-robotics-2026\" target=\"_blank\" rel=\"noopener\">Source: State of Robotics 2026</a>."
     },
     {
-      "icon": "🎯",
-      "title": "Edge case coverage",
-      "description": "Models fail at edge cases. Capturing rare, critical scenarios requires deliberate planning, which most workflows skip."
-    },
-    {
-      "icon": "🔗",
-      "title": "Sensor sync issues",
-      "description": "Combining LiDAR, RGB, and depth data from multiple sensors is technically complex and error-prone."
-    },
-    {
-      "icon": "🏷️",
-      "title": "Annotation complexity",
-      "description": "Labeling multimodal data at scale demands domain knowledge, not just manual labor."
+      "title": "Nobody can do it alone",
+      "description": "Even large robotics labs are turning to outside data partners, because building internal data-collection infrastructure pulls engineering time away from model and hardware work. <a href=\"https://www.ibm.com/think/news/the-data-gap-holding-back-robotics\" target=\"_blank\" rel=\"noopener\">IBM's reporting</a> on the data gap covers why this shift is happening industry-wide."
     }
   ],
-  "capabilitiesLabel": "What We Do",
-  "capabilitiesTitle": "End-to-End Physical AI Data Collection",
-  "capabilitiesDescription": "We handle the full pipeline, from planning what data to collect to delivering datasets that are ready to train on.",
-  "capabilities": [
-    {
-      "icon": "🗺️",
-      "title": "Data Planning & Strategy",
-      "description": "We work with your team to understand the robot's use case, environment, and edge cases before a single sensor goes live."
-    },
-    {
-      "icon": "📡",
-      "title": "Real-World Data Capture",
-      "description": "Our field teams collect data across real environments using LiDAR, RGB cameras, depth sensors, and other hardware relevant to your use case."
-    },
-    {
-      "icon": "✅",
-      "title": "Annotation & QA",
-      "description": "Every dataset goes through structured labeling and multi-layer quality checks. No shortcuts."
-    },
-    {
-      "icon": "📦",
-      "title": "Delivery",
-      "description": "Clean, formatted, and structured datasets delivered to your pipeline. No reformatting, no back-and-forth."
-    }
-  ],
-  "howItWorksLabel": "Process",
-  "howItWorksTitle": "How We Work",
-  "howItWorksDescription": "Every project is shaped around your model goals, operating environment, and deployment needs.",
-  "howItWorks": [
-    {
-      "number": "01",
-      "title": "Requirement understanding",
-      "description": "We align on your robot use case, target environment, sensor stack, and output format."
-    },
-    {
-      "number": "02",
-      "title": "Environment and scenario design",
-      "description": "We map the real-world conditions, movements, interactions, and exceptions your model needs to learn from."
-    },
-    {
-      "number": "03",
-      "title": "Data collection execution",
-      "description": "Our team captures data across the agreed scenarios using the right hardware, operators, and protocols."
-    },
-    {
-      "number": "04",
-      "title": "Annotation and labeling",
-      "description": "We annotate the collected data using task-specific workflows built for computer vision and Physical AI pipelines."
-    },
-    {
-      "number": "05",
-      "title": "Quality assurance",
-      "description": "Every dataset goes through structured QA to improve consistency, reduce noise, and catch missed cases."
-    },
-    {
-      "number": "06",
-      "title": "Delivery and integration",
-      "description": "We package and deliver the data in a format your team can plug into training, testing, or validation workflows."
-    }
-  ],
-  "useCasesLabel": "Where We Operate",
-  "useCasesTitle": "Built for Real Environments",
-  "useCases": [
-    {
-      "tag": "WAREHOUSE",
-      "title": "Warehouse Robotics",
-      "description": "Navigating shelves, avoiding workers, picking objects. We collect the data that helps warehouse robots handle real floor conditions.",
-      "accentColor": "#2D9CDB"
-    },
-    {
-      "tag": "NAVIGATION",
-      "title": "Autonomous Navigation",
-      "description": "Indoor and outdoor environments, varied lighting, and obstacle-heavy spaces. We cover the scenarios that simulators miss.",
-      "accentColor": "#00FCE2"
-    },
-    {
-      "tag": "AGRICULTURE",
-      "title": "Smart Agriculture",
-      "description": "Crop rows, terrain variation, and weather conditions. Ground-truth data for robots working where infrastructure is minimal.",
-      "accentColor": "#2D9CDB"
-    },
-    {
-      "tag": "INDUSTRIAL",
-      "title": "Industrial Automation",
-      "description": "Heavy equipment, complex workspaces, safety-critical zones. Data collected and annotated to reflect real factory and site conditions.",
-      "accentColor": "#00FCE2"
-    }
-  ],
-  "multimodalLabel": "Multimodal Coverage",
-  "multimodalTitle": "Multimodal data collection for how robots perceive the world",
-  "multimodalDescription": "Physical AI models learn from more than one signal. We collect and organize multimodal datasets that reflect real-world perception across environments and tasks.",
-  "multimodal": [
-    {
-      "icon": "🎥",
-      "title": "Image and video data collection",
-      "description": "High-volume visual data capture across controlled and real-world conditions."
-    },
-    {
-      "icon": "📐",
-      "title": "LiDAR and sensor data collection",
-      "description": "Structured collection for depth-aware systems and spatial understanding."
-    },
-    {
-      "icon": "🎙️",
-      "title": "Audio and environmental data",
-      "description": "Useful for context-rich environments where sound and ambient inputs matter."
-    },
-    {
-      "icon": "🔀",
-      "title": "Multimodal data fusion",
-      "description": "Aligned and synchronized datasets across multiple input sources for better downstream training."
-    }
-  ],
-  "securityLabel": "Trust & Compliance",
-  "securityTitle": "Secure, controlled, and enterprise-ready data practices",
-  "securityDescription": "We follow secure handling practices, controlled storage and transfer methods, and NDA-led engagement models that support enterprise requirements.",
-  "security": [
-    { "title": "GDPR-aligned data handling practices" },
-    { "title": "Secure storage and transfer protocols" },
-    { "title": "NDA-protected engagements by default" },
-    { "title": "Enterprise-grade security across the pipeline" }
-  ],
-  "comparisonLabel": "Why Gamasome",
-  "comparisonTitle": "Why Teams Choose Gamasome",
-  "comparisonDescription": "We don't just label data. We understand what the data needs to teach your robot, and we build the collection process around that.",
-  "comparison": {
-    "headers": ["Activity", "Gamasome", "Typical Vendors"],
+  "methodsLabel": "Collection Methods",
+  "methodsTitle": "Four ways to collect robot data. We pick the right mix for your task.",
+  "methodsDescription": "No single method covers every task well. Most production datasets blend two or three of these, weighted by how contact-rich the task is and how much hardware access you have.",
+  "methodsTable": {
+    "headers": ["Method", "Best for", "Data fidelity", "Scalability"],
     "rows": [
-      { "activity": "Turnaround",          "gamasome": "2 to 6 weeks",            "vendors": "8 to 12 weeks" },
-      { "activity": "Workforce scalability", "gamasome": "On-demand, scalable",     "vendors": "Fixed capacity" },
-      { "activity": "Domain expertise",      "gamasome": "Physical AI specialists", "vendors": "General annotation" },
-      { "activity": "Pipeline ownership",    "gamasome": "End-to-end",              "vendors": "Fragmented" },
-      { "activity": "Communication",         "gamasome": "Direct, no middlemen",    "vendors": "Account manager layers" }
+      {
+        "method": "Teleoperation",
+        "methodSub": "Leader-follower rigs, VR/haptic controllers",
+        "bestFor": "Precise manipulation, bimanual tasks, contact-rich actions",
+        "fidelity": "High — captures true robot action space",
+        "scalability": "Medium — bounded by operator throughput"
+      },
+      {
+        "method": "Kinesthetic teaching",
+        "methodSub": "Physically guiding the arm through the task",
+        "bestFor": "Simple pick-place, force-sensitive insertion tasks",
+        "fidelity": "High for the specific arm, low transferability",
+        "scalability": "Low — one demonstration at a time"
+      },
+      {
+        "method": "Human video capture",
+        "methodSub": "No robot in the loop, first-person or fixed camera",
+        "bestFor": "Rapid task coverage, pretraining, rare scenarios",
+        "fidelity": "Lower — needs retargeting to robot embodiment",
+        "scalability": "High — cheapest to scale"
+      },
+      {
+        "method": "Hybrid / autonomous rollout",
+        "methodSub": "Policy-driven collection with human fallback (DAgger-style)",
+        "bestFor": "Scaling a model that already has baseline competence",
+        "fidelity": "Variable — depends on current policy quality",
+        "scalability": "High — reduces human time per episode"
+      }
     ]
   },
-  "cta": {
-    "headline": "Build better robot training datasets with Gamasome",
-    "subtext": "From scenario planning to multimodal collection, annotation, and QA, Gamasome helps Physical AI teams get the real-world data they need to train with more confidence and less operational friction.",
-    "primaryBtn": {
-      "text": "Book a Demo",
-      "href": "/contact"
+  "methodsFootnote": "Approach reference: <a href=\"https://arxiv.org/pdf/2401.12963\" target=\"_blank\" rel=\"noopener\">AutoRT, Google DeepMind</a> and the <a href=\"https://salesforceventures.com/perspectives/the-robotics-breakout-moment/\" target=\"_blank\" rel=\"noopener\">Salesforce Ventures robotics data landscape review</a>.",
+  "useCasesLabel": "Where This Applies",
+  "useCasesTitle": "Built for teams working across manipulation and mobility",
+  "useCases": [
+    { "tag": "WAREHOUSE", "title": "Warehouse & Logistics", "description": "Pick-place, sorting, and bin-picking demonstrations for AMR and fixed-arm fulfillment tasks.", "accentColor": "#2D9CDB" },
+    { "tag": "HUMANOID", "title": "Humanoid Loco-Manipulation", "description": "Whole-body tasks combining locomotion with object interaction for humanoid platforms.", "accentColor": "#00FCE2" },
+    { "tag": "MANUFACTURING", "title": "Manufacturing & Assembly", "description": "Contact-rich insertion, fastening, and quality-inspection task data.", "accentColor": "#2D9CDB" },
+    { "tag": "RESEARCH", "title": "Research & Foundation Models", "description": "Broad task-coverage datasets for labs fine-tuning generalist policies like GR00T or OpenVLA.", "accentColor": "#00FCE2" }
+  ],
+  "multimodalLabel": "Delivery Formats",
+  "multimodalTitle": "Delivered in the formats your pipeline already expects",
+  "multimodalDescription": "Every delivery includes camera calibration files, robot URDF, action-space definitions, and per-episode task metadata.",
+  "multimodal": [
+    { "icon": "📦", "title": "RLDS", "description": "Standard TFDS-based format used across major open robot datasets and training pipelines." },
+    { "icon": "🗄️", "title": "HDF5", "description": "Common for ALOHA-style bimanual teleoperation datasets and custom loaders." },
+    { "icon": "🧊", "title": "Zarr", "description": "Chunked array storage suited to large-scale, cloud-native training workflows." },
+    { "icon": "🤗", "title": "LeRobot format", "description": "Compatible with Hugging Face's open robot learning ecosystem for fast iteration." }
+  ],
+  "qualityLabel": "Our Quality Framework",
+  "qualityTitle": "The Episode Integrity Score",
+  "qualityDescription": "Every delivered episode is scored across five dimensions before it enters your dataset. This is how we catch the failures that don't show up until a model is already training on bad data.",
+  "qualityList": [
+    { "score": "01 / TASK", "title": "Task success", "description": "Did the episode actually achieve the stated goal, verified against defined success criteria — not just \"did the arm move.\"" },
+    { "score": "02 / MOTION", "title": "Trajectory smoothness", "description": "Flags jerky corrections and oscillation common in novice teleoperation, which quietly degrades policy learning." },
+    { "score": "03 / CALIB", "title": "Calibration drift", "description": "Camera and sensor calibration is checked against the session baseline so silent drift doesn't corrupt a batch." },
+    { "score": "04 / LABEL", "title": "Annotation consistency", "description": "Task boundaries, language labels, and episode metadata are checked against a shared standard across operators." },
+    { "score": "05 / SPREAD", "title": "Environment coverage", "description": "Tracks lighting, object, and layout variation against your target diversity plan to avoid a narrow, overfit dataset." }
+  ],
+  "qualityCardTitle": "Why this exists",
+  "qualityCardHtml": "<p>Demonstration quality research shows that novice or end-user teleoperation tends to introduce unstable control and inconsistent execution that's invisible unless you're specifically measuring for it. <a href=\"https://arxiv.org/html/2605.01544v1\" target=\"_blank\" rel=\"noopener\">See the underlying research</a> on data quality metrics in imitation learning.</p><p>Consistency in how actions are labeled and recorded matters as much as the demonstrations themselves — it's one of the four pillars <a href=\"https://macgence.com/blog/robot-learning-from-demonstration-lfd\" target=\"_blank\" rel=\"noopener\">commonly cited</a> for usable learning-from-demonstration data, alongside diversity, precision, and scalability.</p>",
+  "pitfallsLabel": "Expert Perspective",
+  "pitfallsTitle": "What most robotics teams get wrong about data collection",
+  "pitfalls": [
+    {
+      "title": "Treating it like generic crowdsourced labeling",
+      "description": "Robot demonstration data isn't a static image with a bounding box. It's continuous motion where the start, end, and transition points of an action are ambiguous unless the person recording understands the task. Generic labeling workflows built for text or image annotation don't transfer cleanly. <a href=\"https://macgence.com/blog/robot-imitation-learning-data\" target=\"_blank\" rel=\"noopener\">This distinction</a> is where a lot of in-house pipelines quietly break down."
     },
-    "secondaryBtn": {
-      "text": "Checkout Sample Data",
-      "href": "/contact"
+    {
+      "title": "Letting operator fatigue erode consistency",
+      "description": "Long, uncapped sessions produce more corrective motions and drift as operators tire. Industry practice among dedicated teleoperation providers caps sessions around 45 minutes specifically to protect data consistency. <a href=\"https://claru.ai/training-data/teleoperation\" target=\"_blank\" rel=\"noopener\">This is a documented operating pattern</a>, not a guess."
+    },
+    {
+      "title": "Ignoring the long tail until deployment",
+      "description": "It's tempting to collect whatever demonstrations are easy first. Then a model ships and fails exactly on the rare-but-important cases nobody prioritized recording. Planning tail-task coverage from the start costs less than fixing it after a failed deployment."
+    },
+    {
+      "title": "Skipping calibration logging",
+      "description": "Camera and sensor calibration drifts over weeks of use. Without a logged baseline to compare against, a whole batch of otherwise-good demonstrations can silently degrade model performance and the cause is nearly impossible to trace after the fact."
     }
+  ],
+  "costsLabel": "Cost Considerations",
+  "costsTitle": "What in-house data collection actually costs",
+  "costsIntro": "Building this internally isn't just \"buy a robot and record.\" Teams typically underestimate:",
+  "costs": [
+    { "text": "Calibration rigs, multi-camera arrays, and haptic controllers for the collection cell itself" },
+    { "text": "Hiring and qualifying teleoperators, plus ongoing operator management" },
+    { "text": "Engineering time spent building — and maintaining — QA and format-conversion tooling" },
+    { "text": "Storage and dataset-versioning infrastructure as episode counts scale" }
+  ],
+  "costsOutro": "Outsourcing the operational layer lets your team spend its time on model architecture and policy evaluation instead of rig maintenance.",
+  "howItWorksPipeline": true,
+  "howItWorksLabel": "How Engagements Run",
+  "howItWorksTitle": "From task scoping to a delivered, training-ready dataset",
+  "howItWorksDescription": "A real operational sequence, not a marketing checklist — each stage produces something the next stage depends on.",
+  "howItWorks": [
+    { "number": "01", "title": "Scope the task", "description": "Define the task, success criteria, object set, and environment variation you need covered." },
+    { "number": "02", "title": "Set up and calibrate", "description": "Configure the rig, camera array, and sensors, and log calibration so drift is detectable later." },
+    { "number": "03", "title": "Qualify operators", "description": "Operators run a qualification pass before contributing to the main dataset." },
+    { "number": "04", "title": "Capture episodes", "description": "Multi-session recording with session-length limits to protect demonstration consistency." },
+    { "number": "05", "title": "Score and review", "description": "Every episode is scored; failures and edge cases go to replay review, not the trash." },
+    { "number": "06", "title": "Package and deliver", "description": "Formatted, versioned, and delivered with full calibration and task metadata attached." }
+  ],
+  "faqLabel": "FAQ",
+  "faqTitle": "Common questions about data collection engagements",
+  "faqs": [
+    { "question": "What is physical AI data collection?", "answer": "It's the process of capturing real-world robot demonstrations and sensor recordings — through teleoperation, kinesthetic teaching, or human video — structured into datasets that imitation learning, reinforcement learning, and VLA models can train on." },
+    { "question": "How much robot demonstration data do I actually need?", "answer": "There's no universal number. A carefully curated batch of around 500 demonstrations on a well-scoped task can outperform a much larger, poorly curated dataset. Task diversity and annotation consistency matter more than raw volume." },
+    { "question": "What's the difference between teleoperation, kinesthetic teaching, and human video?", "answer": "Teleoperation drives the robot remotely while it records its own state. Kinesthetic teaching means physically guiding the robot's arm. Human video captures a person doing the task with no robot involved, which is cheaper but needs extra work to map onto a robot's action space." },
+    { "question": "What data formats do you deliver?", "answer": "RLDS, HDF5, Zarr, and LeRobot-compatible structures, each with camera calibration, robot URDF, action-space documentation, and per-episode metadata included." },
+    { "question": "Which robots and hardware platforms are supported?", "answer": "Franka Emika Panda, UR5e, ViperX-based bimanual rigs, mobile manipulators, and humanoid platforms. Custom or proprietary hardware can be onboarded once calibration and safety requirements are scoped." },
+    { "question": "How is data quality checked before delivery?", "answer": "Every episode runs through our Episode Integrity Score across task success, trajectory smoothness, calibration drift, annotation consistency, and environment coverage, with borderline episodes routed to replay review." },
+    { "question": "Do you offer a pilot before a full data collection program?", "answer": "Yes. Engagements typically start with a scoped pilot on one or two tasks to validate the collection protocol and quality bar before scaling to ongoing weekly volumes." }
+  ],
+  "cta": {
+    "label": "Next Step",
+    "headline": "Let's scope your first data collection pilot",
+    "subtext": "Tell us the task, the hardware, and the model you're training toward. We'll come back with a collection plan, timeline, and format spec.",
+    "primaryBtn": { "text": "Email tech@gamasome.com", "href": "mailto:tech@gamasome.com" },
+    "secondaryBtn": { "text": "View all services", "href": "/services" },
+    "badges": [
+      { "text": "Data Annotation", "href": "/data-annotation" },
+      { "text": "AI Model Support", "href": "/ai-model-support" },
+      { "text": "Validation & Testing", "href": "/validation-testing" }
+    ]
   }
 }
