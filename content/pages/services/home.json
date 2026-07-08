@@ -1,0 +1,253 @@
+{
+  "_template": "aiPlatform",
+  "pageTitle": "Physical AI Data Collection for Real-World Robot Training",
+  "pageDescription": "Scale your AI models with accurate, human-in-the-loop annotation across images, video, LiDAR & multimodal data.",
+  "seo": {
+    "metaTitle": "Physical AI Data Collection for Real-World Robot Training",
+    "metaDescription": "Scale your AI models with accurate, human-in-the-loop annotation across images, video, LiDAR & multimodal data. End-to-end Physical AI data pipeline.",
+    "keywords": "physical ai, robot training data, lidar annotation, multimodal data, sensor fusion, robotics dataset",
+    "robots": "index, follow",
+    "changefreq": "weekly"
+  },
+  "hero": {
+    "badge": "Physical AI Data",
+    "headline": "Physical AI data collection for",
+    "headlineAccent": "real-world robot training",
+    "subheadline": "Scale your AI models with accurate, human-in-the-loop annotation across images, video, LiDAR & multimodal data.",
+    "primaryCta": {
+      "text": "Talk To Expert",
+      "href": "/contact"
+    },
+    "secondaryCta": {
+      "text": "Checkout Sample Data",
+      "href": "#capabilities"
+    },
+    "animation": {
+      "enabled": true,
+      "primaryColor": "#2D9CDB",
+      "accentColor": "#00FCE2"
+    }
+  },
+  "typography": {
+    "fontFamily": "Poppins",
+    "headingColor": "#ffffff",
+    "bodyColor": "rgba(255,255,255,0.55)",
+    "labelColor": "#00FCE2",
+    "primaryColor": "#2D9CDB",
+    "accentColor": "#00FCE2",
+    "bgPrimary": "#07091B",
+    "bgSecondary": "#0A0E24",
+    "bgStats": "#0D1127",
+    "bgFooter": "#111827"
+  },
+  "problemsLabel": "The Challenge",
+  "problemsTitle": "Collecting Real-World Data Is Harder Than It Looks",
+  "problemsDescription": "Training robots on clean, well-labeled real-world data is one of the hardest bottlenecks in Physical AI development. Here's what most teams run into:",
+  "problems": [
+    {
+      "icon": "📉",
+      "title": "Data scarcity",
+      "description": "Real-world environments are unpredictable. Getting enough diverse, high-quality data takes time that most teams don't have."
+    },
+    {
+      "icon": "💸",
+      "title": "High collection costs",
+      "description": "Fieldwork, hardware, logistics, and labor add up fast when you're doing it yourself."
+    },
+    {
+      "icon": "🎯",
+      "title": "Edge case coverage",
+      "description": "Models fail at edge cases. Capturing rare, critical scenarios requires deliberate planning, which most workflows skip."
+    },
+    {
+      "icon": "🔗",
+      "title": "Sensor sync issues",
+      "description": "Combining LiDAR, RGB, and depth data from multiple sensors is technically complex and error-prone."
+    },
+    {
+      "icon": "🏷️",
+      "title": "Annotation complexity",
+      "description": "Labeling multimodal data at scale demands domain knowledge, not just manual labor."
+    }
+  ],
+  "capabilitiesLabel": "What We Do",
+  "capabilitiesTitle": "End-to-End Physical AI Data Collection",
+  "capabilitiesDescription": "We handle the full pipeline, from planning what data to collect to delivering datasets that are ready to train on.",
+  "capabilities": [
+    {
+      "icon": "🗺️",
+      "title": "Data Planning & Strategy",
+      "description": "We work with your team to understand the robot's use case, environment, and edge cases before a single sensor goes live."
+    },
+    {
+      "icon": "📡",
+      "title": "Real-World Data Capture",
+      "description": "Our field teams collect data across real environments using LiDAR, RGB cameras, depth sensors, and other hardware relevant to your use case."
+    },
+    {
+      "icon": "✅",
+      "title": "Annotation & QA",
+      "description": "Every dataset goes through structured labeling and multi-layer quality checks. No shortcuts."
+    },
+    {
+      "icon": "📦",
+      "title": "Delivery",
+      "description": "Clean, formatted, and structured datasets delivered to your pipeline. No reformatting, no back-and-forth."
+    }
+  ],
+  "howItWorksLabel": "Process",
+  "howItWorksTitle": "How We Work",
+  "howItWorksDescription": "Every project is shaped around your model goals, operating environment, and deployment needs.",
+  "howItWorks": [
+    {
+      "number": "01",
+      "title": "Requirement understanding",
+      "description": "We align on your robot use case, target environment, sensor stack, and output format."
+    },
+    {
+      "number": "02",
+      "title": "Environment and scenario design",
+      "description": "We map the real-world conditions, movements, interactions, and exceptions your model needs to learn from."
+    },
+    {
+      "number": "03",
+      "title": "Data collection execution",
+      "description": "Our team captures data across the agreed scenarios using the right hardware, operators, and protocols."
+    },
+    {
+      "number": "04",
+      "title": "Annotation and labeling",
+      "description": "We annotate the collected data using task-specific workflows built for computer vision and Physical AI pipelines."
+    },
+    {
+      "number": "05",
+      "title": "Quality assurance",
+      "description": "Every dataset goes through structured QA to improve consistency, reduce noise, and catch missed cases."
+    },
+    {
+      "number": "06",
+      "title": "Delivery and integration",
+      "description": "We package and deliver the data in a format your team can plug into training, testing, or validation workflows."
+    }
+  ],
+  "useCasesLabel": "Where We Operate",
+  "useCasesTitle": "Built for Real Environments",
+  "useCases": [
+    {
+      "tag": "WAREHOUSE",
+      "title": "Warehouse Robotics",
+      "description": "Navigating shelves, avoiding workers, picking objects. We collect the data that helps warehouse robots handle real floor conditions.",
+      "accentColor": "#2D9CDB"
+    },
+    {
+      "tag": "NAVIGATION",
+      "title": "Autonomous Navigation",
+      "description": "Indoor and outdoor environments, varied lighting, and obstacle-heavy spaces. We cover the scenarios that simulators miss.",
+      "accentColor": "#00FCE2"
+    },
+    {
+      "tag": "AGRICULTURE",
+      "title": "Smart Agriculture",
+      "description": "Crop rows, terrain variation, and weather conditions. Ground-truth data for robots working where infrastructure is minimal.",
+      "accentColor": "#2D9CDB"
+    },
+    {
+      "tag": "INDUSTRIAL",
+      "title": "Industrial Automation",
+      "description": "Heavy equipment, complex workspaces, safety-critical zones. Data collected and annotated to reflect real factory and site conditions.",
+      "accentColor": "#00FCE2"
+    }
+  ],
+  "multimodalLabel": "Multimodal Coverage",
+  "multimodalTitle": "Multimodal data collection for how robots perceive the world",
+  "multimodalDescription": "Physical AI models learn from more than one signal. We collect and organize multimodal datasets that reflect real-world perception across environments and tasks.",
+  "multimodal": [
+    {
+      "icon": "🎥",
+      "title": "Image and video data collection",
+      "description": "High-volume visual data capture across controlled and real-world conditions."
+    },
+    {
+      "icon": "📐",
+      "title": "LiDAR and sensor data collection",
+      "description": "Structured collection for depth-aware systems and spatial understanding."
+    },
+    {
+      "icon": "🎙️",
+      "title": "Audio and environmental data",
+      "description": "Useful for context-rich environments where sound and ambient inputs matter."
+    },
+    {
+      "icon": "🔀",
+      "title": "Multimodal data fusion",
+      "description": "Aligned and synchronized datasets across multiple input sources for better downstream training."
+    }
+  ],
+  "securityLabel": "Trust & Compliance",
+  "securityTitle": "Secure, controlled, and enterprise-ready data practices",
+  "securityDescription": "We follow secure handling practices, controlled storage and transfer methods, and NDA-led engagement models that support enterprise requirements.",
+  "security": [
+    {
+      "title": "GDPR-aligned data handling practices"
+    },
+    {
+      "title": "Secure storage and transfer protocols"
+    },
+    {
+      "title": "NDA-protected engagements by default"
+    },
+    {
+      "title": "Enterprise-grade security across the pipeline"
+    }
+  ],
+  "comparisonLabel": "Why Gamasome",
+  "comparisonTitle": "Why Teams Choose Gamasome",
+  "comparisonDescription": "We don't just label data. We understand what the data needs to teach your robot, and we build the collection process around that.",
+  "comparison": {
+    "headers": [
+      "Activity",
+      "Gamasome",
+      "Typical Vendors"
+    ],
+    "rows": [
+      {
+        "activity": "Turnaround",
+        "gamasome": "2 to 6 weeks",
+        "vendors": "8 to 12 weeks"
+      },
+      {
+        "activity": "Workforce scalability",
+        "gamasome": "On-demand, scalable",
+        "vendors": "Fixed capacity"
+      },
+      {
+        "activity": "Domain expertise",
+        "gamasome": "Physical AI specialists",
+        "vendors": "General annotation"
+      },
+      {
+        "activity": "Pipeline ownership",
+        "gamasome": "End-to-end",
+        "vendors": "Fragmented"
+      },
+      {
+        "activity": "Communication",
+        "gamasome": "Direct, no middlemen",
+        "vendors": "Account manager layers"
+      }
+    ]
+  },
+  "cta": {
+    "headline": "Build better robot training datasets with Gamasome",
+    "subtext": "From scenario planning to multimodal collection, annotation, and QA, Gamasome helps Physical AI teams get the real-world data they need to train with more confidence and less operational friction.",
+    "primaryBtn": {
+      "text": "Book a Demo",
+      "href": "/contact"
+    },
+    "secondaryBtn": {
+      "text": "Checkout Sample Data",
+      "href": "/contact"
+    }
+  },
+  "hidden": true
+}

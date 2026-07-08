@@ -15,20 +15,16 @@
     "headlineAccent": "quality-scored for real deployment",
     "subheadline": "Most physical AI programs don't stall on model architecture. They stall because nobody owns the unglamorous work of getting clean, diverse, well-labeled robot demonstrations out of the real world. We run the teleoperation rigs, operator programs, and calibration pipelines so your team gets training-ready datasets.",
     "primaryCta": {
-      "text": "Scope a Data Collection Pilot",
+      "text": "Book a Demo",
       "href": "/contact"
     },
     "secondaryCta": {
-      "text": "See How It Works",
-      "href": "#how-it-works"
+      "text": "",
+      "href": "/contact"
     },
     "image": "/static/images/physical-ai-capture-dashboard.svg",
     "imageAlt": "Live teleoperation data capture session dashboard showing four camera views, a force-torque waveform, and episode recording status",
-    "trustBadges": [
-      { "text": "Teleoperation + kinesthetic + hybrid capture" },
-      { "text": "RLDS · HDF5 · Zarr · LeRobot delivery" },
-      { "text": "Franka · UR5e · ViperX · humanoid rigs" }
-    ],
+    "trustBadges": [],
     "animation": {
       "enabled": false,
       "primaryColor": "#2D9CDB",
@@ -201,17 +197,5 @@
     { "question": "Which robots and hardware platforms are supported?", "answer": "Franka Emika Panda, UR5e, ViperX-based bimanual rigs, mobile manipulators, and humanoid platforms. Custom or proprietary hardware can be onboarded once calibration and safety requirements are scoped." },
     { "question": "How is data quality checked before delivery?", "answer": "Every episode runs through our Episode Integrity Score across task success, trajectory smoothness, calibration drift, annotation consistency, and environment coverage, with borderline episodes routed to replay review." },
     { "question": "Do you offer a pilot before a full data collection program?", "answer": "Yes. Engagements typically start with a scoped pilot on one or two tasks to validate the collection protocol and quality bar before scaling to ongoing weekly volumes." }
-  ],
-  "cta": {
-    "label": "Next Step",
-    "headline": "Let's scope your first data collection pilot",
-    "subtext": "Tell us the task, the hardware, and the model you're training toward. We'll come back with a collection plan, timeline, and format spec.",
-    "primaryBtn": { "text": "Email tech@gamasome.com", "href": "mailto:tech@gamasome.com" },
-    "secondaryBtn": { "text": "View all services", "href": "/services" },
-    "badges": [
-      { "text": "Data Annotation", "href": "/data-annotation" },
-      { "text": "AI Model Support", "href": "/ai-model-support" },
-      { "text": "Validation & Testing", "href": "/validation-testing" }
-    ]
-  }
+  ]
 }

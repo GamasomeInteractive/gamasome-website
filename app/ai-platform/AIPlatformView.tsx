@@ -205,10 +205,12 @@ export default function AIPlatformView(props: Props) {
                     style={{ background: primaryColor }}>
                     {hero?.primaryCta?.text}
                   </Link>
-                  <Link href={hero?.secondaryCta?.href ?? '#how-it-works'} data-tina-field={tinaField(hero?.secondaryCta, 'text')} className="inline-flex h-[52px] items-center gap-3 rounded-full border border-white/20 px-8 text-sm font-semibold text-white transition hover:border-white/40 md:text-base">
-                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 text-[10px]">▶</span>
-                    {hero?.secondaryCta?.text}
-                  </Link>
+                  {hero?.secondaryCta?.text && (
+                    <Link href={hero?.secondaryCta?.href ?? '#how-it-works'} data-tina-field={tinaField(hero?.secondaryCta, 'text')} className="inline-flex h-[52px] items-center gap-3 rounded-full border border-white/20 px-8 text-sm font-semibold text-white transition hover:border-white/40 md:text-base">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 text-[10px]">▶</span>
+                      {hero?.secondaryCta?.text}
+                    </Link>
+                  )}
                 </div>
               </SlideFromBottom>
               {hero?.trustBadges && hero.trustBadges.length > 0 && (
@@ -261,24 +263,26 @@ export default function AIPlatformView(props: Props) {
           </section>
         )}
 
-        {/* ── DIRECT ANSWER ──────────────────────────────────────────── */}
+        {/* ── DIRECT ANSWER (two-column: text left, card right/centered) ── */}
         {directAnswerTitle && (
-          <section className="py-28">
+          <section className="py-16">
             <div className="container mx-auto px-6 md:px-16">
-              <FadeIn>
-                {directAnswerLabel && (
-                  <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'directAnswerLabel')}>{directAnswerLabel}</p>
-                )}
-                <h2 className="max-w-3xl text-4xl font-bold md:text-5xl" data-tina-field={tinaField(page, 'directAnswerTitle')}>{directAnswerTitle}</h2>
-              </FadeIn>
-              <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-start">
+              <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-center">
+                {/* Left column — eyebrow + heading + paragraphs */}
                 <FadeIn>
                   <div>
-                    {directAnswerBody?.map((para: any, i: number) => (
-                      <p key={i} className="gama-body mb-4 text-base leading-relaxed">{typeof para === 'string' ? para : para?.text}</p>
-                    ))}
+                    {directAnswerLabel && (
+                      <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'directAnswerLabel')}>{directAnswerLabel}</p>
+                    )}
+                    <h2 className="text-4xl font-bold md:text-5xl" data-tina-field={tinaField(page, 'directAnswerTitle')}>{directAnswerTitle}</h2>
+                    <div className="mt-7">
+                      {directAnswerBody?.map((para: any, i: number) => (
+                        <p key={i} className="gama-body mb-4 text-base leading-relaxed">{typeof para === 'string' ? para : para?.text}</p>
+                      ))}
+                    </div>
                   </div>
                 </FadeIn>
+                {/* Right column — checklist card, vertically centered */}
                 {directAnswerChecklist && directAnswerChecklist.length > 0 && (
                   <FadeIn delay={0.1}>
                     <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-8">
@@ -303,7 +307,7 @@ export default function AIPlatformView(props: Props) {
 
         {/* ── PROBLEMS ───────────────────────────────────────────────── */}
         {problems && problems.length > 0 && (
-          <section className="py-28" style={{ background: bgSecondary }}>
+          <section className="py-16" style={{ background: bgSecondary }}>
             <div className="container mx-auto px-6 md:px-16">
               <FadeIn>
                 {problemsLabel && (
@@ -329,7 +333,7 @@ export default function AIPlatformView(props: Props) {
 
         {/* ── METHODS TABLE ──────────────────────────────────────────── */}
         {methodsTable && methodsTable.rows && methodsTable.rows.length > 0 && (
-          <section className="py-28">
+          <section className="py-16">
             <div className="container mx-auto px-6 md:px-16">
               <FadeIn>
                 {methodsLabel && (
@@ -372,7 +376,7 @@ export default function AIPlatformView(props: Props) {
         )}
 
         {/* ── HOW IT WORKS (process — directly below Collection Methods) ── */}
-        <SectionMotion motion={howItWorksMotion} as="section" id="how-it-works" className="py-28" style={{ background: bgSecondary }}>
+        <SectionMotion motion={howItWorksMotion} as="section" id="how-it-works" className="py-16" style={{ background: bgSecondary }}>
           <div className="container mx-auto px-6 md:px-16">
             {howItWorksPipeline ? (
               <>
@@ -433,7 +437,7 @@ export default function AIPlatformView(props: Props) {
 
         {/* ── CAPABILITIES ───────────────────────────────────────────── */}
         {capabilities && capabilities.length > 0 && (
-        <SectionMotion motion={capabilitiesMotion} as="section" className="py-28">
+        <SectionMotion motion={capabilitiesMotion} as="section" className="py-16">
           <div className="container mx-auto px-6 md:px-16">
             <FadeIn>
               <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'capabilitiesLabel')}>{capabilitiesLabel}</p>
@@ -461,7 +465,7 @@ export default function AIPlatformView(props: Props) {
 
         {/* ── QUALITY FRAMEWORK (Episode Integrity Score — two-column) ── */}
         {qualityList && qualityList.length > 0 && (
-          <section className="py-28" style={{ background: bgSecondary }}>
+          <section className="py-16" style={{ background: bgSecondary }}>
             <div className="container mx-auto px-6 md:px-16">
               <FadeIn>
                 {qualityLabel && (
@@ -507,7 +511,7 @@ export default function AIPlatformView(props: Props) {
 
         {/* ── SECURITY ───────────────────────────────────────────────── */}
         {security && security.length > 0 && (
-          <section className="py-28" style={{ background: bgSecondary }}>
+          <section className="py-16" style={{ background: bgSecondary }}>
             <div className="container mx-auto px-6 md:px-16">
               <FadeIn>
                 {securityLabel && (
@@ -532,7 +536,7 @@ export default function AIPlatformView(props: Props) {
 
         {/* ── PITFALLS (what teams get wrong) ────────────────────────── */}
         {pitfalls && pitfalls.length > 0 && (
-          <section className="py-28">
+          <section className="py-16">
             <div className="container mx-auto px-6 md:px-16">
               <FadeIn>
                 {pitfallsLabel && (
@@ -557,7 +561,7 @@ export default function AIPlatformView(props: Props) {
 
         {/* ── COSTS ──────────────────────────────────────────────────── */}
         {costs && costs.length > 0 && (
-          <section className="py-28" style={{ background: bgSecondary }}>
+          <section className="py-16" style={{ background: bgSecondary }}>
             <div className="container mx-auto px-6 md:px-16">
               <FadeIn>
                 {costsLabel && (
@@ -587,7 +591,7 @@ export default function AIPlatformView(props: Props) {
 
         {/* ── MULTIMODAL (delivery formats) ──────────────────────────── */}
         {multimodal && multimodal.length > 0 && (
-          <section className="py-28">
+          <section className="py-16">
             <div className="container mx-auto px-6 md:px-16">
               <FadeIn>
                 {multimodalLabel && (
@@ -612,7 +616,7 @@ export default function AIPlatformView(props: Props) {
         )}
 
         {/* ── USE CASES (industries) ─────────────────────────────────── */}
-        <SectionMotion motion={useCasesMotion} as="section" className="py-28" style={{ background: bgSecondary }}>
+        <SectionMotion motion={useCasesMotion} as="section" className="py-16" style={{ background: bgSecondary }}>
           <div className="container mx-auto px-6 md:px-16">
             <FadeIn>
               <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'useCasesLabel')}>{useCasesLabel}</p>
@@ -637,7 +641,7 @@ export default function AIPlatformView(props: Props) {
 
         {/* ── COMPARISON ─────────────────────────────────────────────── */}
         {comparison && comparison.rows && comparison.rows.length > 0 && (
-          <section className="py-28">
+          <section className="py-16">
             <div className="container mx-auto px-6 md:px-16">
               <FadeIn>
                 {comparisonLabel && (
@@ -674,13 +678,13 @@ export default function AIPlatformView(props: Props) {
 
         {/* ── FAQ ────────────────────────────────────────────────────── */}
         {faqs && faqs.length > 0 && (
-          <section className="py-28">
+          <section className="py-16">
             <div className="container mx-auto px-6 md:px-16">
-              <FadeIn>
+              <FadeIn className="text-center">
                 {faqLabel && (
                   <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'faqLabel')}>{faqLabel}</p>
                 )}
-                <h2 className="max-w-3xl text-4xl font-bold md:text-5xl" data-tina-field={tinaField(page, 'faqTitle')}>{faqTitle}</h2>
+                <h2 className="mx-auto max-w-3xl text-4xl font-bold md:text-5xl" data-tina-field={tinaField(page, 'faqTitle')}>{faqTitle}</h2>
               </FadeIn>
               <FadeIn className="mx-auto mt-12 max-w-3xl">
                 {faqs.map((f: any, i: number) => (
@@ -697,8 +701,9 @@ export default function AIPlatformView(props: Props) {
           </section>
         )}
 
-        {/* ── CTA ────────────────────────────────────────────────────── */}
-        <SectionMotion motion={cta?.motion} as="section" className="py-28" style={{ background: bgSecondary }}>
+        {/* ── CTA (rendered only when `cta` is present) ──────────────── */}
+        {cta && (
+        <SectionMotion motion={cta?.motion} as="section" className="py-16" style={{ background: bgSecondary }}>
           <div className="container mx-auto px-6 md:px-16">
             <FadeIn>
               {cta?.badges && cta.badges.length > 0 ? (
@@ -757,6 +762,7 @@ export default function AIPlatformView(props: Props) {
             </FadeIn>
           </div>
         </SectionMotion>
+        )}
       </div>
 
       {/* ── FOOTER ───────────────────────────────────────────────────── */}
