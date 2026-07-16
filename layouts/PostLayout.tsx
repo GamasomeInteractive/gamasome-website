@@ -71,6 +71,9 @@ export default function PostLayout({ content, authorDetails, children }: LayoutP
     faqHeading && faqList.length > 0
       ? [...(toc ?? []), { value: faqTitle, url: '#frequently-asked-questions', depth: 2 }]
       : toc
+  // The breadcrumb keeps only the part of the title before a subtitle colon, so long
+  // headlines don't overflow the trail. Titles without a colon are used as-is.
+  const breadcrumbTitle = title.split(':')[0].trim() || title
   const { rail: ctaRail, banner: ctaBanner } = getBlogCta()
   const basePath = path.split('/')[0]
   const coverImage = Array.isArray(images) && images.length > 0 ? images[0] : null
@@ -108,7 +111,7 @@ export default function PostLayout({ content, authorDetails, children }: LayoutP
                 <span className="mx-2">›</span>
                 <Link href="/blog" className="hover:text-white">Blogs</Link>
                 <span className="mx-2">›</span>
-                <span className="text-white/80">{title}</span>
+                <span className="text-white/80">{breadcrumbTitle}</span>
               </nav>
 
               {/* Category · reading time pill */}
