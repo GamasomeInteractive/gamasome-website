@@ -1,4 +1,5 @@
 ---
+faqHeading: Common questions
 title: 'Data Collection for Robotics: The Work Nobody Sees'
 date: 2026-07-15T00:00:00.000Z
 tags:
@@ -19,7 +20,6 @@ seo:
   metaDescription: 'Most robot policies fail because of bad data, not bad models. Here is how teleoperation, kinesthetic teaching, and human video actually work in the field.'
   canonicalUrl: ''
   changefreq: weekly
-faqHeading: Common questions
 faqs:
   - question: What is data collection for robotics?
     answer: 'Data collection for robotics is the process of capturing real-world robot demonstrations and sensor recordings — through teleoperation, kinesthetic teaching, or human video — and structuring them into datasets that imitation learning, reinforcement learning, and vision-language-action models can train on.'
@@ -30,14 +30,12 @@ faqs:
   - question: How much robot demonstration data do you actually need?
     answer: 'There is no single number that applies across tasks. A carefully curated set of a few hundred demonstrations on a well-scoped task can outperform a much larger, poorly curated dataset. Task diversity, annotation consistency, and coverage of edge cases matter more than raw episode count.'
   - question: Should a robotics team build a data collection program in-house or outsource it?
-    answer: "It depends on how core data operations are to the company's competitive advantage. Teams building a narrow, defensible policy on proprietary hardware often keep collection in-house. Teams that need broad task coverage fast, without pulling engineers off model work, typically outsource collection to a partner that already owns calibrated rigs and trained operators, sometimes combining both models as the program scales."
+    answer: 'It depends on how core data operations are to the company''s competitive advantage. Teams building a narrow, defensible policy on proprietary hardware often keep collection in-house. Teams that need broad task coverage fast, without pulling engineers off model work, typically outsource collection to a partner that already owns calibrated rigs and trained operators, sometimes combining both models as the program scales.'
   - question: What file formats are robot training datasets delivered in?
     answer: 'Most robotics teams work with RLDS, HDF5, Zarr, or LeRobot-compatible formats. A complete delivery also includes camera calibration files, robot URDF definitions, action-space documentation, and per-episode metadata, not just the raw sensor streams.'
   - question: Why do robot policies fail even when the model architecture is sound?
     answer: 'Most failures trace back to the training data rather than the model. Common causes include narrow task or environment coverage, inconsistent labeling across operators, undetected camera calibration drift, and demonstrations that skew toward easy cases while rare but important scenarios go under-represented.'
 ---
-
-# Data Collection for Robotics: The Work Nobody Sees
 
 Every embodied AI roadmap has a line item for compute, a line item for talent, and almost nothing for the unglamorous work of getting a robot to generate data worth learning from. That gap is where most programs actually stall.
 
@@ -51,7 +49,7 @@ This is not a rare story. It is close to the default outcome when data collectio
 
 ![Diagram showing teleoperation, kinesthetic teaching, and human video each feeding into a single structured training dataset.](/static/images/data-collection-methods.svg)
 
-_Three collection methods, one training-ready dataset — the mix depends on the task, not a fixed rulebook._
+*Three collection methods, one training-ready dataset — the mix depends on the task, not a fixed rulebook.*
 
 ## So what is data collection for robotics, really?
 
@@ -63,19 +61,23 @@ It sits between "we have a robot and a hypothesis" and "we have a dataset our mo
   <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">
     You're in this problem if you're building
   </p>
+
   <ul className="space-y-2.5">
     <li className="flex gap-3 text-gray-700">
       <span className="font-bold text-[#000B71]">✓</span>
       <span>An imitation learning or VLA policy for a specific manipulation task</span>
     </li>
+
     <li className="flex gap-3 text-gray-700">
       <span className="font-bold text-[#000B71]">✓</span>
       <span>A generalist robot foundation model that needs broad task coverage</span>
     </li>
+
     <li className="flex gap-3 text-gray-700">
       <span className="font-bold text-[#000B71]">✓</span>
       <span>A fine-tune of an existing model on your own hardware embodiment</span>
     </li>
+
     <li className="flex gap-3 text-gray-700">
       <span className="font-bold text-[#000B71]">✓</span>
       <span>An evaluation suite to benchmark policy performance before deployment</span>
@@ -87,11 +89,11 @@ It sits between "we have a robot and a hypothesis" and "we have a dataset our mo
 
 There's no single "right" way to collect robot data. Every serious program ends up blending methods, weighted by how contact-rich the task is, how much hardware access the team has, and how fast they need coverage. Here's how the three core methods actually compare in practice.
 
-| Method                                                                     | What it's best at                                                                                                                    | Where it struggles                                                                                                                            |
-| -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Teleoperation**<br />Leader-follower rig, VR controller, haptic device    | Contact-rich manipulation. The operator directly generates the robot's own action space, so the recorded data has zero embodiment gap. | Throughput is bounded by operator time — one skilled operator produces roughly 200 usable episodes in a working day, accounting for resets and retakes. |
-| **Kinesthetic teaching**<br />Physically guiding the robot's arm            | Simple pick-place and force-sensitive insertion tasks where precise contact matters more than speed.                                  | One demonstration at a time, and the data rarely transfers cleanly to a different arm or gripper.                                              |
-| **Human video capture**<br />No robot in the loop, first-person or fixed camera | Cheap, fast task-coverage at scale, and useful for pretraining before a robot ever touches the object.                            | No action labels — a video shows a hand closing around an object but not the force or joint angles an equivalent robot arm would need.         |
+| Method                                                                          | What it's best at                                                                                                                      | Where it struggles                                                                                                                                      |
+| ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Teleoperation**<br />Leader-follower rig, VR controller, haptic device        | Contact-rich manipulation. The operator directly generates the robot's own action space, so the recorded data has zero embodiment gap. | Throughput is bounded by operator time — one skilled operator produces roughly 200 usable episodes in a working day, accounting for resets and retakes. |
+| **Kinesthetic teaching**<br />Physically guiding the robot's arm                | Simple pick-place and force-sensitive insertion tasks where precise contact matters more than speed.                                   | One demonstration at a time, and the data rarely transfers cleanly to a different arm or gripper.                                                       |
+| **Human video capture**<br />No robot in the loop, first-person or fixed camera | Cheap, fast task-coverage at scale, and useful for pretraining before a robot ever touches the object.                                 | No action labels — a video shows a hand closing around an object but not the force or joint angles an equivalent robot arm would need.                  |
 
 Physical Intelligence's π₀ model was trained on roughly [10,000 hours of robot demonstration data](https://robocloud-dashboard.vercel.app/learn/blog/robot-teleoperation-data-collection), most of it teleoperated. That volume only became usable because the underlying episodes were consistent enough to actually compare and combine — a point that gets lost in conversations that focus purely on hours logged.
 
@@ -103,12 +105,12 @@ Some newer companies frame this as a **data pyramid**: demonstrations collected 
 
 Budgets for data collection tend to get built on guesswork, because most teams have never run a program before and the public numbers are scattered. Here's what production-grade collection actually runs, based on current market pricing.
 
-- **Simple, constrained tasks — \$15–\$30 per hour** of usable data. Think tabletop pick-place in a controlled 2D environment with a single-arm setup and minimal sensor stack.
-- **Complex, multi-sensor tasks — \$80–\$150 per hour** of production-quality data. This covers humanoid or bimanual manipulation requiring calibration, expert operators, and synchronized RGB, LiDAR, IMU, and depth streams. [Figures based on current vendor pricing](https://www.dataxpower.com/blog/best-robot-training-data-services).
+* **Simple, constrained tasks — $15–$30 per hour** of usable data. Think tabletop pick-place in a controlled 2D environment with a single-arm setup and minimal sensor stack.
+* **Complex, multi-sensor tasks — $80–$150 per hour** of production-quality data. This covers humanoid or bimanual manipulation requiring calibration, expert operators, and synchronized RGB, LiDAR, IMU, and depth streams. [Figures based on current vendor pricing](https://www.dataxpower.com/blog/best-robot-training-data-services).
 
 ![Bar chart comparing the cost per hour of simple robot data collection against complex multi-sensor humanoid collection.](/static/images/data-collection-cost.svg)
 
-_Complex multi-sensor humanoid programs run roughly 4–5x the cost per hour of simple constrained tasks._
+*Complex multi-sensor humanoid programs run roughly 4–5x the cost per hour of simple constrained tasks.*
 
 Then there's storage, which teams routinely underestimate. Ten thousand episodes, captured across three cameras at 30 frames per second, work out to roughly [8 terabytes of raw video](https://robocloud-dashboard.vercel.app/learn/blog/robot-teleoperation-data-collection) before joint-state and metadata files are even added in. At that scale, format choice stops being a preference and starts being an infrastructure decision — RLDS and Zarr handle cloud-native streaming better than a directory of loose HDF5 files once episode counts climb past a million.
 
@@ -150,11 +152,11 @@ Most "data collection checklists" online read like they were written before anyo
 
 The honest answer to "should we build this in-house" depends on whether data operations are core to the company's advantage, or a means to an end for shipping a policy.
 
-| Approach            | Makes sense when                                                                                                                                       | Watch out for                                                                                                                          |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| **Fully in-house**  | The task and hardware are proprietary enough that outside operators can't easily be trained on it, and the team has bandwidth to own rig maintenance long-term. | Engineering time quietly gets pulled from model and policy work into rig upkeep and operator management.                                |
-| **Fully outsourced** | The team needs broad task coverage fast and doesn't want to build calibration and QA infrastructure from scratch.                                      | Vendor hardware ownership matters — a partner using rented or customer-supplied rigs can't control calibration consistency across sessions. |
-| **Blended**         | Core, defensible tasks stay in-house while broad coverage and pilot validation run through an outside partner.                                          | Format and metadata standards need to match across both sources, or the combined dataset becomes harder to use than either one alone.   |
+| Approach             | Makes sense when                                                                                                                                                | Watch out for                                                                                                                               |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Fully in-house**   | The task and hardware are proprietary enough that outside operators can't easily be trained on it, and the team has bandwidth to own rig maintenance long-term. | Engineering time quietly gets pulled from model and policy work into rig upkeep and operator management.                                    |
+| **Fully outsourced** | The team needs broad task coverage fast and doesn't want to build calibration and QA infrastructure from scratch.                                               | Vendor hardware ownership matters — a partner using rented or customer-supplied rigs can't control calibration consistency across sessions. |
+| **Blended**          | Core, defensible tasks stay in-house while broad coverage and pilot validation run through an outside partner.                                                  | Format and metadata standards need to match across both sources, or the combined dataset becomes harder to use than either one alone.       |
 
 ## What we've learned running field programs
 
@@ -164,12 +166,13 @@ We've run field data-capture programs that ranged from egocentric, motion-captur
 
 **Teleoperation and simulation aren't competing strategies.** Simulation is excellent for locomotion, edge cases, and scenarios too dangerous to stage physically. Teleoperation is what actually anchors a policy to real contact dynamics. Programs that pick one exclusively tend to hit a ceiling the other would have solved.
 
-**The humanoid segment is pulling this problem forward fast.** The global humanoid robot market is on a steep growth trajectory — [projected to grow from roughly \$5.4 billion in 2026 to over \$50 billion by 2035](https://www.prnewswire.com/news-releases/humanoid-robot-market-worth-50-27-billion-by-2035---exclusive-report-by-marketsandmarkets-302818162.html) — and every new deployment target means another embodiment that needs its own demonstration data, not a rebadge of an existing dataset.
+**The humanoid segment is pulling this problem forward fast.** The global humanoid robot market is on a steep growth trajectory — [projected to grow from roughly $5.4 billion in 2026 to over $50 billion by 2035](https://www.prnewswire.com/news-releases/humanoid-robot-market-worth-50-27-billion-by-2035---exclusive-report-by-marketsandmarkets-302818162.html) — and every new deployment target means another embodiment that needs its own demonstration data, not a rebadge of an existing dataset.
 
 <div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
   <p className="mb-3 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">
     Why this matters more than architecture
   </p>
+
   <p className="text-gray-700">
     A robotics team can license a strong open policy architecture in an afternoon. Nobody can license
     a dataset that reflects their specific hardware, their specific task distribution, and their
@@ -180,7 +183,7 @@ We've run field data-capture programs that ranged from egocentric, motion-captur
 
 ![Circular data flywheel diagram showing four repeating stages: collect, score, retrain, and deploy.](/static/images/data-collection-flywheel.svg)
 
-_Every deployed episode is a data point — the strongest programs treat collection as a loop, not a one-time delivery._
+*Every deployed episode is a data point — the strongest programs treat collection as a loop, not a one-time delivery.*
 
 #### The bottom line
 
