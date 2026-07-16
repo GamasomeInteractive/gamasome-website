@@ -51,8 +51,8 @@
   "blogCta": {
     "rail": {
       "eyebrow": "Work with us",
-      "heading": "Build your AI vision with GamaSome",
-      "body": "From simulation and digital twins to physical AI — let's scope your project together.",
+      "heading": "Build the data infrastructure behind your robot",
+      "body": "From teleoperation and human-demonstration capture to simulation-ready assets and autonomy stacks, we run the field operations your models need to actually learn.",
       "buttonLabel": "Book a free consultation",
       "buttonHref": "/contact"
     },

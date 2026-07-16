@@ -1,7 +1,9 @@
 {
-  "physical-ai": 3,
+  "physical-ai": 4,
+  "automotive": 1,
+  "data-collection": 2,
+  "adas": 1,
   "robotics": 3,
-  "data-collection": 1,
   "teleoperation": 1,
   "ai": 2,
   "simulation": 1,

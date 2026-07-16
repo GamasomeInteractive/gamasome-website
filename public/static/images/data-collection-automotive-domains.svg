@@ -1,0 +1,47 @@
+<svg viewBox="0 0 820 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing four separate automotive data streams — perception, telematics, quality, and cabin — drifting toward a vehicle without a shared connecting layer to join them">
+
+  <!-- Perception -->
+  <rect x="24" y="28" width="196" height="62" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5"/>
+  <text x="44" y="54" font-family="sans-serif" font-size="13" font-weight="700" fill="#2563eb">PERCEPTION</text>
+  <text x="44" y="74" font-family="sans-serif" font-size="11" fill="#475569">camera · radar · LiDAR</text>
+
+  <!-- Telematics -->
+  <rect x="24" y="114" width="196" height="62" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="2.5"/>
+  <text x="44" y="140" font-family="sans-serif" font-size="13" font-weight="700" fill="#d97706">TELEMATICS</text>
+  <text x="44" y="160" font-family="sans-serif" font-size="11" fill="#475569">GPS · CAN bus · OTA logs</text>
+
+  <!-- Quality -->
+  <rect x="24" y="200" width="196" height="62" rx="10" fill="#f0fdfa" stroke="#0d9488" stroke-width="2.5"/>
+  <text x="44" y="226" font-family="sans-serif" font-size="13" font-weight="700" fill="#0d9488">QUALITY</text>
+  <text x="44" y="246" font-family="sans-serif" font-size="11" fill="#475569">line inspection · defects</text>
+
+  <!-- Cabin -->
+  <rect x="24" y="286" width="196" height="62" rx="10" fill="#fef2f2" stroke="#dc2626" stroke-width="2.5"/>
+  <text x="44" y="312" font-family="sans-serif" font-size="13" font-weight="700" fill="#dc2626">CABIN</text>
+  <text x="44" y="332" font-family="sans-serif" font-size="11" fill="#475569">driver monitoring</text>
+
+  <!-- Disconnected dashed paths — none of them reach the vehicle -->
+  <g fill="none" stroke-width="2" stroke-dasharray="5 6" opacity="0.75">
+    <path d="M220 59 C 330 59, 360 140, 424 166" stroke="#2563eb"/>
+    <path d="M220 145 C 320 145, 360 165, 424 182" stroke="#d97706"/>
+    <path d="M220 231 C 320 231, 360 210, 424 198" stroke="#0d9488"/>
+    <path d="M220 317 C 330 317, 360 240, 424 214" stroke="#dc2626"/>
+  </g>
+
+  <!-- The gap -->
+  <circle cx="470" cy="190" r="44" fill="#ffffff" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4 5"/>
+  <text x="470" y="186" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="700" fill="#94a3b8">NO SHARED</text>
+  <text x="470" y="202" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="700" fill="#94a3b8">LAYER</text>
+
+  <!-- The vehicle -->
+  <g transform="translate(600,152)">
+    <rect x="8" y="34" width="180" height="58" rx="14" fill="#f8fafc" stroke="#475569" stroke-width="2.5"/>
+    <path d="M34 36 L52 8 L144 8 L166 36" fill="#eef2ff" stroke="#475569" stroke-width="2.5" stroke-linejoin="round"/>
+    <line x1="98" y1="8" x2="98" y2="36" stroke="#475569" stroke-width="2"/>
+    <circle cx="50" cy="92" r="14" fill="#ffffff" stroke="#475569" stroke-width="2.5"/>
+    <circle cx="146" cy="92" r="14" fill="#ffffff" stroke="#475569" stroke-width="2.5"/>
+    <circle cx="176" cy="58" r="4" fill="#d97706"/>
+    <!-- Label painted last so no vehicle shape can cover it -->
+    <text x="98" y="-8" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="700" fill="#14213d">THE VEHICLE</text>
+  </g>
+</svg>
