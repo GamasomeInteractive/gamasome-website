@@ -1,0 +1,187 @@
+---
+title: 'Data Collection for Robotics: The Work Nobody Sees'
+date: 2026-07-15T00:00:00.000Z
+tags:
+  - Physical AI
+  - Robotics
+  - Data Collection
+  - Teleoperation
+draft: false
+summary: 'Most robot policies fail because of bad data, not bad models. Here is how teleoperation, kinesthetic teaching, and human video actually work in the field.'
+images:
+  - /static/images/data-collection-for-robotics.jpg
+authors:
+  - prasanna-venkatesan
+layout: PostLayout
+canonicalUrl: 'https://www.gamasome.com/blog/data-collection-for-robotics/'
+seo:
+  metaTitle: 'Data Collection for Robotics: The Work Nobody Sees'
+  metaDescription: 'Most robot policies fail because of bad data, not bad models. Here is how teleoperation, kinesthetic teaching, and human video actually work in the field.'
+  canonicalUrl: ''
+  changefreq: weekly
+faqHeading: Common questions
+faqs:
+  - question: What is data collection for robotics?
+    answer: 'Data collection for robotics is the process of capturing real-world robot demonstrations and sensor recordings — through teleoperation, kinesthetic teaching, or human video — and structuring them into datasets that imitation learning, reinforcement learning, and vision-language-action models can train on.'
+  - question: How much does robot training data collection cost?
+    answer: 'Simple teleoperation programs in constrained 2D environments typically run $15 to $30 per hour of usable data. Complex multi-sensor humanoid manipulation programs, which require hardware calibration, expert operators, and synchronized RGB, LiDAR, IMU, and depth streams, typically run $80 to $150 per hour. Annotation is usually priced separately.'
+  - question: Is teleoperation or simulation better for training robots?
+    answer: 'Neither wins outright. Teleoperation produces the highest-fidelity data because a human is directly generating the robot''s own action space, which makes it the strongest source for contact-rich manipulation. Simulation produces far more volume at lower cost, which makes it useful for locomotion, edge cases, and dangerous scenarios. Most production programs in 2026 combine both, along with human video for broad task coverage.'
+  - question: How much robot demonstration data do you actually need?
+    answer: 'There is no single number that applies across tasks. A carefully curated set of a few hundred demonstrations on a well-scoped task can outperform a much larger, poorly curated dataset. Task diversity, annotation consistency, and coverage of edge cases matter more than raw episode count.'
+  - question: Should a robotics team build a data collection program in-house or outsource it?
+    answer: "It depends on how core data operations are to the company's competitive advantage. Teams building a narrow, defensible policy on proprietary hardware often keep collection in-house. Teams that need broad task coverage fast, without pulling engineers off model work, typically outsource collection to a partner that already owns calibrated rigs and trained operators, sometimes combining both models as the program scales."
+  - question: What file formats are robot training datasets delivered in?
+    answer: 'Most robotics teams work with RLDS, HDF5, Zarr, or LeRobot-compatible formats. A complete delivery also includes camera calibration files, robot URDF definitions, action-space documentation, and per-episode metadata, not just the raw sensor streams.'
+  - question: Why do robot policies fail even when the model architecture is sound?
+    answer: 'Most failures trace back to the training data rather than the model. Common causes include narrow task or environment coverage, inconsistent labeling across operators, undetected camera calibration drift, and demonstrations that skew toward easy cases while rare but important scenarios go under-represented.'
+---
+
+# Data Collection for Robotics: The Work Nobody Sees
+
+Every embodied AI roadmap has a line item for compute, a line item for talent, and almost nothing for the unglamorous work of getting a robot to generate data worth learning from. That gap is where most programs actually stall.
+
+## The robot that worked perfectly until it didn't
+
+Picture a bin-picking cell in a mid-size fulfillment warehouse. The policy demo looked flawless: clean tabletop, five SKUs, good lighting, a robot arm sliding through pick after pick without a stumble. Six weeks later, on the actual warehouse floor, the same policy started failing on roughly one pick in four. Nothing about the model had changed.
+
+What had changed was the world in front of the camera. Shrink-wrapped multipacks. Uneven shelf lighting that shifted through the day. Thousands of SKUs the training set had never shown it, instead of the five it had memorized. The team spent two weeks debugging the network before anyone asked the more useful question: what did the robot actually see while it was learning?
+
+This is not a rare story. It is close to the default outcome when data collection is treated as a checkbox instead of an engineering discipline in its own right. **Data quality, not compute**, is what determines whether a physical AI program ships or stalls, and that's the thread this guide follows.
+
+![Diagram showing teleoperation, kinesthetic teaching, and human video each feeding into a single structured training dataset.](/static/images/data-collection-methods.svg)
+
+_Three collection methods, one training-ready dataset — the mix depends on the task, not a fixed rulebook._
+
+## So what is data collection for robotics, really?
+
+**Data collection for robotics is the operational work of capturing real-world robot demonstrations and multi-sensor recordings that a model can actually learn from.** That means teleoperated episodes, kinesthetic demonstrations, human video, or hybrid autonomous rollouts, each logged with camera frames, joint states, force readings, and task labels, then packaged into a format a training pipeline can consume.
+
+It sits between "we have a robot and a hypothesis" and "we have a dataset our model can train on." Language models had a decade of internet text to learn from. Robots don't get that shortcut — every "pick up this part" or "fold this towel" has to be physically performed, recorded, and labeled by someone before a policy can imitate it.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">
+    You're in this problem if you're building
+  </p>
+  <ul className="space-y-2.5">
+    <li className="flex gap-3 text-gray-700">
+      <span className="font-bold text-[#000B71]">✓</span>
+      <span>An imitation learning or VLA policy for a specific manipulation task</span>
+    </li>
+    <li className="flex gap-3 text-gray-700">
+      <span className="font-bold text-[#000B71]">✓</span>
+      <span>A generalist robot foundation model that needs broad task coverage</span>
+    </li>
+    <li className="flex gap-3 text-gray-700">
+      <span className="font-bold text-[#000B71]">✓</span>
+      <span>A fine-tune of an existing model on your own hardware embodiment</span>
+    </li>
+    <li className="flex gap-3 text-gray-700">
+      <span className="font-bold text-[#000B71]">✓</span>
+      <span>An evaluation suite to benchmark policy performance before deployment</span>
+    </li>
+  </ul>
+</div>
+
+## Three ways robots actually learn from us
+
+There's no single "right" way to collect robot data. Every serious program ends up blending methods, weighted by how contact-rich the task is, how much hardware access the team has, and how fast they need coverage. Here's how the three core methods actually compare in practice.
+
+| Method                                                                     | What it's best at                                                                                                                    | Where it struggles                                                                                                                            |
+| -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Teleoperation**<br />Leader-follower rig, VR controller, haptic device    | Contact-rich manipulation. The operator directly generates the robot's own action space, so the recorded data has zero embodiment gap. | Throughput is bounded by operator time — one skilled operator produces roughly 200 usable episodes in a working day, accounting for resets and retakes. |
+| **Kinesthetic teaching**<br />Physically guiding the robot's arm            | Simple pick-place and force-sensitive insertion tasks where precise contact matters more than speed.                                  | One demonstration at a time, and the data rarely transfers cleanly to a different arm or gripper.                                              |
+| **Human video capture**<br />No robot in the loop, first-person or fixed camera | Cheap, fast task-coverage at scale, and useful for pretraining before a robot ever touches the object.                            | No action labels — a video shows a hand closing around an object but not the force or joint angles an equivalent robot arm would need.         |
+
+Physical Intelligence's π₀ model was trained on roughly [10,000 hours of robot demonstration data](https://robocloud-dashboard.vercel.app/learn/blog/robot-teleoperation-data-collection), most of it teleoperated. That volume only became usable because the underlying episodes were consistent enough to actually compare and combine — a point that gets lost in conversations that focus purely on hours logged.
+
+> Collecting robot training data is often described, accurately, as the unglamorous foundation underneath every VLA architecture headline.
+
+Some newer companies frame this as a **data pyramid**: demonstrations collected directly on the target deployment robot sit at the top and carry the most value, general teleoperated data across similar embodiments sits in the middle, and passively captured human video forms the wide base that's cheapest to scale but needs the most work to translate into robot actions. [Reporting on this shift](https://techcrunch.com/2026/06/17/collecting-robot-training-data-is-dirty-unglamorous-work-some-ai-labs-are-already-paying-xdof-to-do-it/) shows a growing number of AI labs now paying outside teams to run exactly that layered collection strategy rather than building it themselves.
+
+## What a real collection program costs
+
+Budgets for data collection tend to get built on guesswork, because most teams have never run a program before and the public numbers are scattered. Here's what production-grade collection actually runs, based on current market pricing.
+
+- **Simple, constrained tasks — \$15–\$30 per hour** of usable data. Think tabletop pick-place in a controlled 2D environment with a single-arm setup and minimal sensor stack.
+- **Complex, multi-sensor tasks — \$80–\$150 per hour** of production-quality data. This covers humanoid or bimanual manipulation requiring calibration, expert operators, and synchronized RGB, LiDAR, IMU, and depth streams. [Figures based on current vendor pricing](https://www.dataxpower.com/blog/best-robot-training-data-services).
+
+![Bar chart comparing the cost per hour of simple robot data collection against complex multi-sensor humanoid collection.](/static/images/data-collection-cost.svg)
+
+_Complex multi-sensor humanoid programs run roughly 4–5x the cost per hour of simple constrained tasks._
+
+Then there's storage, which teams routinely underestimate. Ten thousand episodes, captured across three cameras at 30 frames per second, work out to roughly [8 terabytes of raw video](https://robocloud-dashboard.vercel.app/learn/blog/robot-teleoperation-data-collection) before joint-state and metadata files are even added in. At that scale, format choice stops being a preference and starts being an infrastructure decision — RLDS and Zarr handle cloud-native streaming better than a directory of loose HDF5 files once episode counts climb past a million.
+
+None of this includes annotation, which is priced and staffed separately, or the engineering time spent building and maintaining QA tooling, format conversion scripts, and dataset versioning — costs that rarely show up in an initial budget but reliably show up in a delayed one.
+
+## Where in-house programs quietly break
+
+Most in-house data collection efforts don't fail loudly. They degrade quietly, in ways that only show up once a model is already training on the results.
+
+#### Operator fatigue nobody's tracking
+
+Long, uncapped sessions produce more corrective motions and hesitation as operators tire, and that noise gets baked into the dataset as if it were intentional behavior. Capping sessions around 45 minutes is a deliberate quality decision among teams that treat this seriously, not an arbitrary HR policy.
+
+#### Calibration drift with no baseline to catch it
+
+Camera and sensor calibration drifts over weeks of continuous use. Without a logged baseline to compare against, an entire batch of otherwise-clean demonstrations can silently corrupt training, and the cause is nearly impossible to trace after delivery.
+
+#### Treating it like generic crowd labeling
+
+Robot demonstration data isn't a static image with a bounding box. It's continuous motion where the start, end, and transition points of an action are ambiguous unless whoever is recording actually understands the task. Workflows built for text or image annotation don't transfer cleanly to motion data.
+
+#### Chasing the easy 80%, skipping the tail
+
+It's tempting to collect whatever demonstrations are fastest to record first. Research on long-tail imitation learning shows policies [degrade sharply on exactly the under-represented tasks](https://arxiv.org/html/2602.06512) that were skipped — usually the ones a model actually meets in deployment.
+
+In our own field programs, we've found that tracking-continuity thresholds matter more than most teams expect going in. On one motion-capture-based demonstration program, we held every session to a 98% tracking-continuity bar before an episode was accepted into the dataset — below that, a subtle drop in hand or object tracking was enough to teach a policy the wrong correlation between motion and outcome.
+
+## A framework that survives contact with reality
+
+Most "data collection checklists" online read like they were written before anyone actually ran a program. Here's the sequence that holds up once hardware, operators, and deadlines are all real at the same time.
+
+1. **Define the task before you define the rig.** Success criteria, object set, and environment variation come first. The hardware and camera layout should be chosen to serve that definition, not the other way around.
+2. **Log a calibration baseline on day one.** Every camera and sensor gets a recorded baseline before the first episode is captured, so drift three weeks later is detectable instead of invisible.
+3. **Qualify operators before they touch production data.** A short qualification pass, scored against the same criteria that will grade real episodes, filters out inconsistent execution before it enters the dataset.
+4. **Score every episode, don't just review the failures.** Passing episodes carry silent problems too — jerky trajectories, marginal calibration, inconsistent labeling — that only a structured score catches.
+5. **Plan tail-task coverage from the start, not after deployment.** Deliberately schedule the rare, awkward, and edge-case scenarios into the collection plan instead of letting them fall out naturally. They rarely do.
+
+## Build, buy, or blend
+
+The honest answer to "should we build this in-house" depends on whether data operations are core to the company's advantage, or a means to an end for shipping a policy.
+
+| Approach            | Makes sense when                                                                                                                                       | Watch out for                                                                                                                          |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| **Fully in-house**  | The task and hardware are proprietary enough that outside operators can't easily be trained on it, and the team has bandwidth to own rig maintenance long-term. | Engineering time quietly gets pulled from model and policy work into rig upkeep and operator management.                                |
+| **Fully outsourced** | The team needs broad task coverage fast and doesn't want to build calibration and QA infrastructure from scratch.                                      | Vendor hardware ownership matters — a partner using rented or customer-supplied rigs can't control calibration consistency across sessions. |
+| **Blended**         | Core, defensible tasks stay in-house while broad coverage and pilot validation run through an outside partner.                                          | Format and metadata standards need to match across both sources, or the combined dataset becomes harder to use than either one alone.   |
+
+## What we've learned running field programs
+
+We've run field data-capture programs that ranged from egocentric, motion-capture-based human demonstration for data-center hardware tasks to real-robot teleoperation feeding post-training for models like SmolVLA and Pi0.5. A few patterns show up consistently enough to be worth stating plainly.
+
+**More demonstrations rarely fixes a bad distribution.** Teams under deadline pressure tend to reach for volume when a model underperforms. In our experience, the fix is almost always distribution and consistency, not raw count — a smaller, better-scoped batch usually outperforms a rushed larger one.
+
+**Teleoperation and simulation aren't competing strategies.** Simulation is excellent for locomotion, edge cases, and scenarios too dangerous to stage physically. Teleoperation is what actually anchors a policy to real contact dynamics. Programs that pick one exclusively tend to hit a ceiling the other would have solved.
+
+**The humanoid segment is pulling this problem forward fast.** The global humanoid robot market is on a steep growth trajectory — [projected to grow from roughly \$5.4 billion in 2026 to over \$50 billion by 2035](https://www.prnewswire.com/news-releases/humanoid-robot-market-worth-50-27-billion-by-2035---exclusive-report-by-marketsandmarkets-302818162.html) — and every new deployment target means another embodiment that needs its own demonstration data, not a rebadge of an existing dataset.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-3 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">
+    Why this matters more than architecture
+  </p>
+  <p className="text-gray-700">
+    A robotics team can license a strong open policy architecture in an afternoon. Nobody can license
+    a dataset that reflects their specific hardware, their specific task distribution, and their
+    specific deployment environment. That's the part that has to be built, and it's usually the part
+    that gets underinvested.
+  </p>
+</div>
+
+![Circular data flywheel diagram showing four repeating stages: collect, score, retrain, and deploy.](/static/images/data-collection-flywheel.svg)
+
+_Every deployed episode is a data point — the strongest programs treat collection as a loop, not a one-time delivery._
+
+#### The bottom line
+
+The model architecture conversation gets the headlines. The data conversation is the one that actually decides whether a robot works outside the demo. If you're scoping a program, the questions worth answering before a single episode gets recorded are simple: what task, what distribution, what quality bar, and who owns catching drift before it corrupts a batch. Everything downstream depends on getting those four right first.

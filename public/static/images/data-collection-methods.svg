@@ -1,0 +1,50 @@
+<svg viewBox="0 0 760 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three robot data collection methods — teleoperation, kinesthetic teaching, and human video — each feeding into a single structured training dataset">
+  <defs><marker id="dcm-ah" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#64748b"/></marker></defs>
+
+  <!-- Teleoperation -->
+  <rect x="24" y="28" width="216" height="168" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5"/>
+  <g transform="translate(132,86)">
+    <circle cx="0" cy="0" r="24" fill="#ffffff" stroke="#2563eb" stroke-width="2.5"/>
+    <path d="M-13 0 L13 0 M0 -13 L0 13" stroke="#2563eb" stroke-width="2.5"/>
+    <path d="M-34 40 L-12 24 L10 38 L32 20" stroke="#2563eb" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="132" y="164" text-anchor="middle" font-family="sans-serif" font-size="17" font-weight="700" fill="#14213d">Teleoperation</text>
+  <text x="132" y="184" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#475569">Leader-follower · VR · haptic</text>
+
+  <!-- Kinesthetic -->
+  <rect x="272" y="28" width="216" height="168" rx="14" fill="#f0fdfa" stroke="#0d9488" stroke-width="2.5"/>
+  <g transform="translate(380,90)">
+    <path d="M-40 26 L-6 -14 L34 18" stroke="#0d9488" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="-40" cy="26" r="6.5" fill="#0d9488"/>
+    <circle cx="34" cy="18" r="6.5" fill="#0d9488"/>
+    <path d="M-52 52 Q0 74 52 52" stroke="#94a3b8" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  </g>
+  <text x="380" y="164" text-anchor="middle" font-family="sans-serif" font-size="17" font-weight="700" fill="#14213d">Kinesthetic</text>
+  <text x="380" y="184" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#475569">Physically guided arm motion</text>
+
+  <!-- Human video -->
+  <rect x="520" y="28" width="216" height="168" rx="14" fill="#fffbeb" stroke="#d97706" stroke-width="2.5"/>
+  <g transform="translate(628,88)">
+    <rect x="-40" y="-26" width="80" height="54" rx="8" fill="#ffffff" stroke="#d97706" stroke-width="2.5"/>
+    <circle cx="0" cy="1" r="14" fill="none" stroke="#d97706" stroke-width="2.5"/>
+    <circle cx="0" cy="1" r="5" fill="#d97706"/>
+    <rect x="-30" y="-36" width="18" height="10" rx="3" fill="#d97706"/>
+  </g>
+  <text x="628" y="164" text-anchor="middle" font-family="sans-serif" font-size="17" font-weight="700" fill="#14213d">Human video</text>
+  <text x="628" y="184" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#475569">No robot in the loop</text>
+
+  <!-- Arrows into dataset -->
+  <g fill="none" stroke="#64748b" stroke-width="2.5">
+    <path d="M132 196 L132 246 Q132 262 152 262 L316 262" marker-end="url(#dcm-ah)"/>
+    <path d="M380 196 L380 246" marker-end="url(#dcm-ah)"/>
+    <path d="M628 196 L628 246 Q628 262 608 262 L444 262" marker-end="url(#dcm-ah)"/>
+  </g>
+
+  <!-- Dataset cylinder -->
+  <g>
+    <path d="M268 296 L268 356 A112 26 0 0 0 492 356 L492 296 Z" fill="#eef2ff" stroke="#4f46e5" stroke-width="2.5"/>
+    <ellipse cx="380" cy="296" rx="112" ry="26" fill="#ffffff" stroke="#4f46e5" stroke-width="2.5"/>
+    <ellipse cx="380" cy="326" rx="112" ry="26" fill="none" stroke="#4f46e5" stroke-width="1.5" opacity="0.45"/>
+  </g>
+  <text x="380" y="302" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="#4f46e5">Structured dataset</text>
+</svg>

@@ -1,9 +1,11 @@
 {
+  "physical-ai": 3,
+  "robotics": 3,
+  "data-collection": 1,
+  "teleoperation": 1,
   "ai": 2,
   "simulation": 1,
   "digital-twins": 1,
   "industry-40": 1,
-  "physical-ai": 2,
-  "robotics": 2,
   "automation": 2
 }

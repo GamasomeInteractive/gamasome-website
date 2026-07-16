@@ -1194,6 +1194,10 @@ export default defineConfig({
           { type: 'string', name: 'canonicalUrl', label: 'Canonical URL (optional)' },
           seoFields(),
           {
+            type: 'string', name: 'faqHeading', label: 'FAQ Section Heading (optional)',
+            ui: { description: 'Heading above the FAQ accordion. Defaults to "Frequently Asked Questions". Set it to also list the section in the article TOC.' },
+          },
+          {
             type: 'object', name: 'faqs', label: '❓ FAQs (for FAQ schema — boosts SEO)', list: true,
             ui: { itemProps: (item: any) => ({ label: item?.question ?? 'FAQ' }) },
             fields: [

@@ -61,8 +61,16 @@ interface LayoutProps {
 }
 
 export default function PostLayout({ content, authorDetails, children }: LayoutProps) {
-  const { path, slug, date, lastmod, title, tags, readingTime, toc, images, faqs } = content
+  const { path, slug, date, lastmod, title, tags, readingTime, toc, images, faqs, faqHeading } =
+    content
   const faqList = (Array.isArray(faqs) ? faqs : []) as Array<{ question: string; answer: string }>
+  const faqTitle = faqHeading || 'Frequently Asked Questions'
+  // Posts that name their FAQ section (via `faqHeading`) surface it in the TOC too, so the
+  // section isn't missing from the list. Posts without it keep their TOC exactly as-is.
+  const tocItems =
+    faqHeading && faqList.length > 0
+      ? [...(toc ?? []), { value: faqTitle, url: '#frequently-asked-questions', depth: 2 }]
+      : toc
   const { rail: ctaRail, banner: ctaBanner } = getBlogCta()
   const basePath = path.split('/')[0]
   const coverImage = Array.isArray(images) && images.length > 0 ? images[0] : null
@@ -240,29 +248,29 @@ export default function PostLayout({ content, authorDetails, children }: LayoutP
       {/* ── Article body ─────────────────────────────────────────────────── */}
       <div className="mx-auto max-w-[90%] px-4 py-12 sm:px-6 xl:px-0">
         {/* Collapsible TOC — mobile / tablet only */}
-        {toc && toc.length > 0 && (
+        {tocItems && tocItems.length > 0 && (
           <details className="mb-8 rounded-lg border border-gray-200 p-4 xl:hidden">
             <summary className="cursor-pointer font-['Poppins'] text-xs font-semibold tracking-[0.08em] text-gray-500 uppercase">
               In this article
             </summary>
             <div className="mt-4">
-              <TableOfContents toc={toc} showHeading={false} />
+              <TableOfContents toc={tocItems} showHeading={false} />
             </div>
           </details>
         )}
 
         <article className="xl:grid xl:grid-cols-12 xl:gap-x-6">
           {/* Sticky TOC sidebar — desktop */}
-          {toc && toc.length > 0 && (
+          {tocItems && tocItems.length > 0 && (
             <aside className="hidden xl:col-span-3 xl:block">
               <div className="sticky top-24">
-                <TableOfContents toc={toc} />
+                <TableOfContents toc={tocItems} />
               </div>
             </aside>
           )}
 
           {/* Main content */}
-          <div className={toc && toc.length > 0 ? 'xl:col-span-6' : 'xl:col-span-9'}>
+          <div className={tocItems && tocItems.length > 0 ? 'xl:col-span-6' : 'xl:col-span-9'}>
             <div className="prose prose-lg max-w-none pb-8">{children}</div>
 
             {/* Footer: prev/next */}
@@ -303,9 +311,7 @@ export default function PostLayout({ content, authorDetails, children }: LayoutP
         {faqList.length > 0 && (
           <section id="frequently-asked-questions" className="mt-16">
             <div className="mb-3 h-1 w-12 rounded-full bg-gradient-to-r from-[#000B71] to-sky-400" />
-            <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-              Frequently Asked Questions
-            </h2>
+            <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">{faqTitle}</h2>
             <div className="mt-8 space-y-4">
               {faqList.map((faq, i) => (
                 <details
