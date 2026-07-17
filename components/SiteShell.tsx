@@ -2,6 +2,7 @@
 import { usePathname } from 'next/navigation'
 import TinaHeader from './TinaHeader'
 import TinaFooter from './TinaFooter'
+import StickyDemoCTA from './StickyDemoCTA'
 
 type Props = {
   children: React.ReactNode
@@ -36,8 +37,19 @@ export default function SiteShell({
     normalized.startsWith('/theme-picker') ||
     normalized.startsWith('/template-picker')
 
+  // Sticky "Book a demo" tab shows on every visitor-facing page except blogs
+  // (and the contact page itself, since the tab already links there).
+  const isBlog = normalized === '/blog' || normalized.startsWith('/blog/')
+  const isContact = normalized === '/contact'
+  const showDemoCta = !isAdmin && !isBlog && !isContact
+
   if (isAdmin || isBareSlug || isBareHome) {
-    return <>{children}</>
+    return (
+      <>
+        {children}
+        {showDemoCta && <StickyDemoCTA />}
+      </>
+    )
   }
 
   return (
@@ -45,6 +57,7 @@ export default function SiteShell({
       <TinaHeader headerData={headerData} headerQuery={headerQuery} headerVars={headerVars} />
       <main className="mb-auto">{children}</main>
       <TinaFooter footerData={footerData} footerQuery={footerQuery} footerVars={footerVars} />
+      {showDemoCta && <StickyDemoCTA />}
     </>
   )
 }
