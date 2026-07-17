@@ -38,7 +38,7 @@ export default function StickyDemoCTA() {
 
   return (
     <div
-      className={`fixed top-1/2 right-0 z-40 hidden -translate-y-1/2 flex-col items-end gap-2 transition-transform duration-300 ease-out print:hidden sm:flex ${
+      className={`fixed top-1/2 right-0 z-40 flex -translate-y-1/2 flex-col items-end gap-2 transition-transform duration-300 ease-out print:hidden ${
         show ? 'translate-x-0' : 'translate-x-[calc(100%+8px)]'
       }`}
     >
