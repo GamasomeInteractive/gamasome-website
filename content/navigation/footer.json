@@ -1,6 +1,4 @@
 {
-  "ctaHeadline": "Interested? Let's Talk!",
-  "ctaDescription": "Your company is a top-notch deep tech development firm converging technologies like Blockchain, AI, AR/VR solutions for enterprises.",
   "offices": [
     {
       "country": "USA",
@@ -69,7 +67,17 @@
     },
     {
       "title": "Blog",
-      "href": "/blog/"
+      "href": "/blog/",
+      "subLinks": [
+        {
+          "title": "Data Collection for Robotics",
+          "href": "/blog/data-collection-for-robotics/"
+        },
+        {
+          "title": "Data Collection for Automotive Industry",
+          "href": "/blog/data-collection-automotive-industry/"
+        }
+      ]
     },
     {
       "title": "About Us",

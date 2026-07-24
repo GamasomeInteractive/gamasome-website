@@ -925,6 +925,20 @@ export default defineConfig({
                 label: 'Hide from menu',
                 ui: { description: 'Hide this item without deleting it. Useful for temporary removals.' },
               },
+              {
+                type: 'object',
+                name: 'subLinks',
+                label: 'Dropdown Sub-links',
+                list: true,
+                ui: {
+                  itemProps: (item) => ({ label: item?.title ?? 'Sub-link' }),
+                  description: 'Optional. Adds a dropdown of child links under this menu item.',
+                },
+                fields: [
+                  { type: 'string', name: 'title', label: 'Label' },
+                  { type: 'string', name: 'href', label: 'URL Path', ui: { parse: normalizeInternalHref } },
+                ],
+              },
             ],
           },
         ],
@@ -1016,6 +1030,20 @@ export default defineConfig({
                 name: 'hidden',
                 label: 'Hide from footer',
                 ui: { description: 'Hide this item without deleting it.' },
+              },
+              {
+                type: 'object',
+                name: 'subLinks',
+                label: 'Sub-links (indented under this item)',
+                list: true,
+                ui: {
+                  itemProps: (item) => ({ label: item?.title ?? 'Sub-link' }),
+                  description: 'Optional. Shown indented beneath this item, e.g. blog posts under Blog.',
+                },
+                fields: [
+                  { type: 'string', name: 'title', label: 'Label' },
+                  { type: 'string', name: 'href', label: 'URL Path', ui: { parse: normalizeInternalHref } },
+                ],
               },
             ],
           },

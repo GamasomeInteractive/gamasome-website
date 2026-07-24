@@ -1,4 +1,5 @@
 'use client'
+import { useState } from 'react'
 import { useTina, tinaField } from 'tinacms/dist/react'
 import { normalizeTinaImages } from '@/lib/normalizeTinaImages'
 import Link from './Link'
@@ -16,28 +17,84 @@ export default function TinaFooter({ footerData, footerQuery, footerVars }: Prop
   const data = normalizeTinaImages(rawData)
   const ftr = data.footer
 
+  // Which footer nav item has its sub-link dropdown expanded. Defaults to the first
+  // item that has sub-links, so the dropdown starts open.
+  const visibleNav = (ftr?.navLinks ?? []).filter((l: any) => !l?.hidden)
+  const defaultOpenNav = visibleNav.findIndex((l: any) =>
+    (l?.subLinks ?? []).some((s: any) => s?.title && s?.href),
+  )
+  const [openNav, setOpenNav] = useState<number | null>(
+    defaultOpenNav >= 0 ? defaultOpenNav : null,
+  )
+
+  // The CTA column only renders when it has content, so the grid width adapts to
+  // however many columns are actually visible (CTA + Company + Newsletter + Offices).
+  const hasCta = Boolean(ftr?.ctaHeadline || ftr?.ctaDescription)
+  const visibleCols = 2 + (hasCta ? 1 : 0) + (ftr?.newsletterEnabled ? 1 : 0)
+  const gridColsClass =
+    ({ 2: 'md:grid-cols-2', 3: 'md:grid-cols-3', 4: 'md:grid-cols-4' } as const)[visibleCols] ??
+    'md:grid-cols-4'
+
   return (
     <footer className="relative w-full bg-[#333333] py-16 font-['Poppins'] text-white">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 md:grid-cols-4">
+      <div className={`mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 ${gridColsClass}`}>
         {/* CTA column */}
-        <div>
-          <h2 className="font-['Poppins'] text-2xl leading-tight font-bold sm:text-3xl md:text-4xl" data-tina-field={tinaField(ftr, 'ctaHeadline')}>
-            {ftr?.ctaHeadline}
-          </h2>
-          <p className="mt-6 max-w-full font-['Poppins'] text-sm font-normal sm:text-base" data-tina-field={tinaField(ftr, 'ctaDescription')}>
-            {ftr?.ctaDescription}
-          </p>
-        </div>
+        {hasCta && (
+          <div>
+            <h2 className="font-['Poppins'] text-2xl leading-tight font-bold sm:text-3xl md:text-4xl" data-tina-field={tinaField(ftr, 'ctaHeadline')}>
+              {ftr?.ctaHeadline}
+            </h2>
+            <p className="mt-6 max-w-full font-['Poppins'] text-sm font-normal sm:text-base" data-tina-field={tinaField(ftr, 'ctaDescription')}>
+              {ftr?.ctaDescription}
+            </p>
+          </div>
+        )}
 
         {/* Nav links column */}
         <div>
           <h3 className="font-['Poppins'] text-base font-medium sm:text-lg">Company</h3>
           <div className="mt-4 flex flex-col gap-2">
-            {ftr?.navLinks?.filter((l: any) => !l?.hidden).map((link: any, i: number) => (
-              <Link key={i} href={link.href} className="font-['Poppins'] text-sm font-normal hover:underline sm:text-base" data-tina-field={tinaField(link, 'title')}>
-                {link.title}
-              </Link>
-            ))}
+            {ftr?.navLinks?.filter((l: any) => !l?.hidden).map((link: any, i: number) => {
+              const subLinks = (link?.subLinks ?? []).filter((s: any) => s?.title && s?.href)
+              const isOpen = openNav === i
+
+              if (subLinks.length === 0) {
+                return (
+                  <Link key={i} href={link.href} className="font-['Poppins'] text-sm font-normal hover:underline sm:text-base" data-tina-field={tinaField(link, 'title')}>
+                    {link.title}
+                  </Link>
+                )
+              }
+
+              return (
+                <div key={i} className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    <Link href={link.href} className="font-['Poppins'] text-sm font-normal hover:underline sm:text-base" data-tina-field={tinaField(link, 'title')}>
+                      {link.title}
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => setOpenNav(isOpen ? null : i)}
+                      aria-expanded={isOpen}
+                      aria-label={`Toggle ${link.title} links`}
+                      className="text-white/60 transition-colors hover:text-white"
+                    >
+                      <svg className={`h-4 w-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="m6 9 6 6 6-6" />
+                      </svg>
+                    </button>
+                  </div>
+                  {/* Sub-links stay in the DOM (crawlable) but collapse visually when closed. */}
+                  <div className={`${isOpen ? 'flex' : 'hidden'} flex-col gap-2 border-l border-white/20 pl-3`}>
+                    {subLinks.map((sub: any, j: number) => (
+                      <Link key={j} href={sub.href} className="font-['Poppins'] text-sm font-normal text-white/70 hover:text-white hover:underline sm:text-base" data-tina-field={tinaField(sub, 'title')}>
+                        {sub.title}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
 

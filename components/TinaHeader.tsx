@@ -20,12 +20,18 @@ export default function TinaHeader({ headerData, headerQuery, headerVars }: Prop
 
   const [scrolled, setScrolled]   = useState(false)
   const [menuOpen, setMenuOpen]   = useState(false)
+  const [openDropdown, setOpenDropdown] = useState<number | null>(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  // Reset any expanded dropdown whenever the overlay menu closes.
+  useEffect(() => {
+    if (!menuOpen) setOpenDropdown(null)
+  }, [menuOpen])
 
   return (
     <header className="flex items-center justify-between w-full max-w-none px-4 sm:px-10 md:px-24 bg-transparent py-10 fixed top-0 left-0 right-0 z-50 transition-all duration-300">
@@ -66,18 +72,81 @@ export default function TinaHeader({ headerData, headerQuery, headerVars }: Prop
               </svg>
             </button>
             <nav className="flex flex-col space-y-6">
-              {hdr?.navLinks?.filter((l: any) => !l?.hidden).map((link: any, i: number) => (
-                <Link
-                  key={i}
-                  href={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="menu-nav-item font-['Poppins'] text-xl font-semibold text-white sm:text-2xl md:text-3xl"
-                  data-tina-field={tinaField(link, 'title')}
-                  style={{ '--index': i } as React.CSSProperties}
-                >
-                  {link.title}
-                </Link>
-              ))}
+              {hdr?.navLinks?.filter((l: any) => !l?.hidden).map((link: any, i: number) => {
+                const subLinks = (link?.subLinks ?? []).filter((s: any) => s?.title && s?.href)
+                const hasDropdown = subLinks.length > 0
+                const isOpen = openDropdown === i
+
+                if (!hasDropdown) {
+                  return (
+                    <Link
+                      key={i}
+                      href={link.href}
+                      onClick={() => setMenuOpen(false)}
+                      className="menu-nav-item font-['Poppins'] text-xl font-semibold text-white sm:text-2xl md:text-3xl"
+                      data-tina-field={tinaField(link, 'title')}
+                      style={{ '--index': i } as React.CSSProperties}
+                    >
+                      {link.title}
+                    </Link>
+                  )
+                }
+
+                return (
+                  <div
+                    key={i}
+                    className="menu-nav-item flex flex-col items-start"
+                    style={{ '--index': i } as React.CSSProperties}
+                  >
+                    <div className="flex items-center gap-2">
+                      <Link
+                        href={link.href}
+                        onClick={() => setMenuOpen(false)}
+                        className="font-['Poppins'] text-xl font-semibold text-white sm:text-2xl md:text-3xl"
+                        data-tina-field={tinaField(link, 'title')}
+                      >
+                        {link.title}
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => setOpenDropdown(isOpen ? null : i)}
+                        aria-expanded={isOpen}
+                        aria-label={`Toggle ${link.title} submenu`}
+                        className="text-white/80 transition-colors hover:text-white"
+                      >
+                        <svg
+                          className={`h-5 w-5 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth={2.5}
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden="true"
+                        >
+                          <path d="m6 9 6 6 6-6" />
+                        </svg>
+                      </button>
+                    </div>
+
+                    {isOpen && (
+                      <div className="mt-4 flex flex-col items-start gap-3 pl-4">
+                        {subLinks.map((sub: any, j: number) => (
+                          <Link
+                            key={j}
+                            href={sub.href}
+                            onClick={() => setMenuOpen(false)}
+                            className="font-['Poppins'] text-base font-normal text-white/70 transition-colors hover:text-white sm:text-lg"
+                            data-tina-field={tinaField(sub, 'title')}
+                          >
+                            {sub.title}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
             </nav>
           </div>
         </div>

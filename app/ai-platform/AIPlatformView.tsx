@@ -67,6 +67,14 @@ export default function AIPlatformView(props: Props) {
   const bgStats      = typo.bgStats      || '#0D1127'
   const bgFooter     = typo.bgFooter     || '#333333'
 
+  // Footer CTA column only renders when it has content, so the grid width adapts
+  // to however many columns are actually visible (CTA + Company + Newsletter + Offices).
+  const hasFooterCta = Boolean(ftr?.ctaHeadline || ftr?.ctaDescription)
+  const footerCols = 2 + (hasFooterCta ? 1 : 0) + (ftr?.newsletterEnabled ? 1 : 0)
+  const footerGridClass =
+    ({ 2: 'md:grid-cols-2', 3: 'md:grid-cols-3', 4: 'md:grid-cols-4' } as const)[footerCols] ??
+    'md:grid-cols-4'
+
   // Reusable gradient text style
   const gradientText: React.CSSProperties = {
     background: `linear-gradient(to right, ${primaryColor}, ${accentColor})`,
@@ -84,6 +92,18 @@ export default function AIPlatformView(props: Props) {
   // ── Header state ──────────────────────────────────────────────────
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [openDropdown, setOpenDropdown] = useState<number | null>(null)
+  // Footer sub-link dropdown defaults to the first item that has sub-links (starts open).
+  const visibleFooterNav = ((ftr?.navLinks ?? []) as any[]).filter((l) => !l?.hidden)
+  const defaultOpenFooterNav = visibleFooterNav.findIndex((l) =>
+    (l?.subLinks ?? []).some((s: any) => s?.title && s?.href),
+  )
+  const [openFooterNav, setOpenFooterNav] = useState<number | null>(
+    defaultOpenFooterNav >= 0 ? defaultOpenFooterNav : null,
+  )
+  useEffect(() => {
+    if (!menuOpen) setOpenDropdown(null)
+  }, [menuOpen])
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener('scroll', onScroll)
@@ -135,14 +155,53 @@ export default function AIPlatformView(props: Props) {
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
               <nav className="flex flex-col space-y-6">
-                {hdr?.navLinks?.filter((l: any) => !l?.hidden).map((link: any, i: number) => (
-                  <Link key={i} href={link.href} onClick={() => setMenuOpen(false)}
-                    className="text-xl font-semibold text-white sm:text-2xl md:text-3xl"
-                    data-tina-field={tinaField(link, 'title')}
-                    style={{ '--index': i } as React.CSSProperties}>
-                    {link.title}
-                  </Link>
-                ))}
+                {hdr?.navLinks?.filter((l: any) => !l?.hidden).map((link: any, i: number) => {
+                  const subLinks = (link?.subLinks ?? []).filter((s: any) => s?.title && s?.href)
+                  const isOpen = openDropdown === i
+
+                  if (subLinks.length === 0) {
+                    return (
+                      <Link key={i} href={link.href} onClick={() => setMenuOpen(false)}
+                        className="text-xl font-semibold text-white sm:text-2xl md:text-3xl"
+                        data-tina-field={tinaField(link, 'title')}
+                        style={{ '--index': i } as React.CSSProperties}>
+                        {link.title}
+                      </Link>
+                    )
+                  }
+
+                  return (
+                    <div key={i} className="flex flex-col items-start" style={{ '--index': i } as React.CSSProperties}>
+                      <div className="flex items-center gap-2">
+                        <Link href={link.href} onClick={() => setMenuOpen(false)}
+                          className="text-xl font-semibold text-white sm:text-2xl md:text-3xl"
+                          data-tina-field={tinaField(link, 'title')}>
+                          {link.title}
+                        </Link>
+                        <button type="button" onClick={() => setOpenDropdown(isOpen ? null : i)}
+                          aria-expanded={isOpen} aria-label={`Toggle ${link.title} submenu`}
+                          className="text-white/80 transition-colors hover:text-white">
+                          <svg className={`h-5 w-5 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}
+                            strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                            <path d="m6 9 6 6 6-6" />
+                          </svg>
+                        </button>
+                      </div>
+                      {isOpen && (
+                        <div className="mt-4 flex flex-col items-start gap-3 pl-4">
+                          {subLinks.map((sub: any, j: number) => (
+                            <Link key={j} href={sub.href} onClick={() => setMenuOpen(false)}
+                              className="text-base font-normal text-white/70 transition-colors hover:text-white sm:text-lg"
+                              data-tina-field={tinaField(sub, 'title')}>
+                              {sub.title}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
               </nav>
             </div>
           </div>
@@ -767,17 +826,45 @@ export default function AIPlatformView(props: Props) {
 
       {/* ── FOOTER ───────────────────────────────────────────────────── */}
       <footer className="relative w-full py-16 text-white" style={{ background: bgFooter, fontFamily: `'${fontFamily}', sans-serif` }}>
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 md:grid-cols-4">
-          <div>
-            <h2 className="text-2xl leading-tight font-bold sm:text-3xl md:text-4xl" data-tina-field={tinaField(ftr, 'ctaHeadline')}>{ftr?.ctaHeadline}</h2>
-            <p className="mt-6 text-sm font-normal sm:text-base" data-tina-field={tinaField(ftr, 'ctaDescription')}>{ftr?.ctaDescription}</p>
-          </div>
+        <div className={`mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 ${footerGridClass}`}>
+          {hasFooterCta && (
+            <div>
+              <h2 className="text-2xl leading-tight font-bold sm:text-3xl md:text-4xl" data-tina-field={tinaField(ftr, 'ctaHeadline')}>{ftr?.ctaHeadline}</h2>
+              <p className="mt-6 text-sm font-normal sm:text-base" data-tina-field={tinaField(ftr, 'ctaDescription')}>{ftr?.ctaDescription}</p>
+            </div>
+          )}
           <div>
             <h3 className="text-base font-medium sm:text-lg">Company</h3>
             <div className="mt-4 flex flex-col gap-2">
-              {ftr?.navLinks?.filter((l: any) => !l?.hidden).map((link: any, i: number) => (
-                <Link key={i} href={link.href} className="text-sm font-normal hover:underline sm:text-base" data-tina-field={tinaField(link, 'title')}>{link.title}</Link>
-              ))}
+              {ftr?.navLinks?.filter((l: any) => !l?.hidden).map((link: any, i: number) => {
+                const subLinks = (link?.subLinks ?? []).filter((s: any) => s?.title && s?.href)
+                const isOpen = openFooterNav === i
+
+                if (subLinks.length === 0) {
+                  return (
+                    <Link key={i} href={link.href} className="text-sm font-normal hover:underline sm:text-base" data-tina-field={tinaField(link, 'title')}>{link.title}</Link>
+                  )
+                }
+
+                return (
+                  <div key={i} className="flex flex-col gap-2">
+                    <div className="flex items-center gap-2">
+                      <Link href={link.href} className="text-sm font-normal hover:underline sm:text-base" data-tina-field={tinaField(link, 'title')}>{link.title}</Link>
+                      <button type="button" onClick={() => setOpenFooterNav(isOpen ? null : i)} aria-expanded={isOpen} aria-label={`Toggle ${link.title} links`} className="text-white/60 transition-colors hover:text-white">
+                        <svg className={`h-4 w-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <path d="m6 9 6 6 6-6" />
+                        </svg>
+                      </button>
+                    </div>
+                    {/* Sub-links stay in the DOM (crawlable) but collapse visually when closed. */}
+                    <div className={`${isOpen ? 'flex' : 'hidden'} flex-col gap-2 border-l border-white/20 pl-3`}>
+                      {subLinks.map((sub: any, j: number) => (
+                        <Link key={j} href={sub.href} className="text-sm font-normal text-white/70 hover:text-white hover:underline sm:text-base" data-tina-field={tinaField(sub, 'title')}>{sub.title}</Link>
+                      ))}
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           </div>
           {ftr?.newsletterEnabled && (

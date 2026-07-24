@@ -46,7 +46,17 @@
     },
     {
       "title": "Blog",
-      "href": "/blog/"
+      "href": "/blog/",
+      "subLinks": [
+        {
+          "title": "Data Collection for Robotics",
+          "href": "/blog/data-collection-for-robotics/"
+        },
+        {
+          "title": "Data Collection for Automotive Industry",
+          "href": "/blog/data-collection-automotive-industry/"
+        }
+      ]
     },
     {
       "title": "About Us",
