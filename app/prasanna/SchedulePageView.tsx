@@ -1,45 +1,43 @@
 'use client'
-import { useTina, tinaField } from 'tinacms/dist/react'
 import { normalizeTinaImages } from '@/lib/normalizeTinaImages'
 import Image from 'next/image'
 import { SlideFromRight } from '@/components/AnimatedSection'
 
-type Props = {
-  pageData: any
-  pageQuery: string
-  pageVars: object
-  /** Public Google Appointment Schedule booking URL (embedded as an iframe). */
-  bookingUrl: string
-  /** Heading shown above the embedded scheduler. */
-  bookingHeading?: string
-  bookingDescription?: string
+type SchedulePage = {
+  hero?: { breadcrumb?: string; title?: string; bannerImage?: string }
+  booking?: { heading?: string; description?: string; bookingUrl?: string }
 }
 
-export default function SchedulePageView({
-  pageData,
-  pageQuery,
-  pageVars,
-  bookingUrl,
-  bookingHeading = 'Book a meeting',
-  bookingDescription = 'Pick a time that works for you and we’ll send a Google Meet invite automatically.',
-}: Props) {
-  const { data: rawData } = useTina({ data: pageData, query: pageQuery, variables: pageVars })
-  const data = normalizeTinaImages(rawData)
-  const page = data.contact
+type Props = {
+  /** Contents of content/pages/schedule.json (CMS-managed). */
+  page: SchedulePage
+}
 
-  if (!page) return null
+export default function SchedulePageView({ page }: Props) {
+  // Rewrites any Tina-uploaded image URLs to local /static paths, same as other pages.
+  const normalized = normalizeTinaImages({ schedule: page }) as { schedule: SchedulePage }
+  const data = normalized.schedule ?? page
+  const hero = data.hero ?? {}
+  const booking = data.booking ?? {}
 
-  const { hero } = page
+  const bookingUrl = booking.bookingUrl ?? ''
+  const bookingHeading = booking.heading || 'Book a meeting'
+  const bookingDescription =
+    booking.description || 'Pick a time that works for you and we’ll send a Google Meet invite automatically.'
   // `?gv=true` renders Google's embeddable booking view.
-  const embedSrc = bookingUrl.includes('?') ? `${bookingUrl}&gv=true` : `${bookingUrl}?gv=true`
+  const embedSrc = bookingUrl
+    ? bookingUrl.includes('?')
+      ? `${bookingUrl}&gv=true`
+      : `${bookingUrl}?gv=true`
+    : ''
 
   return (
     <div className="min-h-screen font-['Poppins']">
       {/* ── HERO BANNER ──────────────────────────────────────────────── */}
       <section className="relative h-[444px] w-full overflow-hidden">
         <div className="absolute inset-0 z-0 bg-[#2D9CDB]" />
-        {hero?.bannerImage && (
-          <div className="absolute inset-0 z-10" data-tina-field={tinaField(hero, 'bannerImage')}>
+        {hero.bannerImage && (
+          <div className="absolute inset-0 z-10">
             <Image
               src={hero.bannerImage}
               alt="Schedule Banner"
@@ -53,12 +51,12 @@ export default function SchedulePageView({
         <div className="relative z-30 flex h-full flex-col items-center justify-center px-4">
           <div className="absolute top-[137px] left-4 sm:left-8 md:left-16 lg:left-40">
             <p className="font-['Poppins'] text-sm leading-[180%] font-normal tracking-[0.02em] text-white">
-              HOME &gt; Schedule
+              {hero.breadcrumb || 'HOME > Schedule'}
             </p>
           </div>
           <div className="text-center">
             <h1 className="max-w-[766.5px] font-['Poppins'] text-4xl leading-[120%] font-medium tracking-[-0.025em] text-white md:text-6xl lg:text-[80px]">
-              Schedule
+              {hero.title || 'Schedule'}
             </h1>
           </div>
         </div>
@@ -77,13 +75,19 @@ export default function SchedulePageView({
               {bookingDescription}
             </p>
             <div className="h-[80vh] min-h-[640px] overflow-hidden rounded-[10px] border border-[#E3E3E3] shadow-sm">
-              <iframe
-                src={embedSrc}
-                title="Book a meeting"
-                style={{ border: 0 }}
-                loading="lazy"
-                className="block h-full w-full"
-              />
+              {embedSrc ? (
+                <iframe
+                  src={embedSrc}
+                  title="Book a meeting"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  className="block h-full w-full"
+                />
+              ) : (
+                <div className="flex h-full items-center justify-center px-6 text-center text-sm text-[#767E7E]">
+                  Add a Google Appointment Schedule URL in the CMS to show the booking calendar.
+                </div>
+              )}
             </div>
           </SlideFromRight>
         </div>
