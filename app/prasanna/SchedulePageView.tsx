@@ -64,25 +64,32 @@ export default function SchedulePageView({ page }: Props) {
 
       {/* ── SCHEDULE SECTION ─────────────────────────────────────────── */}
       <section className="w-full bg-white pt-12 pb-16">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-0 sm:px-4">
           {/* Embedded Google Appointment Schedule */}
-          <SlideFromRight className="mx-auto w-full max-w-[90%]">
-            <h2 className="text-center font-['Poppins'] text-2xl leading-[54px] font-semibold tracking-[0.02em] text-[#333333] sm:text-3xl md:text-4xl">
+          <SlideFromRight className="mx-auto w-full max-w-full sm:max-w-[90%]">
+            <h2 className="px-4 text-center font-['Poppins'] text-2xl leading-tight font-semibold tracking-[0.02em] text-[#333333] sm:px-0 sm:text-3xl sm:leading-[54px] md:text-4xl">
               {bookingHeading}
             </h2>
             <div className="mx-auto my-3 h-[1px] w-[61px] bg-[#767E7E]" />
-            <p className="mb-6 text-center font-['Poppins'] text-sm leading-[190%] font-normal tracking-[0.02em] text-[#333333] sm:text-base">
+            <p className="mb-6 px-4 text-center font-['Poppins'] text-sm leading-[190%] font-normal tracking-[0.02em] text-[#333333] sm:px-0 sm:text-base">
               {bookingDescription}
             </p>
-            <div className="h-[80vh] min-h-[640px] overflow-hidden rounded-[10px] border border-[#E3E3E3] shadow-sm">
+            {/* Full-bleed on mobile (no side padding / rounded border); framed on larger screens.
+                Fixed height on mobile (mobile browser chrome makes vh jump); viewport height above. */}
+            <div className="h-[560px] overflow-hidden sm:h-[80vh] sm:min-h-[640px] sm:rounded-[10px] sm:border sm:border-[#E3E3E3] sm:shadow-sm">
               {embedSrc ? (
-                <iframe
-                  src={embedSrc}
-                  title="Book a meeting"
-                  style={{ border: 0 }}
-                  loading="lazy"
-                  className="block h-full w-full"
-                />
+                // Horizontal scroll on phones/tablets: Google's weekly booking grid is wider
+                // than a small screen, so scroll rather than crush it. min-w keeps it usable;
+                // on desktop the iframe fills the container and there's nothing to scroll.
+                <div className="h-full w-full overflow-x-auto overflow-y-hidden">
+                  <iframe
+                    src={embedSrc}
+                    title="Book a meeting"
+                    style={{ border: 0 }}
+                    loading="lazy"
+                    className="block h-full w-full min-w-[900px]"
+                  />
+                </div>
               ) : (
                 <div className="flex h-full items-center justify-center px-6 text-center text-sm text-[#767E7E]">
                   Add a Google Appointment Schedule URL in the CMS to show the booking calendar.
