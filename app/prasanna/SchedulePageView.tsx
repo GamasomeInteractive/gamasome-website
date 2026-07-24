@@ -87,7 +87,7 @@ export default function SchedulePageView({ page }: Props) {
                     title="Book a meeting"
                     style={{ border: 0 }}
                     loading="lazy"
-                    className="block h-full w-full min-w-[900px]"
+                    className="block h-full w-full min-w-[1100px]"
                   />
                 </div>
               ) : (
