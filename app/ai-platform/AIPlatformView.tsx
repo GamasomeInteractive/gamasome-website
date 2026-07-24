@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import { useTina, tinaField } from 'tinacms/dist/react'
 import { normalizeTinaImages } from '@/lib/normalizeTinaImages'
 import Link from '@/components/Link'
@@ -93,6 +94,11 @@ export default function AIPlatformView(props: Props) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<number | null>(null)
+  // Active-page matching: normalize trailing slashes so "/about/" === "/about".
+  const pathname = usePathname() ?? '/'
+  const normPath = (p: string) => (p || '/').replace(/\/+$/, '') || '/'
+  const currentPath = normPath(pathname)
+  const isActive = (href?: string) => Boolean(href) && normPath(href as string) === currentPath
   // Footer sub-link dropdown defaults to the first item that has sub-links (starts open).
   const visibleFooterNav = ((ftr?.navLinks ?? []) as any[]).filter((l) => !l?.hidden)
   const defaultOpenFooterNav = visibleFooterNav.findIndex((l) =>
@@ -158,11 +164,13 @@ export default function AIPlatformView(props: Props) {
                 {hdr?.navLinks?.filter((l: any) => !l?.hidden).map((link: any, i: number) => {
                   const subLinks = (link?.subLinks ?? []).filter((s: any) => s?.title && s?.href)
                   const isOpen = openDropdown === i
+                  const active = isActive(link?.href)
 
                   if (subLinks.length === 0) {
                     return (
                       <Link key={i} href={link.href} onClick={() => setMenuOpen(false)}
-                        className="text-xl font-semibold text-white sm:text-2xl md:text-3xl"
+                        aria-current={active ? 'page' : undefined}
+                        className={`text-xl font-semibold underline-offset-8 transition-colors sm:text-2xl md:text-3xl ${active ? 'text-[#00FCE2] underline decoration-2' : 'text-white'}`}
                         data-tina-field={tinaField(link, 'title')}
                         style={{ '--index': i } as React.CSSProperties}>
                         {link.title}
@@ -174,7 +182,8 @@ export default function AIPlatformView(props: Props) {
                     <div key={i} className="flex flex-col items-start" style={{ '--index': i } as React.CSSProperties}>
                       <div className="flex items-center gap-2">
                         <Link href={link.href} onClick={() => setMenuOpen(false)}
-                          className="text-xl font-semibold text-white sm:text-2xl md:text-3xl"
+                          aria-current={active ? 'page' : undefined}
+                          className={`text-xl font-semibold underline-offset-8 transition-colors sm:text-2xl md:text-3xl ${active ? 'text-[#00FCE2] underline decoration-2' : 'text-white'}`}
                           data-tina-field={tinaField(link, 'title')}>
                           {link.title}
                         </Link>
@@ -192,7 +201,8 @@ export default function AIPlatformView(props: Props) {
                         <div className="mt-4 flex flex-col items-start gap-3 pl-4">
                           {subLinks.map((sub: any, j: number) => (
                             <Link key={j} href={sub.href} onClick={() => setMenuOpen(false)}
-                              className="text-base font-normal text-white/70 transition-colors hover:text-white sm:text-lg"
+                              aria-current={isActive(sub?.href) ? 'page' : undefined}
+                              className={`text-lg font-normal underline-offset-4 transition-colors sm:text-xl md:text-2xl ${isActive(sub?.href) ? 'text-[#00FCE2] underline' : 'text-white/70 hover:text-white'}`}
                               data-tina-field={tinaField(sub, 'title')}>
                               {sub.title}
                             </Link>
@@ -839,17 +849,18 @@ export default function AIPlatformView(props: Props) {
               {ftr?.navLinks?.filter((l: any) => !l?.hidden).map((link: any, i: number) => {
                 const subLinks = (link?.subLinks ?? []).filter((s: any) => s?.title && s?.href)
                 const isOpen = openFooterNav === i
+                const active = isActive(link?.href)
 
                 if (subLinks.length === 0) {
                   return (
-                    <Link key={i} href={link.href} className="text-sm font-normal hover:underline sm:text-base" data-tina-field={tinaField(link, 'title')}>{link.title}</Link>
+                    <Link key={i} href={link.href} aria-current={active ? 'page' : undefined} className={`text-sm hover:underline sm:text-base ${active ? 'font-semibold text-[#00FCE2] underline' : 'font-normal'}`} data-tina-field={tinaField(link, 'title')}>{link.title}</Link>
                   )
                 }
 
                 return (
                   <div key={i} className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">
-                      <Link href={link.href} className="text-sm font-normal hover:underline sm:text-base" data-tina-field={tinaField(link, 'title')}>{link.title}</Link>
+                      <Link href={link.href} aria-current={active ? 'page' : undefined} className={`text-sm hover:underline sm:text-base ${active ? 'font-semibold text-[#00FCE2] underline' : 'font-normal'}`} data-tina-field={tinaField(link, 'title')}>{link.title}</Link>
                       <button type="button" onClick={() => setOpenFooterNav(isOpen ? null : i)} aria-expanded={isOpen} aria-label={`Toggle ${link.title} links`} className="text-white/60 transition-colors hover:text-white">
                         <svg className={`h-4 w-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                           <path d="m6 9 6 6 6-6" />
@@ -859,7 +870,7 @@ export default function AIPlatformView(props: Props) {
                     {/* Sub-links stay in the DOM (crawlable) but collapse visually when closed. */}
                     <div className={`${isOpen ? 'flex' : 'hidden'} flex-col gap-2 border-l border-white/20 pl-3`}>
                       {subLinks.map((sub: any, j: number) => (
-                        <Link key={j} href={sub.href} className="text-sm font-normal text-white/70 hover:text-white hover:underline sm:text-base" data-tina-field={tinaField(sub, 'title')}>{sub.title}</Link>
+                        <Link key={j} href={sub.href} aria-current={isActive(sub?.href) ? 'page' : undefined} className={`text-sm hover:underline sm:text-base ${isActive(sub?.href) ? 'font-semibold text-[#00FCE2]' : 'font-normal text-white/70 hover:text-white'}`} data-tina-field={tinaField(sub, 'title')}>{sub.title}</Link>
                       ))}
                     </div>
                   </div>

@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import { useTina, tinaField } from 'tinacms/dist/react'
 import { normalizeTinaImages } from '@/lib/normalizeTinaImages'
 import Link from 'next/link'
@@ -21,6 +22,12 @@ export default function TinaHeader({ headerData, headerQuery, headerVars }: Prop
   const [scrolled, setScrolled]   = useState(false)
   const [menuOpen, setMenuOpen]   = useState(false)
   const [openDropdown, setOpenDropdown] = useState<number | null>(null)
+
+  // Active-page matching: normalize trailing slashes so "/about/" === "/about".
+  const pathname = usePathname() ?? '/'
+  const normPath = (p: string) => (p || '/').replace(/\/+$/, '') || '/'
+  const currentPath = normPath(pathname)
+  const isActive = (href?: string) => Boolean(href) && normPath(href as string) === currentPath
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50)
@@ -77,13 +84,16 @@ export default function TinaHeader({ headerData, headerQuery, headerVars }: Prop
                 const hasDropdown = subLinks.length > 0
                 const isOpen = openDropdown === i
 
+                const active = isActive(link?.href)
+
                 if (!hasDropdown) {
                   return (
                     <Link
                       key={i}
                       href={link.href}
                       onClick={() => setMenuOpen(false)}
-                      className="menu-nav-item font-['Poppins'] text-xl font-semibold text-white sm:text-2xl md:text-3xl"
+                      aria-current={active ? 'page' : undefined}
+                      className={`menu-nav-item font-['Poppins'] text-xl font-semibold underline-offset-8 transition-colors sm:text-2xl md:text-3xl ${active ? 'text-[#00FCE2] underline decoration-2' : 'text-white'}`}
                       data-tina-field={tinaField(link, 'title')}
                       style={{ '--index': i } as React.CSSProperties}
                     >
@@ -102,7 +112,8 @@ export default function TinaHeader({ headerData, headerQuery, headerVars }: Prop
                       <Link
                         href={link.href}
                         onClick={() => setMenuOpen(false)}
-                        className="font-['Poppins'] text-xl font-semibold text-white sm:text-2xl md:text-3xl"
+                        aria-current={active ? 'page' : undefined}
+                        className={`font-['Poppins'] text-xl font-semibold underline-offset-8 transition-colors sm:text-2xl md:text-3xl ${active ? 'text-[#00FCE2] underline decoration-2' : 'text-white'}`}
                         data-tina-field={tinaField(link, 'title')}
                       >
                         {link.title}
@@ -136,7 +147,8 @@ export default function TinaHeader({ headerData, headerQuery, headerVars }: Prop
                             key={j}
                             href={sub.href}
                             onClick={() => setMenuOpen(false)}
-                            className="font-['Poppins'] text-base font-normal text-white/70 transition-colors hover:text-white sm:text-lg"
+                            aria-current={isActive(sub?.href) ? 'page' : undefined}
+                            className={`font-['Poppins'] text-lg font-normal underline-offset-4 transition-colors sm:text-xl md:text-2xl ${isActive(sub?.href) ? 'text-[#00FCE2] underline' : 'text-white/70 hover:text-white'}`}
                             data-tina-field={tinaField(sub, 'title')}
                           >
                             {sub.title}

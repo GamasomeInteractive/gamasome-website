@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { useTina, tinaField } from 'tinacms/dist/react'
 import { normalizeTinaImages } from '@/lib/normalizeTinaImages'
 import Link from './Link'
@@ -16,6 +17,12 @@ export default function TinaFooter({ footerData, footerQuery, footerVars }: Prop
   const { data: rawData } = useTina({ data: footerData, query: footerQuery, variables: footerVars })
   const data = normalizeTinaImages(rawData)
   const ftr = data.footer
+
+  // Active-page matching: normalize trailing slashes so "/about/" === "/about".
+  const pathname = usePathname() ?? '/'
+  const normPath = (p: string) => (p || '/').replace(/\/+$/, '') || '/'
+  const currentPath = normPath(pathname)
+  const isActive = (href?: string) => Boolean(href) && normPath(href as string) === currentPath
 
   // Which footer nav item has its sub-link dropdown expanded. Defaults to the first
   // item that has sub-links, so the dropdown starts open.
@@ -57,10 +64,11 @@ export default function TinaFooter({ footerData, footerQuery, footerVars }: Prop
             {ftr?.navLinks?.filter((l: any) => !l?.hidden).map((link: any, i: number) => {
               const subLinks = (link?.subLinks ?? []).filter((s: any) => s?.title && s?.href)
               const isOpen = openNav === i
+              const active = isActive(link?.href)
 
               if (subLinks.length === 0) {
                 return (
-                  <Link key={i} href={link.href} className="font-['Poppins'] text-sm font-normal hover:underline sm:text-base" data-tina-field={tinaField(link, 'title')}>
+                  <Link key={i} href={link.href} aria-current={active ? 'page' : undefined} className={`font-['Poppins'] text-sm hover:underline sm:text-base ${active ? 'font-semibold text-[#00FCE2] underline' : 'font-normal'}`} data-tina-field={tinaField(link, 'title')}>
                     {link.title}
                   </Link>
                 )
@@ -69,7 +77,7 @@ export default function TinaFooter({ footerData, footerQuery, footerVars }: Prop
               return (
                 <div key={i} className="flex flex-col gap-2">
                   <div className="flex items-center gap-2">
-                    <Link href={link.href} className="font-['Poppins'] text-sm font-normal hover:underline sm:text-base" data-tina-field={tinaField(link, 'title')}>
+                    <Link href={link.href} aria-current={active ? 'page' : undefined} className={`font-['Poppins'] text-sm hover:underline sm:text-base ${active ? 'font-semibold text-[#00FCE2] underline' : 'font-normal'}`} data-tina-field={tinaField(link, 'title')}>
                       {link.title}
                     </Link>
                     <button
@@ -87,7 +95,7 @@ export default function TinaFooter({ footerData, footerQuery, footerVars }: Prop
                   {/* Sub-links stay in the DOM (crawlable) but collapse visually when closed. */}
                   <div className={`${isOpen ? 'flex' : 'hidden'} flex-col gap-2 border-l border-white/20 pl-3`}>
                     {subLinks.map((sub: any, j: number) => (
-                      <Link key={j} href={sub.href} className="font-['Poppins'] text-sm font-normal text-white/70 hover:text-white hover:underline sm:text-base" data-tina-field={tinaField(sub, 'title')}>
+                      <Link key={j} href={sub.href} aria-current={isActive(sub?.href) ? 'page' : undefined} className={`font-['Poppins'] text-sm hover:underline sm:text-base ${isActive(sub?.href) ? 'font-semibold text-[#00FCE2]' : 'font-normal text-white/70 hover:text-white'}`} data-tina-field={tinaField(sub, 'title')}>
                         {sub.title}
                       </Link>
                     ))}
