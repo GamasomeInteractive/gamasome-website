@@ -16,7 +16,7 @@ const ContentSecurityPolicy = `
   media-src *.s3.amazonaws.com;
   connect-src *;
   font-src 'self' fonts.gstatic.com data:;
-  frame-src giscus.app 'self' www.youtube.com youtube-nocookie.com;
+  frame-src giscus.app 'self' www.youtube.com youtube-nocookie.com calendar.google.com;
   frame-ancestors 'self'
 `
 
@@ -135,15 +135,6 @@ module.exports = () => {
         {
           source: '/admin',
           destination: '/admin/index.html',
-          permanent: false,
-        },
-        // Vanity link → Muthukumar's public Google Calendar Appointment Schedule
-        // booking page. The `/u/0/` segment is intentionally omitted so the link
-        // works for any visitor, not just whoever is signed into account slot 0.
-        {
-          source: '/prasanna',
-          destination:
-            'https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ11h2id_uYILCwvKKc-i7SMPChaQwq2NvQ7mZD9uT_Q-8AgvWTsiUPxCD74RbMPJyqigBH4Gfzk',
           permanent: false,
         },
       ]

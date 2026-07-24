@@ -1172,6 +1172,36 @@ export default defineConfig({
           },
         ],
       },
+      // ── SCHEDULE / BOOKING PAGE (/prasanna) ─────────────────────────
+      {
+        label: '📅 Schedule',
+        name: 'schedule',
+        path: 'content/pages',
+        match: { include: 'schedule' },
+        format: 'json',
+        ui: { allowedActions: { create: false, delete: false }, router: () => '/prasanna' },
+        fields: [
+          {
+            type: 'object', name: 'hero', label: '🖼 Banner',
+            fields: [
+              { type: 'string', name: 'breadcrumb', label: 'Breadcrumb' },
+              { type: 'string', name: 'title', label: 'Page Title' },
+              { type: 'image', name: 'bannerImage', label: 'Banner Image' },
+            ],
+          },
+          {
+            type: 'object', name: 'booking', label: '📆 Booking Embed',
+            fields: [
+              { type: 'string', name: 'heading', label: 'Heading' },
+              { type: 'string', name: 'description', label: 'Description', ui: { component: 'textarea' } },
+              {
+                type: 'string', name: 'bookingUrl', label: 'Google Appointment Schedule URL',
+                ui: { description: 'Public booking link (calendar.google.com/calendar/appointments/schedules/…). Omit the /u/0/ segment.' },
+              },
+            ],
+          },
+        ],
+      },
       // ── BLOG POSTS ──────────────────────────────────────────────────
       {
         label: '📝 Blog Posts',
