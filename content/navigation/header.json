@@ -9,6 +9,10 @@
       "href": "/services/physical-ai-data-collection/"
     },
     {
+      "title": "Data Annotation",
+      "href": "/services/data-annotation/"
+    },
+    {
       "title": "AI Platform",
       "href": "/services/ai-platform/"
     },
@@ -55,6 +59,10 @@
         {
           "title": "Data Collection for Automotive Industry",
           "href": "/blog/data-collection-automotive-industry/"
+        },
+        {
+          "title": "What Is Data Annotation?",
+          "href": "/blog/what-is-data-annotation/"
         }
       ]
     },

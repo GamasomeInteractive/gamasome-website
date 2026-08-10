@@ -43,13 +43,14 @@ export default function AIPlatformView(props: Props) {
     problemsLabel, problemsTitle, problemsDescription, problems,
     methodsLabel, methodsTitle, methodsDescription, methodsTable, methodsFootnote,
     capabilitiesLabel, capabilitiesTitle, capabilitiesDescription, capabilitiesMotion, capabilities,
-    useCasesLabel, useCasesTitle, useCasesMotion, useCases,
+    useCasesLabel, useCasesTitle, useCasesMotion, useCases, useCasesAfterComparison,
     multimodalLabel, multimodalTitle, multimodalDescription, multimodal,
     securityLabel, securityTitle, securityDescription, security,
     qualityLabel, qualityTitle, qualityDescription, qualityList, qualityCardTitle, qualityCardHtml,
     pitfallsLabel, pitfallsTitle, pitfallsDescription, pitfalls,
-    costsLabel, costsTitle, costsIntro, costs, costsOutro,
-    comparisonLabel, comparisonTitle, comparisonDescription, comparison,
+    examplesLabel, examplesTitle, examplesDescription, examples,
+    costsLabel, costsTitle, costsIntro, costs, costsOutro, costsMultimodalTwoCol,
+    comparisonLabel, comparisonTitle, comparisonDescription, comparison, comparisonAfterExamples,
     howItWorksLabel, howItWorksTitle, howItWorksDescription, howItWorksMotion, howItWorks, howItWorksPipeline,
     faqLabel, faqTitle, faqs,
     cta,
@@ -115,6 +116,73 @@ export default function AIPlatformView(props: Props) {
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  // Use Cases renders in one of two slots: its default home after Multimodal, or —
+  // when `useCasesAfterComparison` is set — directly below the comparison table.
+  // Defined once here so both slots stay in sync.
+  const useCasesSection = (
+    <SectionMotion motion={useCasesMotion} as="section" className="py-16" style={{ background: bgSecondary }}>
+      <div className="container mx-auto px-6 md:px-16">
+        <FadeIn>
+          <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'useCasesLabel')}>{useCasesLabel}</p>
+          <h2 className="max-w-xl text-4xl font-bold md:text-5xl" data-tina-field={tinaField(page, 'useCasesTitle')}>{useCasesTitle}</h2>
+        </FadeIn>
+        <StaggerContainer className={`mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 ${useCases?.length === 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3'}`} staggerDelay={0.08}>
+          {useCases?.map((uc: any, i: number) => (
+            <StaggerItem key={i} className="group relative overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.03] p-8 transition-all duration-300 hover:border-white/15 hover:bg-white/[0.05]">
+              <div className="absolute right-0 bottom-0 left-0 h-0.5 opacity-50 group-hover:opacity-100" style={{ background: uc.accentColor }} />
+              <span className="mb-5 inline-block rounded-full px-3 py-1 text-[10px] font-bold tracking-widest uppercase"
+                style={{ color: uc.accentColor, backgroundColor: `${uc.accentColor}18`, border: `1px solid ${uc.accentColor}30` }}
+                data-tina-field={tinaField(uc, 'tag')}>{uc.tag}</span>
+              <h3 className="mb-3 text-lg font-bold" data-tina-field={tinaField(uc, 'title')}>{uc.title}</h3>
+              <p className="gama-body text-sm leading-relaxed" data-tina-field={tinaField(uc, 'description')}>
+                {typeof uc.description === 'string' ? uc.description : uc.description?.children?.[0]?.children?.[0]?.text ?? ''}
+              </p>
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
+      </div>
+    </SectionMotion>
+  )
+
+  // Comparison renders in one of two slots: its default home after Use Cases, or —
+  // when `comparisonAfterExamples` is set — directly below the Real-World Examples
+  // section. Defined once here so both slots stay in sync.
+  const comparisonSection = comparison && comparison.rows && comparison.rows.length > 0 ? (
+    <section className="py-16">
+      <div className="container mx-auto px-6 md:px-16">
+        <FadeIn>
+          {comparisonLabel && (
+            <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'comparisonLabel')}>{comparisonLabel}</p>
+          )}
+          <h2 className="max-w-3xl text-4xl font-bold md:text-5xl" data-tina-field={tinaField(page, 'comparisonTitle')}>{comparisonTitle}</h2>
+          {comparisonDescription && (
+            <p className="gama-body mt-4 max-w-3xl text-base" data-tina-field={tinaField(page, 'comparisonDescription')}>{comparisonDescription}</p>
+          )}
+        </FadeIn>
+        <FadeIn className="mt-12 overflow-x-auto">
+          <table className="w-full min-w-[640px] border-separate border-spacing-0 overflow-hidden rounded-2xl border border-white/[0.08]">
+            <thead>
+              <tr style={{ background: bgSecondary }}>
+                {comparison.headers?.map((h: string, i: number) => (
+                  <th key={i} className={`px-6 py-5 text-left text-sm font-bold tracking-wide uppercase ${i === 1 ? '' : 'text-white/70'}`} style={i === 1 ? { color: accentColor } : undefined}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {comparison.rows.map((row: any, i: number) => (
+                <tr key={i} className={i % 2 === 0 ? 'bg-white/[0.02]' : 'bg-transparent'}>
+                  <td className="border-t border-white/[0.06] px-6 py-5 text-sm font-semibold text-white">{row.activity}</td>
+                  <td className="border-t border-white/[0.06] px-6 py-5 text-sm font-semibold" style={{ color: accentColor }}>{row.gamasome}</td>
+                  <td className="border-t border-white/[0.06] px-6 py-5 text-sm text-white/55">{row.vendors}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </FadeIn>
+      </div>
+    </section>
+  ) : null
 
   return (
     <div
@@ -315,7 +383,7 @@ export default function AIPlatformView(props: Props) {
                 {stats.map((stat: any, i: number) => (
                   <FadeIn key={i} delay={i * 0.1}>
                     <div className="flex h-full flex-col" data-tina-field={tinaField(stat, 'value')}>
-                      <div className="flex min-h-[2.5em] items-end text-4xl leading-tight font-bold md:text-5xl" style={gradientText}>{stat.value}</div>
+                      <div className="flex min-h-[2.5em] items-start text-4xl leading-tight font-bold md:text-5xl" style={gradientText}>{stat.value}</div>
                       {stat.descHtml ? (
                         <p className="mt-3 text-sm leading-relaxed text-white/45 [&_a]:font-medium [&_a]:text-[#4c8dff] [&_a]:underline" data-tina-field={tinaField(stat, 'descHtml')} dangerouslySetInnerHTML={{ __html: stat.descHtml }} />
                       ) : (
@@ -628,8 +696,107 @@ export default function AIPlatformView(props: Props) {
           </section>
         )}
 
-        {/* ── COSTS ──────────────────────────────────────────────────── */}
-        {costs && costs.length > 0 && (
+        {/* ── EXAMPLES (real-world program vignettes) ────────────────── */}
+        {/* Sits directly after Pitfalls. Uses bgStats so it separates cleanly
+            from Pitfalls (bgPrimary) above and Costs (bgSecondary) below. */}
+        {examples && examples.length > 0 && (
+          <section className="py-16" style={{ background: bgStats }}>
+            <div className="container mx-auto px-6 md:px-16">
+              <FadeIn>
+                {examplesLabel && (
+                  <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'examplesLabel')}>{examplesLabel}</p>
+                )}
+                <h2 className="max-w-3xl text-4xl font-bold md:text-5xl" data-tina-field={tinaField(page, 'examplesTitle')}>{examplesTitle}</h2>
+                {examplesDescription && (
+                  <p className="gama-body mt-4 max-w-3xl text-base" data-tina-field={tinaField(page, 'examplesDescription')}>{examplesDescription}</p>
+                )}
+              </FadeIn>
+              <StaggerContainer className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2" staggerDelay={0.08}>
+                {examples.map((ex: any, i: number) => (
+                  <StaggerItem key={i} className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-8 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06]">
+                    <h3 className="mb-6 text-lg font-bold" data-tina-field={tinaField(ex, 'title')}>{ex.title}</h3>
+                    <dl className="flex flex-col gap-4">
+                      {(ex.steps ?? []).map((s: any, j: number) => (
+                        <div key={j}>
+                          <dt className="mb-1 text-[11px] font-bold tracking-[0.12em] uppercase" style={{ color: accentColor }} data-tina-field={tinaField(s, 'label')}>{s.label}</dt>
+                          <dd className="gama-body text-sm leading-relaxed" data-tina-field={tinaField(s, 'text')}>{s.text}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </StaggerItem>
+                ))}
+              </StaggerContainer>
+            </div>
+          </section>
+        )}
+
+        {/* ── COMPARISON (early slot — directly after Real-World Examples) ── */}
+        {comparisonAfterExamples && comparisonSection}
+
+        {/* ── USE CASES (early slot — directly after the comparison table) ── */}
+        {useCasesAfterComparison && useCasesSection}
+
+        {/* ── COSTS + DELIVERY FORMATS (single two-column section) ───── */}
+        {/* Opt-in via `costsMultimodalTwoCol`: pairs Costs (left) and Delivery
+            Formats (right) inside one section, replacing the two stacked ones. */}
+        {costsMultimodalTwoCol && (costs?.length > 0 || multimodal?.length > 0) && (
+          <section className="py-16" style={{ background: bgSecondary }}>
+            <div className="container mx-auto grid grid-cols-1 gap-12 px-6 md:px-16 lg:grid-cols-2 lg:gap-16">
+              {/* Left column — cost considerations */}
+              {costs && costs.length > 0 && (
+                <FadeIn>
+                  <div>
+                    {costsLabel && (
+                      <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'costsLabel')}>{costsLabel}</p>
+                    )}
+                    <h2 className="text-3xl font-bold md:text-4xl" data-tina-field={tinaField(page, 'costsTitle')}>{costsTitle}</h2>
+                    {costsIntro && (
+                      <p className="gama-body mt-4 text-base [&_a]:font-medium [&_a]:text-[#4c8dff] [&_a]:underline" data-tina-field={tinaField(page, 'costsIntro')} dangerouslySetInnerHTML={{ __html: costsIntro }} />
+                    )}
+                    <div className="mt-8 flex flex-col gap-3">
+                      {costs.map((c: any, i: number) => (
+                        <div key={i} className="flex items-start gap-3">
+                          <span className="mt-0.5 shrink-0 font-bold" style={{ color: accentColor }}>✓</span>
+                          <span className="gama-body text-[15px] leading-relaxed">{typeof c === 'string' ? c : c?.text}</span>
+                        </div>
+                      ))}
+                    </div>
+                    {costsOutro && (
+                      <p className="gama-body mt-8 text-base [&_a]:font-medium [&_a]:text-[#4c8dff] [&_a]:underline" data-tina-field={tinaField(page, 'costsOutro')} dangerouslySetInnerHTML={{ __html: costsOutro }} />
+                    )}
+                  </div>
+                </FadeIn>
+              )}
+              {/* Right column — delivery formats. Description sits below the
+                  cards here, matching the source layout. */}
+              {multimodal && multimodal.length > 0 && (
+                <FadeIn delay={0.1}>
+                  <div>
+                    {multimodalLabel && (
+                      <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'multimodalLabel')}>{multimodalLabel}</p>
+                    )}
+                    <h2 className="text-3xl font-bold md:text-4xl" data-tina-field={tinaField(page, 'multimodalTitle')}>{multimodalTitle}</h2>
+                    <StaggerContainer className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2" staggerDelay={0.08}>
+                      {multimodal.map((m: any, i: number) => (
+                        <StaggerItem key={i} className="group relative rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06]">
+                          {m.icon && <div className="mb-3 text-2xl" data-tina-field={tinaField(m, 'icon')}>{m.icon}</div>}
+                          <h3 className="mb-2 text-lg font-bold" data-tina-field={tinaField(m, 'title')}>{m.title}</h3>
+                          <p className="gama-body text-sm leading-relaxed" data-tina-field={tinaField(m, 'description')}>{m.description}</p>
+                        </StaggerItem>
+                      ))}
+                    </StaggerContainer>
+                    {multimodalDescription && (
+                      <p className="gama-body mt-6 text-base" data-tina-field={tinaField(page, 'multimodalDescription')}>{multimodalDescription}</p>
+                    )}
+                  </div>
+                </FadeIn>
+              )}
+            </div>
+          </section>
+        )}
+
+        {/* ── COSTS (standalone, full-width) ─────────────────────────── */}
+        {!costsMultimodalTwoCol && costs && costs.length > 0 && (
           <section className="py-16" style={{ background: bgSecondary }}>
             <div className="container mx-auto px-6 md:px-16">
               <FadeIn>
@@ -638,7 +805,7 @@ export default function AIPlatformView(props: Props) {
                 )}
                 <h2 className="max-w-3xl text-4xl font-bold md:text-5xl" data-tina-field={tinaField(page, 'costsTitle')}>{costsTitle}</h2>
                 {costsIntro && (
-                  <p className="gama-body mt-4 max-w-3xl text-base" data-tina-field={tinaField(page, 'costsIntro')}>{costsIntro}</p>
+                  <p className="gama-body mt-4 max-w-3xl text-base [&_a]:font-medium [&_a]:text-[#4c8dff] [&_a]:underline" data-tina-field={tinaField(page, 'costsIntro')} dangerouslySetInnerHTML={{ __html: costsIntro }} />
                 )}
               </FadeIn>
               <StaggerContainer className="mt-10 flex max-w-3xl flex-col gap-3" staggerDelay={0.06}>
@@ -651,15 +818,15 @@ export default function AIPlatformView(props: Props) {
               </StaggerContainer>
               {costsOutro && (
                 <FadeIn>
-                  <p className="gama-body mt-8 max-w-3xl text-base" data-tina-field={tinaField(page, 'costsOutro')}>{costsOutro}</p>
+                  <p className="gama-body mt-8 max-w-3xl text-base [&_a]:font-medium [&_a]:text-[#4c8dff] [&_a]:underline" data-tina-field={tinaField(page, 'costsOutro')} dangerouslySetInnerHTML={{ __html: costsOutro }} />
                 </FadeIn>
               )}
             </div>
           </section>
         )}
 
-        {/* ── MULTIMODAL (delivery formats) ──────────────────────────── */}
-        {multimodal && multimodal.length > 0 && (
+        {/* ── MULTIMODAL (delivery formats — standalone, full-width) ─── */}
+        {!costsMultimodalTwoCol && multimodal && multimodal.length > 0 && (
           <section className="py-16">
             <div className="container mx-auto px-6 md:px-16">
               <FadeIn>
@@ -684,66 +851,11 @@ export default function AIPlatformView(props: Props) {
           </section>
         )}
 
-        {/* ── USE CASES (industries) ─────────────────────────────────── */}
-        <SectionMotion motion={useCasesMotion} as="section" className="py-16" style={{ background: bgSecondary }}>
-          <div className="container mx-auto px-6 md:px-16">
-            <FadeIn>
-              <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'useCasesLabel')}>{useCasesLabel}</p>
-              <h2 className="max-w-xl text-4xl font-bold md:text-5xl" data-tina-field={tinaField(page, 'useCasesTitle')}>{useCasesTitle}</h2>
-            </FadeIn>
-            <StaggerContainer className={`mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 ${useCases?.length === 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3'}`} staggerDelay={0.08}>
-              {useCases?.map((uc: any, i: number) => (
-                <StaggerItem key={i} className="group relative overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.03] p-8 transition-all duration-300 hover:border-white/15 hover:bg-white/[0.05]">
-                  <div className="absolute right-0 bottom-0 left-0 h-0.5 opacity-50 group-hover:opacity-100" style={{ background: uc.accentColor }} />
-                  <span className="mb-5 inline-block rounded-full px-3 py-1 text-[10px] font-bold tracking-widest uppercase"
-                    style={{ color: uc.accentColor, backgroundColor: `${uc.accentColor}18`, border: `1px solid ${uc.accentColor}30` }}
-                    data-tina-field={tinaField(uc, 'tag')}>{uc.tag}</span>
-                  <h3 className="mb-3 text-lg font-bold" data-tina-field={tinaField(uc, 'title')}>{uc.title}</h3>
-                  <p className="gama-body text-sm leading-relaxed" data-tina-field={tinaField(uc, 'description')}>
-                    {typeof uc.description === 'string' ? uc.description : uc.description?.children?.[0]?.children?.[0]?.text ?? ''}
-                  </p>
-                </StaggerItem>
-              ))}
-            </StaggerContainer>
-          </div>
-        </SectionMotion>
+        {/* ── USE CASES (default slot — after Multimodal) ─────────────── */}
+        {!useCasesAfterComparison && useCasesSection}
 
-        {/* ── COMPARISON ─────────────────────────────────────────────── */}
-        {comparison && comparison.rows && comparison.rows.length > 0 && (
-          <section className="py-16">
-            <div className="container mx-auto px-6 md:px-16">
-              <FadeIn>
-                {comparisonLabel && (
-                  <p className="gama-label mb-3 text-xs font-bold tracking-[0.2em] uppercase" data-tina-field={tinaField(page, 'comparisonLabel')}>{comparisonLabel}</p>
-                )}
-                <h2 className="max-w-3xl text-4xl font-bold md:text-5xl" data-tina-field={tinaField(page, 'comparisonTitle')}>{comparisonTitle}</h2>
-                {comparisonDescription && (
-                  <p className="gama-body mt-4 max-w-3xl text-base" data-tina-field={tinaField(page, 'comparisonDescription')}>{comparisonDescription}</p>
-                )}
-              </FadeIn>
-              <FadeIn className="mt-12 overflow-x-auto">
-                <table className="w-full min-w-[640px] border-separate border-spacing-0 overflow-hidden rounded-2xl border border-white/[0.08]">
-                  <thead>
-                    <tr style={{ background: bgSecondary }}>
-                      {comparison.headers?.map((h: string, i: number) => (
-                        <th key={i} className={`px-6 py-5 text-left text-sm font-bold tracking-wide uppercase ${i === 1 ? '' : 'text-white/70'}`} style={i === 1 ? { color: accentColor } : undefined}>{h}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {comparison.rows.map((row: any, i: number) => (
-                      <tr key={i} className={i % 2 === 0 ? 'bg-white/[0.02]' : 'bg-transparent'}>
-                        <td className="border-t border-white/[0.06] px-6 py-5 text-sm font-semibold text-white">{row.activity}</td>
-                        <td className="border-t border-white/[0.06] px-6 py-5 text-sm font-semibold" style={{ color: accentColor }}>{row.gamasome}</td>
-                        <td className="border-t border-white/[0.06] px-6 py-5 text-sm text-white/55">{row.vendors}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </FadeIn>
-            </div>
-          </section>
-        )}
+        {/* ── COMPARISON (default slot — after Use Cases) ─────────────── */}
+        {!comparisonAfterExamples && comparisonSection}
 
         {/* ── FAQ ────────────────────────────────────────────────────── */}
         {faqs && faqs.length > 0 && (

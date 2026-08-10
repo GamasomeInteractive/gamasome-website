@@ -1,0 +1,62 @@
+<svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The six stages of an annotation project: schema design, guideline writing, tool and workforce selection, annotation, QA and consensus, then delivery and versioning">
+  <defs>
+    <linearGradient id="wfBg" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0" stop-color="#eef2ff"/><stop offset="1" stop-color="#f7f9fc"/></linearGradient>
+  </defs>
+  <rect width="760" height="340" fill="url(#wfBg)"/>
+  <text x="380" y="44" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="700" letter-spacing="2" fill="#4f46e5">HOW AN ANNOTATION PROJECT RUNS</text>
+
+  <!-- row 1 -->
+  <rect x="30" y="70" width="216" height="98" rx="10" fill="#ffffff" stroke="#dbe3ef" stroke-width="1.5"/>
+  <circle cx="58" cy="98" r="14" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="58" y="103" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#2563eb">1</text>
+  <text x="82" y="103" font-family="sans-serif" font-size="14" font-weight="700" fill="#14213d">Schema design</text>
+  <text x="50" y="128" font-family="sans-serif" font-size="10.5" fill="#475569">Define what gets labeled and how</text>
+  <text x="50" y="145" font-family="sans-serif" font-size="10.5" fill="#475569">edge cases are handled — first.</text>
+
+  <rect x="272" y="70" width="216" height="98" rx="10" fill="#ffffff" stroke="#dbe3ef" stroke-width="1.5"/>
+  <circle cx="300" cy="98" r="14" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="300" y="103" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#2563eb">2</text>
+  <text x="324" y="103" font-family="sans-serif" font-size="14" font-weight="700" fill="#14213d">Guidelines</text>
+  <text x="292" y="128" font-family="sans-serif" font-size="10.5" fill="#475569">Turn the schema into rules with</text>
+  <text x="292" y="145" font-family="sans-serif" font-size="10.5" fill="#475569">worked examples for hard cases.</text>
+
+  <rect x="514" y="70" width="216" height="98" rx="10" fill="#ffffff" stroke="#dbe3ef" stroke-width="1.5"/>
+  <circle cx="542" cy="98" r="14" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="542" y="103" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#2563eb">3</text>
+  <text x="566" y="103" font-family="sans-serif" font-size="14" font-weight="700" fill="#14213d">Tools &amp; team</text>
+  <text x="534" y="128" font-family="sans-serif" font-size="10.5" fill="#475569">Pick a platform and workforce</text>
+  <text x="534" y="145" font-family="sans-serif" font-size="10.5" fill="#475569">suited to the modality.</text>
+
+  <!-- connectors row 1 -->
+  <line x1="246" y1="119" x2="272" y2="119" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="488" y1="119" x2="514" y2="119" stroke="#94a3b8" stroke-width="2"/>
+
+  <!-- wrap connector -->
+  <path d="M622 168 L622 190 L138 190 L138 212" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4 4"/>
+
+  <!-- row 2 -->
+  <rect x="30" y="212" width="216" height="98" rx="10" fill="#ffffff" stroke="#dbe3ef" stroke-width="1.5"/>
+  <circle cx="58" cy="240" r="14" fill="#eef2ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="58" y="245" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#4f46e5">4</text>
+  <text x="82" y="245" font-family="sans-serif" font-size="14" font-weight="700" fill="#14213d">Annotation</text>
+  <text x="50" y="270" font-family="sans-serif" font-size="10.5" fill="#475569">Labels applied against the schema,</text>
+  <text x="50" y="287" font-family="sans-serif" font-size="10.5" fill="#475569">after a calibration pass.</text>
+
+  <rect x="272" y="212" width="216" height="98" rx="10" fill="#ffffff" stroke="#dbe3ef" stroke-width="1.5"/>
+  <circle cx="300" cy="240" r="14" fill="#eef2ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="300" y="245" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#4f46e5">5</text>
+  <text x="324" y="245" font-family="sans-serif" font-size="14" font-weight="700" fill="#14213d">QA &amp; consensus</text>
+  <text x="292" y="270" font-family="sans-serif" font-size="10.5" fill="#475569">Annotators compared, disagreements</text>
+  <text x="292" y="287" font-family="sans-serif" font-size="10.5" fill="#475569">routed to a senior reviewer.</text>
+
+  <rect x="514" y="212" width="216" height="98" rx="10" fill="#ffffff" stroke="#dbe3ef" stroke-width="1.5"/>
+  <circle cx="542" cy="240" r="14" fill="#f0fdfa" stroke="#0d9488" stroke-width="2"/>
+  <text x="542" y="245" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#0d9488">6</text>
+  <text x="566" y="245" font-family="sans-serif" font-size="14" font-weight="700" fill="#14213d">Delivery</text>
+  <text x="534" y="270" font-family="sans-serif" font-size="10.5" fill="#475569">Training-ready format with a</text>
+  <text x="534" y="287" font-family="sans-serif" font-size="10.5" fill="#475569">schema doc and changelog.</text>
+
+  <!-- connectors row 2 -->
+  <line x1="246" y1="261" x2="272" y2="261" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="488" y1="261" x2="514" y2="261" stroke="#94a3b8" stroke-width="2"/>
+</svg>

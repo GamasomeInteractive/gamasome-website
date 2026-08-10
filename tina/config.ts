@@ -386,6 +386,28 @@ function aiPlatformTemplateFields(): any[] {
         { type: 'string' as const, name: 'description', label: 'Description', ui: { component: 'textarea' } },
       ],
     },
+    { type: 'boolean' as const, name: 'comparisonAfterExamples', label: 'Show the comparison table directly after Real-World Examples (instead of after Use Cases)' },
+    { type: 'boolean' as const, name: 'useCasesAfterComparison', label: 'Show Use Cases directly after the comparison table (instead of after Delivery Formats)' },
+    { type: 'boolean' as const, name: 'costsMultimodalTwoCol', label: 'Pair Costs and Delivery Formats side by side in one two-column section' },
+    // ── Real-World Examples (renders directly after Pitfalls) ─────────────
+    { type: 'string' as const, name: 'examplesLabel', label: 'Examples — Section Label' },
+    { type: 'string' as const, name: 'examplesTitle', label: 'Examples — Heading' },
+    { type: 'string' as const, name: 'examplesDescription', label: 'Examples — Description', ui: { component: 'textarea' } },
+    {
+      type: 'object' as const, name: 'examples', label: '🧩 Real-World Examples', list: true,
+      ui: { itemProps: (item: any) => ({ label: item?.title ?? 'Example' }) },
+      fields: [
+        { type: 'string' as const, name: 'title', label: 'Title' },
+        {
+          type: 'object' as const, name: 'steps', label: 'Steps (Situation / Problem / Solution / Outcome)', list: true,
+          ui: { itemProps: (item: any) => ({ label: item?.label ?? 'Step' }) },
+          fields: [
+            { type: 'string' as const, name: 'label', label: 'Step Label' },
+            { type: 'string' as const, name: 'text',  label: 'Text', ui: { component: 'textarea' } },
+          ],
+        },
+      ],
+    },
     // ── Costs ─────────────────────────────────────────────────────────────
     { type: 'string' as const, name: 'costsLabel', label: 'Costs — Section Label' },
     { type: 'string' as const, name: 'costsTitle', label: 'Costs — Heading' },

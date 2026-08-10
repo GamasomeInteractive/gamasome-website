@@ -1,0 +1,243 @@
+{
+  "_template": "aiPlatform",
+  "pageTitle": "Data Annotation Services for Physical AI & Robotics",
+  "pageDescription": "Domain-trained data annotation services for physical AI: multimodal sensor labeling, action grounding, and QA-scored datasets built for robot training.",
+  "seo": {
+    "metaTitle": "Data Annotation Services for Physical AI & Robotics",
+    "metaDescription": "Domain-trained data annotation services for physical AI: multimodal sensor labeling, action grounding, and QA-scored datasets built for robot training.",
+    "keywords": "data annotation services, robotics data annotation, multimodal labeling, lidar annotation, action segmentation, instruction grounding, rlds, lerobot, physical ai",
+    "robots": "index, follow",
+    "changefreq": "weekly"
+  },
+  "hero": {
+    "badge": "Data Annotation Services",
+    "headline": "Data annotation services that",
+    "headlineAccent": "actually understand robots",
+    "subheadline": "A generic labeling platform can draw a box around a coffee mug. It has no idea where a robot's grasp attempt ends and its placement action begins, or how six camera feeds and a force-torque sensor need to line up on the same timestamp. Our annotators are trained on robot task semantics, not just a click-and-tag interface, so the taxonomy still holds up once a model is actually driving hardware.",
+    "primaryCta": {
+      "text": "Book a Demo",
+      "href": "/contact"
+    },
+    "secondaryCta": {
+      "text": "",
+      "href": "/contact"
+    },
+    "image": "/static/images/data-annotation-review.svg",
+    "imageAlt": "Multi-sensor annotation review interface showing a labeled camera frame with bounding boxes, a label taxonomy panel, an action timeline, and a synced force-torque waveform with contact event markers",
+    "trustBadges": [],
+    "animation": {
+      "enabled": false,
+      "primaryColor": "#2D9CDB",
+      "accentColor": "#00FCE2"
+    }
+  },
+  "typography": {
+    "fontFamily": "Poppins",
+    "headingColor": "#ffffff",
+    "bodyColor": "rgba(255,255,255,0.55)",
+    "labelColor": "#00FCE2",
+    "primaryColor": "#2D9CDB",
+    "accentColor": "#00FCE2",
+    "bgPrimary": "#07091B",
+    "bgSecondary": "#0A0E24",
+    "bgStats": "#0D1127",
+    "bgFooter": "#111827"
+  },
+  "stats": [
+    { "value": "$3.07B → $12.42B", "descHtml": "Data annotation tools market, 2026–2031, <a href=\"https://www.mordorintelligence.com/industry-reports/data-annotation-tools-market\" target=\"_blank\" rel=\"noopener\">Mordor Intelligence</a>" },
+    { "value": "22.45% CAGR", "descHtml": "3D/point-cloud annotation, the fastest-growing data type, driven by robotics and AV, <a href=\"https://www.mordorintelligence.com/industry-reports/data-annotation-tools-market\" target=\"_blank\" rel=\"noopener\">Mordor Intelligence</a>" },
+    { "value": "99% accuracy", "descHtml": "Benchmark for manual labeling on gold-standard training sets, <a href=\"https://www.technavio.com/report/data-labeling-and-annotation-tools-market-industry-analysis\" target=\"_blank\" rel=\"noopener\">Technavio</a>" },
+    { "value": "~60% lower cost", "descHtml": "Average savings from outsourcing vs. building an in-house annotation team, <a href=\"https://sourcebae.com/blog/in-house-vs-outsource-data-annotation/\" target=\"_blank\" rel=\"noopener\">SourceBae</a>" }
+  ],
+  "directAnswerLabel": "Direct Answer",
+  "directAnswerTitle": "What is data annotation for physical AI?",
+  "directAnswerBody": [
+    { "text": "Data annotation for physical AI is the process of labeling robot sensor data — camera frames, LiDAR point clouds, force-torque readings, and language instructions — with the object, action, and task-level tags a model needs to learn manipulation, navigation, or interaction in the real world." },
+    { "text": "It has to stay synchronized across sensors and consistent across time, which is where it departs from tagging a single static photo. A label is only useful if it means the same thing on frame 1 as it does on frame 4,000, across every operator who touched the batch." }
+  ],
+  "directAnswerChecklistTitle": "You need this if you're:",
+  "directAnswerChecklist": [
+    { "text": "Fine-tuning an imitation learning or VLA policy and your raw episodes still need task labels" },
+    { "text": "Training a perception stack on LiDAR, depth, or multi-camera streams for navigation or manipulation" },
+    { "text": "Building instruction-following data to fine-tune GR00T, π₀, OpenVLA, or a similar foundation model" },
+    { "text": "Validating simulation assets before they enter an Isaac Sim or sim-to-real training loop" }
+  ],
+  "problemsLabel": "Why It Matters",
+  "problemsTitle": "Bad annotation doesn't look bad. It looks like a flaky model.",
+  "problemsDescription": "Nobody ships a model on purpose with mislabeled data. The taxonomy looked fine in review. The problem shows up three weeks later, as a policy that grasps correctly in the demo environment and fails in exactly the cases the labels never captured cleanly.",
+  "problems": [
+    {
+      "title": "Boundaries are the hard part, not boxes",
+      "description": "Drawing a bounding box is easy. Deciding exactly where \"reach\" ends and \"grasp\" begins, frame by frame, across hundreds of operators, is where most labeling pipelines quietly lose consistency — and where a model's failure modes usually trace back to."
+    },
+    {
+      "title": "Sync drift breaks fusion",
+      "description": "Robotics annotation on real learning-from-demonstration data has to account for how objects, actions, intent, motion, and failure modes interrelate, according to <a href=\"https://www.shaip.com/blog/how-to-annotate-robotics-data-objects-actions-intent-motion-and-failure-modes/\" target=\"_blank\" rel=\"noopener\">Shaip's breakdown of robotics annotation dimensions</a>. If a camera label and a force-torque label reference different timestamps, that relationship is already broken before a model ever sees it."
+    },
+    {
+      "title": "Generic taxonomies don't transfer",
+      "description": "A labeling schema built for street-scene object detection doesn't map onto contact events, task phases, or embodiment-specific grasp types. Multimodal robotics data has to combine RGB frames, point clouds, sensor data, and language in the same annotated window, per <a href=\"https://encord.com/blog/data-labeling-for-robotics/\" target=\"_blank\" rel=\"noopener\">Encord's robotics labeling guide</a>, which is a different problem than tagging photos."
+    }
+  ],
+  "methodsLabel": "What We Label",
+  "methodsTitle": "Annotation types built around robot sensor data, not stock photo sets",
+  "methodsDescription": "Most projects mix two or three of these, weighted by how contact-rich the task is and which model architecture is on the receiving end.",
+  "methodsTable": {
+    "headers": ["Modality", "What gets labeled", "Output", "Best for"],
+    "rows": [
+      {
+        "method": "Egocentric & multi-camera video",
+        "bestFor": "Action segments, task-phase boundaries, object states, gripper contact events",
+        "fidelity": "Temporal action labels, frame-level tags",
+        "scalability": "Imitation learning, VLA fine-tuning"
+      },
+      {
+        "method": "LiDAR & 3D point clouds",
+        "bestFor": "3D bounding boxes, semantic segmentation, point-level class labels",
+        "fidelity": "Annotated PCD / BIN sets",
+        "scalability": "AMR navigation, obstacle avoidance"
+      },
+      {
+        "method": "Force-torque & proprioceptive streams",
+        "bestFor": "Contact events, slip detection, task-phase tags aligned to motion",
+        "fidelity": "Time-synced HDF5 / CSV tags",
+        "scalability": "Contact-rich manipulation, insertion tasks"
+      },
+      {
+        "method": "Language & instruction grounding",
+        "bestFor": "Natural-language task descriptions mapped to action sequences",
+        "fidelity": "Instruction-action pairs",
+        "scalability": "VLA and instruction-following models"
+      },
+      {
+        "method": "Simulation assets (USD)",
+        "bestFor": "Physics validation, joint definitions, collision behavior",
+        "fidelity": "Validated, sim-ready USD objects",
+        "scalability": "Isaac Sim and sim-to-real pipelines"
+      }
+    ]
+  },
+  "methodsFootnote": "Modality framing informed by <a href=\"https://www.datasciencesociety.net/7-best-data-annotation-companies-for-physical-ai-robotics-in-2026/\" target=\"_blank\" rel=\"noopener\">Data Science Society's review of physical AI annotation vendors</a>.",
+  "useCasesAfterComparison": true,
+  "useCasesLabel": "Where This Applies",
+  "useCasesTitle": "Built for teams working across manipulation and mobility",
+  "useCases": [
+    { "tag": "WAREHOUSE", "title": "Warehouse & Logistics", "description": "Pick-place, sorting, and bin-picking action labels for AMR and fixed-arm fulfillment tasks.", "accentColor": "#2D9CDB" },
+    { "tag": "HUMANOID", "title": "Humanoid & Manipulation", "description": "Contact-rich grasp, insertion, and whole-body task labeling for humanoid and bimanual platforms.", "accentColor": "#00FCE2" },
+    { "tag": "MOBILITY", "title": "Autonomous Mobile Robots", "description": "LiDAR and multi-camera perception labels for navigation, obstacle avoidance, and mapping.", "accentColor": "#2D9CDB" },
+    { "tag": "SIMULATION", "title": "Simulation & Sim-to-Real", "description": "Physics-validated asset review for teams bridging simulated training with real deployment.", "accentColor": "#00FCE2" }
+  ],
+  "multimodalLabel": "Delivery Formats",
+  "multimodalTitle": "Delivered in the formats your pipeline already expects",
+  "multimodalDescription": "Every delivery includes a label schema document, inter-annotator agreement scores, and per-batch changelogs.",
+  "multimodal": [
+    { "icon": "📦", "title": "RLDS", "description": "Standard TFDS-based format used across major open robot datasets and training pipelines." },
+    { "icon": "🗄️", "title": "HDF5", "description": "Common for ALOHA-style bimanual datasets and custom loaders that expect nested time-series structure." },
+    { "icon": "🧊", "title": "Zarr", "description": "Chunked array storage suited to large-scale, cloud-native training workflows." },
+    { "icon": "🤗", "title": "LeRobot format", "description": "Compatible with Hugging Face's open robot learning ecosystem for fast iteration." }
+  ],
+  "qualityLabel": "Our Quality Framework",
+  "qualityTitle": "The Annotation Fidelity Score",
+  "qualityDescription": "Every batch is scored across five dimensions before it leaves our pipeline. This is how we catch the inconsistencies that don't show up until a model is already training on them.",
+  "qualityList": [
+    { "score": "01 / SCHEMA", "title": "Taxonomy adherence", "description": "Labels are checked against the agreed schema, not an annotator's personal interpretation of it." },
+    { "score": "02 / SYNC", "title": "Cross-sensor alignment", "description": "Camera, LiDAR, and force-torque labels are checked against a shared reference clock to catch drift." },
+    { "score": "03 / BOUNDARY", "title": "Action boundary consistency", "description": "Start and end points of labeled actions are compared across operators for consistent placement." },
+    { "score": "04 / AGREEMENT", "title": "Inter-annotator agreement", "description": "Every batch reports an agreement score; low-agreement labels are routed for senior review before delivery." },
+    { "score": "05 / TRANSFER", "title": "Pipeline transfer", "description": "A sample runs through your training pipeline to confirm the labels behave the way your model expects." }
+  ],
+  "qualityCardTitle": "Why this exists",
+  "qualityCardHtml": "<p>Manual labeling remains the benchmark for gold-standard datasets, delivering roughly 99% accuracy on the segments that matter most, according to <a href=\"https://www.technavio.com/report/data-labeling-and-annotation-tools-market-industry-analysis\" target=\"_blank\" rel=\"noopener\">Technavio's market analysis</a>. That number only holds if consistency is actively measured and enforced, not assumed.</p><p>Version-controlled guidelines applied before labeling begins cut rework by roughly 74% compared with schemas developed reactively mid-project, per <a href=\"https://www.precisebposolution.com/blog/data-labeling-pricing.html\" target=\"_blank\" rel=\"noopener\">Precise BPO's labeling cost research</a>, which is why taxonomy design happens before Stage 1 ends, not during Stage 3.</p>",
+  "pitfallsLabel": "Expert Perspective",
+  "pitfallsTitle": "What most robotics teams get wrong about data annotation",
+  "pitfalls": [
+    {
+      "title": "Treating it like generic image tagging",
+      "description": "A bounding box tool built for street scenes doesn't understand contact events, task phases, or embodiment-specific grasp types. Teams that route robotics data through a general-purpose labeling queue usually discover the gap only after a model trained on it underperforms in exactly the situations that mattered most."
+    },
+    {
+      "title": "Jumping straight to labeling",
+      "description": "Skipping taxonomy design to \"start faster\" is the single most common cause of expensive rework we see. A schema built after the fact almost never matches the one the team actually needed, and relabeling a batch costs more than designing the schema properly the first time."
+    },
+    {
+      "title": "Ignoring synchronization until fusion breaks",
+      "description": "Camera, LiDAR, and force-torque streams drift out of alignment gradually. It's invisible in a spreadsheet of labels and very visible the moment a fusion model tries to reconcile a contact event with the wrong camera frame."
+    },
+    {
+      "title": "No feedback loop from model failures",
+      "description": "The most useful signal for improving a label taxonomy is watching where the trained model actually fails. Teams that never route those failures back to the annotation team end up re-collecting data they could have relabeled instead."
+    }
+  ],
+  "examplesLabel": "Real-World Examples",
+  "examplesTitle": "What this looks like on an actual program",
+  "examplesDescription": "Two examples from recent Gamasome engagements, not hypothetical case studies.",
+  "examples": [
+    {
+      "title": "Egocentric demonstration capture for data-center hardware tasks",
+      "steps": [
+        { "label": "Situation", "text": "A multi-station human-demonstration program needed consistent, high-fidelity labels across head-mounted and gripper-mounted camera feeds plus HTC Vive Tracker 3.0 motion capture." },
+        { "label": "Problem", "text": "Tracking continuity has to stay above a hard quality threshold, or the motion data underneath the labels isn't trustworthy enough to annotate against in the first place." },
+        { "label": "Solution", "text": "Session-level QA gates were built into the annotation workflow itself, rejecting sessions before they reached the labeling queue." },
+        { "label": "Outcome", "text": "Sessions are held to a 98%+ tracking continuity threshold before annotation begins, so labels are built on motion data the team can actually trust." }
+      ]
+    },
+    {
+      "title": "Teleoperation data feeding VLA model post-training",
+      "steps": [
+        { "label": "Situation", "text": "Real-robot teleoperation captured through two input modes, a 3D mouse and VR, needed to be annotated fast enough to keep pace with an active post-training cycle." },
+        { "label": "Problem", "text": "Instruction-action grounding had to be precise enough for the labels to meaningfully move model performance, not just fill a dataset quota." },
+        { "label": "Solution", "text": "Action segments were labeled and validated against the model team's own evaluation loop before batches were signed off." },
+        { "label": "Outcome", "text": "The annotated data has been used to post-train both SmolVLA and Pi0.5 models on the program." }
+      ]
+    }
+  ],
+  "costsMultimodalTwoCol": true,
+  "costsLabel": "Cost Considerations",
+  "costsTitle": "What robotics annotation actually costs",
+  "costsIntro": "Basic object-level labels run roughly $0.03 to $1.00 per label depending on complexity, according to <a href=\"https://www.basic.ai/blog-post/how-much-do-data-annotation-services-cost-complete-guide-2025\" target=\"_blank\" rel=\"noopener\">BasicAI's pricing benchmarks</a>. Multimodal, action-grounded robotics work sits at the higher end of that range, and for good reason:",
+  "costs": [
+    { "text": "Domain-trained annotators cost more per hour than general crowdsourced labor" },
+    { "text": "Multi-sensor sync and consensus QA add review passes generic labeling skips" },
+    { "text": "Taxonomy design is front-loaded work that pays off in avoided rework later" },
+    { "text": "Pipeline validation catches issues before delivery, not after training starts" }
+  ],
+  "costsOutro": "Even with that added rigor, teams outsourcing annotation report average cost savings of around 60% compared with building equivalent in-house capability once hiring, tooling, and management overhead are counted, per <a href=\"https://sourcebae.com/blog/in-house-vs-outsource-data-annotation/\" target=\"_blank\" rel=\"noopener\">SourceBae's cost comparison</a>.",
+  "howItWorksPipeline": true,
+  "howItWorksLabel": "How Engagements Run",
+  "howItWorksTitle": "From label schema to a dataset your training pipeline actually trusts",
+  "howItWorksDescription": "Each stage produces something the next stage depends on. Nothing gets labeled until the taxonomy is agreed on.",
+  "howItWorks": [
+    { "number": "01", "title": "Taxonomy design", "description": "Define the label schema against your task's success criteria, not a generic off-the-shelf category list." },
+    { "number": "02", "title": "Annotator qualification", "description": "Domain-trained reviewers pass a task-specific test batch before touching production data." },
+    { "number": "03", "title": "Multimodal labeling", "description": "Synchronized tagging across camera, LiDAR, force, and language streams inside one timeline." },
+    { "number": "04", "title": "Consensus & QA", "description": "Inter-annotator agreement is scored; disputed labels route to senior reviewers, not a majority vote." },
+    { "number": "05", "title": "Pipeline validation", "description": "A sample batch is run through your actual training pipeline before the full set ships." },
+    { "number": "06", "title": "Delivery & versioning", "description": "Formatted, versioned, and delivered with schema docs and a changelog attached." }
+  ],
+  "comparisonAfterExamples": true,
+  "comparisonLabel": "Why Gamasome",
+  "comparisonTitle": "Compared to a generic annotation vendor",
+  "comparisonDescription": "Generic crowdsourced platforms are built to scale simple, high-volume tasks. Robotics data asks a different question: does the label still make sense once it's inside a training pipeline.",
+  "comparison": {
+    "headers": ["Capability", "Gamasome", "Generic annotation vendor"],
+    "rows": [
+      { "activity": "Annotator background", "gamasome": "Domain-trained on robot task semantics", "vendors": "General crowdsourced workforce" },
+      { "activity": "Taxonomy design", "gamasome": "Built against your task's success criteria", "vendors": "Off-the-shelf category templates" },
+      { "activity": "Multi-sensor sync", "gamasome": "Labeled inside one synchronized timeline", "vendors": "Usually handled per-modality, separately" },
+      { "activity": "Feedback loop", "gamasome": "Model failures routed back into the taxonomy", "vendors": "One-way delivery, no revisit" },
+      { "activity": "Delivery formats", "gamasome": "RLDS, HDF5, Zarr, LeRobot-ready", "vendors": "Platform-proprietary exports" }
+    ]
+  },
+  "faqLabel": "FAQ",
+  "faqTitle": "Common questions about data annotation engagements",
+  "faqs": [
+    { "question": "What is data annotation for physical AI?", "answer": "It's the process of labeling robot sensor data — camera frames, LiDAR point clouds, force-torque readings, and language instructions — with the object, action, and task-level tags a model needs to learn manipulation, navigation, or interaction in the real world." },
+    { "question": "How is robotics data annotation different from standard image or text labeling?", "answer": "Standard image annotation labels a single static frame. Robotics annotation segments continuous motion into action boundaries, keeps labels synchronized across multiple sensors, and ties everything back to a task the robot is trying to complete." },
+    { "question": "What annotation output formats do you deliver?", "answer": "RLDS, HDF5, Zarr, and LeRobot-compatible structures, plus PCD or BIN for point cloud work, each with a label schema document and inter-annotator agreement scores." },
+    { "question": "How do you handle synchronization across multiple sensors?", "answer": "Every episode is time-aligned against a single reference clock before labeling starts, so a label applied to a camera frame, a LiDAR sweep, and a force-torque spike all reference the same timestamp." },
+    { "question": "What does data annotation for robotics typically cost?", "answer": "Basic object-level labels run roughly $0.03 to $1.00 per label; multimodal, action-grounded robotics work sits toward the higher end because of the extra synchronization and QA involved. Most teams still see meaningful savings versus an in-house build." },
+    { "question": "Do you offer a pilot before a full annotation program?", "answer": "Yes. Engagements typically start with a scoped pilot batch to validate the label taxonomy and quality bar against your actual training pipeline before scaling to ongoing volume." },
+    { "question": "Can you annotate and validate simulation assets, not just sensor data?", "answer": "Yes. Alongside sensor-data annotation, we validate simulation-ready assets for physics correctness, joint definitions, and collision behavior in USD pipelines built for environments like NVIDIA Isaac Sim." },
+    { "question": "How is annotation quality measured before delivery?", "answer": "Every batch is scored against our Annotation Fidelity framework: taxonomy adherence, cross-sensor synchronization, action boundary consistency, inter-annotator agreement, and pipeline transfer." }
+  ]
+}

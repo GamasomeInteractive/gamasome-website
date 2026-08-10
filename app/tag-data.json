@@ -1,13 +1,15 @@
 {
-  "physical-ai": 4,
+  "physical-ai": 5,
   "automotive": 1,
   "data-collection": 2,
   "adas": 1,
   "robotics": 3,
   "teleoperation": 1,
-  "ai": 2,
+  "ai": 3,
   "simulation": 1,
   "digital-twins": 1,
   "industry-40": 1,
-  "automation": 2
+  "automation": 2,
+  "data-annotation": 1,
+  "data-labeling": 1
 }

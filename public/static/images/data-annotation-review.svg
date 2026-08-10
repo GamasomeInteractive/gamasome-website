@@ -1,0 +1,47 @@
+<svg viewBox="0 0 480 420" xmlns="http://www.w3.org/2000/svg" role="img" width="100%" height="100%" aria-label="Multi-sensor annotation review interface showing a labeled camera frame with bounding boxes, a label taxonomy panel, an action timeline, and a synced force-torque waveform with contact event markers">
+  <rect x="0" y="0" width="480" height="420" rx="14" fill="#161b24" stroke="#2a3241"/>
+  <circle cx="30" cy="27" r="4.5" fill="#ffb020">
+    <animate attributeName="opacity" values="1;0.25;1" dur="1.6s" repeatCount="indefinite"/>
+  </circle>
+  <text x="44" y="32" font-family="IBM Plex Mono, monospace" font-size="12" fill="#ffb020">ANNOTATION REVIEW · BATCH 0417</text>
+  <text x="454" y="32" font-family="IBM Plex Mono, monospace" font-size="12" fill="#93a0b4" text-anchor="end">IAA 0.94</text>
+
+  <!-- labeled camera frame -->
+  <rect x="24" y="52" width="270" height="180" rx="6" fill="#10131a" stroke="#2a3241"/>
+  <text x="32" y="68" font-family="IBM Plex Mono, monospace" font-size="9" fill="#4c8dff">CAM · WRIST</text>
+  <rect x="120" y="100" width="70" height="46" rx="3" fill="none" stroke="#ffb020" stroke-width="1.6"/>
+  <text x="120" y="96" font-family="IBM Plex Mono, monospace" font-size="8" fill="#ffb020">object.part_a</text>
+  <rect x="205" y="150" width="52" height="40" rx="3" fill="none" stroke="#33c98f" stroke-width="1.6"/>
+  <text x="205" y="146" font-family="IBM Plex Mono, monospace" font-size="8" fill="#33c98f">gripper.contact</text>
+
+  <!-- label taxonomy panel -->
+  <rect x="306" y="52" width="150" height="180" rx="6" fill="#10131a" stroke="#2a3241"/>
+  <text x="316" y="70" font-family="IBM Plex Mono, monospace" font-size="9" fill="#93a0b4">TAXONOMY</text>
+  <g font-family="IBM Plex Mono, monospace" font-size="8.5" fill="#d3d9e2">
+    <rect x="316" y="82" width="8" height="8" fill="#ffb020"/>
+    <text x="330" y="90">object.part_a</text>
+    <rect x="316" y="100" width="8" height="8" fill="#33c98f"/>
+    <text x="330" y="108">gripper.contact</text>
+    <rect x="316" y="118" width="8" height="8" fill="#4c8dff"/>
+    <text x="330" y="126">action.reach</text>
+    <rect x="316" y="136" width="8" height="8" fill="#c084fc"/>
+    <text x="330" y="144">action.place</text>
+  </g>
+
+  <!-- action timeline -->
+  <rect x="24" y="248" width="432" height="52" rx="6" fill="#10131a" stroke="#2a3241"/>
+  <text x="32" y="264" font-family="IBM Plex Mono, monospace" font-size="9" fill="#93a0b4">ACTION TIMELINE</text>
+  <rect x="32" y="272" width="90" height="14" rx="2" fill="#4c8dff" opacity="0.75"/>
+  <rect x="126" y="272" width="140" height="14" rx="2" fill="#33c98f" opacity="0.75"/>
+  <rect x="270" y="272" width="70" height="14" rx="2" fill="#c084fc" opacity="0.75"/>
+  <rect x="344" y="272" width="104" height="14" rx="2" fill="#ffb020" opacity="0.75"/>
+
+  <!-- force-torque waveform with contact markers -->
+  <rect x="24" y="316" width="432" height="80" rx="6" fill="#10131a" stroke="#2a3241"/>
+  <text x="32" y="332" font-family="IBM Plex Mono, monospace" font-size="9" fill="#93a0b4">FORCE / TORQUE — SYNCED</text>
+  <polyline points="32,378 55,374 78,376 101,372 124,340 147,368 170,374 193,344 216,370 239,372 262,376 285,338 308,372 331,374 354,342 377,370 400,374 423,372 446,376" fill="none" stroke="#ffb020" stroke-width="1.6"/>
+  <circle cx="124" cy="340" r="3.5" fill="#33c98f"/>
+  <circle cx="285" cy="338" r="3.5" fill="#33c98f"/>
+  <circle cx="354" cy="342" r="3.5" fill="#33c98f"/>
+  <text x="124" y="356" font-family="IBM Plex Mono, monospace" font-size="7" fill="#33c98f" text-anchor="middle">contact</text>
+</svg>
