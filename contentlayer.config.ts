@@ -111,6 +111,9 @@ export const Blog = defineDocumentType(() => ({
     layout: { type: 'string' },
     bibliography: { type: 'string' },
     canonicalUrl: { type: 'string' },
+    // Declared so `seo.metaTitle` / `metaDescription` / `canonicalUrl` in frontmatter
+    // reach generateMetadata — contentlayer strips any field it doesn't know about.
+    seo: { type: 'json' },
   },
   computedFields: {
     ...computedFields,

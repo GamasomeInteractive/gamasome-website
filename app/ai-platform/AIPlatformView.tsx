@@ -906,9 +906,11 @@ export default function AIPlatformView(props: Props) {
                         style={{ background: '#ffb020' }}>
                         {cta?.primaryBtn?.text}
                       </Link>
-                      <Link href={cta?.secondaryBtn?.href ?? '/contact'} data-tina-field={tinaField(cta?.secondaryBtn, 'text')} className="inline-flex h-[50px] items-center rounded-lg border border-white/15 px-6 font-mono text-sm font-medium text-white transition hover:border-white/35">
-                        {cta?.secondaryBtn?.text}
-                      </Link>
+                      {cta?.secondaryBtn?.text && (
+                        <Link href={cta?.secondaryBtn?.href ?? '/contact'} data-tina-field={tinaField(cta?.secondaryBtn, 'text')} className="inline-flex h-[50px] items-center rounded-lg border border-white/15 px-6 font-mono text-sm font-medium text-white transition hover:border-white/35">
+                          {cta.secondaryBtn.text}
+                        </Link>
+                      )}
                     </div>
                     <div className="mt-5 flex flex-wrap justify-center gap-2.5">
                       {cta.badges.map((b: any, i: number) => (
@@ -933,9 +935,11 @@ export default function AIPlatformView(props: Props) {
                         style={{ background: primaryColor }}>
                         {cta?.primaryBtn?.text}
                       </Link>
-                      <Link href={cta?.secondaryBtn?.href ?? '/contact'} data-tina-field={tinaField(cta?.secondaryBtn, 'text')} className="inline-flex h-[52px] items-center rounded-full border border-white/20 px-10 font-semibold text-white transition hover:border-white/40">
-                        {cta?.secondaryBtn?.text}
-                      </Link>
+                      {cta?.secondaryBtn?.text && (
+                        <Link href={cta?.secondaryBtn?.href ?? '/contact'} data-tina-field={tinaField(cta?.secondaryBtn, 'text')} className="inline-flex h-[52px] items-center rounded-full border border-white/20 px-10 font-semibold text-white transition hover:border-white/40">
+                          {cta.secondaryBtn.text}
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </div>

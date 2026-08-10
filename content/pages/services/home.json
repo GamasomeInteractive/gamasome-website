@@ -19,7 +19,7 @@
       "href": "/contact"
     },
     "secondaryCta": {
-      "text": "Checkout Sample Data",
+      "text": "",
       "href": "#capabilities"
     },
     "animation": {
@@ -245,7 +245,7 @@
       "href": "/contact"
     },
     "secondaryBtn": {
-      "text": "Checkout Sample Data",
+      "text": "",
       "href": "/contact"
     }
   },
