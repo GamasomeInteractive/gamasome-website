@@ -94,7 +94,7 @@ export default function ListLayoutWithTags({
                 <h3 className="text-primary-500 font-bold uppercase">All Posts</h3>
               ) : (
                 <Link
-                  href={`/blog`}
+                  href={`/blog/`}
                   className="hover:text-primary-500 dark:hover:text-primary-500 font-bold text-gray-700 uppercase dark:text-gray-300"
                 >
                   All Posts
@@ -104,13 +104,14 @@ export default function ListLayoutWithTags({
                 {sortedTags.map((t) => {
                   return (
                     <li key={t} className="my-3">
-                      {decodeURI(pathname.split('/tags/')[1]) === slug(t) ? (
+                      {/* pathname ends with '/' (trailingSlash:true) — strip it before comparing */}
+                      {decodeURI(pathname.split('/tags/')[1] ?? '').replace(/\/$/, '') === slug(t) ? (
                         <h3 className="text-primary-500 inline px-3 py-2 text-sm font-bold uppercase">
                           {`${t} (${tagCounts[t]})`}
                         </h3>
                       ) : (
                         <Link
-                          href={`/tags/${slug(t)}`}
+                          href={`/tags/${slug(t)}/`}
                           className="hover:text-primary-500 dark:hover:text-primary-500 px-3 py-2 text-sm font-medium text-gray-500 uppercase dark:text-gray-300"
                           aria-label={`View posts tagged ${t}`}
                         >

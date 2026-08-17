@@ -4,6 +4,7 @@ import siteMetadata from '@/data/siteMetadata'
 import fs from 'fs'
 import path from 'path'
 import { buildServiceSitemapUrls } from '@/lib/buildServiceSitemapUrls'
+import { ensureTrailingSlash } from '@/lib/urlConsistency'
 
 export const dynamic = 'force-static'
 
@@ -28,12 +29,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const includeBlogs: boolean = settings.includeBlogs ?? true
   const includeServicePages: boolean = settings.includeServicePages ?? true
 
-  const coreRoutes: MetadataRoute.Sitemap = ['', 'about', 'contact'].map((route) => ({
-    url: route ? `${siteUrl}/${route}` : siteUrl,
-    lastModified: today,
-    changeFrequency: changefreq,
-    priority: route === '' ? 1.0 : 0.8,
-  }))
+  // Every <loc> must end with '/' — next.config.js sets trailingSlash:true, so the
+  // slashless form 301s and Google reports the pair as duplicate URLs.
+  const coreRoutes: MetadataRoute.Sitemap = ['', 'about', 'contact', 'blog', 'tags'].map(
+    (route) => ({
+      url: route ? ensureTrailingSlash(`${siteUrl}/${route}`) : siteUrl,
+      lastModified: today,
+      changeFrequency: changefreq,
+      priority: route === '' ? 1.0 : 0.8,
+    }),
+  )
 
   const serviceRoutes: MetadataRoute.Sitemap = includeServicePages
     ? buildServiceSitemapUrls(siteUrl).map(({ url }) => ({
@@ -47,7 +52,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ? allBlogs
         .filter((post) => !post.draft)
         .map((post) => ({
-          url: `${siteUrl}/${post.path}`,
+          url: ensureTrailingSlash(`${siteUrl}/${post.path}`),
           lastModified: post.lastmod || post.date,
           changeFrequency: changefreq,
         }))

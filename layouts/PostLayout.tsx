@@ -416,7 +416,7 @@ export default function PostLayout({ content, authorDetails, children }: LayoutP
                 return (
                   <Link
                     key={post.slug}
-                    href={`/blog/${post.slug}`}
+                    href={`/blog/${post.slug}/`}
                     className="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl"
                   >
                     <div className="relative aspect-[16/10] overflow-hidden">

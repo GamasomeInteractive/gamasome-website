@@ -12,6 +12,7 @@ import PostLayout from '@/layouts/PostLayout'
 import PostBanner from '@/layouts/PostBanner'
 import { Metadata } from 'next'
 import siteMetadata from '@/data/siteMetadata'
+import { ensureTrailingSlash } from '@/lib/urlConsistency'
 import { notFound } from 'next/navigation'
 
 const defaultLayout = 'PostLayout'
@@ -52,7 +53,11 @@ export async function generateMetadata(props: {
   const seo = (post as any).seo as { metaTitle?: string; metaDescription?: string; canonicalUrl?: string } | undefined
   const metaTitle = seo?.metaTitle || post.title
   const metaDescription = seo?.metaDescription || post.summary
-  const canonicalUrl = seo?.canonicalUrl || post.canonicalUrl || `${siteMetadata.siteUrl}/blog/${slug}`
+  // ensureTrailingSlash: live post URLs end with '/' (trailingSlash:true) — a
+  // slashless canonical makes Google index the pair as duplicates.
+  const canonicalUrl = ensureTrailingSlash(
+    seo?.canonicalUrl || post.canonicalUrl || `${siteMetadata.siteUrl}/blog/${slug}`,
+  )
 
   return {
     title: metaTitle,

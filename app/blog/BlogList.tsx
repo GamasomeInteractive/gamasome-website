@@ -95,7 +95,7 @@ export default function BlogList({ posts }: { posts: CorePost[] }) {
             return (
               <Link
                 key={post.slug}
-                href={`/blog/${post.slug}`}
+                href={`/blog/${post.slug}/`}
                 className={`${animClass} group relative flex h-[420px] w-full max-w-[461px] flex-col justify-end overflow-hidden rounded-2xl opacity-0 shadow-lg ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl`}
                 data-animate
                 style={{ animationDelay: delay }}

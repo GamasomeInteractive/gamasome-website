@@ -7,12 +7,12 @@ export const metadata: Metadata = {
   title: 'About Gamasome | AI, AR/VR & Simulation Studio Since 2014',
   description:
     'Gamasome is an innovation-driven studio incorporated in 2014. We build AI, AR/VR, simulation, digital twins, and metaverse solutions used by millions worldwide.',
-  alternates: { canonical: 'https://gamasome.com/about' },
+  alternates: { canonical: 'https://www.gamasome.com/about/' },
   openGraph: {
     title: 'About Gamasome | AI, AR/VR & Simulation Studio Since 2014',
     description:
       'Gamasome is an innovation-driven studio incorporated in 2014. We build AI, AR/VR, simulation, digital twins, and metaverse solutions used by millions worldwide.',
-    url: 'https://gamasome.com/about',
+    url: 'https://www.gamasome.com/about/',
     type: 'website',
   },
 }

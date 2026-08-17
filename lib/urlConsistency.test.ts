@@ -20,7 +20,7 @@ import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import path from 'node:path'
 
-import { checkInternalHref, findHrefIssues } from './urlConsistency'
+import { checkInternalHref, ensureTrailingSlash, findHrefIssues } from './urlConsistency'
 
 const REPO_ROOT = path.resolve(__dirname, '..')
 
@@ -52,6 +52,54 @@ describe('checkInternalHref', () => {
     assert.notEqual(checkInternalHref('/services/ai-platform'), null)
     assert.notEqual(checkInternalHref('/blog'), null)
     assert.notEqual(checkInternalHref('/about'), null)
+  })
+})
+
+describe('ensureTrailingSlash', () => {
+  it('adds the slash to blog / service / core sitemap URLs', () => {
+    assert.equal(
+      ensureTrailingSlash('https://www.gamasome.com/blog/physical-ai-robotics'),
+      'https://www.gamasome.com/blog/physical-ai-robotics/',
+    )
+    assert.equal(
+      ensureTrailingSlash('https://www.gamasome.com/about'),
+      'https://www.gamasome.com/about/',
+    )
+    assert.equal(ensureTrailingSlash('/tags/robotics'), '/tags/robotics/')
+  })
+
+  it('adds the slash to a bare origin (root canonical is "/")', () => {
+    assert.equal(ensureTrailingSlash('https://www.gamasome.com'), 'https://www.gamasome.com/')
+  })
+
+  it('is idempotent', () => {
+    const url = 'https://www.gamasome.com/blog/physical-ai-robotics/'
+    assert.equal(ensureTrailingSlash(ensureTrailingSlash(url)), url)
+  })
+
+  it('leaves file-like URLs alone', () => {
+    assert.equal(
+      ensureTrailingSlash('https://www.gamasome.com/feed.xml'),
+      'https://www.gamasome.com/feed.xml',
+    )
+    assert.equal(
+      ensureTrailingSlash('https://www.gamasome.com/tags/robotics/feed.xml'),
+      'https://www.gamasome.com/tags/robotics/feed.xml',
+    )
+    assert.equal(ensureTrailingSlash('/sitemap.xml'), '/sitemap.xml')
+  })
+
+  it('leaves query strings, fragments and mailto/tel alone', () => {
+    assert.equal(ensureTrailingSlash('/blog?page=2'), '/blog?page=2')
+    assert.equal(ensureTrailingSlash('/about#team'), '/about#team')
+    assert.equal(ensureTrailingSlash('mailto:hi@example.com'), 'mailto:hi@example.com')
+    assert.equal(ensureTrailingSlash('tel:+11234567890'), 'tel:+11234567890')
+  })
+
+  it('output always satisfies checkInternalHref for internal paths', () => {
+    for (const href of ['/about', '/blog/a-post', '/tags/robotics', '/']) {
+      assert.equal(checkInternalHref(ensureTrailingSlash(href)), null)
+    }
   })
 })
 

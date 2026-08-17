@@ -6,12 +6,12 @@ export const metadata: Metadata = {
   title: 'Schedule a Meeting | Gamasome',
   description:
     'Book a 30-minute meeting with Gamasome. Pick an available time and get a Google Meet invite automatically.',
-  alternates: { canonical: 'https://www.gamasome.com/prasanna' },
+  alternates: { canonical: 'https://www.gamasome.com/prasanna/' },
   openGraph: {
     title: 'Schedule a Meeting | Gamasome',
     description:
       'Book a 30-minute meeting with Gamasome. Pick an available time and get a Google Meet invite automatically.',
-    url: 'https://www.gamasome.com/prasanna',
+    url: 'https://www.gamasome.com/prasanna/',
     type: 'website',
   },
 }

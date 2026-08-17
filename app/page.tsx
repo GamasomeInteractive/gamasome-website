@@ -12,6 +12,9 @@ import fallbackFooter from '../content/navigation/footer.json'
 const SERVICES_DIR = path.join(process.cwd(), 'content/pages/services')
 const SETTINGS_FILE = path.join(process.cwd(), 'content/settings/index.json')
 const FALLBACK_SLUG = 'simulation-digital-twins'
+const HOME_TITLE = 'Gamasome - Physical AI data collection company'
+// Canonical must use the www host to match the live site (see lib/urlConsistency.ts)
+const HOME_URL = 'https://www.gamasome.com'
 
 async function getHomeSlug(): Promise<string> {
   try {
@@ -34,36 +37,40 @@ export async function generateMetadata(): Promise<Metadata> {
   if (!page) return {}
 
   const hero = page.parsed.hero || {}
-  const title: string = hero.title || hero.headline || 'Gamasome'
+  const title = HOME_TITLE
   const description: string = (hero.subtitle || hero.subheadline || hero.description || '').slice(0, 160)
   const image: string | undefined = hero.bannerImage || hero.backgroundImage || undefined
+  const imageUrl = image
+    ? image.startsWith('http') ? image : `https://www.gamasome.com${image}`
+    : undefined
 
   return {
-    title,
+    // absolute: bypass the `%s | GamaSome` template set in app/layout.tsx
+    title: { absolute: title },
     description,
-    alternates: { canonical: 'https://gamasome.com' },
+    alternates: { canonical: HOME_URL },
     openGraph: {
       title,
       description,
-      url: 'https://gamasome.com',
+      url: HOME_URL,
       type: 'website',
-      ...(image && { images: [image.startsWith('http') ? image : `https://gamasome.com${image}`] }),
+      ...(imageUrl && { images: [imageUrl] }),
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      ...(image && { images: [image.startsWith('http') ? image : `https://gamasome.com${image}`] }),
+      ...(imageUrl && { images: [imageUrl] }),
     },
   }
 }
 
 function buildHomeSchema(slug: string, parsed: any) {
   const hero = parsed.hero || {}
-  const name: string = hero.title || hero.headline || 'Gamasome'
+  const name = HOME_TITLE
   const description: string = hero.subtitle || hero.subheadline || hero.description || ''
   const image: string | undefined = hero.bannerImage
-    ? hero.bannerImage.startsWith('http') ? hero.bannerImage : `https://gamasome.com${hero.bannerImage}`
+    ? hero.bannerImage.startsWith('http') ? hero.bannerImage : `https://www.gamasome.com${hero.bannerImage}`
     : undefined
 
   return [
@@ -72,15 +79,15 @@ function buildHomeSchema(slug: string, parsed: any) {
       '@type': 'Service',
       name,
       description,
-      url: 'https://gamasome.com',
-      provider: { '@type': 'Organization', name: 'Gamasome', url: 'https://gamasome.com' },
+      url: HOME_URL,
+      provider: { '@type': 'Organization', name: 'Gamasome', url: HOME_URL },
       ...(image && { image }),
     },
     {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://gamasome.com' },
+        { '@type': 'ListItem', position: 1, name: 'Home', item: HOME_URL },
       ],
     },
   ]

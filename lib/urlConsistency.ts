@@ -9,6 +9,7 @@
  * Used by:
  *  - lib/urlConsistency.test.ts (regression test)
  *  - tina/config.ts validateInternalHref (CMS-side guard)
+ *  - app/sitemap.ts + page canonicals (via ensureTrailingSlash below)
  */
 
 export type HrefIssue = { source: string; href: string; reason: string }
@@ -27,6 +28,30 @@ export function checkInternalHref(href: string | undefined | null): string | nul
     return `internal href "${href}" must end with '/' (trailingSlash:true)`
   }
   return null
+}
+
+/**
+ * Appends '/' to a URL or path that should have one, so sitemap entries and
+ * canonical tags match the live (trailingSlash:true) URL exactly.
+ *
+ * Left untouched:
+ *  - URLs carrying a query string or fragment
+ *  - file-like last segments (feed.xml, sitemap.xml, robots.txt)
+ *  - mailto: / tel: / #anchor links
+ * A bare origin ("https://www.gamasome.com") DOES get the slash — its path is
+ * empty, and the root's canonical form is "/".
+ */
+export function ensureTrailingSlash(url: string): string {
+  if (typeof url !== 'string' || url.length === 0) return url
+  if (url.startsWith('mailto:') || url.startsWith('tel:') || url.startsWith('#')) return url
+  if (url.includes('?') || url.includes('#')) return url
+  if (url.endsWith('/')) return url
+
+  const pathname = /^https?:\/\//.test(url) ? url.replace(/^https?:\/\/[^/]+/, '') : url
+  const lastSegment = pathname.split('/').filter(Boolean).pop() ?? ''
+  if (lastSegment.includes('.')) return url
+
+  return `${url}/`
 }
 
 /**

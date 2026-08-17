@@ -7,12 +7,12 @@ export const metadata: Metadata = {
   title: 'Contact Gamasome | AI, AR/VR & Simulation Experts',
   description:
     'Get in touch with Gamasome. Offices in Bengaluru, India and Mountain View, USA. Contact us for AI, AR/VR, simulation, and digital twin development projects.',
-  alternates: { canonical: 'https://gamasome.com/contact' },
+  alternates: { canonical: 'https://www.gamasome.com/contact/' },
   openGraph: {
     title: 'Contact Gamasome | AI, AR/VR & Simulation Experts',
     description:
       'Get in touch with Gamasome. Offices in Bengaluru, India and Mountain View, USA. Contact us for AI, AR/VR, simulation, and digital twin development projects.',
-    url: 'https://gamasome.com/contact',
+    url: 'https://www.gamasome.com/contact/',
     type: 'website',
   },
 }
