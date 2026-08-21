@@ -93,7 +93,7 @@ export function TemplatePickerScreen() {
 
   const load = useCallback(async () => {
     const res = await fetch('/api/template')
-    const json = await res.json()
+    const json = (await res.json()) as { pages: Record<string, string> }
     setPages(json.pages)
     setActiveSlug((prev) => prev || Object.keys(json.pages)[0] || '')
   }, [])

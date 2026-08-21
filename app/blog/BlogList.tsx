@@ -118,7 +118,7 @@ export default function BlogList({ posts }: { posts: CorePost[] }) {
 
                 {/* Category pill */}
                 {post.tags?.[0] && (
-                  <span className="absolute top-4 left-4 z-10 rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold tracking-wide text-white uppercase ring-1 ring-inset ring-white/25 backdrop-blur">
+                  <span className="absolute top-4 left-4 z-10 rounded-full bg-white/15 px-3 py-1 text-[11px] font-semibold tracking-wide text-white uppercase ring-1 ring-white/25 backdrop-blur ring-inset">
                     {post.tags[0]}
                   </span>
                 )}
@@ -150,7 +150,11 @@ export default function BlogList({ posts }: { posts: CorePost[] }) {
                       strokeWidth={2}
                       aria-hidden="true"
                     >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+                      />
                     </svg>
                   </span>
                 </div>

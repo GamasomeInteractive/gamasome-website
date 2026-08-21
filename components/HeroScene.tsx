@@ -134,7 +134,11 @@ function DataNodes({ primaryColor, accentColor }: ColorProps) {
   const data = useMemo(
     () =>
       Array.from({ length: 12 }, (_, i) => ({
-        base: [(Math.random() - 0.5) * 9, (Math.random() - 0.5) * 9, (Math.random() - 0.5) * 5] as const,
+        base: [
+          (Math.random() - 0.5) * 9,
+          (Math.random() - 0.5) * 9,
+          (Math.random() - 0.5) * 5,
+        ] as const,
         speed: 0.3 + Math.random() * 0.5,
         offset: (i / 12) * Math.PI * 2,
         color: i % 2 === 0 ? primaryColor : accentColor,
@@ -157,7 +161,13 @@ function DataNodes({ primaryColor, accentColor }: ColorProps) {
   return (
     <>
       {data.map((d, i) => (
-        <mesh key={i} ref={(el) => { refs.current[i] = el }} position={[...d.base]}>
+        <mesh
+          key={i}
+          ref={(el) => {
+            refs.current[i] = el
+          }}
+          position={[...d.base]}
+        >
           <sphereGeometry args={[0.055, 8, 8]} />
           <meshBasicMaterial color={d.color} transparent opacity={0.75} />
         </mesh>

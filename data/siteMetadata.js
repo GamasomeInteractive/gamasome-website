@@ -1,8 +1,16 @@
+// Site-wide SEO defaults live in content/settings/index.json -> globalSeo so they are
+// editable in the CMS and defined in exactly one place. That block used to be dead config:
+// nothing read it, while the hardcoded values here were what actually rendered, so correct
+// values entered in the CMS had no effect. The fields below now derive from it.
+const settings = require('../content/settings/index.json')
+const globalSeo = settings.globalSeo || {}
+
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: "GamaSome",
-  description:
-    "Our company offers cutting-edge AI, Blockchain, AR/VR, and metaverse solutions for enterprises.",
+  title: globalSeo.defaultTitle || 'Gamasome',
+  // Appended by the title template in app/layout.tsx, e.g. '%s | Gamasome'.
+  titleSuffix: globalSeo.titleSuffix || ' | Gamasome',
+  description: globalSeo.defaultDescription || '',
   author: 'Gamasome',
   headerTitle: '',
   language: 'en-us',
@@ -10,19 +18,17 @@ const siteMetadata = {
   siteUrl: 'https://www.gamasome.com',
   siteRepo: 'https://github.com/GamasomeInteractive/gamasome-website',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
-  socialBanner: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
-  mastodon: 'https://mastodon.social/@mastodonuser',
-  email: 'mailto@gamasome.com',
-  github: 'https://github.com',
+  socialBanner: `${process.env.BASE_PATH || ''}${globalSeo.defaultOgImage || '/static/images/logo.png'}`,
+  // Only accounts that are actually maintained. The starter template's placeholder
+  // profiles (github.com, facebook.com, instagram.com, mastodon, threads, medium,
+  // bluesky) and the malformed 'mailto@gamasome.com' address were removed — they were
+  // never rendered (footer icons read content/navigation/footer.json) but they seeded
+  // the Organization schema and read as broken wherever they surfaced.
+  email: settings.contact?.email || 'prasanna@gamasome.com',
   x: 'https://x.com/gamasome',
-  // twitter: 'https://twitter.com/Twitter',
-  facebook: 'https://facebook.com',
+  twitterHandle: globalSeo.twitterHandle || '@gamasome',
   youtube: 'https://www.youtube.com/@gamasomeinteractive3967',
   linkedin: 'https://www.linkedin.com/company/gamasome/',
-  threads: 'https://www.threads.net',
-  instagram: 'https://www.instagram.com',
-  medium: 'https://medium.com',
-  bluesky: 'https://bsky.app/',
   locale: 'en-US',
   // set to true if you want a navbar fixed to the top
   stickyNav: false,

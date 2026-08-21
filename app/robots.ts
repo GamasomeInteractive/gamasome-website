@@ -7,10 +7,7 @@ export const dynamic = 'force-static'
 
 async function getRobotsSettings() {
   try {
-    const raw = await fs.readFile(
-      path.join(process.cwd(), 'content/settings/index.json'),
-      'utf-8',
-    )
+    const raw = await fs.readFile(path.join(process.cwd(), 'content/settings/index.json'), 'utf-8')
     return JSON.parse(raw).robotsTxt ?? {}
   } catch {
     return {}

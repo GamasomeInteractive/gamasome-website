@@ -16,7 +16,7 @@
     "subheadline": "Scale your AI models with accurate, human-in-the-loop annotation across images, video, LiDAR & multimodal data.",
     "primaryCta": {
       "text": "Talk To Expert",
-      "href": "/contact"
+      "href": "/contact/"
     },
     "secondaryCta": {
       "text": "",
@@ -242,11 +242,11 @@
     "subtext": "From scenario planning to multimodal collection, annotation, and QA, Gamasome helps Physical AI teams get the real-world data they need to train with more confidence and less operational friction.",
     "primaryBtn": {
       "text": "Book a Demo",
-      "href": "/contact"
+      "href": "/contact/"
     },
     "secondaryBtn": {
       "text": "",
-      "href": "/contact"
+      "href": "/contact/"
     }
   },
   "hidden": true

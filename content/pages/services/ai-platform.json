@@ -1,5 +1,12 @@
 {
   "_template": "aiPlatform",
+  "seo": {
+    "metaTitle": "AI Platform for Physical AI & Autonomous Systems",
+    "metaDescription": "Gamasome's AI platform turns camera and sensor data into real-time decisions: computer vision, spatial AI and predictive analytics for autonomous systems.",
+    "keywords": "ai platform, computer vision, spatial ai, physical ai, autonomous systems, sensor data",
+    "robots": "index, follow",
+    "changefreq": "weekly"
+  },
   "hero": {
     "badge": "AI Platform",
     "headline": "Bring Intelligence to the",
@@ -7,7 +14,7 @@
     "subheadline": "Gamasome's AI platform transforms raw data from cameras, sensors, and devices into intelligent, real-time decisions. From computer vision to spatial AI, we power the next generation of autonomous systems.",
     "primaryCta": {
       "text": "Start Building",
-      "href": "/contact"
+      "href": "/contact/"
     },
     "secondaryCta": {
       "text": "Watch Demo",
@@ -144,11 +151,11 @@
     "subtext": "Join 30+ enterprises using Gamasome's AI platform to automate, predict, and see more.",
     "primaryBtn": {
       "text": "Get Started",
-      "href": "/contact"
+      "href": "/contact/"
     },
     "secondaryBtn": {
       "text": "Book a Demo",
-      "href": "/contact"
+      "href": "/contact/"
     },
     "motion": {
       "easePreset": "inherit"

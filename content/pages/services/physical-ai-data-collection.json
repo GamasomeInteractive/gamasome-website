@@ -16,11 +16,11 @@
     "subheadline": "Most physical AI programs don't stall on model architecture. They stall because nobody owns the unglamorous work of getting clean, diverse, well-labeled robot demonstrations out of the real world. We run the teleoperation rigs, operator programs, and calibration pipelines so your team gets training-ready datasets.",
     "primaryCta": {
       "text": "Book a Demo",
-      "href": "/contact"
+      "href": "/contact/"
     },
     "secondaryCta": {
       "text": "",
-      "href": "/contact"
+      "href": "/contact/"
     },
     "image": "/static/images/physical-ai-capture-dashboard.svg",
     "imageAlt": "Live teleoperation data capture session dashboard showing four camera views, a force-torque waveform, and episode recording status",

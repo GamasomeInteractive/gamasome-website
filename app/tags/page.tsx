@@ -4,7 +4,14 @@ import { slug } from 'github-slugger'
 import tagData from 'app/tag-data.json'
 import { genPageMetadata } from 'app/seo'
 
-export const metadata = genPageMetadata({ title: 'Tags', description: 'Things I blog about' })
+export const metadata = genPageMetadata({
+  title: 'Tags',
+  description:
+    'Browse Gamasome articles by topic: Physical AI, robotics, data collection, data annotation, simulation and digital twins.',
+  // Self-referencing canonical — this page previously inherited the root layout's
+  // homepage canonical. genPageMetadata spreads extra keys straight onto the Metadata.
+  alternates: { canonical: '/tags/' },
+})
 
 export default async function Page() {
   const tagCounts = tagData as Record<string, number>

@@ -1,0 +1,46 @@
+{
+  "hero": {
+    "breadcrumb": "HOME > Terms & Conditions",
+    "title": "Terms & Conditions"
+  },
+  "lastUpdated": "21 August 2026",
+  "intro": "These terms cover your use of gamasome.com. Client work is governed separately by the signed proposal, statement of work or master services agreement for that engagement, which takes precedence over anything on this page.",
+  "sections": [
+    {
+      "heading": "Using this website",
+      "body": "You may browse this site and use it to learn about Gamasome and get in touch with us. You agree not to misuse the site, for example by attempting to gain unauthorised access to it, disrupting it, scraping it in a way that degrades service for others, or using it to send unlawful or abusive content."
+    },
+    {
+      "heading": "Content on this site",
+      "body": "The text, images, graphics, logos and code on this site belong to Gamasome or are used with permission, and are protected by copyright and trade mark law. You may read, quote and link to our content with attribution. You may not reproduce it wholesale, resell it, or present it as your own without our written permission."
+    },
+    {
+      "heading": "Accuracy of information",
+      "body": "We describe our capabilities and services in good faith and keep this site current, but the content here is general information rather than a commitment or a technical specification. Nothing on this website constitutes an offer, a quotation, or a warranty of any particular result. Scope, deliverables, timelines and acceptance criteria are defined in the agreement for each engagement."
+    },
+    {
+      "heading": "Blog and technical content",
+      "body": "Articles on this site are published for general information. They are not professional advice, and outcomes described in them are not a prediction of results for your project."
+    },
+    {
+      "heading": "Links to other sites",
+      "body": "Where we link to third-party sites or services we do so for convenience. We do not control them and are not responsible for their content, availability or privacy practices."
+    },
+    {
+      "heading": "Confidentiality and client work",
+      "body": "Enquiries you send us are treated as confidential. Where an engagement requires it, we work under a mutual non-disclosure agreement executed before project information is exchanged."
+    },
+    {
+      "heading": "Liability",
+      "body": "To the extent permitted by law, Gamasome is not liable for indirect or consequential loss arising from your use of this website. Nothing in these terms limits liability that cannot lawfully be limited."
+    },
+    {
+      "heading": "Governing law",
+      "body": "The law and jurisdiction that apply to a Gamasome engagement are set out in the agreement for that engagement. For questions about these website terms, contact prasanna@gamasome.com."
+    },
+    {
+      "heading": "Changes to these terms",
+      "body": "We may revise these terms from time to time. The date at the top of this page shows when they were last updated."
+    }
+  ]
+}

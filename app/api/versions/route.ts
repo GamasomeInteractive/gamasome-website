@@ -16,8 +16,11 @@ interface VersionRecord {
 
 function readManifest(): { versions: VersionRecord[] } {
   if (!fs.existsSync(MANIFEST)) return { versions: [] }
-  try { return JSON.parse(fs.readFileSync(MANIFEST, 'utf-8')) }
-  catch { return { versions: [] } }
+  try {
+    return JSON.parse(fs.readFileSync(MANIFEST, 'utf-8'))
+  } catch {
+    return { versions: [] }
+  }
 }
 
 function writeManifest(data: { versions: VersionRecord[] }) {
@@ -49,14 +52,21 @@ function devOnly() {
 }
 
 export async function GET() {
-  const guard = devOnly(); if (guard) return guard
+  const guard = devOnly()
+  if (guard) return guard
   return NextResponse.json(readManifest())
 }
 
 export async function POST(req: NextRequest) {
-  const guard = devOnly(); if (guard) return guard
+  const guard = devOnly()
+  if (guard) return guard
 
-  const { action, id, name, description } = await req.json()
+  const { action, id, name, description } = (await req.json()) as {
+    action?: string
+    id?: string
+    name?: string
+    description?: string
+  }
 
   // ── SAVE current content as a new version ──────────────────────────
   if (action === 'save') {
@@ -79,7 +89,7 @@ export async function POST(req: NextRequest) {
       timestamp: new Date().toISOString(),
       fileCount: files.length,
     }
-    m.versions.unshift(record)   // newest first
+    m.versions.unshift(record) // newest first
     writeManifest(m)
     return NextResponse.json({ ok: true, version: record })
   }
@@ -87,7 +97,7 @@ export async function POST(req: NextRequest) {
   // ── RESTORE a saved version back to content/ ───────────────────────
   if (action === 'restore') {
     const m = readManifest()
-    if (!m.versions.find(v => v.id === id)) {
+    if (!m.versions.find((v) => v.id === id)) {
       return NextResponse.json({ error: 'Version not found' }, { status: 404 })
     }
     const snapDir = path.join(VER_DIR, id as string)
@@ -97,7 +107,10 @@ export async function POST(req: NextRequest) {
         const s = path.join(src, entry.name)
         const d = path.join(dst, entry.name)
         if (entry.isDirectory()) copyDir(s, d)
-        else { fs.mkdirSync(path.dirname(d), { recursive: true }); fs.copyFileSync(s, d) }
+        else {
+          fs.mkdirSync(path.dirname(d), { recursive: true })
+          fs.copyFileSync(s, d)
+        }
       }
     }
     copyDir(snapDir, CONTENT)
@@ -109,7 +122,7 @@ export async function POST(req: NextRequest) {
     const m = readManifest()
     const snapDir = path.join(VER_DIR, id as string)
     if (fs.existsSync(snapDir)) fs.rmSync(snapDir, { recursive: true })
-    m.versions = m.versions.filter(v => v.id !== id)
+    m.versions = m.versions.filter((v) => v.id !== id)
     writeManifest(m)
     return NextResponse.json({ ok: true })
   }
@@ -128,7 +141,7 @@ export async function POST(req: NextRequest) {
         darkBg: '#07091B',
         textColor: '#ffffff',
       },
-      contact: { email: 'hello@gamasome.com', phone: '+91 00000 00000' },
+      contact: { email: 'prasanna@gamasome.com', phone: '+91 8012223541' },
       social: { linkedin: '', twitter: '', youtube: '', instagram: '', facebook: '' },
       motion: { easePreset: 'cinematic', durationScale: 1.0, disableAnimations: false },
     }

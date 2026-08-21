@@ -155,7 +155,7 @@
     "description": "Yes, we can help you build immersive extended reality solutions.",
     "primaryBtn": {
       "text": "Talk to our expert",
-      "href": "/contact"
+      "href": "/contact/"
     },
     "motion": {
       "easePreset": "inherit"

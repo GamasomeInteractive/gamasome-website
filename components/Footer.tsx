@@ -1,23 +1,41 @@
 import Link from './Link'
 import SocialIcon from '@/components/social-icons'
 import Image from 'next/image'
-import footerData from '../content/navigation/footer.json'
+import footerRaw from '../content/navigation/footer.json'
+import NewsletterForm from './NewsletterForm'
 
 export default function Footer() {
-  const { ctaHeadline, ctaDescription, offices, social, legalLinks, copyrightName, newsletterEnabled } =
-    footerData
+  // The JSON's inferred type only covers the keys currently present; ctaHeadline and
+  // ctaDescription are declared in the Tina schema but not yet filled in.
+  const footerData = footerRaw as typeof footerRaw & {
+    ctaHeadline?: string
+    ctaDescription?: string
+  }
+  const {
+    ctaHeadline,
+    ctaDescription,
+    offices,
+    social,
+    legalLinks,
+    copyrightName,
+    newsletterEnabled,
+  } = footerData
 
   return (
     <footer className="relative w-full bg-[#333333] py-16 font-['Poppins'] text-white">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 md:grid-cols-4">
         {/* CTA column */}
         <div>
-          <h2 className="font-['Poppins'] text-2xl leading-tight font-bold sm:text-3xl md:text-4xl">
-            {ctaHeadline}
-          </h2>
-          <p className="mt-6 max-w-full font-['Poppins'] text-sm font-normal sm:text-base">
-            {ctaDescription}
-          </p>
+          {ctaHeadline && (
+            <h2 className="font-['Poppins'] text-2xl leading-tight font-bold sm:text-3xl md:text-4xl">
+              {ctaHeadline}
+            </h2>
+          )}
+          {ctaDescription && (
+            <p className="mt-6 max-w-full font-['Poppins'] text-sm font-normal sm:text-base">
+              {ctaDescription}
+            </p>
+          )}
         </div>
 
         {/* Nav links column */}
@@ -42,22 +60,7 @@ export default function Footer() {
             <h3 className="font-['Poppins'] text-base font-semibold sm:text-lg">
               Subscribe to Newsletter
             </h3>
-            <form className="mt-4 flex h-20 w-full items-center justify-between rounded-lg border border-white/20 px-4 sm:max-w-[318px]">
-              <input
-                type="email"
-                placeholder="Email Address"
-                className="flex-1 bg-transparent font-['Poppins'] text-sm font-normal text-white outline-none"
-              />
-              <button type="submit" className="h-6 w-6">
-                <Image
-                  width={100}
-                  height={100}
-                  src="/static/images/send.png"
-                  alt="Send"
-                  className="h-full w-full object-contain"
-                />
-              </button>
-            </form>
+            <NewsletterForm />
           </div>
         )}
 

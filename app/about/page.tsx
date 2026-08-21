@@ -4,14 +4,16 @@ import { AboutDocument } from '../../tina/__generated__/types'
 import fallbackPage from '../../content/pages/about.json'
 
 export const metadata: Metadata = {
-  title: 'About Gamasome | AI, AR/VR & Simulation Studio Since 2014',
+  // absolute: this title already carries the brand, so bypass the
+  // `%s | Gamasome` template in app/layout.tsx rather than doubling it.
+  title: { absolute: 'About Gamasome | Physical AI & Robotics Data Company' },
   description:
-    'Gamasome is an innovation-driven studio incorporated in 2014. We build AI, AR/VR, simulation, digital twins, and metaverse solutions used by millions worldwide.',
+    'Gamasome has built simulation, AR/VR and computer-vision software since 2014. We now focus on Physical AI: robotics data collection, annotation and engineering.',
   alternates: { canonical: 'https://www.gamasome.com/about/' },
   openGraph: {
-    title: 'About Gamasome | AI, AR/VR & Simulation Studio Since 2014',
+    title: 'About Gamasome | Physical AI & Robotics Data Company',
     description:
-      'Gamasome is an innovation-driven studio incorporated in 2014. We build AI, AR/VR, simulation, digital twins, and metaverse solutions used by millions worldwide.',
+      'Gamasome has built simulation, AR/VR and computer-vision software since 2014. We now focus on Physical AI: robotics data collection, annotation and engineering.',
     url: 'https://www.gamasome.com/about/',
     type: 'website',
   },

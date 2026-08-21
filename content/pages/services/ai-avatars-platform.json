@@ -113,7 +113,7 @@
     "description": "Let us help you build photorealistic, AI-powered conversational experiences.",
     "primaryBtn": {
       "text": "Talk to our expert",
-      "href": "/contact"
+      "href": "/contact/"
     },
     "motion": {
       "easePreset": "inherit"

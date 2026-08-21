@@ -1,21 +1,29 @@
 {
   "hero": {
     "breadcrumb": "HOME > About",
-    "title": "A brief history",
+    "title": "Gamasome — Physical AI and robotics data",
     "image": "/static/images/about.png",
-    "body": "Incorporated in the Year 2014, Gamasome is driven by an appetite for apps and all things innovation. Since then, we've developed applications that are being used by millions of users all over the world.\n\nWe use natural user interfaces, gesture and motion interactivity, voice assistants, computer vision, AR, VR, and XR technologies to bring ideas to life.\n\nOur insistence on best-in-class creative and development processes ensures Gamasome always delivers better products faster than the competition.\n\nThe studio that has been developing VR/AR/XR simulations for businesses ranging from Fortune 500 to up-and-coming startups."
+    "body": "Incorporated in 2014, Gamasome is driven by an appetite for apps and all things innovation. Since then we have developed applications that are being used by millions of users all over the world.\n\nToday our focus is Physical AI: collecting, annotating and engineering the real-world data that robots learn from. We run data collection across real environments, annotate multimodal sensor data, and build the robotics and simulation software around it.\n\nThat focus grew out of a decade of building spatial software. We have worked with natural user interfaces, gesture and motion interactivity, voice assistants, computer vision, and AR, VR and XR — developing simulations for businesses ranging from Fortune 500 companies to up-and-coming startups. The same engineering that made those simulations behave like the real world is what makes robot training data useful.\n\nOur insistence on best-in-class creative and development processes ensures Gamasome always delivers better products faster than the competition."
   },
   "business": {
     "heading": "Gamasome solutions for your business",
     "videoUrl": "https://www.youtube.com/embed/ckrF37YZPVY?si=6pV3_JYR7a3EOPZp",
-    "description": "We deliver end-to-end technology solutions that help businesses harness the power of AI, XR, and immersive experiences."
+    "description": "We deliver end-to-end technology solutions across Physical AI and robotics — from real-world data collection and annotation to simulation, digital twins, computer vision, AR/VR/XR and robotics engineering."
   },
   "founders": {
     "heading": "Our Founders",
     "description": "We're a family born out of a passion to use new technology to turn dreams and ideas into reality.",
     "members": [
-      { "name": "MOHAN SIVAM", "role": "FOUNDER & CEO", "image": "/static/images/mohan.png" },
-      { "name": "PRASANNA VENKATESAN", "role": "CO-FOUNDER & COO", "image": "/static/images/prasanna.png" }
+      {
+        "name": "MOHAN SIVAM",
+        "role": "FOUNDER & CEO",
+        "image": "/static/images/mohan.png"
+      },
+      {
+        "name": "PRASANNA VENKATESAN",
+        "role": "CO-FOUNDER & COO",
+        "image": "/static/images/prasanna.png"
+      }
     ]
   },
   "cta": {

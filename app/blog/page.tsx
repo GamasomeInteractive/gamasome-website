@@ -1,7 +1,26 @@
 import Image from 'next/image'
+import type { Metadata } from 'next'
 import { allBlogs } from 'contentlayer/generated'
 import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
 import BlogList from './BlogList'
+
+// Self-referencing canonical. Previously this page inherited the root layout's canonical,
+// which pointed at the homepage and asked Google to drop the blog index from the index.
+// Title and description are page-specific too: without them this index inherited the
+// site-wide default, whose 179 characters are truncated in search results.
+export const metadata: Metadata = {
+  title: 'Blog',
+  description:
+    'Articles on Physical AI, robotics data collection, data annotation and simulation from the Gamasome team.',
+  alternates: { canonical: '/blog/' },
+  openGraph: {
+    title: 'Blog | Gamasome',
+    description:
+      'Articles on Physical AI, robotics data collection, data annotation and simulation from the Gamasome team.',
+    url: 'https://www.gamasome.com/blog/',
+    type: 'website',
+  },
+}
 
 export default function BlogPage() {
   const posts = allCoreContent(sortPosts(allBlogs))
@@ -9,7 +28,10 @@ export default function BlogPage() {
   return (
     <div className="min-h-screen">
       {/* Top Banner Section */}
-      <section className="animate-fade-in relative h-[444px] w-full overflow-hidden opacity-0" data-animate>
+      <section
+        className="animate-fade-in relative h-[444px] w-full overflow-hidden opacity-0"
+        data-animate
+      >
         <div className="absolute inset-0 z-0 bg-[#2D9CDB]" />
         <div className="absolute inset-0 z-10">
           <Image

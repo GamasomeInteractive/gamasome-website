@@ -6,9 +6,9 @@
 //
 // Also handles the /uploads/ prefix Tina sometimes writes:
 //   /uploads/static/images/foo.jpg → /static/images/foo.jpg
-const TINA_CDN_RE     = /^https:\/\/assets\.tina\.io\/[a-f0-9-]+\//
+const TINA_CDN_RE = /^https:\/\/assets\.tina\.io\/[a-f0-9-]+\//
 const TINA_UPLOADS_RE = /^\/uploads\//
-const STATIC_PREFIX   = '/static/images/'
+const STATIC_PREFIX = '/static/images/'
 
 export function normalizeTinaImages<T>(data: T): T {
   if (!data) return data

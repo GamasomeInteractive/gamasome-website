@@ -1,5 +1,8 @@
 {
   "_template": "classic",
+  "seo": {
+    "robots": "noindex, nofollow"
+  },
   "pageTitle": "Metaverse Development - Gamasome",
   "pageDescription": "Get your business into the metaverse with Gamasome's cutting-edge metaverse development solutions.",
   "hero": {
@@ -145,7 +148,7 @@
     "description": "Yes, we can help you build your own metaverse experience.",
     "primaryBtn": {
       "text": "Talk to our expert",
-      "href": "/contact"
+      "href": "/contact/"
     },
     "motion": {
       "easePreset": "inherit"

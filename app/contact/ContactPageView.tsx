@@ -20,6 +20,7 @@ export default function ContactPageView({ pageData, pageQuery, pageVars }: Props
   const [errors, setErrors] = useState({ name: '', email: '', message: '' })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [submitMessage, setSubmitMessage] = useState('')
   const [showToast, setShowToast] = useState(false)
 
   useEffect(() => {
@@ -43,25 +44,48 @@ export default function ContactPageView({ pageData, pageQuery, pageVars }: Props
     e.preventDefault()
     let hasError = false
     const newErrors = { name: '', email: '', message: '' }
-    if (!formData.name) { newErrors.name = 'Name is required'; hasError = true }
-    if (!formData.email) { newErrors.email = 'Email is required'; hasError = true }
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) { newErrors.email = 'Invalid email format'; hasError = true }
-    if (!formData.message) { newErrors.message = 'Message is required'; hasError = true }
-    if (hasError) { setErrors(newErrors); return }
+    if (!formData.name) {
+      newErrors.name = 'Name is required'
+      hasError = true
+    }
+    if (!formData.email) {
+      newErrors.email = 'Email is required'
+      hasError = true
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Invalid email format'
+      hasError = true
+    }
+    if (!formData.message) {
+      newErrors.message = 'Message is required'
+      hasError = true
+    }
+    if (hasError) {
+      setErrors(newErrors)
+      return
+    }
 
     setIsSubmitting(true)
-    const endpoint = page?.form?.formEndpoint || ''
+    // Posts to our own API route rather than straight to Apps Script. The old direct call
+    // used mode:'no-cors', whose opaque response carries no status — so success was reported
+    // whether or not the lead arrived. Same-origin means we can read a real status here.
     try {
-      await fetch(endpoint, {
+      const res = await fetch('/api/contact/', {
         method: 'POST',
-        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       })
-      setSubmitStatus('success')
-      setFormData({ name: '', email: '', phone: '', message: '' })
+      const result = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string }
+      if (res.ok && result.ok) {
+        setSubmitStatus('success')
+        setSubmitMessage('')
+        setFormData({ name: '', email: '', phone: '', message: '' })
+      } else {
+        setSubmitStatus('error')
+        setSubmitMessage(typeof result.error === 'string' ? result.error : '')
+      }
     } catch {
       setSubmitStatus('error')
+      setSubmitMessage('Network error — please check your connection and try again.')
     } finally {
       setIsSubmitting(false)
     }
@@ -73,17 +97,32 @@ export default function ContactPageView({ pageData, pageQuery, pageVars }: Props
 
   return (
     <div className="min-h-screen font-['Poppins']">
-
       {/* Toast */}
       {submitStatus !== 'idle' && (
         <div
           className={`fixed top-6 right-6 z-50 flex items-center gap-3 rounded-lg px-5 py-4 shadow-lg transition-all duration-300 ${showToast ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'} ${submitStatus === 'success' ? 'bg-green-500' : 'bg-red-500'}`}
         >
           <span className="font-['Poppins'] text-sm font-medium text-white">
-            {submitStatus === 'success' ? 'Message sent successfully!' : 'Failed to send message. Please try again.'}
+            {submitStatus === 'success'
+              ? 'Message sent successfully!'
+              : submitMessage || 'Failed to send message. Please try again.'}
           </span>
-          <button onClick={() => { setShowToast(false); setTimeout(() => setSubmitStatus('idle'), 300) }} className="ml-2 text-white/70 hover:text-white">
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+          <button
+            onClick={() => {
+              setShowToast(false)
+              setTimeout(() => setSubmitStatus('idle'), 300)
+            }}
+            className="ml-2 text-white/70 hover:text-white"
+          >
+            <svg
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
         </div>
       )}
@@ -129,7 +168,6 @@ export default function ContactPageView({ pageData, pageQuery, pageVars }: Props
       <section className="w-full bg-white pt-12 pb-16">
         <div className="container mx-auto px-4">
           <div className="mx-auto flex max-w-[1516px] flex-col justify-center gap-12 md:flex-row md:gap-24">
-
             {/* Left — offices */}
             <SlideFromLeft className="w-full md:w-[630px]">
               {offices?.map((office: any, i: number) => (
@@ -148,7 +186,9 @@ export default function ContactPageView({ pageData, pageQuery, pageVars }: Props
                     {office.address}
                   </p>
                   <p className="mt-4 font-['Poppins'] text-sm leading-[190%] font-normal tracking-[0.02em] text-[#333333] sm:text-base">
-                    <a href={`mailto:${office.email}`} data-tina-field={tinaField(office, 'email')}>{office.email}</a>
+                    <a href={`mailto:${office.email}`} data-tina-field={tinaField(office, 'email')}>
+                      {office.email}
+                    </a>
                     <br />
                     <span data-tina-field={tinaField(office, 'phone')}>{office.phone}</span>
                   </p>
@@ -188,34 +228,107 @@ export default function ContactPageView({ pageData, pageQuery, pageVars }: Props
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Name */}
                 <div>
-                  <label className="block font-['Poppins'] text-xs leading-[180%] font-normal tracking-[0.02em] text-[#333333] sm:text-sm">YOUR NAME *</label>
-                  <input type="text" name="name" value={formData.name} onChange={handleInputChange} required
+                  <label
+                    htmlFor="contact-name"
+                    className="block font-['Poppins'] text-xs leading-[180%] font-normal tracking-[0.02em] text-[#333333] sm:text-sm"
+                  >
+                    YOUR NAME *
+                  </label>
+                  <input
+                    type="text"
+                    id="contact-name"
+                    name="name"
+                    aria-invalid={errors.name ? true : undefined}
+                    aria-describedby={errors.name ? 'contact-name-error' : undefined}
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
                     className={`w-full border-b ${errors.name ? 'border-red-500' : 'border-[#463F56]'} border-opacity-40 border-t-0 border-r-0 border-l-0 bg-transparent py-3 font-['Poppins'] text-xs text-[#333333] shadow-none focus:border-[#2D9CDB] focus:outline-none sm:text-sm`}
                   />
-                  {errors.name && <p className="mt-1 font-['Poppins'] text-xs text-red-500">{errors.name}</p>}
+                  {errors.name && (
+                    <p
+                      id="contact-name-error"
+                      role="alert"
+                      className="mt-1 font-['Poppins'] text-xs text-red-500"
+                    >
+                      {errors.name}
+                    </p>
+                  )}
                 </div>
                 {/* Email */}
                 <div>
-                  <label className="block font-['Poppins'] text-xs leading-[180%] font-normal tracking-[0.02em] text-[#333333] sm:text-sm">YOUR EMAIL *</label>
-                  <input type="email" name="email" value={formData.email} onChange={handleInputChange} required
+                  <label
+                    htmlFor="contact-email"
+                    className="block font-['Poppins'] text-xs leading-[180%] font-normal tracking-[0.02em] text-[#333333] sm:text-sm"
+                  >
+                    YOUR EMAIL *
+                  </label>
+                  <input
+                    type="email"
+                    id="contact-email"
+                    name="email"
+                    aria-invalid={errors.email ? true : undefined}
+                    aria-describedby={errors.email ? 'contact-email-error' : undefined}
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
                     className={`w-full border-b ${errors.email ? 'border-red-500' : 'border-[#463F56]'} border-opacity-40 border-t-0 border-r-0 border-l-0 bg-transparent py-3 font-['Poppins'] text-xs text-[#333333] shadow-none focus:border-[#2D9CDB] focus:outline-none sm:text-sm`}
                   />
-                  {errors.email && <p className="mt-1 font-['Poppins'] text-xs text-red-500">{errors.email}</p>}
+                  {errors.email && (
+                    <p
+                      id="contact-email-error"
+                      role="alert"
+                      className="mt-1 font-['Poppins'] text-xs text-red-500"
+                    >
+                      {errors.email}
+                    </p>
+                  )}
                 </div>
                 {/* Phone */}
                 <div>
-                  <label className="block font-['Poppins'] text-xs leading-[180%] font-normal tracking-[0.02em] text-[#333333] sm:text-sm">YOUR PHONE</label>
-                  <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange}
+                  <label
+                    htmlFor="contact-phone"
+                    className="block font-['Poppins'] text-xs leading-[180%] font-normal tracking-[0.02em] text-[#333333] sm:text-sm"
+                  >
+                    YOUR PHONE
+                  </label>
+                  <input
+                    type="tel"
+                    id="contact-phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
                     className="border-opacity-40 w-full border-t-0 border-r-0 border-b border-l-0 border-[#463F56] bg-transparent py-3 font-['Poppins'] text-xs text-[#333333] shadow-none focus:border-[#2D9CDB] focus:outline-none sm:text-sm"
                   />
                 </div>
                 {/* Message */}
                 <div>
-                  <label className="block font-['Poppins'] text-xs leading-[180%] font-normal tracking-[0.02em] text-[#333333] sm:text-sm">YOUR MESSAGE *</label>
-                  <textarea name="message" value={formData.message} onChange={handleInputChange} required rows={3}
+                  <label
+                    htmlFor="contact-message"
+                    className="block font-['Poppins'] text-xs leading-[180%] font-normal tracking-[0.02em] text-[#333333] sm:text-sm"
+                  >
+                    YOUR MESSAGE *
+                  </label>
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    aria-invalid={errors.message ? true : undefined}
+                    aria-describedby={errors.message ? 'contact-message-error' : undefined}
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    required
+                    rows={3}
                     className={`w-full border-b ${errors.message ? 'border-red-500' : 'border-[#463F56]'} border-opacity-40 min-h-[57px] resize-none border-t-0 border-r-0 border-l-0 bg-transparent py-3 font-['Poppins'] text-xs text-[#333333] shadow-none focus:border-[#2D9CDB] focus:outline-none sm:text-sm`}
                   />
-                  {errors.message && <p className="mt-1 font-['Poppins'] text-xs text-red-500">{errors.message}</p>}
+                  {errors.message && (
+                    <p
+                      id="contact-message-error"
+                      role="alert"
+                      className="mt-1 font-['Poppins'] text-xs text-red-500"
+                    >
+                      {errors.message}
+                    </p>
+                  )}
                 </div>
                 <button
                   type="submit"
@@ -223,7 +336,7 @@ export default function ContactPageView({ pageData, pageQuery, pageVars }: Props
                   className="h-[45px] w-full rounded-[4px] bg-[#2D9CDB] font-['Poppins'] text-sm leading-[105%] font-normal tracking-[-0.025em] text-white transition-colors hover:bg-[#1e7ba8] disabled:cursor-not-allowed disabled:opacity-50 sm:text-base md:w-[166px]"
                   data-tina-field={tinaField(form, 'submitText')}
                 >
-                  {isSubmitting ? 'Sending...' : (form?.submitText || 'Start your project')}
+                  {isSubmitting ? 'Sending...' : form?.submitText || 'Start your project'}
                 </button>
               </form>
             </SlideFromRight>

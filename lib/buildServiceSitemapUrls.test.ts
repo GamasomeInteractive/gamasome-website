@@ -26,13 +26,18 @@ const SERVICES_DIR = path.join(REPO_ROOT, 'content/pages/services')
 const SITE_URL = 'https://www.gamasome.com'
 
 describe('buildServiceSitemapUrls', () => {
-  it('emits one URL per non-hidden JSON file in content/pages/services/', () => {
-    const visibleFiles = fs.readdirSync(SERVICES_DIR)
+  it('emits one URL per indexable JSON file in content/pages/services/', () => {
+    const visibleFiles = fs
+      .readdirSync(SERVICES_DIR)
       .filter((f) => f.endsWith('.json'))
       .filter((f) => {
         try {
           const parsed = JSON.parse(fs.readFileSync(path.join(SERVICES_DIR, f), 'utf-8'))
-          return parsed?.hidden !== true
+          if (parsed?.hidden === true) return false
+          // A page marked noindex must not appear in the sitemap either.
+          return !String(parsed?.seo?.robots ?? '')
+            .toLowerCase()
+            .includes('noindex')
         } catch {
           return true
         }
@@ -42,9 +47,35 @@ describe('buildServiceSitemapUrls', () => {
     assert.equal(
       entries.length,
       visibleFiles.length,
-      `Sitemap entry count (${entries.length}) does not match visible service JSON count (${visibleFiles.length}). ` +
-      `New pages added via Tina CMS must appear in the sitemap (unless hidden:true).`,
+      `Sitemap entry count (${entries.length}) does not match indexable service JSON count (${visibleFiles.length}). ` +
+        `New pages added via Tina CMS must appear in the sitemap unless hidden:true or seo.robots contains noindex.`
     )
+  })
+
+  it('excludes pages marked seo.robots: noindex', () => {
+    const noindexSlugs = fs
+      .readdirSync(SERVICES_DIR)
+      .filter((f) => f.endsWith('.json'))
+      .filter((f) => {
+        try {
+          const parsed = JSON.parse(fs.readFileSync(path.join(SERVICES_DIR, f), 'utf-8'))
+          return String(parsed?.seo?.robots ?? '')
+            .toLowerCase()
+            .includes('noindex')
+        } catch {
+          return false
+        }
+      })
+      .map((f) => f.replace(/\.json$/, ''))
+
+    const entries = buildServiceSitemapUrls(SITE_URL, SERVICES_DIR)
+    for (const slug of noindexSlugs) {
+      assert.equal(
+        entries.some((e) => e.slug === slug),
+        false,
+        `"${slug}" is marked noindex but still appears in the sitemap.`
+      )
+    }
   })
 
   it('uses the /services/{slug}/ URL shape with trailing slash for every entry', () => {
@@ -53,12 +84,12 @@ describe('buildServiceSitemapUrls', () => {
       assert.equal(
         e.url,
         `${SITE_URL}/services/${e.slug}/`,
-        `Service "${e.slug}" did not produce a /services/{slug}/ URL — sitemap pattern drifted.`,
+        `Service "${e.slug}" did not produce a /services/{slug}/ URL — sitemap pattern drifted.`
       )
       assert.equal(
         e.url.endsWith('/'),
         true,
-        `Service "${e.slug}" URL must end with / to match next.config.js trailingSlash:true.`,
+        `Service "${e.slug}" URL must end with / to match next.config.js trailingSlash:true.`
       )
     }
   })

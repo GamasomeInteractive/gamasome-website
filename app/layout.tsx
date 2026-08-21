@@ -36,7 +36,10 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteMetadata.siteUrl),
   title: {
     default: siteMetadata.title,
-    template: `%s | ${siteMetadata.title}`,
+    // Suffix, not the full default title: siteMetadata.title is now the descriptive
+    // globalSeo.defaultTitle, so `%s | ${siteMetadata.title}` would render page titles
+    // like 'About | Gamasome — Physical AI & Robotics Data Solutions'.
+    template: `%s${siteMetadata.titleSuffix}`,
   },
   description: siteMetadata.description,
   openGraph: {
@@ -49,7 +52,10 @@ export const metadata: Metadata = {
     type: 'website',
   },
   alternates: {
-    canonical: siteMetadata.siteUrl,
+    // No `canonical` here on purpose: a canonical set in the root layout is inherited by
+    // every route that does not override it, which had /blog/, /tags/ and six other pages
+    // declaring themselves duplicates of the homepage. Routes now set their own; those
+    // that set none self-canonicalise, which is the correct default.
     types: {
       'application/rss+xml': `${siteMetadata.siteUrl}/feed.xml`,
     },
@@ -66,8 +72,13 @@ export const metadata: Metadata = {
     },
   },
   twitter: {
-    title: siteMetadata.title,
+    // No `title` here: a static one is inherited by every page that does not set its
+    // own, which had About, Contact, Services, the legal pages and /prasanna/ all
+    // sharing the site default on X. Omitting it lets Next fall back to the resolved
+    // page title. Card, handles and image below are unchanged.
     card: 'summary_large_image',
+    site: siteMetadata.twitterHandle,
+    creator: siteMetadata.twitterHandle,
     images: [siteMetadata.socialBanner],
   },
 }
@@ -88,10 +99,7 @@ async function getNavData() {
 
 async function getSettings() {
   try {
-    const raw = await fs.readFile(
-      path.join(process.cwd(), 'content/settings/index.json'),
-      'utf-8',
-    )
+    const raw = await fs.readFile(path.join(process.cwd(), 'content/settings/index.json'), 'utf-8')
     return JSON.parse(raw) as Record<string, any>
   } catch {
     return {}
@@ -114,7 +122,9 @@ async function getBareSlugs(): Promise<string[]> {
         if (json._template === 'aiPlatform') {
           slugs.push(f.replace('.json', ''))
         }
-      } catch {}
+      } catch {
+        // A malformed service JSON should not break the whole nav; skip that file.
+      }
     }
     return slugs
   } catch {
@@ -136,14 +146,18 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const analyticsSettings = settings.analytics ?? {}
 
   const motionSettings = {
-    easePreset:        ((motionRaw.easePreset as string) || 'cinematic') as 'smooth' | 'cinematic' | 'inOut' | 'snap',
-    durationScale:     (motionRaw.durationScale     as number)  ?? 1.0,
+    easePreset: ((motionRaw.easePreset as string) || 'cinematic') as
+      | 'smooth'
+      | 'cinematic'
+      | 'inOut'
+      | 'snap',
+    durationScale: (motionRaw.durationScale as number) ?? 1.0,
     disableAnimations: (motionRaw.disableAnimations as boolean) ?? false,
   }
   const motionCss = buildMotionCss(
     motionSettings.easePreset as any,
     motionSettings.durationScale,
-    motionSettings.disableAnimations,
+    motionSettings.disableAnimations
   )
 
   return (
@@ -188,10 +202,23 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               '@context': 'https://schema.org',
               '@type': 'Organization',
               name: 'Gamasome',
-              url: 'https://gamasome.com',
-              logo: 'https://gamasome.com/static/images/logo.png',
-              description: 'Gamasome offers AI, AR/VR, simulation, digital twins, game development, and metaverse solutions for enterprises worldwide.',
-              email: 'prasanna@gamasome.com',
+              // www host throughout: the bare domain permanently redirects, and mixed hosts
+              // split the entity signal between two URLs.
+              url: siteMetadata.siteUrl,
+              logo: `${siteMetadata.siteUrl}/static/images/logo.png`,
+              description: siteMetadata.description,
+              email: siteMetadata.email,
+              // Only capabilities the site actually documents on its own service pages.
+              knowsAbout: [
+                'Physical AI',
+                'Robotics data collection',
+                'Data annotation',
+                'Teleoperation',
+                'LiDAR annotation',
+                'Multimodal sensor data',
+                'Robotics engineering',
+                'Simulation and digital twins',
+              ],
               sameAs: [
                 'https://www.linkedin.com/company/gamasome/',
                 'https://x.com/gamasome',
@@ -215,15 +242,25 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           }}
         />
         {analyticsSettings.gscVerification && (
-          <meta name="google-site-verification" content={analyticsSettings.gscVerification} />
+          // Google expects the bare token; a pasted `google-site-verification=` prefix makes
+          // the tag invalid and verification silently fails. Strip it defensively.
+          <meta
+            name="google-site-verification"
+            content={String(analyticsSettings.gscVerification).replace(
+              /^google-site-verification=/,
+              ''
+            )}
+          />
         )}
         {/* Layer 1: inject CMS-controlled motion tokens as CSS custom properties */}
-        <style href="motion-tokens" precedence="default" dangerouslySetInnerHTML={{ __html: motionCss }} />
+        <style
+          href="motion-tokens"
+          precedence="default"
+          dangerouslySetInnerHTML={{ __html: motionCss }}
+        />
       </head>
       <body className="bg-white text-black antialiased dark:bg-gray-950 dark:text-white">
-        {analyticsSettings.ga4Id && (
-          <GoogleAnalytics measurementId={analyticsSettings.ga4Id} />
-        )}
+        {analyticsSettings.ga4Id && <GoogleAnalytics measurementId={analyticsSettings.ga4Id} />}
         {analyticsSettings.clarityId && (
           <MicrosoftClarity projectId={analyticsSettings.clarityId} />
         )}
@@ -235,11 +272,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               {/* <SectionContainer> */}
               <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
                 <SiteShell
-                  headerData={header.data}  headerQuery={header.query}  headerVars={header.variables}
-                  footerData={footer.data}  footerQuery={footer.query}  footerVars={footer.variables}
+                  headerData={header.data}
+                  headerQuery={header.query}
+                  headerVars={header.variables}
+                  footerData={footer.data}
+                  footerQuery={footer.query}
+                  footerVars={footer.variables}
                   bareSlugs={bareSlugs}
                   homePageIsBare={bareSlugs.includes(homePage)}
-                >{children}</SiteShell>
+                >
+                  {children}
+                </SiteShell>
               </SearchProvider>
               {/* </SectionContainer> */}
             </MotionProvider>

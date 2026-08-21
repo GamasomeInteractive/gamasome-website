@@ -151,7 +151,7 @@
     "description": "Yes, we can help you develop and launch your dream game for your playerbase.",
     "primaryBtn": {
       "text": "Talk to our expert",
-      "href": "/contact"
+      "href": "/contact/"
     },
     "motion": {
       "easePreset": "inherit"

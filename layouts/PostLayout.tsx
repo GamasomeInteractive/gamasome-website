@@ -13,7 +13,13 @@ import ArticleActions from '@/components/ArticleActions'
 import { MDXLayoutRenderer } from 'pliny/mdx-components'
 import { components } from '@/components/MDXComponents'
 
-type CtaContent = { eyebrow?: string; heading?: string; body?: string; buttonLabel?: string; buttonHref?: string }
+type CtaContent = {
+  eyebrow?: string
+  heading?: string
+  body?: string
+  buttonLabel?: string
+  buttonHref?: string
+}
 
 const DEFAULT_RAIL: Required<CtaContent> = {
   eyebrow: 'Work with us',
@@ -47,7 +53,9 @@ function getBlogCta(): { rail: Required<CtaContent>; banner: Required<CtaContent
 /** Drops empty strings so blanks fall back to defaults instead of rendering nothing. */
 function cleanCta(c?: CtaContent): CtaContent {
   if (!c) return {}
-  return Object.fromEntries(Object.entries(c).filter(([, v]) => typeof v === 'string' && v.trim() !== ''))
+  return Object.fromEntries(
+    Object.entries(c).filter(([, v]) => typeof v === 'string' && v.trim() !== '')
+  )
 }
 
 type AuthorWithBio = CoreContent<Authors> & { bioCode?: string; bio?: string }
@@ -107,16 +115,20 @@ export default function PostLayout({ content, authorDetails, children }: LayoutP
             <div>
               {/* Breadcrumb */}
               <nav aria-label="Breadcrumb" className="mb-5 text-sm text-white/50">
-                <Link href="/" className="hover:text-white">Home</Link>
+                <Link href="/" className="hover:text-white">
+                  Home
+                </Link>
                 <span className="mx-2">›</span>
-                <Link href="/blog" className="hover:text-white">Blogs</Link>
+                <Link href="/blog" className="hover:text-white">
+                  Blogs
+                </Link>
                 <span className="mx-2">›</span>
                 <span className="text-white/80">{breadcrumbTitle}</span>
               </nav>
 
               {/* Category · reading time pill */}
               {(tags?.[0] || readingTime?.text) && (
-                <span className="mb-5 inline-flex items-center rounded-full bg-sky-400/20 px-4 py-1.5 text-xs font-semibold tracking-[0.06em] text-sky-200 uppercase ring-1 ring-inset ring-sky-300/30">
+                <span className="mb-5 inline-flex items-center rounded-full bg-sky-400/20 px-4 py-1.5 text-xs font-semibold tracking-[0.06em] text-sky-200 uppercase ring-1 ring-sky-300/30 ring-inset">
                   {tags?.[0]}
                   {tags?.[0] && readingTime?.text && <span className="mx-1.5">·</span>}
                   {readingTime?.text}
@@ -142,7 +154,10 @@ export default function PostLayout({ content, authorDetails, children }: LayoutP
                       />
                     )}
                     {authorLink ? (
-                      <Link href={authorLink} className="font-medium text-white underline decoration-white/40 underline-offset-4 hover:decoration-white">
+                      <Link
+                        href={authorLink}
+                        className="font-medium text-white underline decoration-white/40 underline-offset-4 hover:decoration-white"
+                      >
                         {primaryAuthor.name}
                       </Link>
                     ) : (
@@ -192,7 +207,12 @@ export default function PostLayout({ content, authorDetails, children }: LayoutP
                               href={primaryAuthor.linkedin}
                               className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#0A66C2] hover:underline"
                             >
-                              <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                              <svg
+                                className="h-4 w-4"
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                              >
                                 <path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.27c-.97 0-1.75-.79-1.75-1.76s.78-1.75 1.75-1.75 1.75.79 1.75 1.75-.78 1.76-1.75 1.76zm13.5 12.27h-3v-5.6c0-3.37-4-3.12-4 0v5.6h-3v-11h3v1.53c1.4-2.59 7-2.78 7 2.48v6.99z" />
                               </svg>
                               LinkedIn
@@ -206,8 +226,19 @@ export default function PostLayout({ content, authorDetails, children }: LayoutP
                               className="group/link inline-flex items-center gap-1 text-sm font-semibold text-gray-900 hover:text-[#000B71]"
                             >
                               Full profile
-                              <svg className="h-4 w-4 transition-transform duration-200 group-hover/link:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                              <svg
+                                className="h-4 w-4 transition-transform duration-200 group-hover/link:translate-x-0.5"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth={2}
+                                aria-hidden="true"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+                                />
                               </svg>
                             </Link>
                           )}
@@ -220,7 +251,10 @@ export default function PostLayout({ content, authorDetails, children }: LayoutP
                 <span className="text-white/60">
                   Last updated on{' '}
                   <time dateTime={updatedDate}>
-                    {new Date(updatedDate).toLocaleDateString(siteMetadata.locale, updatedDateOptions)}
+                    {new Date(updatedDate).toLocaleDateString(
+                      siteMetadata.locale,
+                      updatedDateOptions
+                    )}
                   </time>
                 </span>
               </div>
@@ -332,7 +366,11 @@ export default function PostLayout({ content, authorDetails, children }: LayoutP
                         strokeWidth={2.2}
                         aria-hidden="true"
                       >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M12 4.5v15m7.5-7.5h-15"
+                        />
                       </svg>
                     </span>
                   </summary>
@@ -375,7 +413,12 @@ export default function PostLayout({ content, authorDetails, children }: LayoutP
                     aria-label={`${primaryAuthor.name} on LinkedIn`}
                     className="text-sky-300 transition-opacity hover:opacity-70"
                   >
-                    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <svg
+                      className="h-5 w-5"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
                       <path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.27c-.97 0-1.75-.79-1.75-1.76s.78-1.75 1.75-1.75 1.75.79 1.75 1.75-.78 1.76-1.75 1.76zm13.5 12.27h-3v-5.6c0-3.37-4-3.12-4 0v5.6h-3v-11h3v1.53c1.4-2.59 7-2.78 7 2.48v6.99z" />
                     </svg>
                   </Link>
@@ -394,8 +437,19 @@ export default function PostLayout({ content, authorDetails, children }: LayoutP
                   className="group mt-5 inline-flex items-center justify-center gap-1.5 rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-[#000B71] transition hover:bg-sky-100"
                 >
                   View full profile
-                  <svg className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                  <svg
+                    className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+                    />
                   </svg>
                 </Link>
               )}

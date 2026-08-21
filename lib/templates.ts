@@ -11,7 +11,8 @@ export const TEMPLATES: TemplateDefinition[] = [
   {
     id: 'classic',
     name: 'Classic',
-    description: 'White background with alternating left/right image + text cards. Professional and clean.',
+    description:
+      'White background with alternating left/right image + text cards. Professional and clean.',
     emoji: '📄',
     bg: '#ffffff',
     accent: '#2D9CDB',
@@ -19,7 +20,8 @@ export const TEMPLATES: TemplateDefinition[] = [
   {
     id: 'grid',
     name: 'Card Grid',
-    description: 'Light background with equal-height 3-column cards. Great for showcasing many services.',
+    description:
+      'Light background with equal-height 3-column cards. Great for showcasing many services.',
     emoji: '⊞',
     bg: '#F8FAFC',
     accent: '#2D9CDB',
@@ -27,7 +29,8 @@ export const TEMPLATES: TemplateDefinition[] = [
   {
     id: 'dark',
     name: 'Dark Tech',
-    description: 'Dark background with glowing card borders and neon accents. Tech-forward and bold.',
+    description:
+      'Dark background with glowing card borders and neon accents. Tech-forward and bold.',
     emoji: '🌑',
     bg: '#07091B',
     accent: '#00FCE2',

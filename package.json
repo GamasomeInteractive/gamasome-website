@@ -16,7 +16,10 @@
     "analyze": "cross-env ANALYZE=true next build",
     "lint": "next lint --fix --dir pages --dir app --dir components --dir lib --dir layouts --dir scripts",
     "prepare": "husky",
-    "test:lib": "node --test --require tsx/cjs lib/*.test.ts"
+    "test:lib": "node --test --require tsx/cjs lib/*.test.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint:ci": "next lint --dir pages --dir app --dir components --dir lib --dir layouts --dir scripts",
+    "verify": "yarn typecheck && yarn lint:ci"
   },
   "dependencies": {
     "@headlessui/react": "2.2.9",

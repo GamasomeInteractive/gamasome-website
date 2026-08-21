@@ -13,8 +13,8 @@
     "textColor": "#ffffff"
   },
   "contact": {
-    "email": "hello@gamasome.com",
-    "phone": "+91 00000 00000"
+    "email": "prasanna@gamasome.com",
+    "phone": "+91 8012223541"
   },
   "social": {
     "linkedin": "",
@@ -30,11 +30,27 @@
   "analytics": {
     "ga4Id": "G-56E96KJN9Q",
     "clarityId": "wb3s2wv51k",
-    "gscVerification": "google-site-verification=Se7gmmTsZ0HdHNkpRlKR0yCmBAZPEQye4WQRRFUBquI"
+    "gscVerification": "Se7gmmTsZ0HdHNkpRlKR0yCmBAZPEQye4WQRRFUBquI"
   },
   "robotsTxt": {
     "blockAiCrawlers": false,
-    "customRules": []
+    "customRules": [
+      {
+        "path": "/admin/"
+      },
+      {
+        "path": "/api/"
+      },
+      {
+        "path": "/template-picker/"
+      },
+      {
+        "path": "/theme-picker/"
+      },
+      {
+        "path": "/version-history/"
+      }
+    ]
   },
   "sitemap": {
     "defaultChangefreq": "weekly",
@@ -44,7 +60,7 @@
   "globalSeo": {
     "defaultTitle": "Gamasome — Physical AI & Robotics Data Solutions",
     "titleSuffix": " | Gamasome",
-    "defaultDescription": "Gamasome provides AI, simulation, digital twins, robotics and data solutions for enterprises worldwide.",
+    "defaultDescription": "Gamasome builds the data foundation for Physical AI: robotics data collection, data annotation and robotics engineering — backed by simulation, digital twin and AR/VR engineering.",
     "defaultOgImage": "/static/images/logo.png",
     "twitterHandle": "@gamasome"
   },

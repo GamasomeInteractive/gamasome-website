@@ -65,6 +65,13 @@ export default [
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-var-requires': 'off',
       '@typescript-eslint/ban-ts-comment': 'off',
+
+      // Downgraded from error to warning so the build gate below can be switched on.
+      // The 98 current occurrences are almost entirely TinaCMS payload props (page/header/
+      // footer data arrives untyped from the CMS); removing them means modelling the whole
+      // content schema, which is a separate piece of work. They stay visible in lint output
+      // rather than being silenced per-line with eslint-disable comments.
+      '@typescript-eslint/no-explicit-any': 'warn',
     },
   },
 ]

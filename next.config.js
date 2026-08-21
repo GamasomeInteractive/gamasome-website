@@ -70,8 +70,11 @@ module.exports = () => {
   return plugins.reduce((acc, next) => next(acc), {
     output,
     basePath,
-    eslint: { ignoreDuringBuilds: true },
-    typescript: { ignoreBuildErrors: true },
+    // Both gates are on: `yarn typecheck` is clean and `yarn lint:ci` reports no errors,
+    // so a type error or lint error now fails the build instead of shipping silently.
+    // (no-explicit-any is a warning by design — see eslint.config.mjs.)
+    eslint: { ignoreDuringBuilds: false },
+    typescript: { ignoreBuildErrors: false },
     reactStrictMode: true,
     trailingSlash: true,
     turbopack: {
@@ -126,6 +129,14 @@ module.exports = () => {
           permanent: true,
         },
         ...serviceRedirects,
+        // /home was a second, outdated homepage (the pre-Physical-AI brand). The live
+        // homepage is '/', which renders content/pages/services/home.json via the
+        // `homePage` setting — unrelated to this route despite the shared name.
+        {
+          source: '/home',
+          destination: '/',
+          permanent: true,
+        },
         // Blog slug renamed — preserve old URL for SEO continuity.
         {
           source: '/blog/physical-ai-powering-next-gen-robotics',

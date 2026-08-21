@@ -21,7 +21,12 @@ interface Props {
 
 // Cast to a permissive element type so TypeScript allows className/style/children
 // on any HTML element string (section, div, article, etc.)
-type AnyTag = React.ElementType<{ id?: string; className?: string; style?: React.CSSProperties; children?: ReactNode }>
+type AnyTag = React.ElementType<{
+  id?: string
+  className?: string
+  style?: React.CSSProperties
+  children?: ReactNode
+}>
 
 /**
  * Wraps a page section with scoped motion overrides.
@@ -39,14 +44,19 @@ export default function SectionMotion({
   id,
   as: Tag = 'section',
 }: Props) {
-  const hasEase  = !!motion?.easePreset && motion.easePreset !== '' && motion.easePreset !== 'inherit'
+  const hasEase =
+    !!motion?.easePreset && motion.easePreset !== '' && motion.easePreset !== 'inherit'
   const hasScale = !!motion?.durationScale && motion.durationScale !== 1
 
   const T = Tag as AnyTag
 
   // No override — skip both the MotionProvider and inline styles
   if (!hasEase && !hasScale) {
-    return <T id={id} className={className} style={style}>{children}</T>
+    return (
+      <T id={id} className={className} style={style}>
+        {children}
+      </T>
+    )
   }
 
   const scale = motion?.durationScale ?? 1
@@ -57,15 +67,15 @@ export default function SectionMotion({
     ;(cssVars as Record<string, string>)['--motion-ease'] = cssEase[preset] ?? cssEase.cinematic
   }
   if (hasScale) {
-    ;(cssVars as Record<string, string>)['--motion-instant']   = `${Math.round(100  * scale)}ms`
-    ;(cssVars as Record<string, string>)['--motion-fast']      = `${Math.round(250  * scale)}ms`
-    ;(cssVars as Record<string, string>)['--motion-normal']    = `${Math.round(500  * scale)}ms`
-    ;(cssVars as Record<string, string>)['--motion-slow']      = `${Math.round(900  * scale)}ms`
+    ;(cssVars as Record<string, string>)['--motion-instant'] = `${Math.round(100 * scale)}ms`
+    ;(cssVars as Record<string, string>)['--motion-fast'] = `${Math.round(250 * scale)}ms`
+    ;(cssVars as Record<string, string>)['--motion-normal'] = `${Math.round(500 * scale)}ms`
+    ;(cssVars as Record<string, string>)['--motion-slow'] = `${Math.round(900 * scale)}ms`
     ;(cssVars as Record<string, string>)['--motion-cinematic'] = `${Math.round(2400 * scale)}ms`
   }
 
   const settings: Partial<MotionSettings> = {}
-  if (hasEase)  settings.easePreset    = motion!.easePreset as MotionSettings['easePreset']
+  if (hasEase) settings.easePreset = motion!.easePreset as MotionSettings['easePreset']
   if (hasScale) settings.durationScale = scale
 
   return (

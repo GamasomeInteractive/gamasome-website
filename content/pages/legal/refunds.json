@@ -1,0 +1,30 @@
+{
+  "hero": {
+    "breadcrumb": "HOME > Refunds & Cancellations",
+    "title": "Refunds & Cancellations"
+  },
+  "lastUpdated": "21 August 2026",
+  "intro": "Gamasome delivers contracted services: data collection, data annotation, robotics engineering, simulation and related work. We do not sell products or subscriptions through this website, and no payment is taken on gamasome.com.",
+  "sections": [
+    {
+      "heading": "How engagements are contracted",
+      "body": "Every engagement begins with a written proposal or statement of work that sets out scope, deliverables, milestones, fees and payment schedule. That document, together with any master services agreement between us, defines the commercial terms of the work."
+    },
+    {
+      "heading": "Cancellation and refund terms",
+      "body": "Because scope and payment milestones differ between engagements, cancellation rights, notice periods and any refund of prepaid fees are set out in the agreement for your specific project rather than as a single site-wide policy. Please refer to your signed proposal, statement of work or master services agreement."
+    },
+    {
+      "heading": "Work already performed",
+      "body": "Where an engagement is ended early, fees for work completed and for committed costs already incurred up to the effective date of cancellation remain payable, as set out in the applicable agreement."
+    },
+    {
+      "heading": "Raising a concern",
+      "body": "If you are not satisfied with a deliverable, contact your Gamasome project lead or email prasanna@gamasome.com. Most issues are resolved by reworking the deliverable against the agreed acceptance criteria."
+    },
+    {
+      "heading": "Questions",
+      "body": "For any question about billing, cancellation or the terms of an existing engagement, email prasanna@gamasome.com and we will point you to the relevant clause in your agreement."
+    }
+  ]
+}

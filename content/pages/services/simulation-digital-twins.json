@@ -127,7 +127,7 @@
     "description": "Let us help you transform your assets into physics-optimized digital experiences.",
     "primaryBtn": {
       "text": "Talk to our expert",
-      "href": "/contact"
+      "href": "/contact/"
     },
     "motion": {
       "easePreset": "inherit"

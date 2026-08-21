@@ -19,29 +19,33 @@ interface DirectionalAnimationProps extends AnimatedSectionProps {
 
 const getDirectionalOffset = (direction: string, distance: number) => {
   switch (direction) {
-    case 'left':  return { x: -distance, y: 0 }
-    case 'right': return { x:  distance, y: 0 }
-    case 'up':    return { x: 0, y: -distance }
-    default:      return { x: 0, y:  distance }
+    case 'left':
+      return { x: -distance, y: 0 }
+    case 'right':
+      return { x: distance, y: 0 }
+    case 'up':
+      return { x: 0, y: -distance }
+    default:
+      return { x: 0, y: distance }
   }
 }
 
 // ── Layer 2: JavaScript-controlled motion ──────────────────────────────────
 // Each component uses useReducedMotion() to bail out gracefully.
 
-export const FadeIn = ({
-  children,
-  className = '',
-  delay = 0,
-  duration,
-}: AnimatedSectionProps) => {
+export const FadeIn = ({ children, className = '', delay = 0, duration }: AnimatedSectionProps) => {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: triggerMargin })
   const reduced = useReducedMotion()
   const motion_ = useMotionConfig()
 
   const d = duration ?? motion_.dur.cinematic
-  if (reduced || motion_.settings.disableAnimations) return <div ref={ref} className={className}>{children}</div>
+  if (reduced || motion_.settings.disableAnimations)
+    return (
+      <div ref={ref} className={className}>
+        {children}
+      </div>
+    )
 
   return (
     <motion.div
@@ -71,7 +75,12 @@ export const SlideFrom = ({
   const offset = getDirectionalOffset(direction, distance)
 
   const d = duration ?? motion_.dur.cinematic
-  if (reduced || motion_.settings.disableAnimations) return <div ref={ref} className={className}>{children}</div>
+  if (reduced || motion_.settings.disableAnimations)
+    return (
+      <div ref={ref} className={className}>
+        {children}
+      </div>
+    )
 
   return (
     <motion.div
@@ -86,10 +95,18 @@ export const SlideFrom = ({
   )
 }
 
-export const SlideFromLeft   = (props: Omit<DirectionalAnimationProps, 'direction'>) => <SlideFrom {...props} direction="left" />
-export const SlideFromRight  = (props: Omit<DirectionalAnimationProps, 'direction'>) => <SlideFrom {...props} direction="right" />
-export const SlideFromBottom = (props: Omit<DirectionalAnimationProps, 'direction'>) => <SlideFrom {...props} direction="down" />
-export const SlideFromTop    = (props: Omit<DirectionalAnimationProps, 'direction'>) => <SlideFrom {...props} direction="up" />
+export const SlideFromLeft = (props: Omit<DirectionalAnimationProps, 'direction'>) => (
+  <SlideFrom {...props} direction="left" />
+)
+export const SlideFromRight = (props: Omit<DirectionalAnimationProps, 'direction'>) => (
+  <SlideFrom {...props} direction="right" />
+)
+export const SlideFromBottom = (props: Omit<DirectionalAnimationProps, 'direction'>) => (
+  <SlideFrom {...props} direction="down" />
+)
+export const SlideFromTop = (props: Omit<DirectionalAnimationProps, 'direction'>) => (
+  <SlideFrom {...props} direction="up" />
+)
 
 export const SlideIn = ({
   children,
@@ -103,7 +120,12 @@ export const SlideIn = ({
   const motion_ = useMotionConfig()
 
   const d = duration ?? motion_.dur.cinematic
-  if (reduced || motion_.settings.disableAnimations) return <div ref={ref} className={className}>{children}</div>
+  if (reduced || motion_.settings.disableAnimations)
+    return (
+      <div ref={ref} className={className}>
+        {children}
+      </div>
+    )
 
   return (
     <motion.div
@@ -130,7 +152,12 @@ export const ScaleIn = ({
   const motion_ = useMotionConfig()
 
   const d = duration ?? motion_.dur.slow
-  if (reduced || motion_.settings.disableAnimations) return <div ref={ref} className={className}>{children}</div>
+  if (reduced || motion_.settings.disableAnimations)
+    return (
+      <div ref={ref} className={className}>
+        {children}
+      </div>
+    )
 
   return (
     <motion.div
@@ -159,7 +186,12 @@ export const StaggerContainer = ({
   const reduced = useReducedMotion()
   const motion_ = useMotionConfig()
 
-  if (reduced || motion_.settings.disableAnimations) return <div ref={ref} className={className}>{children}</div>
+  if (reduced || motion_.settings.disableAnimations)
+    return (
+      <div ref={ref} className={className}>
+        {children}
+      </div>
+    )
 
   return (
     <motion.div
@@ -180,7 +212,8 @@ export const StaggerItem = ({ children, className = '' }: AnimatedSectionProps) 
   const reduced = useReducedMotion()
   const motion_ = useMotionConfig()
 
-  if (reduced || motion_.settings.disableAnimations) return <div className={className}>{children}</div>
+  if (reduced || motion_.settings.disableAnimations)
+    return <div className={className}>{children}</div>
 
   return (
     <motion.div

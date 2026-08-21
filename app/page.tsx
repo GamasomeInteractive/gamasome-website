@@ -21,7 +21,9 @@ async function getHomeSlug(): Promise<string> {
     const raw = await fs.readFile(SETTINGS_FILE, 'utf-8')
     const settings = JSON.parse(raw)
     if (settings.homePage) return settings.homePage
-  } catch {}
+  } catch {
+    // Settings missing or unreadable — fall through to FALLBACK_SLUG below.
+  }
   return FALLBACK_SLUG
 }
 
@@ -38,10 +40,15 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const hero = page.parsed.hero || {}
   const title = HOME_TITLE
-  const description: string = (hero.subtitle || hero.subheadline || hero.description || '').slice(0, 160)
+  const description: string = (hero.subtitle || hero.subheadline || hero.description || '').slice(
+    0,
+    160
+  )
   const image: string | undefined = hero.bannerImage || hero.backgroundImage || undefined
   const imageUrl = image
-    ? image.startsWith('http') ? image : `https://www.gamasome.com${image}`
+    ? image.startsWith('http')
+      ? image
+      : `https://www.gamasome.com${image}`
     : undefined
 
   return {
@@ -70,7 +77,9 @@ function buildHomeSchema(slug: string, parsed: any) {
   const name = HOME_TITLE
   const description: string = hero.subtitle || hero.subheadline || hero.description || ''
   const image: string | undefined = hero.bannerImage
-    ? hero.bannerImage.startsWith('http') ? hero.bannerImage : `https://www.gamasome.com${hero.bannerImage}`
+    ? hero.bannerImage.startsWith('http')
+      ? hero.bannerImage
+      : `https://www.gamasome.com${hero.bannerImage}`
     : undefined
 
   return [
@@ -86,9 +95,7 @@ function buildHomeSchema(slug: string, parsed: any) {
     {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: HOME_URL },
-      ],
+      itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: HOME_URL }],
     },
   ]
 }
@@ -107,17 +114,35 @@ export default async function HomePage() {
   const schemas = buildHomeSchema(slug, parsed)
 
   if (parsed._template === 'aiPlatform') {
-    const header = { data: { header: fallbackHeader as any }, query: HeaderDocument, variables: { relativePath: 'header.json' } }
-    const footer = { data: { footer: fallbackFooter as any }, query: FooterDocument, variables: { relativePath: 'footer.json' } }
+    const header = {
+      data: { header: fallbackHeader as any },
+      query: HeaderDocument,
+      variables: { relativePath: 'header.json' },
+    }
+    const footer = {
+      data: { footer: fallbackFooter as any },
+      query: FooterDocument,
+      variables: { relativePath: 'footer.json' },
+    }
     return (
       <>
         {schemas.map((s, i) => (
-          <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
+          <script
+            key={i}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }}
+          />
         ))}
         <AIPlatformView
-          pageData={pageProps.data}   pageQuery={pageProps.query}   pageVars={pageProps.variables}
-          headerData={header.data}    headerQuery={header.query}    headerVars={header.variables}
-          footerData={footer.data}    footerQuery={footer.query}    footerVars={footer.variables}
+          pageData={pageProps.data}
+          pageQuery={pageProps.query}
+          pageVars={pageProps.variables}
+          headerData={header.data}
+          headerQuery={header.query}
+          headerVars={header.variables}
+          footerData={footer.data}
+          footerQuery={footer.query}
+          footerVars={footer.variables}
         />
       </>
     )
@@ -126,7 +151,11 @@ export default async function HomePage() {
   return (
     <>
       {schemas.map((s, i) => (
-        <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }}
+        />
       ))}
       <ServicePageView
         pageData={pageProps.data}

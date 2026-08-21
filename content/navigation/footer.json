@@ -61,13 +61,16 @@
       "href": "/services/robotics-solutions/"
     },
     {
+      "title": "Simulation & Digital Twins",
+      "href": "/services/simulation-digital-twins/"
+    },
+    {
       "title": "AI Solutions",
       "href": "/services/ai-solutions/"
     },
     {
       "title": "AR / VR Development",
-      "href": "/services/ar-vr-development/",
-      "hidden": true
+      "href": "/services/ar-vr-development/"
     },
     {
       "title": "Blog",

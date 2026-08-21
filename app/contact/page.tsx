@@ -4,14 +4,16 @@ import { ContactDocument } from '../../tina/__generated__/types'
 import fallbackPage from '../../content/pages/contact.json'
 
 export const metadata: Metadata = {
-  title: 'Contact Gamasome | AI, AR/VR & Simulation Experts',
+  // absolute: this title already carries the brand, so bypass the
+  // `%s | Gamasome` template in app/layout.tsx rather than doubling it.
+  title: { absolute: 'Contact Gamasome | Physical AI, Robotics & Simulation' },
   description:
-    'Get in touch with Gamasome. Offices in Bengaluru, India and Mountain View, USA. Contact us for AI, AR/VR, simulation, and digital twin development projects.',
+    'Get in touch with Gamasome. Offices in Bengaluru, India and Mountain View, USA. Talk to us about Physical AI data, robotics, simulation and AR/VR projects.',
   alternates: { canonical: 'https://www.gamasome.com/contact/' },
   openGraph: {
-    title: 'Contact Gamasome | AI, AR/VR & Simulation Experts',
+    title: 'Contact Gamasome | Physical AI, Robotics & Simulation',
     description:
-      'Get in touch with Gamasome. Offices in Bengaluru, India and Mountain View, USA. Contact us for AI, AR/VR, simulation, and digital twin development projects.',
+      'Get in touch with Gamasome. Offices in Bengaluru, India and Mountain View, USA. Talk to us about Physical AI data, robotics, simulation and AR/VR projects.',
     url: 'https://www.gamasome.com/contact/',
     type: 'website',
   },

@@ -19,8 +19,8 @@ export default function TinaHeader({ headerData, headerQuery, headerVars }: Prop
   const data = normalizeTinaImages(rawData)
   const hdr = data.header
 
-  const [scrolled, setScrolled]   = useState(false)
-  const [menuOpen, setMenuOpen]   = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<number | null>(null)
 
   // Active-page matching: normalize trailing slashes so "/about/" === "/about".
@@ -41,21 +41,31 @@ export default function TinaHeader({ headerData, headerQuery, headerVars }: Prop
   }, [menuOpen])
 
   return (
-    <header className="flex items-center justify-between w-full max-w-none px-4 sm:px-10 md:px-24 bg-transparent py-10 fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <header className="fixed top-0 right-0 left-0 z-50 flex w-full max-w-none items-center justify-between bg-transparent px-4 py-10 transition-all duration-300 sm:px-10 md:px-24">
       <Link href="/" aria-label="Gamasome">
         <div
           className={`ml-0 flex items-center transition-all duration-300 hover:scale-105 ${scrolled ? '-translate-y-4 opacity-0' : 'translate-y-0 opacity-100'}`}
           data-tina-field={tinaField(hdr, 'logoImage')}
         >
           <div className="h-[56px] w-full max-w-[268px]">
-            {hdr?.logoImage
-              ? <Image src={hdr.logoImage} alt="Gamasome" width={268} height={56} className="h-full w-auto object-contain" />
-              : <Logo />}
+            {hdr?.logoImage ? (
+              <Image
+                src={hdr.logoImage}
+                alt="Gamasome"
+                width={268}
+                height={56}
+                className="h-full w-auto object-contain"
+              />
+            ) : (
+              <Logo />
+            )}
           </div>
         </div>
       </Link>
 
-      <div className={`mr-0 flex cursor-pointer items-center space-x-4 transition-all duration-300 ${scrolled ? '-translate-y-4 opacity-0' : 'translate-y-0 opacity-100'}`}>
+      <div
+        className={`mr-0 flex cursor-pointer items-center space-x-4 transition-all duration-300 ${scrolled ? '-translate-y-4 opacity-0' : 'translate-y-0 opacity-100'}`}
+      >
         <button
           className="flex cursor-pointer items-center transition-transform duration-300 hover:scale-110"
           onClick={() => setMenuOpen(true)}
@@ -74,101 +84,136 @@ export default function TinaHeader({ headerData, headerQuery, headerVars }: Prop
               className="absolute top-6 right-6 text-white hover:text-gray-300 sm:top-10 sm:right-10"
               aria-label="Close menu"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-8 w-8"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
             <nav className="flex flex-col space-y-6">
-              {hdr?.navLinks?.filter((l: any) => !l?.hidden).map((link: any, i: number) => {
-                const subLinks = (link?.subLinks ?? []).filter((s: any) => s?.title && s?.href)
-                const hasDropdown = subLinks.length > 0
-                const isOpen = openDropdown === i
+              {hdr?.navLinks
+                ?.filter((l: any) => !l?.hidden)
+                .map((link: any, i: number) => {
+                  const subLinks = (link?.subLinks ?? []).filter((s: any) => s?.title && s?.href)
+                  const hasDropdown = subLinks.length > 0
+                  const isOpen = openDropdown === i
 
-                const active = isActive(link?.href)
+                  const active = isActive(link?.href)
 
-                if (!hasDropdown) {
-                  return (
-                    <Link
-                      key={i}
-                      href={link.href}
-                      onClick={() => setMenuOpen(false)}
-                      aria-current={active ? 'page' : undefined}
-                      className={`menu-nav-item font-['Poppins'] text-xl font-semibold underline-offset-8 transition-colors sm:text-2xl md:text-3xl ${active ? 'text-[#00FCE2] underline decoration-2' : 'text-white'}`}
-                      data-tina-field={tinaField(link, 'title')}
-                      style={{ '--index': i } as React.CSSProperties}
-                    >
-                      {link.title}
-                    </Link>
-                  )
-                }
-
-                return (
-                  <div
-                    key={i}
-                    className="menu-nav-item flex flex-col items-start"
-                    style={{ '--index': i } as React.CSSProperties}
-                  >
-                    <div className="flex items-center gap-2">
+                  if (!hasDropdown) {
+                    return (
                       <Link
+                        key={i}
                         href={link.href}
                         onClick={() => setMenuOpen(false)}
                         aria-current={active ? 'page' : undefined}
-                        className={`font-['Poppins'] text-xl font-semibold underline-offset-8 transition-colors sm:text-2xl md:text-3xl ${active ? 'text-[#00FCE2] underline decoration-2' : 'text-white'}`}
+                        className={`menu-nav-item font-['Poppins'] text-xl font-semibold underline-offset-8 transition-colors sm:text-2xl md:text-3xl ${active ? 'text-[#00FCE2] underline decoration-2' : 'text-white'}`}
                         data-tina-field={tinaField(link, 'title')}
+                        style={{ '--index': i } as React.CSSProperties}
                       >
                         {link.title}
                       </Link>
-                      <button
-                        type="button"
-                        onClick={() => setOpenDropdown(isOpen ? null : i)}
-                        aria-expanded={isOpen}
-                        aria-label={`Toggle ${link.title} submenu`}
-                        className="text-white/80 transition-colors hover:text-white"
-                      >
-                        <svg
-                          className={`h-5 w-5 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth={2.5}
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          aria-hidden="true"
-                        >
-                          <path d="m6 9 6 6 6-6" />
-                        </svg>
-                      </button>
-                    </div>
+                    )
+                  }
 
-                    {isOpen && (
-                      <div className="mt-4 flex flex-col items-start gap-3 pl-4">
-                        {subLinks.map((sub: any, j: number) => (
-                          <Link
-                            key={j}
-                            href={sub.href}
-                            onClick={() => setMenuOpen(false)}
-                            aria-current={isActive(sub?.href) ? 'page' : undefined}
-                            className={`font-['Poppins'] text-lg font-normal underline-offset-4 transition-colors sm:text-xl md:text-2xl ${isActive(sub?.href) ? 'text-[#00FCE2] underline' : 'text-white/70 hover:text-white'}`}
-                            data-tina-field={tinaField(sub, 'title')}
+                  return (
+                    <div
+                      key={i}
+                      className="menu-nav-item flex flex-col items-start"
+                      style={{ '--index': i } as React.CSSProperties}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Link
+                          href={link.href}
+                          onClick={() => setMenuOpen(false)}
+                          aria-current={active ? 'page' : undefined}
+                          className={`font-['Poppins'] text-xl font-semibold underline-offset-8 transition-colors sm:text-2xl md:text-3xl ${active ? 'text-[#00FCE2] underline decoration-2' : 'text-white'}`}
+                          data-tina-field={tinaField(link, 'title')}
+                        >
+                          {link.title}
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => setOpenDropdown(isOpen ? null : i)}
+                          aria-expanded={isOpen}
+                          aria-label={`Toggle ${link.title} submenu`}
+                          className="text-white/80 transition-colors hover:text-white"
+                        >
+                          <svg
+                            className={`h-5 w-5 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth={2.5}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
                           >
-                            {sub.title}
-                          </Link>
-                        ))}
+                            <path d="m6 9 6 6 6-6" />
+                          </svg>
+                        </button>
                       </div>
-                    )}
-                  </div>
-                )
-              })}
+
+                      {isOpen && (
+                        <div className="mt-4 flex flex-col items-start gap-3 pl-4">
+                          {subLinks.map((sub: any, j: number) => (
+                            <Link
+                              key={j}
+                              href={sub.href}
+                              onClick={() => setMenuOpen(false)}
+                              aria-current={isActive(sub?.href) ? 'page' : undefined}
+                              className={`font-['Poppins'] text-lg font-normal underline-offset-4 transition-colors sm:text-xl md:text-2xl ${isActive(sub?.href) ? 'text-[#00FCE2] underline' : 'text-white/70 hover:text-white'}`}
+                              data-tina-field={tinaField(sub, 'title')}
+                            >
+                              {sub.title}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
             </nav>
           </div>
         </div>
       )}
 
       <style jsx global>{`
-        @keyframes menuFadeIn { from { opacity: 0 } to { opacity: 1 } }
-        .menu-fade-in { animation: menuFadeIn 0.3s ease-in-out; }
-        @keyframes menuSlideIn { from { transform: translateY(-20px); opacity: 0 } to { transform: translateY(0); opacity: 1 } }
-        .menu-nav-item { animation: menuSlideIn 0.4s ease-out forwards; animation-delay: calc(0.1s * var(--index)); opacity: 0; }
+        @keyframes menuFadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+        .menu-fade-in {
+          animation: menuFadeIn 0.3s ease-in-out;
+        }
+        @keyframes menuSlideIn {
+          from {
+            transform: translateY(-20px);
+            opacity: 0;
+          }
+          to {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+        .menu-nav-item {
+          animation: menuSlideIn 0.4s ease-out forwards;
+          animation-delay: calc(0.1s * var(--index));
+          opacity: 0;
+        }
       `}</style>
     </header>
   )

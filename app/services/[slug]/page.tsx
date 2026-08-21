@@ -4,15 +4,36 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import ServicePageView from '@/components/ServicePageView'
 import AIPlatformView from '../../ai-platform/AIPlatformView'
-import { HeaderDocument, FooterDocument, ServicePageDocument } from '../../../tina/__generated__/types'
+import {
+  HeaderDocument,
+  FooterDocument,
+  ServicePageDocument,
+} from '../../../tina/__generated__/types'
 import fallbackHeader from '../../../content/navigation/header.json'
 import fallbackFooter from '../../../content/navigation/footer.json'
 
 const SERVICES_DIR = path.join(process.cwd(), 'content/pages/services')
 
-export async function generateMetadata(
-  props: { params: Promise<{ slug: string }> }
-): Promise<Metadata> {
+/**
+ * Several CMS pageTitles already end in a brand suffix (e.g. 'AI Solutions - Gamasome').
+ * The root layout then appends its own `| Gamasome` template, which shipped titles like
+ * 'AI Solutions - Gamasome | Gamasome'. Strip a trailing brand so the template supplies it
+ * exactly once, whatever an editor types in Tina.
+ */
+function stripBrandSuffix(title: string): string {
+  return title.replace(/\s*[-–—|]\s*Gamasome\s*$/i, '').trim() || title
+}
+
+/** Hero headlines are split across `headline` + `headlineAccent`; join them into one sentence. */
+function joinHeadline(hero: { headline?: unknown; headlineAccent?: unknown }): string {
+  return [hero.headline, hero.headlineAccent]
+    .filter((part): part is string => typeof part === 'string' && part.trim() !== '')
+    .join(' ')
+}
+
+export async function generateMetadata(props: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
   const { slug } = await props.params
   const raw = await fs.readFile(path.join(SERVICES_DIR, `${slug}.json`), 'utf-8').catch(() => null)
   if (!raw) return {}
@@ -28,11 +49,29 @@ export async function generateMetadata(
   const seo = d.seo || {}
   const hero = d.hero || {}
 
-  const title: string = seo.metaTitle || d.pageTitle || hero.title || hero.headline || slug.replace(/-/g, ' ')
-  const description: string = seo.metaDescription || d.pageDescription || hero.subtitle || hero.description || ''
+  // Hero headlines are authored in two halves (headline + headlineAccent) rendered on
+  // separate lines. Falling back to `headline` alone produced a title cut off mid-sentence
+  // — /services/ai-platform/ shipped as 'Bring Intelligence to the'. Join the halves.
+  const heroHeadline: string = joinHeadline(hero)
+  const title: string = stripBrandSuffix(
+    seo.metaTitle || d.pageTitle || hero.title || heroHeadline || slug.replace(/-/g, ' ')
+  )
+  // `subheadline` is the field the aiPlatform template uses; without it in the chain a page
+  // with no explicit metaDescription fell through to an empty string.
+  const description: string =
+    seo.metaDescription ||
+    d.pageDescription ||
+    hero.subtitle ||
+    hero.subheadline ||
+    hero.description ||
+    ''
   const pageUrl: string = seo.canonicalUrl || `https://www.gamasome.com/services/${slug}/`
   const rawImage: string | undefined = seo.ogImage || hero.bannerImage || hero.backgroundImage
-  const image = rawImage ? (rawImage.startsWith('http') ? rawImage : `https://www.gamasome.com${rawImage}`) : undefined
+  const image = rawImage
+    ? rawImage.startsWith('http')
+      ? rawImage
+      : `https://www.gamasome.com${rawImage}`
+    : undefined
   const robots: string = seo.robots || 'index, follow'
 
   return {
@@ -106,11 +145,14 @@ async function getNavData() {
 
 function buildServiceSchema(slug: string, parsed: any) {
   const hero = parsed.hero || {}
-  const name: string = hero.title || hero.headline || slug.replace(/-/g, ' ')
-  const description: string = hero.subtitle || hero.subheadline || hero.description || parsed.pageDescription || ''
+  const name: string = hero.title || joinHeadline(hero) || slug.replace(/-/g, ' ')
+  const description: string =
+    hero.subtitle || hero.subheadline || hero.description || parsed.pageDescription || ''
   const url = `https://www.gamasome.com/services/${slug}/`
   const image: string | undefined = hero.bannerImage
-    ? hero.bannerImage.startsWith('http') ? hero.bannerImage : `https://www.gamasome.com${hero.bannerImage}`
+    ? hero.bannerImage.startsWith('http')
+      ? hero.bannerImage
+      : `https://www.gamasome.com${hero.bannerImage}`
     : undefined
 
   const serviceSchema = {
@@ -132,7 +174,12 @@ function buildServiceSchema(slug: string, parsed: any) {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.gamasome.com/' },
-      { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://www.gamasome.com/services/' },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Services',
+        item: 'https://www.gamasome.com/services/',
+      },
       { '@type': 'ListItem', position: 3, name, item: url },
     ],
   }
@@ -170,7 +217,7 @@ export default async function ServiceSlugPage(props: { params: Promise<{ slug: s
   // CMS-toggleable visibility: hidden pages 404 to visitors but the JSON stays.
   if (parsed?.hidden === true) notFound()
   const tinaCmsTemplate = parsed._template as string | undefined
-  const layoutTemplate  = (parsed.template || 'classic') as string
+  const layoutTemplate = (parsed.template || 'classic') as string
   const schemas = buildServiceSchema(slug, parsed)
 
   if (tinaCmsTemplate === 'aiPlatform') {
@@ -178,12 +225,22 @@ export default async function ServiceSlugPage(props: { params: Promise<{ slug: s
     return (
       <>
         {schemas.map((s, i) => (
-          <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
+          <script
+            key={i}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }}
+          />
         ))}
         <AIPlatformView
-          pageData={page.data}   pageQuery={page.query}   pageVars={page.variables}
-          headerData={header.data} headerQuery={header.query} headerVars={header.variables}
-          footerData={footer.data} footerQuery={footer.query} footerVars={footer.variables}
+          pageData={page.data}
+          pageQuery={page.query}
+          pageVars={page.variables}
+          headerData={header.data}
+          headerQuery={header.query}
+          headerVars={header.variables}
+          footerData={footer.data}
+          footerQuery={footer.query}
+          footerVars={footer.variables}
         />
       </>
     )
@@ -192,7 +249,11 @@ export default async function ServiceSlugPage(props: { params: Promise<{ slug: s
   return (
     <>
       {schemas.map((s, i) => (
-        <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }}
+        />
       ))}
       <ServicePageView
         pageData={page.data}

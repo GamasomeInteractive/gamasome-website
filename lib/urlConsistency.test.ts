@@ -59,11 +59,11 @@ describe('ensureTrailingSlash', () => {
   it('adds the slash to blog / service / core sitemap URLs', () => {
     assert.equal(
       ensureTrailingSlash('https://www.gamasome.com/blog/physical-ai-robotics'),
-      'https://www.gamasome.com/blog/physical-ai-robotics/',
+      'https://www.gamasome.com/blog/physical-ai-robotics/'
     )
     assert.equal(
       ensureTrailingSlash('https://www.gamasome.com/about'),
-      'https://www.gamasome.com/about/',
+      'https://www.gamasome.com/about/'
     )
     assert.equal(ensureTrailingSlash('/tags/robotics'), '/tags/robotics/')
   })
@@ -80,11 +80,11 @@ describe('ensureTrailingSlash', () => {
   it('leaves file-like URLs alone', () => {
     assert.equal(
       ensureTrailingSlash('https://www.gamasome.com/feed.xml'),
-      'https://www.gamasome.com/feed.xml',
+      'https://www.gamasome.com/feed.xml'
     )
     assert.equal(
       ensureTrailingSlash('https://www.gamasome.com/tags/robotics/feed.xml'),
-      'https://www.gamasome.com/tags/robotics/feed.xml',
+      'https://www.gamasome.com/tags/robotics/feed.xml'
     )
     assert.equal(ensureTrailingSlash('/sitemap.xml'), '/sitemap.xml')
   })
@@ -104,10 +104,7 @@ describe('ensureTrailingSlash', () => {
 })
 
 describe('findHrefIssues — content/navigation JSON files', () => {
-  const navFiles = [
-    'content/navigation/header.json',
-    'content/navigation/footer.json',
-  ]
+  const navFiles = ['content/navigation/header.json', 'content/navigation/footer.json']
 
   for (const rel of navFiles) {
     it(`${rel} has zero href issues`, () => {
@@ -118,7 +115,7 @@ describe('findHrefIssues — content/navigation JSON files', () => {
         issues,
         [],
         `${rel} contains internal hrefs missing trailing slash:\n` +
-        issues.map((i) => `  - ${i.href}: ${i.reason}`).join('\n'),
+          issues.map((i) => `  - ${i.href}: ${i.reason}`).join('\n')
       )
     })
   }

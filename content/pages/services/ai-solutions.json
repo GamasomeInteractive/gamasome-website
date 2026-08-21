@@ -132,7 +132,7 @@
     "description": "Yes, we can help you build intelligent AI-powered solutions for your business.",
     "primaryBtn": {
       "text": "Talk to our expert",
-      "href": "/contact"
+      "href": "/contact/"
     },
     "motion": {
       "easePreset": "inherit"

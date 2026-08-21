@@ -23,8 +23,8 @@ export default function SchedulePageView({ page }: Props) {
   const bookingUrl = booking.bookingUrl ?? ''
   const bookingHeading = booking.heading || 'Book a meeting'
   const bookingDescription =
-    booking.description || 'Pick a time that works for you and we’ll send a Google Meet invite automatically.'
-  // `?gv=true` renders Google's embeddable booking view.
+    booking.description ||
+    'Pick a time that works for you and we’ll send a Google Meet invite automatically.'
   const embedSrc = bookingUrl
     ? bookingUrl.includes('?')
       ? `${bookingUrl}&gv=true`
@@ -64,39 +64,58 @@ export default function SchedulePageView({ page }: Props) {
 
       {/* ── SCHEDULE SECTION ─────────────────────────────────────────── */}
       <section className="w-full bg-white pt-12 pb-16">
-        <div className="container mx-auto px-0 sm:px-4">
+        <div className="container mx-auto px-4">
           {/* Embedded Google Appointment Schedule */}
-          <SlideFromRight className="mx-auto w-full max-w-full sm:max-w-[90%]">
-            <h2 className="px-4 text-center font-['Poppins'] text-2xl leading-tight font-semibold tracking-[0.02em] text-[#333333] sm:px-0 sm:text-3xl sm:leading-[54px] md:text-4xl">
-              {bookingHeading}
-            </h2>
-            <div className="mx-auto my-3 h-[1px] w-[61px] bg-[#767E7E]" />
-            <p className="mb-6 px-4 text-center font-['Poppins'] text-sm leading-[190%] font-normal tracking-[0.02em] text-[#333333] sm:px-0 sm:text-base">
-              {bookingDescription}
-            </p>
-            {/* Full-bleed on mobile (no side padding / rounded border); framed on larger screens.
-                Fixed height on mobile (mobile browser chrome makes vh jump); viewport height above. */}
-            <div className="h-[560px] overflow-hidden sm:h-[80vh] sm:min-h-[640px] sm:rounded-[10px] sm:border sm:border-[#E3E3E3] sm:shadow-sm">
-              {embedSrc ? (
-                // Horizontal scroll on phones/tablets: Google's weekly booking grid is wider
-                // than a small screen, so scroll rather than crush it. min-w keeps it usable;
-                // on desktop the iframe fills the container and there's nothing to scroll.
-                <div className="h-full w-full overflow-x-auto overflow-y-hidden">
-                  <iframe
-                    src={embedSrc}
-                    title="Book a meeting"
-                    style={{ border: 0 }}
-                    loading="lazy"
-                    className="block h-full w-full min-w-[1100px]"
-                  />
-                </div>
-              ) : (
-                <div className="flex h-full items-center justify-center px-6 text-center text-sm text-[#767E7E]">
-                  Add a Google Appointment Schedule URL in the CMS to show the booking calendar.
-                </div>
-              )}
+          <SlideFromRight className="mx-auto w-full">
+            <div className="mx-auto max-w-full sm:max-w-[90%]">
+              <h2 className="text-center font-['Poppins'] text-2xl leading-tight font-semibold tracking-[0.02em] text-[#333333] sm:text-3xl sm:leading-[54px] md:text-4xl">
+                {bookingHeading}
+              </h2>
+              <div className="mx-auto my-3 h-[1px] w-[61px] bg-[#767E7E]" />
+              <p className="mb-6 text-center font-['Poppins'] text-sm leading-[190%] font-normal tracking-[0.02em] text-[#333333] sm:text-base">
+                {bookingDescription}
+              </p>
             </div>
           </SlideFromRight>
+        </div>
+
+        {/* The embed is cross-origin, so no CSS of ours reaches inside it — the scrollbar is
+            Google's own root document scrolling, and the only cure is giving the frame a size its
+            layout is happy at. Widths and heights below were measured against the live embed
+            (headless Chrome, reading scrollHeight inside the frame), not estimated:
+
+              frame width   Google's layout    natural content height
+              360–565px     stacked mobile     1281–1329px
+              570–599px     stacked, 2-col      1809px   ← trap band, avoid entirely
+              600–850px     compact desktop      869px   (887px at exactly 600)
+              900px+        wide desktop        1382px
+
+            Width is the lever, not just height: holding the frame in the 600–850px band asks
+            ~500px less height than letting it run full width. Hence sm:max-w-[800px] — centred,
+            not full-bleed. Below sm the frame is capped at 560px instead, to stay clear of the
+            570–599px trap band: a 600px viewport minus a ~15px scrollbar lands at 585px, which
+            costs 1809px of height.
+
+            The block sits OUTSIDE the padded container on purpose. Nested inside it, a 640px
+            viewport left the frame ~591px wide once container padding and the scrollbar came out
+            — under the 600px floor, so the scrollbar came back.
+
+            Heights carry 2 slot rows (2 × 48px, measured) of headroom, because the layout grows
+            one 48px row per extra slot offered on the selected day. */}
+        <div className="mx-auto h-[1430px] w-full max-w-[560px] sm:h-[990px] sm:max-w-[800px] sm:overflow-hidden sm:rounded-[10px] sm:border sm:border-[#E3E3E3] sm:shadow-sm">
+          {embedSrc ? (
+            <iframe
+              src={embedSrc}
+              title="Book a meeting"
+              style={{ border: 0 }}
+              loading="lazy"
+              className="block h-full w-full"
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center px-6 text-center text-sm text-[#767E7E]">
+              Add a Google Appointment Schedule URL in the CMS to show the booking calendar.
+            </div>
+          )}
         </div>
       </section>
     </div>

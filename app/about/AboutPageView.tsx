@@ -3,7 +3,12 @@ import { useTina, tinaField } from 'tinacms/dist/react'
 import { normalizeTinaImages } from '@/lib/normalizeTinaImages'
 import Image from 'next/image'
 import Link from '@/components/Link'
-import { FadeIn, SlideFromLeft, SlideFromRight, SlideFromBottom } from '@/components/AnimatedSection'
+import {
+  FadeIn,
+  SlideFromLeft,
+  SlideFromRight,
+  SlideFromBottom,
+} from '@/components/AnimatedSection'
 
 type Props = {
   pageData: any
@@ -22,12 +27,10 @@ export default function AboutPageView({ pageData, pageQuery, pageVars }: Props) 
 
   return (
     <div className="relative w-full font-['Poppins']">
-
       {/* ── HERO ─────────────────────────────────────────────────────── */}
       <div className="relative min-h-screen overflow-hidden bg-[#2D9CDB]">
         <div className="relative z-10 container mx-auto flex min-h-screen items-center px-4 lg:px-8">
           <div className="grid w-full grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-16">
-
             {/* Left — text */}
             <SlideFromLeft className="space-y-6 text-white">
               {hero?.breadcrumb && (
@@ -50,7 +53,9 @@ export default function AboutPageView({ pageData, pageQuery, pageVars }: Props) 
               >
                 {/* body is a plain string with \n\n separating paragraphs */}
                 {hero?.body?.split('\n\n').map((para: string, i: number) => (
-                  <p key={i} className="font-['Poppins']">{para}</p>
+                  <p key={i} className="font-['Poppins']">
+                    {para}
+                  </p>
                 ))}
               </div>
             </SlideFromLeft>
@@ -58,7 +63,10 @@ export default function AboutPageView({ pageData, pageQuery, pageVars }: Props) 
             {/* Right — image */}
             {hero?.image && (
               <SlideFromRight className="flex justify-center lg:justify-end">
-                <div className="relative w-full max-w-md lg:max-w-lg" data-tina-field={tinaField(hero, 'image')}>
+                <div
+                  className="relative w-full max-w-md lg:max-w-lg"
+                  data-tina-field={tinaField(hero, 'image')}
+                >
                   <div className="absolute inset-0 z-10 rounded-lg bg-[#0C0E21] opacity-40" />
                   <Image
                     src={hero.image}

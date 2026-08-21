@@ -1,0 +1,42 @@
+{
+  "hero": {
+    "breadcrumb": "HOME > Privacy Policy",
+    "title": "Privacy Policy"
+  },
+  "lastUpdated": "21 August 2026",
+  "intro": "This policy explains what gamasome.com collects when you visit the site or get in touch, and what we do with it. It covers this website only. Data handled inside a client engagement is governed by the agreement and NDA for that engagement.",
+  "sections": [
+    {
+      "heading": "Who we are",
+      "body": "Gamasome is a Physical AI and robotics data company with offices in Bengaluru, India and Mountain View, California, USA. For any question about this policy or your data, contact prasanna@gamasome.com."
+    },
+    {
+      "heading": "What we collect",
+      "body": "When you submit the contact form we collect the name, email address, phone number and message you enter. When you subscribe to the newsletter we collect your email address. When you browse the site our analytics providers collect usage data such as pages viewed, approximate location derived from IP address, device and browser type, referring site, and interactions with the page. We do not ask for or store payment details on this website, and the site has no user accounts or logins."
+    },
+    {
+      "heading": "Analytics and cookies",
+      "body": "We use Google Analytics 4 and Microsoft Clarity to understand how the site is used. Microsoft Clarity also records session activity such as mouse movement, scrolling and clicks. These services set cookies or similar identifiers in your browser. If Umami analytics is enabled it is used in the same way. You can block cookies in your browser settings; the site remains usable without them."
+    },
+    {
+      "heading": "Who your data is shared with",
+      "body": "Contact form submissions are delivered through Google Workspace (Google Apps Script) and reach the Gamasome team. Newsletter addresses are stored with our email provider. Analytics data is processed by Google and Microsoft under their own terms. We do not sell your personal data and we do not share it with third parties for their own marketing."
+    },
+    {
+      "heading": "How long we keep it",
+      "body": "Enquiries are kept for as long as needed to respond and to maintain a record of the conversation. Newsletter subscriptions are kept until you unsubscribe. Analytics data is retained according to the retention settings of each provider."
+    },
+    {
+      "heading": "Your rights",
+      "body": "Depending on where you live, you may have the right to access, correct, export or delete the personal data we hold about you, to object to processing, or to withdraw consent. Email prasanna@gamasome.com and we will respond. You can unsubscribe from the newsletter at any time using the link in any email we send."
+    },
+    {
+      "heading": "International transfers",
+      "body": "We operate from India and the United States and use service providers that may process data in other countries. Where personal data is transferred internationally we rely on the safeguards offered by those providers."
+    },
+    {
+      "heading": "Changes to this policy",
+      "body": "We may update this policy as the site or our services change. The date at the top of this page shows when it was last revised."
+    }
+  ]
+}

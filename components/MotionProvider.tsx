@@ -53,9 +53,7 @@ export function MotionProvider({
   const resolved = getEffectiveMotion(merged.easePreset, merged.durationScale)
 
   return (
-    <MotionContext.Provider
-      value={{ settings: merged, ease: resolved.ease, dur: resolved.dur }}
-    >
+    <MotionContext.Provider value={{ settings: merged, ease: resolved.ease, dur: resolved.dur }}>
       {children}
     </MotionContext.Provider>
   )

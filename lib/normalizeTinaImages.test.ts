@@ -30,10 +30,7 @@ describe('normalizeTinaImages — CDN → local path', () => {
   // ── Core case: Tina strips mediaRoot prefix ──────────────────────────────
   it('restores /static/images/ when Tina strips mediaRoot', () => {
     // This is THE regression case — was producing /sim-banner.jpg (404)
-    assert.equal(
-      normalizeTinaImages(cdn('sim-banner.jpg')),
-      '/static/images/sim-banner.jpg'
-    )
+    assert.equal(normalizeTinaImages(cdn('sim-banner.jpg')), '/static/images/sim-banner.jpg')
   })
 
   it('handles filenames with hyphens and extensions', () => {
@@ -44,10 +41,7 @@ describe('normalizeTinaImages — CDN → local path', () => {
   })
 
   it('handles filenames in subdirectory (e.g. canada/)', () => {
-    assert.equal(
-      normalizeTinaImages(cdn('canada/maple.jpg')),
-      '/static/images/canada/maple.jpg'
-    )
+    assert.equal(normalizeTinaImages(cdn('canada/maple.jpg')), '/static/images/canada/maple.jpg')
   })
 
   // ── Edge case: CDN URL already contains full path ────────────────────────
@@ -60,18 +54,12 @@ describe('normalizeTinaImages — CDN → local path', () => {
 
   // ── /uploads/ prefix stripping ───────────────────────────────────────────
   it('strips /uploads/ prefix that Tina sometimes writes', () => {
-    assert.equal(
-      normalizeTinaImages('/uploads/static/images/foo.jpg'),
-      '/static/images/foo.jpg'
-    )
+    assert.equal(normalizeTinaImages('/uploads/static/images/foo.jpg'), '/static/images/foo.jpg')
   })
 
   // ── Passthrough: non-image strings ───────────────────────────────────────
   it('leaves already-correct local paths untouched', () => {
-    assert.equal(
-      normalizeTinaImages('/static/images/blog.png'),
-      '/static/images/blog.png'
-    )
+    assert.equal(normalizeTinaImages('/static/images/blog.png'), '/static/images/blog.png')
   })
 
   it('leaves non-image strings untouched', () => {

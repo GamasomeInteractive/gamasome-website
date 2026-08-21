@@ -43,7 +43,7 @@ export function VersionHistoryScreen() {
   const load = useCallback(async () => {
     try {
       const res = await fetch('/api/versions')
-      const d = await res.json()
+      const d = (await res.json()) as { versions?: Version[] }
       setVersions(d.versions || [])
     } finally { setLoading(false) }
   }, [])

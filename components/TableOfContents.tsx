@@ -53,7 +53,9 @@ export default function TableOfContents({ toc, showHeading = true }: TableOfCont
     <nav
       aria-label="Table of contents"
       className={
-        showHeading ? "rounded-lg border border-gray-200 bg-white p-5 font-['Poppins']" : "font-['Poppins']"
+        showHeading
+          ? "rounded-lg border border-gray-200 bg-white p-5 font-['Poppins']"
+          : "font-['Poppins']"
       }
     >
       {showHeading && (
@@ -66,10 +68,7 @@ export default function TableOfContents({ toc, showHeading = true }: TableOfCont
           const id = item.url.replace(/^#/, '')
           const isActive = id === activeId
           return (
-            <li
-              key={item.url}
-              className={`flex gap-3 ${item.depth === 3 ? 'pl-5' : ''}`}
-            >
+            <li key={item.url} className={`flex gap-3 ${item.depth === 3 ? 'pl-5' : ''}`}>
               <span
                 className={`shrink-0 text-lg font-semibold tabular-nums ${
                   isActive ? 'text-[#000B71]' : 'text-gray-400'
@@ -80,9 +79,7 @@ export default function TableOfContents({ toc, showHeading = true }: TableOfCont
               <a
                 href={item.url}
                 className={`text-lg leading-snug transition-colors ${
-                  isActive
-                    ? 'font-medium text-[#000B71]'
-                    : 'text-gray-600 hover:text-[#000B71]'
+                  isActive ? 'font-medium text-[#000B71]' : 'text-gray-600 hover:text-[#000B71]'
                 }`}
               >
                 {item.value}

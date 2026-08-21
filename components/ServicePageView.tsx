@@ -26,13 +26,75 @@ type Props = {
 }
 
 const ENGAGEMENT_ICONS = [
-  <svg key="calendar" xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-[#2D9CDB]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>,
-  <svg key="shield" xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-[#2D9CDB]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>,
-  <svg key="clock" xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-[#2D9CDB]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
-  <svg key="clip" xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-[#2D9CDB]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>,
+  <svg
+    key="calendar"
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-10 w-10 text-[#2D9CDB]"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={1.5}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+    />
+  </svg>,
+  <svg
+    key="shield"
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-10 w-10 text-[#2D9CDB]"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={1.5}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+    />
+  </svg>,
+  <svg
+    key="clock"
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-10 w-10 text-[#2D9CDB]"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={1.5}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+    />
+  </svg>,
+  <svg
+    key="clip"
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-10 w-10 text-[#2D9CDB]"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={1.5}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+    />
+  </svg>,
 ]
 
-export default function ServicePageView({ pageData, pageQuery, pageVars, collectionKey, template = 'classic' }: Props) {
+export default function ServicePageView({
+  pageData,
+  pageQuery,
+  pageVars,
+  collectionKey,
+  template = 'classic',
+}: Props) {
   const { data: rawData } = useTina({ data: pageData, query: pageQuery, variables: pageVars })
   const data = normalizeTinaImages(rawData)
   const page = data[collectionKey]
@@ -44,20 +106,37 @@ export default function ServicePageView({ pageData, pageQuery, pageVars, collect
 
   const {
     hero,
-    servicesHeading, services, servicesMotion,
-    showEngagement, engagementHeading, engagementModels, engagementMotion,
-    showreelVideoUrl, spotlight,
-    showUseCases, useCasesHeading, useCases, useCasesMotion,
-    showPortfolio, portfolioHeading, portfolio, portfolioMotion,
-    techHeading, technologies, techMotion,
+    servicesHeading,
+    services,
+    servicesMotion,
+    showEngagement,
+    engagementHeading,
+    engagementModels,
+    engagementMotion,
+    showreelVideoUrl,
+    spotlight,
+    showUseCases,
+    useCasesHeading,
+    useCases,
+    useCasesMotion,
+    showPortfolio,
+    portfolioHeading,
+    portfolio,
+    portfolioMotion,
+    techHeading,
+    technologies,
+    techMotion,
     ctaBox,
   } = page
 
   return (
     <div className="relative w-full bg-white font-['Poppins']">
-
       {/* ── HERO BANNER ──────────────────────────────────────────────── */}
-      <SectionMotion motion={hero?.motion} as="section" className="relative h-screen w-full bg-[#07091B]">
+      <SectionMotion
+        motion={hero?.motion}
+        as="section"
+        className="relative h-screen w-full bg-[#07091B]"
+      >
         <div className="absolute inset-0 z-0 bg-[#000B71]" />
         {hero?.bannerImage && (
           <div className="absolute inset-0 z-10" data-tina-field={tinaField(hero, 'bannerImage')}>
@@ -110,7 +189,11 @@ export default function ServicePageView({ pageData, pageQuery, pageVars, collect
 
       {/* ── SERVICES SECTION ─────────────────────────────────────────── */}
       {services && services.length > 0 && (
-        <SectionMotion motion={servicesMotion} as="section" className="relative w-full bg-white py-16">
+        <SectionMotion
+          motion={servicesMotion}
+          as="section"
+          className="relative w-full bg-white py-16"
+        >
           <div className="container mx-auto px-4">
             {servicesHeading && (
               <FadeIn>
@@ -142,7 +225,9 @@ export default function ServicePageView({ pageData, pageQuery, pageVars, collect
                         />
                       </div>
                     )}
-                    <div className={`flex flex-col justify-center ${service.image ? 'sm:w-1/2' : 'w-full'}`}>
+                    <div
+                      className={`flex flex-col justify-center ${service.image ? 'sm:w-1/2' : 'w-full'}`}
+                    >
                       <h3
                         className="mb-4 font-['Poppins'] text-2xl font-semibold text-gray-800"
                         data-tina-field={tinaField(service, 'title')}
@@ -175,7 +260,11 @@ export default function ServicePageView({ pageData, pageQuery, pageVars, collect
 
       {/* ── ENGAGEMENT MODELS (conditional) ─────────────────────────── */}
       {showEngagement && engagementModels && engagementModels.length > 0 && (
-        <SectionMotion motion={engagementMotion} as="section" className="relative w-full bg-[#F1FAFF] py-16">
+        <SectionMotion
+          motion={engagementMotion}
+          as="section"
+          className="relative w-full bg-[#F1FAFF] py-16"
+        >
           <div className="container mx-auto px-4">
             {engagementHeading && (
               <FadeIn>
@@ -217,7 +306,7 @@ export default function ServicePageView({ pageData, pageQuery, pageVars, collect
         <section className="relative w-full bg-white py-16">
           <div className="container mx-auto px-4">
             <div
-              className="mx-auto aspect-video max-w-4xl rounded-lg shadow-lg overflow-hidden"
+              className="mx-auto aspect-video max-w-4xl overflow-hidden rounded-lg shadow-lg"
               data-tina-field={tinaField(page, 'showreelVideoUrl')}
             >
               <iframe
@@ -240,7 +329,9 @@ export default function ServicePageView({ pageData, pageQuery, pageVars, collect
           motion={spotlight?.motion}
           as="section"
           className="relative w-full bg-white bg-cover bg-center py-16"
-          style={{ backgroundImage: "url('/static/images/metaverse-bg.png')" } as React.CSSProperties}
+          style={
+            { backgroundImage: "url('/static/images/metaverse-bg.png')" } as React.CSSProperties
+          }
         >
           <div className="relative z-10 mx-auto flex max-w-[1384px] flex-col gap-8 px-4 md:flex-row">
             {spotlight.videoUrl && (
@@ -286,7 +377,11 @@ export default function ServicePageView({ pageData, pageQuery, pageVars, collect
 
       {/* ── USE CASES VIDEOS (conditional) ──────────────────────────── */}
       {showUseCases && useCases && useCases.length > 0 && (
-        <SectionMotion motion={useCasesMotion} as="section" className="relative flex w-full flex-col items-center bg-[#F1FAFF] py-16">
+        <SectionMotion
+          motion={useCasesMotion}
+          as="section"
+          className="relative flex w-full flex-col items-center bg-[#F1FAFF] py-16"
+        >
           <div className="container mx-auto px-4">
             {useCasesHeading && (
               <FadeIn>
@@ -304,7 +399,10 @@ export default function ServicePageView({ pageData, pageQuery, pageVars, collect
             >
               {useCases.map((uc: any, i: number) => (
                 <StaggerItem key={i} className="flex flex-col overflow-hidden rounded-[4px]">
-                  <div className="relative aspect-video w-full" data-tina-field={tinaField(uc, 'videoUrl')}>
+                  <div
+                    className="relative aspect-video w-full"
+                    data-tina-field={tinaField(uc, 'videoUrl')}
+                  >
                     <iframe
                       className="h-full w-full"
                       src={uc.videoUrl}
@@ -330,7 +428,11 @@ export default function ServicePageView({ pageData, pageQuery, pageVars, collect
 
       {/* ── PORTFOLIO (conditional) ──────────────────────────────────── */}
       {showPortfolio && portfolio && portfolio.length > 0 && (
-        <SectionMotion motion={portfolioMotion} as="section" className="relative flex w-full flex-col items-center bg-[#2D9CDB] py-16">
+        <SectionMotion
+          motion={portfolioMotion}
+          as="section"
+          className="relative flex w-full flex-col items-center bg-[#2D9CDB] py-16"
+        >
           <div className="container mx-auto px-4">
             {portfolioHeading && (
               <FadeIn>
@@ -387,7 +489,11 @@ export default function ServicePageView({ pageData, pageQuery, pageVars, collect
 
       {/* ── TECHNOLOGIES + CTA BOX ───────────────────────────────────── */}
       {technologies && technologies.length > 0 && (
-        <SectionMotion motion={techMotion} as="section" className="relative w-full bg-[#2D9CDB] py-16">
+        <SectionMotion
+          motion={techMotion}
+          as="section"
+          className="relative w-full bg-[#2D9CDB] py-16"
+        >
           {techHeading && (
             <FadeIn>
               <h2
@@ -403,8 +509,14 @@ export default function ServicePageView({ pageData, pageQuery, pageVars, collect
             staggerDelay={0.1}
           >
             {technologies.map((tech: any, i: number) => (
-              <StaggerItem key={i} className="flex h-[133px] w-full items-center justify-center border border-[#00FCE2]">
-                <div className="flex h-full w-full items-center justify-center" data-tina-field={tinaField(tech, 'name')}>
+              <StaggerItem
+                key={i}
+                className="flex h-[133px] w-full items-center justify-center border border-[#00FCE2]"
+              >
+                <div
+                  className="flex h-full w-full items-center justify-center"
+                  data-tina-field={tinaField(tech, 'name')}
+                >
                   {tech.image && (
                     <Image
                       src={tech.image}

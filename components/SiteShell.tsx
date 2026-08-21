@@ -6,16 +6,24 @@ import StickyDemoCTA from './StickyDemoCTA'
 
 type Props = {
   children: React.ReactNode
-  headerData: any;  headerQuery: string;  headerVars: object
-  footerData: any;  footerQuery: string;  footerVars: object
+  headerData: any
+  headerQuery: string
+  headerVars: object
+  footerData: any
+  footerQuery: string
+  footerVars: object
   bareSlugs?: string[]
   homePageIsBare?: boolean
 }
 
 export default function SiteShell({
   children,
-  headerData, headerQuery, headerVars,
-  footerData, footerQuery, footerVars,
+  headerData,
+  headerQuery,
+  headerVars,
+  footerData,
+  footerQuery,
+  footerVars,
   bareSlugs = [],
   homePageIsBare = false,
 }: Props) {

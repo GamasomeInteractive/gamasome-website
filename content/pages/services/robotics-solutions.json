@@ -113,7 +113,7 @@
     "description": "Let us help you develop, simulate, and deploy your robotics systems.",
     "primaryBtn": {
       "text": "Talk to our expert",
-      "href": "/contact"
+      "href": "/contact/"
     },
     "motion": {
       "easePreset": "inherit"

@@ -16,11 +16,11 @@
     "subheadline": "A generic labeling platform can draw a box around a coffee mug. It has no idea where a robot's grasp attempt ends and its placement action begins, or how six camera feeds and a force-torque sensor need to line up on the same timestamp. Our annotators are trained on robot task semantics, not just a click-and-tag interface, so the taxonomy still holds up once a model is actually driving hardware.",
     "primaryCta": {
       "text": "Book a Demo",
-      "href": "/contact"
+      "href": "/contact/"
     },
     "secondaryCta": {
       "text": "",
-      "href": "/contact"
+      "href": "/contact/"
     },
     "image": "/static/images/data-annotation-review.svg",
     "imageAlt": "Multi-sensor annotation review interface showing a labeled camera frame with bounding boxes, a label taxonomy panel, an action timeline, and a synced force-torque waveform with contact event markers",

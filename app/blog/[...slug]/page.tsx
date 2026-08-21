@@ -50,13 +50,15 @@ export async function generateMetadata(props: {
     }
   })
 
-  const seo = (post as any).seo as { metaTitle?: string; metaDescription?: string; canonicalUrl?: string } | undefined
+  const seo = (post as any).seo as
+    | { metaTitle?: string; metaDescription?: string; canonicalUrl?: string }
+    | undefined
   const metaTitle = seo?.metaTitle || post.title
   const metaDescription = seo?.metaDescription || post.summary
   // ensureTrailingSlash: live post URLs end with '/' (trailingSlash:true) — a
   // slashless canonical makes Google index the pair as duplicates.
   const canonicalUrl = ensureTrailingSlash(
-    seo?.canonicalUrl || post.canonicalUrl || `${siteMetadata.siteUrl}/blog/${slug}`,
+    seo?.canonicalUrl || post.canonicalUrl || `${siteMetadata.siteUrl}/blog/${slug}`
   )
 
   return {
@@ -131,17 +133,18 @@ export default async function Page(props: { params: Promise<{ slug: string[] }> 
   const Layout = layouts[post.layout || defaultLayout]
 
   const faqs = (post as any).faqs as Array<{ question: string; answer: string }> | undefined
-  const faqSchema = faqs && faqs.length > 0
-    ? {
-        '@context': 'https://schema.org',
-        '@type': 'FAQPage',
-        mainEntity: faqs.map((f) => ({
-          '@type': 'Question',
-          name: f.question,
-          acceptedAnswer: { '@type': 'Answer', text: f.answer },
-        })),
-      }
-    : null
+  const faqSchema =
+    faqs && faqs.length > 0
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: faqs.map((f) => ({
+            '@type': 'Question',
+            name: f.question,
+            acceptedAnswer: { '@type': 'Answer', text: f.answer },
+          })),
+        }
+      : null
 
   return (
     <>

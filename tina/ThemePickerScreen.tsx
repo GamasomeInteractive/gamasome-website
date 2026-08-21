@@ -12,7 +12,7 @@ export function ThemePickerScreen() {
 
   useEffect(() => {
     fetch('/api/theme')
-      .then(r => r.json())
+      .then(r => r.json() as Promise<{ currentPreset?: string }>)
       .then(d => setCurrentPreset(d.currentPreset || 'dark-cosmic'))
       .catch(() => {})
   }, [])
