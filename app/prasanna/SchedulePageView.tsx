@@ -102,7 +102,7 @@ export default function SchedulePageView({ page }: Props) {
 
             Heights carry 2 slot rows (2 × 48px, measured) of headroom, because the layout grows
             one 48px row per extra slot offered on the selected day. */}
-        <div className="mx-auto h-[1430px] w-full max-w-[560px] sm:h-[990px] sm:max-w-[800px] sm:overflow-hidden sm:rounded-[10px] sm:border sm:border-[#E3E3E3] sm:shadow-sm">
+        <div className="mx-auto h-[1430px] w-full max-w-[560px] sm:h-[990px] sm:max-w-[90%] sm:overflow-hidden sm:rounded-[10px] sm:border sm:border-[#E3E3E3] sm:shadow-sm">
           {embedSrc ? (
             <iframe
               src={embedSrc}
