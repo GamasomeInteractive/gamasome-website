@@ -1,0 +1,223 @@
+---
+title: 'Physical AI in Manufacturing: How Smart Factories Are Being Rebuilt Around Robots'
+date: 2026-08-29T07:00:00.000Z
+tags:
+  - Physical AI
+  - Manufacturing
+  - Smart Factory
+  - Robotics
+draft: false
+summary: "Smart factories are being re-architected, not just automated. What BMW's humanoid pilot proved, and why the data spine matters more than the robot."
+images:
+  - /static/images/physical-ai-in-manufacturing.jpg
+authors:
+  - prasanna-venkatesan
+layout: PostLayout
+canonicalUrl: 'https://www.gamasome.com/blog/physical-ai-in-manufacturing/'
+seo:
+  metaTitle: 'Physical AI in Manufacturing: Rebuilding the Smart Factory'
+  metaDescription: "Smart factories are being re-architected, not just automated. What BMW's humanoid pilot proved, and why the data spine matters more than the robot."
+  canonicalUrl: ''
+  changefreq: weekly
+faqHeading: Frequently asked questions
+faqs:
+  - question: What is physical AI in manufacturing?
+    answer: 'Machines that learn tasks from data and tolerate variation, rather than executing fixed programmed paths. It covers learned grasping and assembly, vision-based inspection, mobile manipulation for material handling and sequencing, and general-purpose humanoid or wheeled platforms on live lines. The shift is from programmed automation to trained automation.'
+  - question: What did BMW's humanoid pilot actually prove?
+    answer: 'Over roughly ten months at Plant Spartanburg, a Figure 02 robot supported production of more than 30,000 X3 vehicles, moved over 90,000 components across about 1,250 operating hours, and covered around 1.2 million steps placing sheet metal for welding. It proved a humanoid can hold one bounded production task reliably over months. It did not prove general-purpose factory labor.'
+  - question: How is learned automation different from a traditional industrial robot?
+    answer: 'Programmed robots execute fixed trajectories with high repeatability and no tolerance for variation; changeover means reprogramming. Learned systems train on demonstration and simulation data, handle variation within their trained distribution, and adapt through retraining. Their failure mode is statistical degradation rather than a hard stop, which changes how you validate them.'
+  - question: How automated are factories already?
+    answer: 'Heavily. Global industrial robot installations hit a record of roughly 621,000 units in a single year, with operational stock in the millions. Western European manufacturing averaged 267 robots per 10,000 employees in 2024, ahead of North America at 204 and Asia at 131. Physical AI changes the kind of automation present, not whether automation exists.'
+  - question: Why do smart factory pilots fail to scale beyond one cell?
+    answer: 'Because the pilot usually succeeded through bespoke integration. Hand-tuned fixturing, custom lighting, an undocumented calibration procedure, and a one-off data pipeline do not transfer. The second cell then costs nearly as much as the first. Standardizing calibration, capture, and simulation assets between cell one and cell two is what makes the rollout arithmetic work.'
+  - question: Will humanoid robots replace factory workers?
+    answer: 'Not on current trajectories. Goldman Sachs projects humanoids could fill roughly 4% of US manufacturing labor shortages by 2030, and Deloitte still expects around 81% of manufacturing task hours to be performed by people. The dominant workforce problem is a projected 1.9 million unfilled US manufacturing roles by 2033, which is a shortage rather than a surplus.'
+  - question: How much simulation work does a physical AI program actually require?
+    answer: 'More than most plans allow. Policies are typically trained and hardened in simulation before touching a live line, which requires physics-valid assets with correct mass properties, joint limits, and collision geometry. Visually accurate assets exported from CAD without physics validation are one of the most common causes of poor sim-to-real transfer.'
+  - question: What should a plant build first?
+    answer: 'The data spine. Unified, time-synchronized production data with logged calibration and outcome labels is what makes every subsequent deployment cheaper. BMW consolidated its production data platform before running humanoid pilots, and that sequencing is a large part of why the pilots produced usable results.'
+---
+
+A humanoid moved 90,000 parts in a BMW body shop and made headlines everywhere. The more important thing BMW did that year got almost no coverage, and it is the reason the robot worked at all.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">Plant Spartanburg, South Carolina</p>
+  <p className="mb-3 text-gray-700">In the body shop where BMW builds the X3, a robot called Figure 02 spent ten months doing one job: reaching into a rack, picking up sheet metal parts, and placing them precisely for welding. Ten-hour shifts, five days a week.</p>
+  <p className="mb-3 text-gray-700">By the end of the pilot the numbers were unusually concrete for this field. <a href="https://www.press.bmwgroup.com/global/article/detail/T0455864EN/bmw-group-to-deploy-humanoid-robots-in-production-in-germany-for-the-first-time?language=en" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">BMW reported</a> that the robot supported production of more than 30,000 X3 vehicles, moved over 90,000 components, logged around 1,250 operating hours, and covered roughly 1.2 million steps. Figure has since reported over 99% placement accuracy against an 84-second cycle time target.</p>
+  <p className="text-gray-700">The follow-up is telling. The successor model, Figure 03, was assigned in mid-2026 to a completely different job: sorting unsorted components into sequencing trolleys for just-in-time delivery to the line, work that had previously been done by hand.</p>
+</div>
+
+Almost every article about that deployment focused on the humanoid. That is understandable and mostly beside the point.
+
+Buried in BMW's own announcement is a sentence that explains far more about why the pilot succeeded: the company had, over preceding years, consolidated isolated data silos in its production system into a unified platform where all data is consistent, standardized, and continuously available. BMW then created a dedicated [Center of Competence for Physical AI in Production](https://www.bmwgroup.com/en/news/general/2026/humanoid-robot-in-leipzig.html) to drive integration across plants.
+
+That is the actual story. The robot is the visible tip of a rebuild that happened underneath it. Plants that skip the rebuild and buy the robot get a very expensive demonstration.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">The short version</p>
+  <p className="text-gray-700"><strong className="font-semibold text-gray-900">Physical AI in manufacturing</strong> means machines that learn tasks from data and tolerate variation, rather than executing fixed programmed paths. It spans learned grasping and assembly, vision-based inspection, mobile manipulation for material handling, and general-purpose humanoid or wheeled platforms on live lines. The shift is not from "no robots" to "robots." Factories are already full of robots. It is from <em>programmed</em> automation to <em>trained</em> automation, and that shift rewrites the infrastructure underneath the line before it changes what is standing on it.</p>
+</div>
+
+## Start from the correct baseline: factories are already automated
+
+A lot of manufacturing AI content implicitly treats the factory as an un-automated space waiting for robots. That framing is wrong and it leads to bad planning.
+
+<div className="not-prose my-8 grid gap-5 font-['Poppins'] sm:grid-cols-3">
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <p className="text-[26px] font-bold leading-tight text-[#000B71]">621,000</p>
+    <p className="mt-2 text-[14px] leading-relaxed text-gray-600">Global industrial robot installations in a single record year, per <a href="https://www.manufacturingdive.com/news/us-robotics-rebounded-2025-on-track-more-growth-ifr-automate-2026/823874/" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">IFR data</a></p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <p className="text-[26px] font-bold leading-tight text-[#000B71]">267 / 10,000</p>
+    <p className="mt-2 text-[14px] leading-relaxed text-gray-600">Robot density in Western European manufacturing, 2024, ahead of North America at 204 and Asia at 131, per <a href="https://ifr.org/ifr-press-releases/news/robot-density-surges-in-europe-asia-and-americas" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">IFR World Robotics</a></p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <p className="text-[26px] font-bold leading-tight text-[#000B71]">1.9 million</p>
+    <p className="mt-2 text-[14px] leading-relaxed text-gray-600">US manufacturing roles projected to go unfilled by 2033, per <a href="https://www2.deloitte.com/us/en/pages/about-deloitte/articles/press-releases/us-manufacturing-could-need-new-employees-by-2033.html" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">Deloitte and The Manufacturing Institute</a></p>
+  </div>
+</div>
+
+Read those three numbers together and the strategic picture clarifies. Manufacturing is not automating because it wants fewer people. It is automating because it cannot find enough of them, and the roles hardest to fill are increasingly technical. The same Deloitte research found a 75% increase over five years in demand for simulation and simulation-software skills.
+
+That last detail deserves more attention than it gets. The fastest-growing skill demand in manufacturing is not robot operation. It is simulation. Which tells you where the real work is.
+
+## Programmed automation versus trained automation
+
+The industrial robot arm that has been welding car bodies for forty years and the vision-based picking cell installed last quarter are both "robots," and treating them as the same category causes real damage in planning meetings. They fail differently, they are validated differently, and they cost money in different places.
+
+| Dimension | Programmed automation | Trained automation |
+| --- | --- | --- |
+| **How behavior is created** | An engineer defines waypoints and logic explicitly | A policy is learned from demonstrations, simulation, and outcome data |
+| **Tolerance for variation** | Near zero. Parts must be presented in a known pose | Designed for it. Handles pose, lighting, and part variation within a trained distribution |
+| **Changeover cost** | Reprogramming plus refixturing, often weeks | Retraining plus validation, gated by how fast you can collect new data |
+| **Failure mode** | Deterministic and loud. It stops or it collides | Statistical and quiet. Success rate degrades before anything visibly breaks |
+| **What you must own** | Fixturing, PLC logic, safety interlocks | All of the above plus data capture, calibration records, simulation assets, and evaluation suites |
+| **Where cost concentrates** | Integration engineering, one cell at a time | Infrastructure that amortizes across cells, if built that way |
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">The failure mode that catches teams out</p>
+  <p className="text-gray-700">A programmed cell that breaks announces itself. A trained cell degrades. Camera calibration drifts over months of vibration, grip success drops from 99.2% to 97.8%, and nobody notices until a downstream quality metric moves. If you deploy learned systems without continuous evaluation against a held-out set, you have installed a machine that can get worse silently. Build the evaluation harness before the cell goes live.</p>
+</div>
+
+## The Four Rebuilds
+
+When a plant genuinely adopts physical AI rather than bolting a robot onto an existing line, four things get rebuilt. They happen in roughly this order, and skipping any one of them is where programs stall.
+
+![Layered diagram showing the four rebuilds of a smart factory: the cell layer, the line layer, the data spine, and the role layer, with the data spine shown as the connecting foundation.](/static/images/physical-ai-manufacturing-four-rebuilds.svg)
+
+*The cell and the line get the attention and the capital. The data spine decides whether the second deployment costs as much as the first. It is the layer most plants build last, which is why so many of them own exactly one successful cell.*
+
+<div className="not-prose my-8 font-['Poppins']">
+  <div className="grid gap-2 py-6 sm:grid-cols-[132px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Rebuild 01</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">The cell</h4>
+      <p className="mb-3 text-[15px] leading-relaxed text-gray-600">Adding a learned system to a workstation means adding sensing, and sensing means calibration you have to maintain. Multi-camera arrays, force-torque sensing, and a safety envelope that assumes probabilistic behavior rather than a fixed trajectory.</p>
+      <p className="text-[15px] leading-relaxed text-gray-600">The most common oversight here is calibration logging. Cameras and mounts drift under vibration. Without a logged baseline at capture time, you cannot distinguish a model problem from a hardware problem, and you will spend weeks looking in the wrong place.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[132px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Rebuild 02</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">The line</h4>
+      <p className="mb-3 text-[15px] leading-relaxed text-gray-600">A cell that succeeds 98% of the time needs somewhere for the other 2% to go. Programmed lines handle exceptions by stopping. Trained lines need buffering, rework routing, and a defined path for the human who resolves the edge case.</p>
+      <p className="text-[15px] leading-relaxed text-gray-600">This is why Figure 03's new job at Spartanburg is instructive: sequencing components for just-in-time delivery is a task that exists precisely to absorb variability upstream of the line. Physical AI is being applied to the buffer, not just the beat.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[132px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Rebuild 03</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">The data spine</h4>
+      <p className="mb-3 text-[15px] leading-relaxed text-gray-600">This is the load-bearing rebuild, and it is the one BMW named explicitly before its humanoid pilot. It means production data that is consistent, standardized, time-synchronized, and available across the plant rather than trapped in per-machine silos.</p>
+      <p className="text-[15px] leading-relaxed text-gray-600">Concretely: perception streams and robot state on a shared clock, calibration state recorded with every capture, outcome labels joined back to the episode that produced them, and simulation assets that match the physical cell closely enough to be trusted. Without this, every new deployment is a greenfield project.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[132px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Rebuild 04</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">The role</h4>
+      <p className="mb-3 text-[15px] leading-relaxed text-gray-600">Operators shift from executing tasks to supervising systems and resolving exceptions. Maintenance technicians take on responsibility for data quality, because a fouled lens is now a model problem. Process engineers need enough statistics to reason about success rates rather than binary pass or fail.</p>
+      <p className="text-[15px] leading-relaxed text-gray-600">Plants that do this rebuild deliberately retain their most experienced people. Plants that treat automation purely as a headcount lever discover in month four that the person who could diagnose a stopped cell took a job elsewhere.</p>
+    </div>
+  </div>
+</div>
+
+## Sim-to-real is where most of the actual work happens
+
+Ask anyone running a physical AI program in manufacturing where the time goes and the answer is rarely "training the model." It is preparing the simulation environment that lets you train and validate before touching a live line.
+
+Agility Robotics' approach with Digit illustrates the pattern. Its whole-body control policies are [trained in Isaac Sim and Isaac Lab](https://www.nvidia.com/en-us/case-studies/agility-robotics-digit-humanoid-robot/), then re-run in a separate physics pipeline specifically because differences in contact physics between simulators expose corner cases and harden the policy. By the time code reaches hardware, the robot can absorb bumps and avoid obstacles without expensive trial and error on the factory floor. BMW's Leipzig program similarly ran theoretical assessment, then laboratory testing, then initial deployment, then pilot, in that order.
+
+That sequence only works if the simulation is physically valid, and this is where a lot of programs quietly break.
+
+<div className="not-prose my-8 grid gap-5 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h3 className="mb-2.5 text-[17px] font-bold text-gray-900">Visually correct is not physically usable</h3>
+    <p className="text-[15px] leading-relaxed text-gray-600">A CAD-derived asset can render beautifully and still have wrong mass distribution, missing joint limits, or collision geometry approximated as a bounding box. A grasp policy trained against that asset learns behavior that does not survive contact with the real part.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h3 className="mb-2.5 text-[17px] font-bold text-gray-900">Assets need validation standards</h3>
+    <p className="text-[15px] leading-relaxed text-gray-600">Every simulation-ready object should pass explicit checks: physics properties, joint definitions, collision meshes, and scale. Without a repeatable QA standard, asset quality varies by whoever authored it and your sim-to-real gap becomes unpredictable.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h3 className="mb-2.5 text-[17px] font-bold text-gray-900">Domain randomization has limits</h3>
+    <p className="text-[15px] leading-relaxed text-gray-600">Randomizing lighting and textures helps with appearance gaps. It does not fix wrong contact dynamics. Teams often over-randomize appearance and under-model physics, then blame the policy when transfer fails.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h3 className="mb-2.5 text-[17px] font-bold text-gray-900">Real demonstrations still anchor everything</h3>
+    <p className="text-[15px] leading-relaxed text-gray-600">Simulation scales volume; real teleoperated and kinesthetic demonstrations anchor the distribution to your actual parts, tooling, and cycle constraints. Programs that use only one of the two consistently underperform.</p>
+  </div>
+</div>
+
+This is the practical reason [structured demonstration capture](/services/physical-ai-data-collection/) and simulation asset pipelines end up on the critical path of a smart factory program. The robot vendor sells you the arm. Somebody still has to produce physics-valid assets and [clean, calibrated demonstration data](/blog/data-collection-for-robotics/) for your specific parts.
+
+## Why pilots stall: the one-cell trap
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">Composite field scenario</p>
+  <p className="mb-3 text-gray-700"><strong className="font-semibold text-gray-900">Situation.</strong> A tier-one automotive supplier runs a successful learned-picking pilot on a single station handling stamped brackets. Grasp success reaches 98.6%, cycle time meets target, and the plant manager approves rollout to eleven similar stations.</p>
+  <p className="mb-3 text-gray-700"><strong className="font-semibold text-gray-900">Problem.</strong> Station two comes in at roughly 80% of the first station's integration cost, not the 25% the business case assumed. The pilot succeeded through bespoke work: custom fixturing, hand-tuned lighting, a calibration procedure that lives in one engineer's notebook, and a data pipeline assembled specifically for that cell. None of it transfers.</p>
+  <p className="mb-3 text-gray-700"><strong className="font-semibold text-gray-900">Solution.</strong> Pause the rollout and standardize three things first. A repeatable calibration and logging procedure that any technician can execute. A capture spec defining synchronized streams, retained failure episodes, and outcome labels. A validated simulation asset library for the part families in scope.</p>
+  <p className="text-gray-700"><strong className="font-semibold text-gray-900">Outcome.</strong> Stations three through eleven land near 30% of the original integration cost, and the supplier can now quote automation on new part families with defensible numbers rather than optimism.</p>
+</div>
+
+The lesson generalizes. If your first cell succeeded through heroics, you have not proven you can scale. You have proven you have a good engineer. Standardize the infrastructure between cell one and cell two, or the arithmetic of your rollout never works.
+
+## The workforce question, answered honestly
+
+The humanoid coverage cycle produces two equally unhelpful narratives: imminent mass replacement, or dismissive claims that none of it works. Neither survives contact with the data.
+
+What the evidence supports: humanoids are doing real, narrow, repeated work in a small number of live plants. BMW's Figure 02 deployment ran with no associated layoffs. Goldman Sachs projects humanoid robots could fill roughly 4% of US manufacturing labor shortages by 2030, which is meaningful but not transformative. Deloitte's 2026 outlook still projects that [around 81% of manufacturing task hours](https://mau.com/news-insights/the-technical-skills-gap-report) will be performed by people even as automation investment accelerates.
+
+Meanwhile the structural pressure runs the other direction. A projected 1.9 million unfilled roles by 2033 is a shortage, not a surplus. The realistic near-term outcome for most plants is not fewer workers. It is the same workers doing different work, with a rising technical floor and a genuine training obligation that most companies have not budgeted for.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">Contrarian read</p>
+  <p className="text-gray-700">The scarcest resource in a physical AI factory is not robot engineers. It is process engineers who can reason statistically about a machine that is right 98% of the time. Traditional manufacturing quality culture is built around deterministic tolerances. Learned systems require a different mental model, and retraining your existing engineering staff into it is cheaper and faster than hiring a robotics team.</p>
+</div>
+
+## A readiness checklist before you approve a program
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <ul className="space-y-2.5">
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">✓</span><span>Is production data unified and time-synchronized across machines, or still siloed per system?</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">✓</span><span>Do you have a repeatable calibration procedure with logged baselines that a technician can run without the original engineer?</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">✓</span><span>Is there a written capture spec covering which streams are recorded, at what synchronization, with what retention, including failure episodes?</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">✓</span><span>Do your simulation assets pass explicit physics validation, or were they exported from CAD and assumed correct?</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">✓</span><span>Is there an evaluation harness that will catch a silent drop in success rate before quality metrics move?</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">✓</span><span>Has the exception path been designed, with a named owner and a buffer, rather than defaulting to a line stop?</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">✓</span><span>Does the business case for cell two assume it costs meaningfully less than cell one, and is that assumption backed by standardized infrastructure?</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">✓</span><span>Is there a training plan for the operators and technicians whose roles will change, funded before the hardware arrives?</span></li>
+  </ul>
+</div>
+
+## What the next few years likely look like
+
+Three things seem reasonably safe to expect.
+
+Adoption will continue concentrating in bounded, high-variation tasks that programmed automation could never justify: sequencing, kitting, mixed-part material handling, and inspection. These are the jobs where flexibility pays and where the safety case is manageable.
+
+The competitive gap will open on infrastructure rather than hardware. Robot capability is increasingly purchasable and the price curve is falling; manufacturing costs for humanoids dropped substantially between 2023 and 2024 and unit costs are projected to keep falling. What is not purchasable is a clean, calibrated, task-specific dataset from your own parts and your own line, plus the simulation assets that mirror it. That is the asset that compounds.
+
+And the pilots will keep looking better than the rollouts until plants stop treating each cell as a project. BMW's own sequence, from theoretical assessment through laboratory testing to phased deployment across two continents with two different vendors, is the version worth copying. Not because humanoids are the answer, but because the method is: test the category, standardize the infrastructure, and refuse to bet the line on a single supplier or a single demo.

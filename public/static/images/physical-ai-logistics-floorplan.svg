@@ -1,0 +1,57 @@
+<svg viewBox="0 0 760 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Top-down warehouse floor plan showing inbound dock, storage racking, goods-to-person pick stations, packing lanes and outbound dock, with autonomous mobile robot routes shown as dotted paths between zones">
+  <rect x="0" y="0" width="760" height="400" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="28" y="36" font-family="sans-serif" font-size="13" font-weight="700" fill="#14213d">Floor plan — where autonomy actually runs</text>
+
+  <!-- Inbound -->
+  <rect x="28" y="56" width="104" height="312" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="42" y="80" font-family="sans-serif" font-size="12" font-weight="700" fill="#14213d">Inbound dock</text>
+  <rect x="44" y="96" width="72" height="24" rx="3" fill="#eef2ff" stroke="#94a3b8"/>
+  <rect x="44" y="128" width="72" height="24" rx="3" fill="#eef2ff" stroke="#94a3b8"/>
+  <rect x="44" y="160" width="72" height="24" rx="3" fill="#eef2ff" stroke="#94a3b8"/>
+  <text x="44" y="300" font-family="sans-serif" font-size="10" font-weight="700" fill="#0d9488">HUMAN-LED</text>
+  <text x="44" y="316" font-family="sans-serif" font-size="10" fill="#64748b">unload · scan</text>
+
+  <!-- Storage / racking -->
+  <rect x="150" y="56" width="270" height="312" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="164" y="80" font-family="sans-serif" font-size="12" font-weight="700" fill="#14213d">Storage / racking</text>
+  <g fill="#eef2ff" stroke="#cbd5e1">
+    <rect x="164" y="96" width="242" height="16" rx="2"/>
+    <rect x="164" y="128" width="242" height="16" rx="2"/>
+    <rect x="164" y="160" width="242" height="16" rx="2"/>
+    <rect x="164" y="224" width="242" height="16" rx="2"/>
+    <rect x="164" y="256" width="242" height="16" rx="2"/>
+    <rect x="164" y="288" width="242" height="16" rx="2"/>
+    <rect x="164" y="320" width="242" height="16" rx="2"/>
+  </g>
+  <path d="M 164 196 L 406 196" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+  <path d="M 285 96 L 285 344" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+  <circle cx="230" cy="196" r="5" fill="#2563eb"/>
+  <circle cx="285" cy="270" r="5" fill="#2563eb"/>
+  <circle cx="352" cy="196" r="5" fill="#2563eb"/>
+  <text x="164" y="358" font-family="sans-serif" font-size="10" font-weight="700" fill="#2563eb">AMR TRANSPORT — MATURE</text>
+
+  <!-- Pick stations -->
+  <rect x="438" y="56" width="170" height="312" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="452" y="80" font-family="sans-serif" font-size="12" font-weight="700" fill="#14213d">Pick stations</text>
+  <rect x="452" y="96" width="142" height="52" rx="4" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <circle cx="474" cy="122" r="8" fill="none" stroke="#2563eb" stroke-width="1.6"/>
+  <text x="492" y="126" font-family="sans-serif" font-size="10" font-weight="700" fill="#2563eb">GOODS-TO-PERSON</text>
+  <rect x="452" y="160" width="142" height="52" rx="4" fill="#f0fdfa" stroke="#0d9488" stroke-width="1.5"/>
+  <path d="M 468 200 L 476 176 L 490 190 L 502 172" stroke="#0d9488" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="512" y="192" font-family="sans-serif" font-size="10" font-weight="700" fill="#0d9488">PIECE-PICK</text>
+  <rect x="452" y="224" width="142" height="52" rx="4" fill="#fffbeb" stroke="#d97706" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="464" y="248" font-family="sans-serif" font-size="10" font-weight="700" fill="#d97706">HUMANOID CELL</text>
+  <text x="464" y="263" font-family="sans-serif" font-size="10" fill="#b45309">pilot scale only</text>
+  <text x="452" y="300" font-family="sans-serif" font-size="10" font-weight="700" fill="#d97706">EXCEPTION HOTSPOT</text>
+
+  <!-- Pack / outbound -->
+  <rect x="626" y="56" width="106" height="312" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="640" y="80" font-family="sans-serif" font-size="12" font-weight="700" fill="#14213d">Pack / outbound</text>
+  <rect x="640" y="96" width="80" height="16" rx="2" fill="#eef2ff" stroke="#94a3b8"/>
+  <rect x="640" y="124" width="80" height="16" rx="2" fill="#eef2ff" stroke="#94a3b8"/>
+  <rect x="640" y="152" width="80" height="16" rx="2" fill="#eef2ff" stroke="#94a3b8"/>
+  <path d="M 640 210 L 720 210" stroke="#d97706" stroke-width="2" fill="none"/>
+  <path d="M 640 230 L 720 230" stroke="#d97706" stroke-width="2" fill="none"/>
+  <text x="640" y="300" font-family="sans-serif" font-size="10" font-weight="700" fill="#0d9488">HUMAN-LED</text>
+  <text x="640" y="316" font-family="sans-serif" font-size="10" fill="#64748b">pack · label · load</text>
+</svg>
