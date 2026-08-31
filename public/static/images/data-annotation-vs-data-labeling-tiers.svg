@@ -1,0 +1,45 @@
+<svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Decision flow showing three tiers of data tasks based on how disagreements are resolved: taxonomy lookup settled by guidelines, expert judgment settled by a domain specialist, and source-grounded tasks settled by replaying the original data">
+  <rect x="0" y="0" width="760" height="340" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="28" y="34" font-family="sans-serif" font-size="13" font-weight="700" fill="#14213d">Two qualified workers disagree. Who settles it?</text>
+
+  <!-- tier 1 -->
+  <rect x="28" y="52" width="228" height="232" rx="8" fill="#f0fdfa" stroke="#0d9488" stroke-width="1.6"/>
+  <text x="46" y="78" font-family="sans-serif" font-size="10" font-weight="700" fill="#0d9488">TIER 1</text>
+  <text x="46" y="104" font-family="sans-serif" font-size="17" font-weight="700" fill="#14213d">The guideline</text>
+  <text x="46" y="130" font-family="sans-serif" font-size="12.5" fill="#475569">Taxonomy lookup.</text>
+  <text x="46" y="148" font-family="sans-serif" font-size="12.5" fill="#475569">Reread the spec, dispute over.</text>
+  <g font-family="sans-serif" font-size="11" fill="#64748b">
+    <text x="46" y="186">Cost index    1x</text>
+    <text x="46" y="208">Staffing      broad</text>
+    <text x="46" y="230">QA metric     exact match</text>
+    <text x="46" y="252">Scales        linearly</text>
+  </g>
+
+  <!-- tier 2 -->
+  <rect x="266" y="52" width="228" height="232" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.6"/>
+  <text x="284" y="78" font-family="sans-serif" font-size="10" font-weight="700" fill="#d97706">TIER 2</text>
+  <text x="284" y="104" font-family="sans-serif" font-size="17" font-weight="700" fill="#14213d">A domain expert</text>
+  <text x="284" y="130" font-family="sans-serif" font-size="12.5" fill="#475569">Judgment call.</text>
+  <text x="284" y="148" font-family="sans-serif" font-size="12.5" fill="#475569">Guideline cannot decide it.</text>
+  <g font-family="sans-serif" font-size="11" fill="#64748b">
+    <text x="284" y="186">Cost index    3-8x</text>
+    <text x="284" y="208">Staffing      credentialed</text>
+    <text x="284" y="230">QA metric     consensus</text>
+    <text x="284" y="252">Scales        by expert supply</text>
+  </g>
+
+  <!-- tier 3 -->
+  <rect x="504" y="52" width="228" height="232" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.6"/>
+  <text x="522" y="78" font-family="sans-serif" font-size="10" font-weight="700" fill="#2563eb">TIER 3</text>
+  <text x="522" y="104" font-family="sans-serif" font-size="17" font-weight="700" fill="#14213d">The source data</text>
+  <text x="522" y="130" font-family="sans-serif" font-size="12.5" fill="#475569">Replay the episode.</text>
+  <text x="522" y="148" font-family="sans-serif" font-size="12.5" fill="#475569">Check the instrument.</text>
+  <g font-family="sans-serif" font-size="11" fill="#64748b">
+    <text x="522" y="186">Cost index    5-15x</text>
+    <text x="522" y="208">Staffing      domain + tooling</text>
+    <text x="522" y="230">QA metric     tolerance window</text>
+    <text x="522" y="252">Scales        by review tooling</text>
+  </g>
+
+  <text x="28" y="316" font-family="sans-serif" font-size="12" fill="#94a3b8">Cost indices are relative and illustrative. What matters is that the tiers differ by multiples, not percentages.</text>
+</svg>
