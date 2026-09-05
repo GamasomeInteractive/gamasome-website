@@ -1,0 +1,40 @@
+<svg viewBox="0 0 1040 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Line chart showing effective cost per surviving label falling steeply as first-pass acceptance rate rises from 60 to 100 percent, comparing a 5 cent per label vendor against an 11 cent per label vendor, with the two curves sitting close together">
+  <rect x="0" y="0" width="1040" height="400" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="34" y="36" font-family="sans-serif" font-size="12" font-weight="700" fill="#14213d">Effective cost per surviving label</text>
+
+  <line x1="112" y1="72" x2="112" y2="316" stroke="#cbd5e1" stroke-width="1.2"/>
+  <line x1="112" y1="316" x2="960" y2="316" stroke="#cbd5e1" stroke-width="1.2"/>
+
+  <text x="100" y="80" font-family="sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="end">$1.00</text>
+  <text x="100" y="139" font-family="sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="end">$0.75</text>
+  <text x="100" y="198" font-family="sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="end">$0.50</text>
+  <text x="100" y="257" font-family="sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="end">$0.25</text>
+  <text x="100" y="320" font-family="sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="end">$0</text>
+
+  <line x1="112" y1="76" x2="960" y2="76" stroke="#eef2f6"/>
+  <line x1="112" y1="135" x2="960" y2="135" stroke="#eef2f6"/>
+  <line x1="112" y1="194" x2="960" y2="194" stroke="#eef2f6"/>
+  <line x1="112" y1="253" x2="960" y2="253" stroke="#eef2f6"/>
+
+  <text x="112" y="340" font-family="sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="middle">60%</text>
+  <text x="324" y="340" font-family="sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="middle">70%</text>
+  <text x="536" y="340" font-family="sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="middle">80%</text>
+  <text x="748" y="340" font-family="sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="middle">90%</text>
+  <text x="960" y="340" font-family="sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="middle">100%</text>
+  <text x="536" y="366" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="middle">FIRST-PASS ACCEPTANCE RATE</text>
+
+  <polyline points="112,131 218,159 324,187 430,215 536,242 642,270 748,286 854,301 960,304" fill="none" stroke="#dc2626" stroke-width="2.6"/>
+  <polyline points="112,117 218,145 324,173 430,201 536,229 642,257 748,273 854,288 960,291" fill="none" stroke="#0d9488" stroke-width="2.6" stroke-dasharray="6 5"/>
+
+  <circle cx="366" cy="198" r="5" fill="#dc2626"/>
+  <text x="378" y="192" font-family="sans-serif" font-size="10.5" fill="#dc2626">Vendor A: 72% acceptance = $0.55</text>
+  <circle cx="875" cy="289" r="5" fill="#0d9488"/>
+  <text x="866" y="272" font-family="sans-serif" font-size="10.5" fill="#0d9488" text-anchor="end">Vendor B: 96% acceptance = $0.18</text>
+
+  <line x1="620" y1="94" x2="652" y2="94" stroke="#dc2626" stroke-width="2.6"/>
+  <text x="662" y="98" font-family="sans-serif" font-size="10.5" fill="#475569">$0.05 per label rate card</text>
+  <line x1="620" y1="116" x2="652" y2="116" stroke="#0d9488" stroke-width="2.6" stroke-dasharray="6 5"/>
+  <text x="662" y="120" font-family="sans-serif" font-size="10.5" fill="#475569">$0.11 per label rate card</text>
+
+  <text x="34" y="388" font-family="sans-serif" font-size="10" fill="#94a3b8">Model, not benchmark data. Assumes 90s internal adjudication per disputed item at $70/hr loaded engineering cost.</text>
+</svg>

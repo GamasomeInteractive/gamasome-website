@@ -1,0 +1,42 @@
+<svg viewBox="0 0 1040 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logarithmic scale showing stated robot training data requirements spanning from 4 hours of teleoperation in NVIDIA's fine-tuning mix to a one million hour threshold, a spread of five orders of magnitude, with Physical Intelligence generalizing at roughly 400 hours across 100 homes">
+  <rect x="0" y="0" width="1040" height="320" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="30" y="36" font-family="sans-serif" font-size="12" font-weight="700" fill="#14213d">Stated data requirements, log scale</text>
+
+  <line x1="90" y1="196" x2="990" y2="196" stroke="#cbd5e1" stroke-width="1.4"/>
+  <g font-family="sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">
+    <line x1="90" y1="192" x2="90" y2="202" stroke="#cbd5e1"/><text x="90" y="220">1 hr</text>
+    <line x1="235" y1="192" x2="235" y2="202" stroke="#cbd5e1"/><text x="235" y="220">10</text>
+    <line x1="380" y1="192" x2="380" y2="202" stroke="#cbd5e1"/><text x="380" y="220">100</text>
+    <line x1="525" y1="192" x2="525" y2="202" stroke="#cbd5e1"/><text x="525" y="220">1K</text>
+    <line x1="671" y1="192" x2="671" y2="202" stroke="#cbd5e1"/><text x="671" y="220">10K</text>
+    <line x1="816" y1="192" x2="816" y2="202" stroke="#cbd5e1"/><text x="816" y="220">100K</text>
+    <line x1="961" y1="192" x2="961" y2="202" stroke="#cbd5e1"/><text x="961" y="220">1M</text>
+  </g>
+
+  <line x1="177" y1="196" x2="177" y2="118" stroke="#d97706" stroke-width="1.2"/>
+  <circle cx="177" cy="196" r="5.5" fill="#d97706"/>
+  <text x="177" y="104" font-family="sans-serif" font-size="13" font-weight="700" fill="#d97706" text-anchor="middle">4 hrs</text>
+  <text x="177" y="88" font-family="sans-serif" font-size="10" fill="#475569" text-anchor="middle">NVIDIA GR00T teleop mix</text>
+
+  <line x1="717" y1="196" x2="717" y2="118" stroke="#2563eb" stroke-width="1.2"/>
+  <circle cx="717" cy="196" r="5.5" fill="#2563eb"/>
+  <text x="717" y="104" font-family="sans-serif" font-size="13" font-weight="700" fill="#2563eb" text-anchor="middle">21,000 hrs</text>
+  <text x="717" y="88" font-family="sans-serif" font-size="10" fill="#475569" text-anchor="middle">NVIDIA egocentric pretraining</text>
+
+  <line x1="878" y1="196" x2="878" y2="148" stroke="#2563eb" stroke-width="1.2"/>
+  <circle cx="878" cy="196" r="5.5" fill="#2563eb"/>
+  <text x="878" y="136" font-family="sans-serif" font-size="13" font-weight="700" fill="#2563eb" text-anchor="middle">270,000 hrs</text>
+  <text x="878" y="120" font-family="sans-serif" font-size="10" fill="#475569" text-anchor="middle">Generalist GEN-0</text>
+
+  <line x1="468" y1="196" x2="468" y2="252" stroke="#0d9488" stroke-width="1.2"/>
+  <circle cx="468" cy="196" r="5.5" fill="#0d9488"/>
+  <text x="468" y="270" font-family="sans-serif" font-size="13" font-weight="700" fill="#0d9488" text-anchor="middle">~400 hrs</text>
+  <text x="468" y="286" font-family="sans-serif" font-size="10" fill="#475569" text-anchor="middle">Physical Intelligence, ~100 homes</text>
+
+  <line x1="961" y1="196" x2="961" y2="252" stroke="#dc2626" stroke-width="1.2"/>
+  <circle cx="961" cy="196" r="5.5" fill="#dc2626"/>
+  <text x="961" y="270" font-family="sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="end">1,000,000 hrs</text>
+  <text x="961" y="286" font-family="sans-serif" font-size="10" fill="#475569" text-anchor="end">stated "robot GPT-1" threshold</text>
+
+  <text x="30" y="308" font-family="sans-serif" font-size="10.5" fill="#94a3b8">Every figure a public claim by a named source. The spread is the point: hours is not the variable doing the work.</text>
+</svg>

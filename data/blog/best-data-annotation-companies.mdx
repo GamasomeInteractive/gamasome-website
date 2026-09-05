@@ -1,0 +1,410 @@
+---
+title: '10 Best Data Annotation Companies and Services'
+date: 2026-09-05T08:00:00.000Z
+tags:
+  - Data Annotation
+  - AI
+  - Data Operations
+  - Vendors
+draft: false
+summary: 'The cheapest annotation vendor is often the most expensive. Compare 10 data annotation companies by cost per surviving label, plus pricing and fit.'
+images:
+  - /static/images/best-data-annotation-companies.jpg
+authors:
+  - prasanna-venkatesan
+layout: PostLayout
+canonicalUrl: 'https://www.gamasome.com/blog/best-data-annotation-companies/'
+seo:
+  metaTitle: '10 Best Data Annotation Companies & Services (2026)'
+  metaDescription: 'The cheapest annotation vendor is often the most expensive. Compare 10 data annotation companies by cost per surviving label, plus pricing and fit.'
+  canonicalUrl: ''
+  changefreq: weekly
+faqHeading: Common questions about choosing an annotation vendor
+faqs:
+  - question: How much do data annotation services cost?
+    answer: 'Pricing splits into two markets. Commodity labeling is priced per item and has been deflating since 2022 as pre-labeling automates the easy cases. Frontier expert work, including reasoning traces and evaluation rubrics, is priced per hour at roughly $85 to $200, with senior specialists at the top. Comparing their rate cards directly is meaningless, because they are different businesses that share a category name.'
+  - question: What is the real cost of a cheap annotation vendor?
+    answer: 'The rate card is one of three costs. The others are rework on rejected items and internal adjudication time from your own engineers. On a worked model of 100,000 labels, a vendor at 5 cents with 72 percent acceptance can total roughly three times more than a vendor at 11 cents with 96 percent acceptance once adjudication is priced at a loaded engineering rate. Price cost per surviving label.'
+  - question: What is the difference between data annotation and data labeling?
+    answer: 'In everyday use they are interchangeable. Where teams distinguish them, labeling means attaching a class or tag to a whole item, while annotation covers richer structured markup: segmentation masks, keypoints, relationships, temporal boundaries, and free-text rationales. The distinction matters commercially, because work requiring judgment prices very differently from work that does not.'
+  - question: How do I run a pilot to compare annotation vendors?
+    answer: 'Send every candidate the same 500 to 1,000 items with a seeded set of hard, ambiguous cases. Score first-pass acceptance against your own review, inter-annotator agreement on the ambiguous subset only, and whether the vendor asks clarifying taxonomy questions before starting. That last signal is the strongest predictor of long-term quality and almost never appears in a scoring matrix.'
+  - question: Is vendor neutrality a real procurement concern?
+    answer: 'Yes, and it became the dominant one in 2025. Your vendor sees unreleased capabilities, failure modes, and training priorities. When Meta took a 49 percent stake in Scale AI, Google, OpenAI, and xAI all reduced or paused engagements over confidentiality, redistributing billions to independents. If you compete with a vendor owner, the conflict sits in the cap table rather than the contract.'
+  - question: Should we annotate in-house or outsource?
+    answer: 'Outsource when volume is spiky, the taxonomy is stable, and you need a workforce faster than you could hire one. Build in-house when the work needs deep proprietary context, when data is too sensitive to share, or when steady volume makes a 30 to 40 percent marketplace take rate your largest line item. Many teams run both: a vendor for breadth, a small internal bench for the taxonomy-defining work.'
+  - question: Does AI pre-labeling remove the need for human annotators?
+    answer: 'It removes the easy work, not the hard work. Models now pre-label a large share of common cases, pushing humans toward edge cases, subjective judgment, and regulated domains. Automated grading has real limits: model-as-judge systems remain unreliable on bias evaluations and can break on superficial formatting changes. The effect is fewer, more expensive annotators rather than none.'
+  - question: What should be written into an annotation contract?
+    answer: 'Four things usually assumed rather than specified: a first-pass acceptance threshold with a defined adjudication process, an inter-annotator agreement floor on held-out ambiguous items, audit rights over the workforce and its conditions, and an explicit statement of whether the work is exclusive to you or may be reused.'
+  - question: Which annotation vendor is best for robotics data specifically?
+    answer: 'Robotics data is a band one problem, not a band three one. It is multimodal, time-based, and safety-critical, and the hard part is keeping labels coherent across sensor streams and across ambiguous action boundaries. Vendors built for static image labeling at volume tend to struggle regardless of headcount. Our companion guide to data collection companies for robotics covers that side of the problem in detail.'
+---
+
+A perception team switched vendors to save 55 percent on the rate card. The annotation budget went up by roughly three times. Nothing about the invoice explained why.
+
+The switch looked obvious on paper. The incumbent charged 11 cents per label. The challenger quoted 5 cents. Same task, same taxonomy, same volume commitment. Procurement signed.
+
+What nobody priced was what happened after delivery. First-pass acceptance dropped from the mid-nineties into the low seventies, which meant that roughly a quarter of every batch came back to the team's own machine learning engineers to adjudicate. Those engineers were not free, they were not fast at it, and they were not doing model work while they did it. The rate card fell by 55 percent and the fully loaded cost of getting a usable label roughly tripled.
+
+This is the single most common way annotation budgets get destroyed, and it happens because the industry sells by the wrong unit. Nobody trains a model on labels. They train on labels that survive review.
+
+This guide is built around that correction. Below you will find a cost model you can run against your own numbers, ten vendors grouped into the four bands they actually compete in, and a procurement risk section covering the neutrality, security, and labor questions that have moved from footnotes to board-level concerns since 2025.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">Short version</p>
+  <ul className="space-y-2.5">
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>Price on <strong className="font-semibold text-gray-900">cost per surviving label</strong>, not per label. Once you price your own adjudication time, a cheaper vendor with weaker acceptance frequently costs multiples more.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>Annotation split into two businesses that share a name. Commodity labeling is deflating toward automation. Expert work runs roughly \$85 to \$200 per hour and is growing. Comparing their rate cards is meaningless.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>Neutrality is now a first-order criterion. A vendor sees your unreleased capabilities and failure modes, which is only acceptable if it is not owned by a competitor.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>Ask whether the vendor questions your taxonomy before starting. In our experience it is the strongest single predictor of eventual quality, and it appears in almost no scoring matrix.</span></li>
+  </ul>
+</div>
+
+## What do data annotation companies do in 2026?
+
+Data annotation companies supply the human judgment that turns raw data into supervised training signal: drawing and reviewing labels, resolving ambiguity in a taxonomy, ranking model outputs, writing reasoning traces, and grading agent behavior against rubrics. Most now sell a workforce plus a quality process rather than a tool.
+
+What changed is where the value sits. Foundation models correctly pre-label a large share of routine cases, so human effort has migrated to edge cases, subjective judgment, and regulated domains. If you want the underlying concepts first, our pillar guide on [what data annotation is](/blog/what-is-data-annotation/) covers the fundamentals, and [annotation versus labeling](/blog/data-annotation-vs-data-labeling/) settles the terminology question this article assumes.
+
+## The Rework Ledger: what an annotation vendor really costs
+
+Three costs sit behind every annotation contract. The rate card is the one you negotiate. The other two are invisible at signing and dominate the total. Here is the model, with the arithmetic shown so you can run it against your own quotes.
+
+### The three lines
+
+<div className="not-prose my-6 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <ul className="space-y-2.5">
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">1</span><span><strong className="font-semibold text-gray-900">Line 1, vendor spend.</strong> Volume multiplied by the quoted rate. The only number in most procurement comparisons.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">2</span><span><strong className="font-semibold text-gray-900">Line 2, rework.</strong> Rejected items that have to be redone. Sometimes absorbed by the vendor, often not, and always a schedule cost even when it is free.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">3</span><span><strong className="font-semibold text-gray-900">Line 3, adjudication.</strong> Your own engineers deciding what the correct label was on every disputed item. This is the line that flips the comparison, and it never appears on an invoice because it is paid in salary.</span></li>
+  </ul>
+</div>
+
+### A worked example: 100,000 labels
+
+Assumptions, stated so you can change them: rework is charged at the same per-item rate, disputed items take 90 seconds each to adjudicate internally, and a loaded machine learning engineer costs \$70 per hour. Substitute your own numbers, the shape of the result does not change.
+
+| Cost line | Vendor A: \$0.05/label, 72% acceptance | Vendor B: \$0.11/label, 96% acceptance |
+| --- | --- | --- |
+| Line 1: vendor spend on 100,000 labels | \$5,000 | \$11,000 |
+| Items rejected at first pass | 28,000 | 4,000 |
+| Line 2: rework at the same rate | \$1,400 | \$220 |
+| Line 3: internal adjudication (90s @ \$70/hr) | \$49,000 | \$7,000 |
+| **Total cost of 100,000 usable labels** | **\$55,400** | **\$18,220** |
+| **Effective cost per surviving label** | **\$0.554** | **\$0.182** |
+
+Vendor A is 55 percent cheaper on the rate card and roughly three times more expensive in reality. The crossover point is not exotic. On these assumptions, a vendor charging double is the better buy any time its acceptance rate is more than about fifteen points higher.
+
+![Line chart showing effective cost per surviving label falling steeply as first-pass acceptance rate rises from 60 to 100 percent, comparing a 5 cent per label vendor against an 11 cent per label vendor, with the two curves sitting close together because the rate card is the smallest cost line.](/static/images/best-data-annotation-rework-ledger.svg)
+
+*The Rework Ledger. Effective cost per surviving label is dominated by acceptance rate, not by the quoted rate. The two curves sit close together because the rate card is the smallest of the three cost lines. Gamasome model, 2026. Assumes 90s internal adjudication per disputed item at \$70/hr loaded engineering cost.*
+
+Two implications worth carrying into every vendor call. First, ask for first-pass acceptance rate as a measured, contractible term rather than a quality claim. Second, notice that the two curves in that chart are nearly parallel: the rate card barely separates them. What separates them is where each vendor sits on the horizontal axis. That is the whole negotiation.
+
+If you are weighing this against building an internal team, our analysis of [in-house versus outsourced annotation](/blog/in-house-vs-outsourced-data-annotation/) runs the same arithmetic against salaried headcount.
+
+## How this list was built, and where we sit on it
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-3 text-[16px] font-bold text-gray-900">Gamasome publishes this list and appears on it at number one.</p>
+  <p className="mb-3 text-gray-700">Take that for exactly what it is worth. We rank first within the physical AI and sensor-native band because that is the work we do, and the list is organized by band rather than as one linear league table precisely so that placement means something specific rather than everything in general. On a list ordered by workforce scale, by LLM and RLHF depth, or by platform tooling maturity, we would not be near the top, and we say so in our own entry.</p>
+  <p className="text-gray-700">Every entry below carries a "where it does not fit" note alongside the positive case. That section is the useful one. A vendor list where nobody has a weakness is an advertisement with numbers on it.</p>
+</div>
+
+**Assessment basis:** demonstrated quality process rather than headcount; neutrality with respect to your competitors; evidence of delivery in the relevant modality; workforce conditions and legal exposure; and format and integration discipline.
+
+**A note on revenue figures:** several companies in this market quote annualized revenue that is actually gross marketplace volume, the total a customer pays before the contractor's share is removed. Mercor's chief executive has confirmed the practice is standard across the sector. Where we cite a headline number, read it as direction of travel rather than audited fact.
+
+## 10 data annotation companies, grouped by the market they actually compete in
+
+Ranked one to ten, but organized into four bands. A vendor that is excellent in band two may be a poor choice for band one work, and comparing across bands is how buyers end up disappointed.
+
+### Band One — Sensor-native and physical AI annotation
+
+Multi-sensor, time-based, safety-critical data where labels have to stay consistent across camera, LiDAR, depth, and force streams. General-purpose annotation vendors struggle here, because the hard part is temporal and spatial coherence rather than throughput.
+
+#### 01. Gamasome
+
+_Annotation attached to the capture program that produced the data._
+
+Gamasome is not a general annotation shop and does not pretend to be one. What we do is run field capture programs and annotate what they produce, which removes the most common source of annotation error in robotics: the person labeling an episode has no idea what the task was. In the Droyd program we designed a multi-station human-demonstration data factory around data-center hardware tasks, using head-mounted and gripper-mounted cameras plus HTC Vive Tracker 3.0 motion capture, with a quality threshold of 98 percent or higher tracking continuity per session. That threshold is an annotation constraint as much as a capture one, because tracking dropouts are exactly where action boundaries become unlabelable.
+
+The same logic runs through the teleoperation work. On the Feather Robotics engagement, data captured through 3D mouse and VR input has been used to post-train SmolVLA and Pi0.5 models, which means the labeling standard has to survive contact with an actual training run rather than an acceptance report.
+
+<div className="not-prose my-6 grid gap-4 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-emerald-500 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-emerald-700 uppercase">Where we fit</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Robotics and embodied AI programs where annotation, capture, and the robot's software stack need to stay coherent. Strong on action boundary definition, episode scoring, and multi-sensor temporal consistency.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-rose-400 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-rose-600 uppercase">Where we do not fit</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Text, RLHF, preference ranking, and large multilingual programs are outside what we do. If you need 500 physicians grading model outputs next month, the band two vendors below are the right call and we will say so on the first phone call.</p>
+  </div>
+</div>
+
+#### 02. Encord
+
+_Platform plus managed services for physical AI data._
+
+Encord is the clearest pure-play on the physical AI annotation layer, handling LiDAR, video, depth, proprioception, and DICOM natively, with model-assisted labeling and active learning so that curation and annotation feed each other rather than sitting in separate tools. Its [60 million dollar Series C in February 2026](https://www.prnewswire.com/news-releases/encord-secures-60m-series-c-to-scale-ai-native-data-infrastructure-as-physical-ai-hits-inflection-point-302698629.html) was raised explicitly on the physical AI repositioning, and named customers include Woven by Toyota, Skydio, and Zipline. SOC 2 and GDPR compliant, with data able to stay in your own cloud.
+
+<div className="not-prose my-6 grid gap-4 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-emerald-500 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-emerald-700 uppercase">Where it fits</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Teams that want one system covering collection, curation, annotation, and active learning, particularly across mixed modalities where handing data between tools creates the sync problems.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-rose-400 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-rose-600 uppercase">Where it does not</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Built computer-vision-first, so language model and RLHF workflows lag purpose-built generative AI platforms. Cloud-only deployment is a hard stop for some sovereign and defense buyers.</p>
+  </div>
+</div>
+
+#### 03. Kognic
+
+_Sensor fusion ground truth for autonomous driving and mobile robotics._
+
+Kognic labels camera, LiDAR, and radar in one synchronized workflow rather than stream by stream, projecting every annotation across all sensor views using calibration data so a 3D cuboid drawn in the point cloud lands correctly on each camera image. The company reports [more than 100 million annotations delivered across 120-plus projects](https://www.kognic.com/) for customers including Qualcomm, BMW, Zenseact, Continental, and Bosch, with over 90 automated quality checkers built for specific driving failure modes and TISAX Level 3 certification.
+
+<div className="not-prose my-6 grid gap-4 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-emerald-500 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-emerald-700 uppercase">Where it fits</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">ADAS, autonomous driving, and mobile robot perception programs where cross-sensor consistency is the quality bar and European OEM compliance requirements apply.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-rose-400 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-rose-600 uppercase">Where it does not</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Deliberately automotive-shaped. No audio, no general computer vision such as medical imaging, and manipulation or contact-event labeling sits outside the build.</p>
+  </div>
+</div>
+
+### Band Two — Frontier expert data and RLHF
+
+Credentialed specialists writing reasoning traces, designing evaluation rubrics, and grading model outputs at roughly \$85 to \$200 per hour. This is where frontier lab spend has migrated, and where the binding constraint is recruiting speed rather than tooling.
+
+#### 04. Surge AI
+
+_The quality benchmark for frontier human feedback._
+
+Founded in 2020 by Edwin Chen, Surge bootstrapped to [more than a billion dollars in revenue with roughly 110 employees and no outside capital for five years](https://www.inc.com/sam-blum/bootstrapped-to-1-billion-surge-ai-ceo-edwin-chen-on-how-he-did-it/91207937), overtaking Scale to become the highest-grossing data labeler in the world. Its model is the inverse of mass crowd labeling: long-form tasks by credentialed experts with real-time dashboards tracking inter-annotator agreement and per-worker trust scores. It opened its first external raise in mid-2025 seeking around a billion dollars at a valuation of at least 25 billion.
+
+<div className="not-prose my-6 grid gap-4 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-emerald-500 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-emerald-700 uppercase">Where it fits</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Frontier and applied labs that need the highest quality RLHF and evaluation data, want a vendor with no Big Tech ownership, and can pay for it.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-rose-400 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-rose-600 uppercase">Where it does not</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Not a computer vision or sensor data vendor. A May 2025 class action alleges annotator misclassification denying overtime and minimum wage, and the company is opaque about operations by design, which some procurement processes will not accept.</p>
+  </div>
+</div>
+
+#### 05. Mercor
+
+_Expert marketplace with the fastest sourcing engine in the market._
+
+Mercor built an AI vetting engine for recruiting and pointed it at AI training data. The operational scale is genuinely unusual for a company founded in 2023: [annualized revenue crossed \$2 billion in June 2026](https://www.forbes.com/sites/richardnieva/2026/07/09/mercor-fundraise/), roughly double where it stood four months earlier, against a network of more than 30,000 weekly active experts with daily contractor payouts above \$2 million. Nvidia has reportedly been in talks to back a round at a \$20 billion valuation. Clients include OpenAI, Anthropic, and Google.
+
+<div className="not-prose my-6 grid gap-4 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-emerald-500 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-emerald-700 uppercase">Where it fits</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Programs that need large, specialized expert teams spun up fast across many domains, especially where you want people who previously worked in the industry you are trying to model.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-rose-400 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-rose-600 uppercase">Where it does not</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Young vendor still hardening security: it disclosed a supply-chain breach in April 2026, after which Meta paused work and multiple class actions followed. Revenue is quoted gross of contractor payouts. Around 90 percent of revenue comes from a handful of foundation model labs, which is a concentration risk that flows back to you as a customer.</p>
+  </div>
+</div>
+
+#### 06. Scale AI
+
+_Deepest contractor infrastructure, permanent neutrality problem._
+
+Scale still runs one of the largest and most capable data operations on earth, with a genuinely strong sensor and multimodal annotation product in Scale Data Engine, the SEAL evaluation leaderboards, and deep autonomous vehicle heritage. It also reported delivering more than 150,000 hours of physical AI data in 2025 as it pivoted toward robotics and defense.
+
+<div className="not-prose my-6 grid gap-4 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-emerald-500 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-emerald-700 uppercase">Where it fits</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Government and defense programs, high-volume computer vision and autonomous vehicle data, and any work where Meta alignment is not a conflict.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-rose-400 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-rose-600 uppercase">Where it does not</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Meta holds a 49 percent non-voting stake after its <a href="https://www.cnbc.com/2025/06/18/scale-ai-not-winding-down-following-meta-deal-interim-ceo-says.html" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">\$14.3 billion investment</a>, and Google, OpenAI, and xAI reduced or paused engagements over confidentiality. If you compete with Meta, the conflict is structural rather than contractual and no assurance resolves it.</p>
+  </div>
+</div>
+
+### Band Three — Managed domain services
+
+Full-service annotation with trained, managed workforces. The right band when the work needs domain literacy, regulatory defensibility, or sustained volume across many modalities, and when you would rather manage a partner than a platform.
+
+#### 07. iMerit
+
+_Domain-trained in-house annotators for regulated and high-context work._
+
+Founded in 2012 and [profitable without raising capital since 2020](https://techcrunch.com/2025/07/09/imerit-believes-better-quality-data-not-more-data-is-the-future-of-ai/), iMerit employs full-time in-house annotators rather than a crowd, which shows up directly as inter-annotator consistency on judgment-heavy tasks. Its heritage is medical imaging, autonomous vehicles, and satellite imagery, and it launched a Scholars network of advanced-degree experts in 2025 as it moved upmarket. Reported annotator retention is high by industry standards, which matters more than it sounds: annotator turnover is a hidden driver of taxonomy drift.
+
+<div className="not-prose my-6 grid gap-4 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-emerald-500 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-emerald-700 uppercase">Where it fits</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Regulated domains, medical imaging, and any program where the review layer is the hard part and the output may face external scrutiny.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-rose-400 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-rose-600 uppercase">Where it does not</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Not the fastest or cheapest for high-volume commodity labeling, and not a frontier RLHF vendor despite the Scholars expansion. Capacity is bounded by an employment model rather than a marketplace.</p>
+  </div>
+</div>
+
+#### 08. Sama
+
+_Impact-sourcing model, image, video, LiDAR, and multimodal._
+
+Sama is a B Corp built around impact sourcing, specializing in image, video, LiDAR, and multimodal annotation with genuine strength in autonomous vehicle and robotics data. It is the obvious choice where ESG procurement requirements apply and the sourcing story has to survive scrutiny.
+
+It is also the clearest case study in why that scrutiny exists. Sama ran the Kenyan content moderation work behind OpenAI's safety systems, where [TIME reported that workers took home between \$1.32 and \$2.00 an hour](https://time.com/6247678/openai-chatgpt-kenya-workers/) against roughly \$12.50 paid by the client, and in April 2026 the company laid off 1,108 Nairobi workers after Meta terminated a contract over an annotation privacy scandal. Presented here without editorializing, because a buyer should know both halves.
+
+<div className="not-prose my-6 grid gap-4 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-emerald-500 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-emerald-700 uppercase">Where it fits</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Autonomous systems and complex multimodal data where ESG procurement is a requirement, with a documented sourcing model you can point to in a supplier review.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-rose-400 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-rose-600 uppercase">Where it does not</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">The impact-first model constrains scalability relative to crowd platforms, and the workforce concentration in Africa creates timezone friction for some teams. Recent contract volatility is a delivery risk worth diligencing directly.</p>
+  </div>
+</div>
+
+#### 09. Appen
+
+_Global multilingual scale, in the middle of a difficult turnaround._
+
+Appen has close to thirty years in the field and a contributor base spanning more than a million people across 170 countries, which is still unmatched for multilingual data, search relevance evaluation, and speech. It is also the textbook case of what happened to commodity labeling: it [lost its anchor Google contract in 2024](https://www.cnbc.com/2024/01/23/alphabet-ends-contract-with-appen-which-trained-bard-google-search.html), worth around \$82.8 million a year and roughly 30 percent of revenue, and its share price fell more than 94 percent from its 2020 peak. Generative AI work has since grown to roughly a third of revenue.
+
+<div className="not-prose my-6 grid gap-4 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-emerald-500 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-emerald-700 uppercase">Where it fits</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Multilingual programs, speech and audio data, and search relevance evaluation at a language coverage no specialist can match.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-rose-400 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-rose-600 uppercase">Where it does not</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Enterprise buyers commonly cite inconsistent QA and slower rework cycles. Financial position and strategic direction are worth diligencing on a multi-year commitment, and it is not a physical AI or frontier RLHF vendor.</p>
+  </div>
+</div>
+
+### Band Four — Platform first, you bring the workforce
+
+Buy tooling instead of labor. The right choice when the data is too sensitive to leave your control, or when you already have the annotators and need the workflow, QA, and versioning around them.
+
+#### 10. Labelbox
+
+_Annotation and evaluation platform with an optional managed expert network._
+
+Labelbox is the strongest option in this band because it does not force the choice: the platform can run your own annotators, or you can bring in Alignerr, its managed expert network, and get end-to-end delivery from a vendor with no lab ownership. It courted defecting Scale customers openly in 2025 and has been acquisitive in recruiting automation to feed its expert pipeline.
+
+<div className="not-prose my-6 grid gap-4 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-emerald-500 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-emerald-700 uppercase">Where it fits</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Mid-sized labs and enterprises that want tooling plus optional managed delivery, and that value independence from any single foundation model owner.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-rose-400 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-rose-600 uppercase">Where it does not</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Its managed network has one of the more divided worker reputations in the sector, with recurring reports of unexplained platform removals and withheld pay, which is a genuine procurement risk. Its unit-based pricing model also makes budgeting harder to forecast than project-based quotes.</p>
+  </div>
+</div>
+
+### Also worth knowing
+
+Six vendors that did not make the ten but are the right answer for specific problems.
+
+<div className="not-prose my-8 grid gap-5 font-['Poppins'] sm:grid-cols-2 lg:grid-cols-3">
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">SuperAnnotate</h4>
+    <p className="text-[14px] leading-relaxed text-gray-600">Consistently among the highest-rated labeling platforms, with a strong multimodal editor and a seat-and-compute model for teams determined to keep annotators in-house.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Toloka</h4>
+    <p className="text-[14px] leading-relaxed text-gray-600">Spun out of Yandex, re-domiciled in Amsterdam, and backed by Jeff Bezos's investment firm. Rare in spanning both bulk crowdsourcing and vetted expert work under one roof.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Centaur AI</h4>
+    <p className="text-[14px] leading-relaxed text-gray-600">Medical specialist sourcing labels from more than 50,000 vetted clinicians through gamified accuracy contests, with contributions to multiple FDA-cleared algorithms.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Prolific</h4>
+    <p className="text-[14px] leading-relaxed text-gray-600">The evaluation and red-teaming specialist. More than 200,000 vetted participants across 40-plus countries, built for demographic representativeness rather than domain seniority.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Snorkel AI</h4>
+    <p className="text-[14px] leading-relaxed text-gray-600">Programmatic labeling, where code and expert heuristics generate and de-noise labels at scale. Genuinely cheaper for problems whose labeling logic can be encoded once.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">TELUS Digital</h4>
+    <p className="text-[14px] leading-relaxed text-gray-600">Enterprise-grade delivery at BPO scale with a very large annotator and linguist community. Strong for sustained multilingual programs, lighter on AI specialization.</p>
+  </div>
+</div>
+
+## What annotation actually costs across the two markets
+
+The single most useful thing to understand about annotation pricing is that there is no such thing as an annotation price. There are two markets with a fifty-fold spread between them, and quoting one against the other is how buyers end up either overpaying for bulk work or underpowering frontier work.
+
+![Diagram showing annotation split into two markets: commodity labeling deflating toward automation at low single-digit dollars per hour, and expert human data rising toward 85 to 200 dollars per hour, roughly a fifty-fold spread.](/static/images/best-data-annotation-two-markets.svg)
+
+*Annotation split into two businesses that share a name. Automation is eating one and expanding the other. Reported hourly ranges, 2026.*
+
+| Tier | Typical work | Reported rate | Direction |
+| --- | --- | --- | --- |
+| Commodity labeling | Bounding boxes, simple classification, tagging | Low single-digit dollars per hour offshore, priced per item | Deflating. Roughly halved since 2022 as pre-labeling automates common cases. |
+| Managed domain services | Medical imaging, sensor fusion, regulated review | Project-based, quoted per item or per batch | Stable. Insulated by regulatory defensibility requirements. |
+| Expert human data | Reasoning traces, evaluation rubrics, RLHF grading | about \$85 to \$200 per hour, higher for physicians and senior specialists | Rising. Where most frontier lab spend has migrated. |
+| RL environments | Interactive task sandboxes with expert-written grading | about \$20,000 per UI environment; about \$300,000 for a complex application clone | Rising sharply. Exclusive builds command four to five times non-exclusive rates. |
+
+Environment pricing per [SemiAnalysis reporting on RL environments](https://newsletter.semianalysis.com/p/rl-environments-and-rl-for-science). Expert hourly ranges compiled from reported contractor rates across multiple vendors.
+
+> Labs increasingly pay a twenty to forty times premium for verified experts, not because experts are smarter, but because a credentialed, well-paid, accountable contractor is far less likely to cheat.
+>
+> — On why quality, not headcount, sets price at the top of the market
+
+That premium has an empirical basis worth knowing. Researchers [estimated that between 33 and 46 percent of crowdworkers on one text task used large language models to complete it](https://arxiv.org/abs/2306.07899), meaning a meaningful share of supposedly human data was quietly machine-generated. At the frontier, a single contaminated batch can compromise an entire training run, which is why the cheap tier is not simply a cheaper version of the expensive tier.
+
+## Three risks that are not on the scoring matrix
+
+Annotation moved from a procurement line item to a governance question between 2025 and 2026. These three risks now decide vendor selection at frontier labs, and they should be on your matrix even if your programs are smaller.
+
+<div className="not-prose my-6 rounded-xl border border-gray-200 border-l-4 border-l-rose-400 bg-rose-50/40 p-6 font-['Poppins']">
+  <p className="mb-2 text-[16px] font-bold text-gray-900">Neutrality: who owns your vendor</p>
+  <p className="text-[15px] leading-relaxed text-gray-600">An annotation vendor sees your unreleased capabilities, your failure modes, and the exact shape of your training priorities. That visibility is only acceptable if the vendor is not feeding a competitor. This is the criterion that reorganized the entire industry when Meta took its Scale stake, and the reason "independent, not lab-owned" became the most repeated line in every rival's pitch. The test is simple: draw your competitor list, then draw your vendor's cap table, and check for overlap.</p>
+</div>
+
+<div className="not-prose my-6 rounded-xl border border-gray-200 border-l-4 border-l-rose-400 bg-rose-50/40 p-6 font-['Poppins']">
+  <p className="mb-2 text-[16px] font-bold text-gray-900">Security: a vendor breach is a roadmap leak</p>
+  <p className="text-[15px] leading-relaxed text-gray-600">In June 2025 Scale AI was found to have left more than 85 internal Google Docs publicly accessible, exposing training manuals and project material across multiple clients. In April 2026 Mercor disclosed a supply-chain breach in which an estimated four terabytes of data including contractor identity documents were allegedly exfiltrated, triggering multiple federal lawsuits within a week. For a customer, a vendor breach is not an IT incident. It is the potential disclosure of an unreleased model's training methodology.</p>
+</div>
+
+<div className="not-prose my-6 rounded-xl border border-gray-200 border-l-4 border-l-rose-400 bg-rose-50/40 p-6 font-['Poppins']">
+  <p className="mb-2 text-[16px] font-bold text-gray-900">Labor: liability is climbing the supply chain</p>
+  <p className="text-[15px] leading-relaxed text-gray-600">Of 144 Kenyan content moderators assessed in litigation against Meta and Samasource, <a href="https://edition.cnn.com/2024/12/22/business/facebook-content-moderators-kenya-ptsd-intl" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">81 percent were diagnosed with severe PTSD</a>, and a Kenyan court ruled in 2024 that the cases could proceed. More than 180 former moderators are pursuing claims seeking around \$1.6 billion. Courts have shown increasing willingness to look past the outsourcing firm to the brand that commissioned the work, which turns a cheap labeling contract into a contingent legal exposure that outlasts the dataset.</p>
+</div>
+
+The practical response is not to avoid the bulk layer, which still does necessary work. It is to ask three questions before signing: where is the work done, what are the workers paid, and has this vendor been sued over it. Buyers who ask get answers. Buyers who do not, inherit whatever the answers were.
+
+## Run the same pilot on every candidate
+
+Almost every annotation comparison collapses into vendor storytelling unless you generate your own evidence. A well-designed pilot takes two weeks and settles most of the argument.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <ul className="space-y-2.5">
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&#10003;</span><span><strong className="font-semibold text-gray-900">Send an identical batch of 500 to 1,000 items</strong> to every candidate, including a deliberately seeded subset of genuinely ambiguous cases where reasonable annotators would disagree.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&#10003;</span><span><strong className="font-semibold text-gray-900">Score first-pass acceptance</strong> against your own review, and record how long adjudication took. That is Line 3 of the Rework Ledger, measured rather than assumed.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&#10003;</span><span><strong className="font-semibold text-gray-900">Measure inter-annotator agreement on the ambiguous subset only.</strong> Agreement on easy items tells you nothing. Agreement on the hard ones is the whole signal.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&#10003;</span><span><strong className="font-semibold text-gray-900">Note who asks questions.</strong> The vendor that comes back with three sharp questions about your taxonomy before starting is usually the one that will still be delivering clean data in month nine. The vendor that starts immediately has decided your edge cases for you without telling you.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&#10003;</span><span><strong className="font-semibold text-gray-900">Ask how the workforce is paid and where.</strong> Not for ethics theater. Turnover is the main driver of taxonomy drift, and pay is the main driver of turnover.</span></li>
+  </ul>
+</div>
+
+Then write what you measured into the contract: an acceptance threshold with a defined adjudication process, an agreement floor on held-out ambiguous items, audit rights, and an explicit statement of whether the work is exclusive to you.
+
+## Stop asking who is the best annotator
+
+The question that produces good outcomes is narrower: which band is this task, and who is strongest in that band. A team that maps each workload to the right band will out-buy one that sends everything to a single vendor and hopes the average works out.
+
+Then hold two numbers in front of you through the whole evaluation. First-pass acceptance rate, because it dominates total cost in a way the rate card never reveals. And the fully loaded cost per surviving label, because that is the only figure that tells you what you actually paid.
+
+Everything else on a vendor call is context. Useful context, sometimes decisive on risk grounds, but context. The arithmetic is what settles it. For the collection side of this problem, our companion guide to [data collection companies for robotics](/blog/best-data-collection-companies-robotics/) applies the same discipline to buying robot demonstration data.

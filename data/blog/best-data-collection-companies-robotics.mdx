@@ -1,0 +1,392 @@
+---
+title: '10 Best Data Collection Companies for Robotics and Embodied AI'
+date: 2026-09-05T09:00:00.000Z
+tags:
+  - Physical AI
+  - Robotics
+  - Data Collection
+  - Vendors
+draft: false
+summary: 'Robot data buyers waste budget on hours they cannot use. Compare 10 data collection companies for robotics and embodied AI, with fit, limits, and real pricing.'
+images:
+  - /static/images/best-data-collection-companies-robotics.jpg
+authors:
+  - prasanna-venkatesan
+layout: PostLayout
+canonicalUrl: 'https://www.gamasome.com/blog/best-data-collection-companies-robotics/'
+seo:
+  metaTitle: '10 Best Data Collection Companies for Robotics (2026)'
+  metaDescription: 'Robot data buyers waste budget on hours they cannot use. Compare 10 data collection companies for robotics and embodied AI, with fit, limits, and real pricing.'
+  canonicalUrl: ''
+  changefreq: weekly
+faqHeading: Common questions about buying robot training data
+faqs:
+  - question: What does a robotics data collection company actually do?
+    answer: 'It runs the physical operation behind robot training data: recruiting and qualifying operators, building and calibrating capture rigs, scripting task and environment diversity, recording synchronized sensor streams, reviewing and scoring episodes, and packaging the result in a training-ready format. It is an operations business, not a software purchase.'
+  - question: How much does robot training data cost per hour?
+    answer: 'Published figures vary by geography and modality. Egocentric wearable capture runs roughly $25 to $60 per collected hour, US single-arm teleoperation around $90 to $150 fully loaded, and humanoid multi-sensor capture around $80 to $150. Because acceptance rates commonly fall between 50 and 85 percent, cost per usable hour typically lands 1.2 to 2 times above the quoted rate.'
+  - question: Should I buy robot demonstration data or collect it in-house?
+    answer: 'Most production programs do both. Buy when you need environment and operator diversity you cannot reach yourself, or when engineering time is better spent on policy work than rig maintenance. Build when volume is steady, the task set is stable, and the data is commercially sensitive. The common pattern is an external partner for breadth plus a small internal cell for tasks you do not want a vendor to see.'
+  - question: What is the difference between egocentric human video and teleoperation data?
+    answer: 'Egocentric video records a person doing a task from a first-person camera with no robot involved. It is cheap and scalable but carries no robot action labels, so it needs retargeting. Teleoperation records a human driving the actual robot, producing trajectories that match the deployment embodiment. Teleoperation costs far more and is bounded by robot uptime, which is why most 2026 training mixes use a large base of human video and a thin layer of teleoperation.'
+  - question: How do I evaluate a robotics data vendor before signing?
+    answer: 'Run a paid pilot on one narrow task and score it against the four gates: embodiment match, measured sync integrity, retained and labeled failure episodes, and files that load without a conversion project. Ask for the pilot acceptance rate and for a delivered-dataset reference rather than a capability deck.'
+  - question: Why do so many robotics data purchases fail?
+    answer: 'Usually because the buyer contracted for the wrong unit. Teams buy collected hours, then find that a large share of episodes fail review, that demonstrations came from hardware kinematically different from their own, or that every episode is a clean success with no recovery behavior. The data is real and the invoice is correct, but the training value is a fraction of what was budgeted.'
+  - question: Which formats should a robotics dataset be delivered in?
+    answer: 'RLDS and HDF5 are the practical defaults, with LeRobot-compatible structures common for Hugging Face ecosystem work and Zarr used for large cloud-native training. Whichever you pick, delivery should include camera calibration files, a robot URDF or equivalent kinematic description, action space documentation, and per-episode metadata.'
+  - question: Is simulation data enough on its own?
+    answer: 'No. Simulation has clearly won for locomotion and visual diversity, and NVIDIA reports generating GR00T N1.5 synthetic training data in 36 hours against roughly three months of manual collection. But contact-rich manipulation resists it, particularly for deformable objects where friction and viscosity are hard to model. The 2026 consensus in the research literature is co-training, with simulation and real data together outperforming either alone.'
+---
+
+Most robot data purchases do not fail at the invoice. They fail six weeks later, when a team discovers that the hours it bought will not train the policy it is building.
+
+A manipulation team we spoke with in early 2026 had done everything a careful buyer is supposed to do. They scoped a task, ran a competitive process, picked a vendor with real robots and real operators, and contracted for a batch of bimanual demonstrations. The data arrived on schedule and in the agreed format.
+
+Then training started, and the policy would not transfer. Two problems, neither visible on the invoice. The demonstrations had been captured on an arm with a different gripper geometry than the deployment hardware, so the recorded action trajectories did not map cleanly onto the robot that was supposed to run them. And every single episode was a clean success. There was not one recovery, one dropped object, one mid-task correction anywhere in the batch, because the vendor's quality process had been filtering failures out as defects.
+
+The team had bought exactly what it asked for. It just had not asked for the right thing.
+
+That is the pattern worth understanding before you compare a single vendor. This guide is organized around it. Below you will find four qualification gates that separate usable robot data from expensive video, then ten companies assessed against them, each with an honest note on where the fit breaks down.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">Short version</p>
+  <ul className="space-y-2.5">
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>The unit that matters is the <strong className="font-semibold text-gray-900">usable</strong> episode, not the collected hour. Acceptance rates on collected robot data commonly run between 50 and 85 percent, which moves real cost 1.2 to 2 times above the quoted rate.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>No single vendor covers the whole stack. Teleoperation, egocentric human video, sensor-fusion annotation, simulation, and licensed footage are five different businesses that happen to share a category name.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>Ask for a delivered-dataset reference and a pilot acceptance rate. Capability decks in this category run well ahead of delivery history, because most of the specialist cohort is under two years old.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>Failure and recovery data is worth more per episode than clean success data, and most quality processes are still built to throw it away.</span></li>
+  </ul>
+</div>
+
+## What does a robotics data collection company do?
+
+A robotics data collection company runs the physical operation that turns real-world tasks into robot training data. That means recruiting and qualifying operators, building and calibrating capture rigs, scripting task and environment diversity, recording synchronized sensor streams, scoring and reviewing episodes, and packaging the result into a training-ready format such as RLDS, HDF5, or a LeRobot-compatible structure.
+
+It is an operations business wearing a software category's clothes. The hard parts are logistics, calibration discipline, and quality adjudication, not tooling. If you want the underlying concepts first, our primer on [what physical AI is](/blog/what-is-physical-ai/) and our deeper walkthrough of [data collection for robotics](/blog/data-collection-for-robotics/) cover the fundamentals this guide assumes.
+
+## The Four Gates: what a robotics data vendor has to clear
+
+We built this sequence out of post-mortems on programs that went wrong, ours and our clients'. Each gate kills a specific, expensive failure mode, and they run in order because a vendor that fails Gate 1 cannot be rescued by excellence at Gate 4. Run every shortlist through it before you look at price.
+
+![Diagram of the Four Gates framework: raw collected hours pass through embodiment match, sync integrity, failure coverage, and handoff format to become training-ready data, with a rejected failure mode noted under each gate.](/static/images/best-data-collection-robotics-four-gates.svg)
+
+*The Four Gates. A vendor qualification sequence for robotics and embodied AI data collection programs. Gamasome framework, 2026.*
+
+<div className="not-prose my-8 grid gap-5 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <span className="mb-2 block font-mono text-[11px] tracking-[0.1em] text-[#000B71] uppercase">Gate 1</span>
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Embodiment match</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Does the recorded action map onto the robot you are actually shipping? Gripper geometry, degrees of freedom, control frequency, and force range all determine whether a trajectory transfers or has to be retargeted. Human video and cross-embodiment data are legitimate, but only if you know going in that you are buying pretraining signal rather than deployable trajectories.</p>
+    <p className="mt-3 border-t border-dashed border-gray-300 pt-3 font-mono text-[12.5px] text-[#000B71]">Ask: which hardware were these episodes captured on, and what is your retargeting path to mine?</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <span className="mb-2 block font-mono text-[11px] tracking-[0.1em] text-[#000B71] uppercase">Gate 2</span>
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Sync integrity</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Multi-sensor capture only works if camera frames, joint states, force readings, and language labels line up in time. Software-timestamped streams drift. The question is not whether a vendor syncs, it is whether they measure sync and can show you the residual. Calibration also drifts across weeks of use, which is why a logged baseline matters as much as the initial calibration.</p>
+    <p className="mt-3 border-t border-dashed border-gray-300 pt-3 font-mono text-[12.5px] text-[#000B71]">Ask: is sync hardware-triggered or software-stamped, and where is the drift logged?</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <span className="mb-2 block font-mono text-[11px] tracking-[0.1em] text-[#000B71] uppercase">Gate 3</span>
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Failure coverage</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Perfect demonstrations teach a policy what success looks like and nothing about how to get back to it. Lightwheel founder Xie Chen made the point bluntly in a 2026 interview: a video where you drop a few pieces of vegetable and pick them back up is worth more than the flawless version, because the failure-then-recovery experience is where the learning is. AgiBot's open million-trajectory dataset deliberately retains failed demonstrations with an error-cause field rather than filtering them out.</p>
+    <p className="mt-3 border-t border-dashed border-gray-300 pt-3 font-mono text-[12.5px] text-[#000B71]">Ask: what share of delivered episodes contain a recovery, and how are failures labeled?</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <span className="mb-2 block font-mono text-[11px] tracking-[0.1em] text-[#000B71] uppercase">Gate 4</span>
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Handoff format</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">A dataset that needs an engineering sprint before it loads is not finished. Delivery in <a href="https://github.com/google-research/rlds" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">RLDS</a> or HDF5 has become the quiet standard, but format alone is not enough. Calibration files, a robot URDF, action-space documentation, and per-episode metadata all have to travel with the episodes or your team rebuilds them.</p>
+    <p className="mt-3 border-t border-dashed border-gray-300 pt-3 font-mono text-[12.5px] text-[#000B71]">Ask: send me the file tree and one sample episode before we sign.</p>
+  </div>
+</div>
+
+## Method, and a disclosure you should hold us to
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-3 text-[16px] font-bold text-gray-900">Gamasome publishes this list and appears on it at number one.</p>
+  <p className="mb-3 text-gray-700">Every ranking page on this topic is written by a company selling data services, including this one. So here is the basis. We placed ourselves first because the list is ordered by depth of field operations across the four gates, and running multi-station capture programs with logged quality thresholds is the specific thing we do. On a list ordered by scale, funding, or annotation tooling maturity, we would not be first, and we say so in our own entry below.</p>
+  <p className="text-gray-700">Every company here gets the same two-part treatment: where they fit, and where they do not. If you only read the second half of each entry, you will still get most of the value.</p>
+</div>
+
+**What we assessed:** demonstrated collection capability rather than annotation-only capability with collection added to the pitch; evidence of delivered programs; environment and operator diversity; quality process specific to demonstration data; and delivery format discipline.
+
+**What we excluded:** robot foundation model labs that collect for themselves and do not sell data, such as Physical Intelligence and Figure; companies whose collected corpus feeds their own robot product rather than a customer's, such as Sunday Robotics; and pure simulation platforms, which we cover in the companion [physical AI data collection companies](/blog/physical-ai-data-collection-companies/) market map.
+
+**What we could not verify:** most customer relationships in this market are under NDA. Where a company's claims rest only on its own marketing, we say so rather than repeating the claim as fact.
+
+## 10 data collection companies for robotics and embodied AI
+
+Ordered by field operations depth against the four gates. Read the fit and the limit together, because the limit is what determines whether a vendor belongs on your shortlist or someone else's.
+
+### 01. Gamasome
+
+_Field-deployed capture programs, teleoperation and data ops, sim-ready asset pipelines._
+
+Gamasome builds and operates the capture systems themselves rather than subcontracting collection to a crowd. In the Droyd program we designed a multi-station human-demonstration data factory around data-center hardware tasks, using head-mounted and gripper-mounted cameras plus HTC Vive Tracker 3.0 motion capture, held to a quality threshold of 98 percent or higher tracking continuity per session. That threshold is the point. It is the difference between an hour recorded and an hour a training pipeline can consume.
+
+On the teleoperation side, the Feather Robotics engagement runs live collection on a real robot through two input modes, a 3D mouse and VR, and the captured data has already been used to post-train SmolVLA and Pi0.5. On the simulation side, the Turing project produced a USD authoring pipeline converting household 3D assets into physics-valid simulation objects with correct joints and collision behavior. The reason those sit in the same company is Gate 1: matching data to an embodiment is easier when the same team understands the robot's software stack, not just its camera feed.
+
+<div className="not-prose my-6 grid gap-4 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-emerald-500 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-emerald-700 uppercase">Where we fit</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Teams that need a capture program designed from scratch around a specific robot and environment, with operator qualification, calibration logging, and a defined quality bar written into the engagement. Strongest where collection, teleoperation, and sim-to-real work have to stay coherent.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-rose-400 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-rose-600 uppercase">Where we do not fit</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">If you need a hundred thousand hours of generic egocentric video next quarter, a gig-network operator will beat us on raw throughput and price per hour. We are a program partner, not a volume marketplace, and engagements start with a scoped pilot rather than a rate card.</p>
+  </div>
+</div>
+
+[See how Gamasome data collection engagements are structured](/services/physical-ai-data-collection/).
+
+### 02. Encord
+
+_Data infrastructure with in-field collection attached._
+
+Encord repositioned from a computer vision labeling tool into what it calls the data layer for physical AI, and the funding followed: [a 60 million dollar Series C in February 2026](https://www.prnewswire.com/news-releases/encord-secures-60m-series-c-to-scale-ai-native-data-infrastructure-as-physical-ai-hits-inflection-point-302698629.html) brought total disclosed funding to roughly 110 million. It handles teleoperation data, egocentric video, and multimodal sensor streams including LiDAR, depth, and force-torque inside one platform, with automated sync validation across streams, which is a direct answer to Gate 2. It also runs in-field operators and reconfigurable lab facilities, and publishes a browsable open sample library for teams that want to see the shape of the data before commissioning any.
+
+<div className="not-prose my-6 grid gap-4 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-emerald-500 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-emerald-700 uppercase">Where it fits</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Teams that want collection and annotation in the same system rather than handing data between vendors, and that value automated cross-stream sync checks over manual review passes.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-rose-400 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-rose-600 uppercase">Where it does not</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Built computer-vision-first, so language and RLHF workflows lag purpose-built generative AI platforms. Cloud-only deployment rules it out for some sovereign and defense buyers.</p>
+  </div>
+</div>
+
+### 03. Scale AI
+
+_Generalist data engine with the largest disclosed physical AI throughput._
+
+Scale runs the best-documented generalist collection operation in the category. It reports delivering [more than 150,000 hours of physical AI data in 2025](https://scale.com/blog/physical-ai), collection through data factories, residential settings, and commercial deployments, and a partnership with Universal Robots to capture force-feedback data on production arms. It is also the only vendor in this market with a disclosed customer list on its own product page, naming Physical Intelligence, Generalist, Cobot, and Dyna. Its September 2025 framing of the scarcity problem, that all open-source robotics datasets combined offered only around 5,000 hours of interaction data, is the most quoted statistic in the field.
+
+<div className="not-prose my-6 grid gap-4 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-emerald-500 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-emerald-700 uppercase">Where it fits</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Large programs that need breadth across environments and modalities, and buyers who want a vendor with a public delivery record rather than a capability claim.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-rose-400 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-rose-600 uppercase">Where it does not</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Meta holds a 49 percent non-voting stake following its <a href="https://www.cnbc.com/2025/06/18/scale-ai-not-winding-down-following-meta-deal-interim-ceo-says.html" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">14.3 billion dollar investment</a>, and Google, OpenAI, and xAI all pulled back over confidentiality concerns. If you compete with Meta, that is a structural problem, not a contractual one. Manipulation-specific teleoperation annotation and contact-event labeling are also thinner than the generalist positioning suggests.</p>
+  </div>
+</div>
+
+### 04. XDOF
+
+_Teleoperation-native collection built by rig researchers._
+
+XDOF launched in June 2026 with [70 million dollars from Thrive, Spark, a16z, Lux, and WndrCo](https://techcrunch.com/2026/06/17/collecting-robot-training-data-is-dirty-unglamorous-work-some-ai-labs-are-already-paying-xdof-to-do-it/), and its founders built GELLO, the low-cost Berkeley teleoperation rig that a lot of academic collection now runs on. It spans teleoperation on deployed robots, rig-based teleop, and wearable sensors, and it has published an Apache-2.0 dataset of more than 130,000 teleoperated episodes across roughly 195 bimanual tasks, which is a rare and useful form of proof: you can inspect the output before you buy.
+
+Its CEO is also unusually candid about the economics, having said publicly that simply creating data is a poor business model, which is why the company is moving up-stack into cleaning, annotation, and tooling. Take that as a signal about the category, not a mark against the vendor.
+
+<div className="not-prose my-6 grid gap-4 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-emerald-500 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-emerald-700 uppercase">Where it fits</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Bimanual manipulation programs that need robot-native trajectories and want a partner with genuine rig engineering depth rather than a subcontracted operator pool.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-rose-400 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-rose-600 uppercase">Where it does not</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Young company, roughly 20 customers, most unnameable. If you need multi-year delivery history or heavy regulatory documentation, that record does not exist yet.</p>
+  </div>
+</div>
+
+### 05. Micro1
+
+_Gig-network egocentric video at the largest reported volume._
+
+Micro1 runs thousands of contract workers across more than 50 countries recording household and everyday tasks on head-mounted phones and cameras. [CNN reports its contributors collectively submit more than 160,000 hours of video a month](https://edition.cnn.com/2026/04/04/tech/humanoid-robot-training-jobs-intl-hnk-dst), the largest publicly reported collection volume anywhere, and [MIT Technology Review's April 2026 feature](https://www.technologyreview.com/2026/04/01/1134863/humanoid-data-training-gig-economy-2026-breakthrough-technology/) is the definitive portrait of how that labor market actually operates. It raised a 35 million dollar Series A in September 2025.
+
+<div className="not-prose my-6 grid gap-4 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-emerald-500 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-emerald-700 uppercase">Where it fits</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Pretraining corpora where breadth of environment, geography, and everyday task variety matters more than embodiment precision. Good answer to Gate 3 by default, since uncontrolled home footage is full of fumbles and corrections.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-rose-400 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-rose-600 uppercase">Where it does not</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">No robot in the loop means no action labels and a retargeting problem you inherit. Fails Gate 1 by construction, which is fine if you know that is what you are buying and a real problem if you assumed otherwise.</p>
+  </div>
+</div>
+
+### 06. Objectways
+
+_Managed egocentric capture with annotation in the same pipeline._
+
+Objectways moved into physical AI collection from an established data services base, and it operates at genuine industrial pace: the company told _The Economic Times_ it is running [around 1,000 hours of data collection per day against demand it estimates at 200,000 to 300,000 hours](https://www.indiaaipulse.com/en/news/india-startups-target-egocentric-data-for-robotics). It captures across egocentric and RGB-D formats, builds depth data for robot perception, and runs labeling pipelines covering keypoints, action tags, segmentation, and depth with human review at each stage rather than a single pass at the end.
+
+<div className="not-prose my-6 grid gap-4 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-emerald-500 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-emerald-700 uppercase">Where it fits</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Teams that want managed collection and annotation from one partner, with custom workflow design for a specific manipulation or navigation domain, at a cost point below US-based capture.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-rose-400 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-rose-600 uppercase">Where it does not</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">No public funding disclosure and limited published dataset output, so verification rests largely on references. Egocentric-first, so robot-native trajectory work is not the core capability.</p>
+  </div>
+</div>
+
+### 07. Kognic
+
+_Sensor fusion ground truth for autonomous driving and mobile robotics._
+
+Kognic is the specialist for programs where camera, LiDAR, and radar have to be labeled in one synchronized workflow rather than stream by stream. The company reports [more than 100 million annotations delivered across 120-plus projects](https://www.kognic.com/) for customers including Qualcomm, BMW, Zenseact, Continental, and Bosch, with over 90 automated quality checker apps tuned to specific autonomous driving failure modes such as cuboids clipping the ground plane and tracking ID switches across frames. TISAX Level 3 certification matters if you are working with European OEMs.
+
+<div className="not-prose my-6 grid gap-4 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-emerald-500 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-emerald-700 uppercase">Where it fits</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Mobile robots, AMRs, and driving programs where perception ground truth quality is the constraint and calibration-aware annotation propagation across sensors is non-negotiable. The strongest Gate 2 answer on this list.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-rose-400 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-rose-600 uppercase">Where it does not</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Automotive-shaped. Manipulation, contact events, and dexterity data are outside its build. It is also primarily a ground-truth partner rather than a field collection operator, so pair it with a capture vendor.</p>
+  </div>
+</div>
+
+### 08. iMerit
+
+_Domain-trained review for regulated and high-context data._
+
+Founded in 2012 and [profitable without raising since 2020](https://techcrunch.com/2025/07/09/imerit-believes-better-quality-data-not-more-data-is-the-future-of-ai/), iMerit employs full-time in-house annotators rather than running a crowd, which shows up as consistency on tasks where judgment matters. Its heritage is high-context computer vision in medical imaging and autonomous vehicles, and it launched a Scholars network of advanced-degree experts in 2025 as it moved upmarket. It has expanded into robot training data programs including egocentric video and 3D point cloud annotation for robotic perception.
+
+<div className="not-prose my-6 grid gap-4 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-emerald-500 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-emerald-700 uppercase">Where it fits</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Programs where the review layer is the hard part: regulated domains, ambiguous task boundaries, or datasets that will face external scrutiny. Strong choice when you need collection paired with genuinely domain-literate QA.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-rose-400 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-rose-600 uppercase">Where it does not</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Strongest as an annotation partner and still building its collection track record. If robot-native teleoperation is the deliverable, a rig-first specialist will go deeper.</p>
+  </div>
+</div>
+
+### 09. Tacta Systems
+
+_Instrumented gloves capturing skilled labor where it already happens._
+
+Tacta takes a different approach to the whole problem: rather than staging tasks, it puts a sensorized glove capturing force, motion, video, and temperature on workers on real production lines. It has raised [75 million dollars from investors including America's Frontier Fund, SBVA, SoftBank, and Toyota's Woven Capital](https://www.prnewswire.com/news-releases/tacta-systems-announces-75-million-in-funding-to-bring-dextrous-intelligence-to-robots-302492467.html). The strategic logic is strong. Force data is the modality teleoperation captures worst, because operators driving a robot remotely cannot feel what the robot feels, and glove capture sidesteps that entirely.
+
+<div className="not-prose my-6 grid gap-4 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-emerald-500 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-emerald-700 uppercase">Where it fits</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Contact-rich industrial manipulation where force and tactile signal carry the task, and where the skilled behavior you want already exists on a shop floor.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-rose-400 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-rose-600 uppercase">Where it does not</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Human hand kinematics are not robot gripper kinematics, so Gate 1 needs a real retargeting answer. Tacta also builds robot hands, which is worth understanding before you treat it as a neutral data supplier.</p>
+  </div>
+</div>
+
+### 10. Troveo
+
+_Rights-cleared real-world video for the pretraining layer._
+
+Troveo is the layer most robotics teams discover last: licensed footage of humans performing tasks, manipulating objects, and navigating spaces, sourced from [more than 7,000 rights holders](https://www.troveo.ai/resources/robotics-training-data-companies) with per-asset documentation cleared for AI training. It exists because the two obvious alternatives both have problems: scraped footage is a legal liability, and commissioned capture is slow and expensive per hour. It supplies the human-video pretraining base, not robot trajectories.
+
+<div className="not-prose my-6 grid gap-4 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-emerald-500 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-emerald-700 uppercase">Where it fits</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">World-model and pretraining work that needs volume and visual diversity fast, and any program where provenance documentation has to survive a legal review.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-rose-400 bg-gray-50 p-5">
+    <p className="mb-2 font-mono text-[11px] font-semibold tracking-[0.1em] text-rose-600 uppercase">Where it does not</p>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">A marketplace, not a capture partner. If your task is specific to your robot, your environment, or your product, licensing cannot reach it. Combine, do not substitute.</p>
+  </div>
+</div>
+
+## Which vendor clears which gate
+
+A qualitative read based on published capability and delivery evidence as of September 2026. Strong means the vendor is built around that problem; partial means it is handled but is not the core competency; weak means you should plan to solve it elsewhere.
+
+| Company | Primary model | Gate 1 embodiment | Gate 2 sync | Gate 3 failure | Gate 4 handoff |
+| --- | --- | --- | --- | --- | --- |
+| **Gamasome** | Field capture programs, teleop, sim assets | Strong | Strong | Strong | Strong |
+| **Encord** | Platform plus in-field collection | Partial | Strong | Partial | Strong |
+| **Scale AI** | Generalist data engine | Partial | Strong | Partial | Strong |
+| **XDOF** | Teleoperation and wearable rigs | Strong | Strong | Partial | Strong |
+| **Micro1** | Gig-network egocentric video | Weak | Partial | Strong | Partial |
+| **Objectways** | Managed egocentric plus annotation | Weak | Partial | Partial | Partial |
+| **Kognic** | Sensor fusion ground truth | Partial | Strong | Strong | Strong |
+| **iMerit** | Domain-trained managed review | Partial | Partial | Strong | Partial |
+| **Tacta Systems** | Instrumented glove capture | Partial | Strong | Strong | Partial |
+| **Troveo** | Licensed real-world video | Weak | Weak | Strong | Partial |
+
+## What robot data actually costs, and why the quote is not the price
+
+Almost nobody publishes rates in this market, and the figures that do circulate usually omit the two labels that determine everything: geography and acceptance rate. Here is what is public, with the caveat that every number below comes from an interested party measuring its own market.
+
+| What you are buying | Reported price per collected hour | What moves it |
+| --- | --- | --- |
+| Egocentric wearable capture, no robot | \$25 to \$60 | Geography and consent overhead |
+| Single-arm teleoperation, real robot | about \$90 to \$150 fully loaded in the US | Operator wage, robot uptime, rig cost |
+| Bimanual ALOHA-style capture | \$40 to \$80 offshore, 2 to 4 times higher onshore | Demonstrations per hour, typically 3 to 15 |
+| Full humanoid multi-sensor capture | \$80 to \$150, or \$50 to \$150 per usable demonstration | Throughput, often only 1 to 3 demos per hour |
+
+Ranges as compiled from vendor rate cards and trade reporting in [Teahose's 2026 robotics training data survey](https://www.teahose.com/guides/robotics-training-data), which is the most thorough neutral price collection published to date. Treat all figures as reported list prices, not market quotes.
+
+### The two haircuts between a collected hour and a usable one
+
+Chinese trade reporting, the only independent full cost stack published in any language, finds that 100 collected hours yield roughly 50 usable ones, and that a 12-hour collection shift produces under 6 effective hours. US vendors claim acceptance rates between 60 and 90 percent. Either way, cost per usable hour runs roughly 1.2 to 2 times the collected-hour figure, which puts finished, reviewed US teleoperation data realistically around \$120 to \$200 per usable hour.
+
+![Bar diagram showing 100 collected hours reducing to roughly 50 usable hours after episode rejection and shift inefficiency, roughly doubling the effective cost per hour against a \$100 quote.](/static/images/best-data-collection-robotics-usable-hours.svg)
+
+*Two haircuts separate a collected hour from a usable one. At the yields reported in Chinese trade coverage, effective cost roughly doubles against the quoted rate. Gamasome, 2026.*
+
+> A per-hour quote that does not state throughput, geography, and acceptance rate is not a price. It is three hidden assumptions wearing a dollar sign.
+>
+> — Teahose, Robotics Training Data survey, August 2026
+
+The practical move is to write acceptance rate into the contract as a measured term with a defined adjudication process, rather than accepting it as a quality claim. Two vendors quoting the same hourly rate at 55 percent and 85 percent acceptance are not offering the same deal, and the gap is roughly 55 percent on effective cost.
+
+## Five things we see robotics teams get wrong when buying data
+
+<div className="not-prose my-8 grid gap-5 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Buying hours before defining diversity</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Hours is a procurement unit, not a training unit. A scaling result frequently cited in this context found that repeating just 0.1 percent of a corpus 100 times collapsed an 800M parameter model's downstream performance to that of a 400M baseline. Volume without variation is close to worthless. Write the diversity plan, in objects, lighting, layouts, and operators, before you write the hour count.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Treating it as image labeling at higher volume</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Robot demonstration data is continuous motion where the start, end, and transition points of an action are genuinely ambiguous unless the person recording understands the task. Annotation workflows designed for static bounding boxes do not transfer, and this is where a lot of in-house pipelines quietly break down.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Letting session length erode consistency</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Long, uncapped sessions produce more corrective motions and drift as operators tire. Dedicated teleoperation providers commonly cap sessions around 45 minutes specifically to protect data consistency. If a vendor's throughput math assumes an eight-hour continuous shift, ask how they are handling that.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Skipping calibration logging</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Camera and sensor calibration drifts across weeks of use. Without a logged baseline to compare against, an otherwise good batch can silently degrade model performance and the cause becomes nearly impossible to trace after delivery. This is the cheapest insurance in the entire pipeline and the most commonly skipped.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Assuming one vendor covers the stack</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Teleoperation, egocentric video, sensor fusion ground truth, simulation, and licensed footage are five different businesses. The teams buying well in 2026 run a portfolio: a licensed or gig source for pretraining breadth, a rig-native partner for embodiment-matched trajectories, and a specialist for whichever review problem is hardest.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Not asking who owns the rights</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Provenance problems in robotics data are the same lawsuits waiting to happen as everywhere else in AI. Ask anyone selling real-world footage where the rights come from, per asset. Regulatory attention is already arriving: India's Ministry of Electronics and IT has been examining consent mechanisms for egocentric collection under the country's data protection law.</p>
+  </div>
+</div>
+
+## Match the vendor to the layer you are actually missing
+
+The most expensive mistake is treating robot data collection as one purchase and sending everything to one vendor. Classify the gap first.
+
+| If you have... | What you are missing | Start with |
+| --- | --- | --- |
+| A robot and a task, no data at all | An operating program: rigs, operators, quality bar | Gamasome, XDOF |
+| Demonstrations but no generalization | Environment and task diversity at scale | Micro1, Troveo, Objectways |
+| Raw captures but no usable dataset | Sync validation, curation, annotation | Encord, Kognic, iMerit |
+| Volume but poor real-world transfer | Embodiment-matched trajectories and force signal | XDOF, Tacta Systems, Gamasome |
+| Data but no way to evaluate a policy | Evaluation sets and benchmark protocol | Gamasome, Scale AI |
+
+One point worth stressing, because it is the one most often discovered too late. Lightwheel's founder has repeatedly said that his clients' real bottleneck is not training data at all, it is that they cannot scale their evaluation. If you are budgeting a collection program, budget an evaluation set alongside it, captured under the same protocol and held out from training. It is a small fraction of the cost and it is the only thing that tells you whether the rest of the spend worked.
+
+If you are still deciding between running collection internally and contracting it, our breakdown of [robotics data collection at scale](/blog/robotics-data-collection-at-scale/) walks through the operational cost lines teams typically underestimate.
+
+## Buy against the gate you are failing, not the vendor with the best deck
+
+This category is roughly eighteen months old in its specialist form, which means capability claims run well ahead of delivery history almost everywhere. That is not a reason to avoid it. It is a reason to buy in small, measured increments and to insist on evidence rather than positioning.
+
+Three practical steps. Write your diversity plan and your acceptance criteria before you request a quote, because those two documents are what turn a vague hourly rate into a comparable offer. Run a paid pilot on the narrowest task that still exercises the hard part, and score the output yourself rather than accepting a quality report. And budget an evaluation set collected under the same protocol, held out from training, because without it you have no way to tell whether any of the rest worked.
+
+The vendors on this list are good at different things and honest vendors will tell you which. If one cannot describe where it does not fit, that is the most useful signal you will get from the call.

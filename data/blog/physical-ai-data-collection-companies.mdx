@@ -1,0 +1,386 @@
+---
+title: '10 Physical AI Data Collection Companies to Know in 2026'
+date: 2026-09-05T07:00:00.000Z
+tags:
+  - Physical AI
+  - Robotics
+  - Data Collection
+  - Vendors
+draft: false
+summary: 'Most physical AI data companies are under two years old and cannot name a customer. Here are 10, mapped by capture method and read against receipts.'
+images:
+  - /static/images/physical-ai-data-collection-companies.jpg
+authors:
+  - prasanna-venkatesan
+layout: PostLayout
+canonicalUrl: 'https://www.gamasome.com/blog/physical-ai-data-collection-companies/'
+seo:
+  metaTitle: '10 Physical AI Data Collection Companies to Know in 2026'
+  metaDescription: 'Most physical AI data companies are under two years old and cannot name a customer. Here are 10, mapped by capture method and read against receipts.'
+  canonicalUrl: ''
+  changefreq: weekly
+faqHeading: Common questions about the physical AI data market
+faqs:
+  - question: What is a physical AI data collection company?
+    answer: 'It manufactures the experience data robot foundation models train on: synchronized video, depth, motion, force, and action labels captured from real physical tasks. The category exists because this data does not occur naturally the way internet text does. It has to be deliberately produced through teleoperation, wearable cameras, instrumented tools, simulation, or licensing.'
+  - question: How do these companies collect robot training data?
+    answer: 'Five approaches, distinguished by where the sensor sits. On the robot, through teleoperation recording matched state and action trajectories. On the human, through head-mounted or body-worn cameras. On the tool, through sensorized gloves and handheld grippers that capture manipulation with no robot in the loop. In the simulator, through physics engines and world models. And in the archive, through licensing rights-cleared footage. Most serious programs combine several.'
+  - question: How big is the physical AI data collection market?
+    answer: 'Smaller than the noise suggests. The only public estimate, from Micro1 chief executive via MIT Technology Review in April 2026, put annual spend above $100 million. Reading vendor claims generously gets you to low hundreds of millions, against roughly $730 million in disclosed specialist funding. That is an inverted ratio that rests on buyer patience.'
+  - question: How much training data does a robot actually need?
+    answer: "Stated requirements span roughly five orders of magnitude, and that spread is the honest answer. NVIDIA's GR00T fine-tuning mix contained four hours of teleoperation on top of about 21,000 hours of egocentric video. Ant Lingbo's chief scientist puts the robot GPT-1 threshold at a million hours. Physical Intelligence generalized to unseen homes after roughly 100 home environments, about 400 hours. Diversity and coverage matter more than raw hours."
+  - question: Is egocentric human video better than teleoperation data?
+    answer: 'Neither replaces the other. Egocentric video scales cheaply and encodes how the physical world responds to action, which is why NVIDIA pre-trained on roughly 21,000 hours of it and reported a clean log-linear scaling law. Teleoperation produces embodiment-matched trajectories no human video can supply, but it is bounded by robot uptime and the operator feels no force feedback. The working pattern is a large human video base with a thin teleoperation layer.'
+  - question: Who buys physical AI training data?
+    answer: 'Robot foundation model labs and humanoid manufacturers, but most purchases are invisible under NDA. The only disclosed customer list is on Scale AI product page, naming Physical Intelligence, Generalist, Cobot, and Dyna. The other confirmed pairing is Mecka supplying 1X Technologies. Big buyers also build in-house: Figure partnered with Brookfield for residential and commercial access, and Tesla moved Optimus collection toward camera-rigged workers.'
+  - question: Is selling robot training data a good business?
+    answer: "Demand is real but the bear case has receipts. Free corpora keep resetting the floor, including Build AI's 100,405-hour Apache 2.0 release and AgiBot's million-trajectory datasets. XDOF's own chief executive has said simply creating data is a poor business model, which is why vendors are moving up-stack into cleaning, annotation, and evaluation. The durable positions look like owning access to people and places, or owning the quality layer, rather than selling raw hours."
+  - question: How do I choose between these companies?
+    answer: 'Identify which capture column you are missing first, then apply the Receipts Test to the candidates in that column, then run a paid pilot on one narrow task. If you want the buyer side of this in detail, including qualification gates and pricing, our companion guide to data collection companies for robotics and embodied AI covers it.'
+---
+
+The specialist cohort in this category has raised roughly \$730 million. The only public estimate of what the category earns per year is a bit over \$100 million. Something in that picture is mispriced, and it changes how you should read every vendor claim.
+
+Robotics has a data problem that the rest of AI already solved by accident. Language models pre-trained on an internet that already existed. Robot foundation models have no equivalent, because nobody ever wrote down what it feels like to pick up a mug, and no camera was pointed at the moment when someone dropped it and caught it again.
+
+So the data has to be manufactured, and manufacturing it became an industry almost overnight. Nearly the entire specialist cohort formed inside about eighteen months. That speed is why this market is hard to read: capability claims are everywhere, delivery history is thin, and most vendors cannot name a single customer because their contracts forbid it.
+
+This is not a ranking by revenue, because almost nobody discloses it honestly. It is a map of who exists, organized by how they capture, and read against what each company has actually put on the public record. We call that the Receipts Test, and it is the most useful filter available in a market this young.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">Short version</p>
+  <ul className="space-y-2.5">
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>Five capture methods, distinguished by <strong className="font-semibold text-gray-900">where the sensor sits</strong>: on the robot, on the human, on the tool, in the simulator, or in the archive. Knowing which one a company runs tells you most of what you need to know about it.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>The only disclosed customer list in the category is on Scale AI's product page. Every other buyer relationship is either NDA-bound or a single named exception.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>Free corpora keep resetting the price floor. Build AI released 100,405 hours under Apache 2.0; AgiBot open-sourced over a million real-robot trajectories.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>Hours collected is being quietly retired as a KPI, because diversity and failure coverage predict model performance far better than volume does.</span></li>
+  </ul>
+</div>
+
+## What is a physical AI data collection company?
+
+A physical AI data collection company manufactures the experience data that robot foundation models learn from: synchronized video, depth, motion, force, and action labels captured from real physical tasks. The category exists because this data does not occur naturally. Internet video is third-person, edited, and unlabeled, which is close to useless for a system that needs to know what a body did, not just what a scene looked like.
+
+These companies sell some combination of collected hours, delivered episodes, capture infrastructure, and the quality layer that turns raw recordings into a trainable dataset. For the concepts underneath this map, see our primer on [what physical AI is](/blog/what-is-physical-ai/).
+
+## Five capture methods, sorted by where the sensor sits
+
+Vendor categories in this market are confusing because companies describe themselves by outcome, and every outcome sounds the same. Sorting by sensor position cuts through it, because sensor position determines cost, scale ceiling, and exactly what you can and cannot learn from the resulting data.
+
+![Diagram of five physical AI capture methods sorted by where the sensor sits: on the robot, on the tool, on the human, in the simulator, and in the archive, with fidelity to your robot falling and achievable volume rising from left to right.](/static/images/physical-ai-data-companies-sensor-position.svg)
+
+*The five capture methods in physical AI data collection, sorted by sensor position. Price ranges are reported list figures, not market quotes. Gamasome framework, 2026.*
+
+| Capture method | What it records | What it cannot give you | Scale ceiling |
+| --- | --- | --- | --- |
+| **On the robot** — teleoperation, leader-follower, VR | State and action trajectories matched exactly to your embodiment | Force as the robot would feel it. The operator's hand is effectively numb. | Bounded by robot uptime, in practice around three hours per robot per day |
+| **On the tool** — sensorized gloves, handheld grippers | Real force, motion, and contact signal from skilled human hands | Robot kinematics. Human hands are not grippers, so retargeting is required. | High. No robot in the loop, and hardware is cheap relative to a rig |
+| **On the human** — head-mounted and body-worn cameras | First-person task video with the camera where the robot's head will be | Action labels of any kind. Everything downstream needs retargeting. | Very high. Limited by recruitment and consent, not hardware |
+| **In the simulator** — physics engines, world models | Unlimited trajectories, safe edge cases, perfect labels | Contact-rich manipulation, especially deformables where friction and viscosity resist modeling | Effectively unlimited, bounded by compute |
+| **In the archive** — licensed real-world footage | Volume and visual diversity no capture program can reach, with rights documentation | Anything specific to your robot, environment, or product | Bounded by what already exists and who holds the rights |
+
+The reason this lens beats a feature comparison is that it predicts the failure mode. Buy from the left and you get trajectories that match your robot but a volume ceiling set by robot uptime. Buy from the right and you get scale but inherit a retargeting problem. Nothing on this diagram is wrong. Buying from the wrong column for your actual gap is.
+
+A useful corrective from inside the field, because it undercuts the whole left-hand column: NVIDIA's Jim Fan has pointed out that teleoperation is upper-bounded by 24 hours per robot per day as a matter of physics, and in practice runs closer to three, because robots break. That constraint is why so much 2026 capital went into the middle and right of this diagram.
+
+## The Receipts Test: five things a vendor can prove
+
+In a category where nearly every company is under two years old, capability claims carry almost no information. What carries information is what a company has been willing to put on the public record, because public statements create accountability that a sales deck does not. Five receipts, and no company on this list has all five.
+
+<div className="not-prose my-8 grid gap-5 font-['Poppins'] sm:grid-cols-2 lg:grid-cols-3">
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">1. A named buyer</h4>
+    <p className="text-[14px] leading-relaxed text-gray-600">Can they point to a customer by name, on the record? Almost nobody can, which is exactly why it counts for so much when they do.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">2. A published corpus</h4>
+    <p className="text-[14px] leading-relaxed text-gray-600">Is there a dataset you can download and inspect before you buy? This is the strongest receipt available, because you can evaluate the actual output rather than a description of it.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">3. Disclosed funding</h4>
+    <p className="text-[14px] leading-relaxed text-gray-600">Reported by a named outlet, not an aggregator estimate. Funding is not quality, but a disclosed round means someone did diligence and attached their name.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">4. Stated throughput</h4>
+    <p className="text-[14px] leading-relaxed text-gray-600">A number for hours, episodes, or sessions per unit time. Vague scale language is a non-answer, and specificity is checkable against a pilot.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">5. Delivery on record</h4>
+    <p className="text-[14px] leading-relaxed text-gray-600">Do they say publicly what format data ships in, and what travels with it? Calibration files, kinematic descriptions, and per-episode metadata are where quiet corner-cutting shows up.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">How to use it</h4>
+    <p className="text-[14px] leading-relaxed text-gray-600">Count the receipts, then ask for the missing ones directly. A vendor that cannot supply any of the five under NDA is selling you a plan, not a service.</p>
+  </div>
+</div>
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-3 text-[16px] font-bold text-gray-900">Gamasome publishes this map and appears on it at number one.</p>
+  <p className="mb-3 text-gray-700">So apply the test to us too. Our receipts are named programs with published quality thresholds, and they are listed in our entry below alongside the two we do not have: no disclosed venture funding and no public open corpus. That is a real gap relative to several companies further down this list, and you should weigh it.</p>
+  <p className="text-gray-700">This map is ordered by depth of field operations across the five capture methods, not by size. On a list ordered by funding, we would not be first, and the funding table further down shows exactly who would be.</p>
+</div>
+
+## 10 physical AI data collection companies
+
+Each entry lists its capture method and its receipts. Where a receipt is missing, we say so rather than filling the gap with marketing language.
+
+### 01. Gamasome
+
+_Capture method: on the human and on the robot. Field-deployed capture programs, teleoperation and data ops, sim-ready asset pipelines._
+
+Gamasome designs and runs capture systems rather than reselling collected hours. The Droyd program is the clearest example: a multi-station human-demonstration data factory built around data-center hardware tasks, using head-mounted and gripper-mounted cameras plus HTC Vive Tracker 3.0 motion capture, operated against a quality threshold of 98 percent or higher tracking continuity per session. Publishing that threshold is deliberate. It is the number that determines whether an hour of footage becomes an hour of trainable data.
+
+On the robot side, the Feather Robotics engagement runs teleoperation and collection on real hardware through two input modes, a 3D mouse and VR, and the captured data has been used to post-train SmolVLA and Pi0.5. The Turing project adds the simulator column: a USD authoring pipeline converting household 3D assets into physics-valid simulation objects with correct joints and collision behavior, 70 of 100 target assets delivered as of July 2026. Spanning three columns of the diagram above is the point, because most programs need more than one and coordinating across three vendors is its own failure mode.
+
+<div className="not-prose my-6 overflow-hidden rounded-xl border border-gray-200 bg-gray-50 font-['Poppins']">
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Named buyer</span><span className="text-[14px] text-gray-700">Droyd, Feather Robotics, Turing, Unbox, named as programs</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Published corpus</span><span className="text-[14px] italic text-gray-400">None. Client data is proprietary and stays that way.</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Disclosed funding</span><span className="text-[14px] italic text-gray-400">None. Delivery-led, not venture-funded.</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Stated throughput</span><span className="text-[14px] text-gray-700">Multi-station capture with a published 98 percent tracking continuity threshold per session</span></div>
+  <div className="grid gap-1 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Delivery on record</span><span className="text-[14px] text-gray-700">RLDS, HDF5, Zarr, LeRobot, with calibration files, URDF, action-space docs, and per-episode metadata</span></div>
+</div>
+
+[How Gamasome collection engagements are scoped](/services/physical-ai-data-collection/).
+
+### 02. Scale AI
+
+_Capture method: on the robot and on the human. The generalist incumbent's physical AI push._
+
+Scale runs the best-documented collection operation in the category, and it is the only company here that publishes a customer list. Its physical AI arm reports collection through data factories, residential settings, and commercial deployments, plus a partnership with Universal Robots to capture force-feedback data on production arms. Its September 2025 framing of the scarcity problem, that all open-source robotics datasets combined amounted to only around 5,000 hours of interaction data, is the single most-quoted statistic in the field. Read the robotics push partly as a response to losing LLM-data neutrality after Meta's investment.
+
+<div className="not-prose my-6 overflow-hidden rounded-xl border border-gray-200 bg-gray-50 font-['Poppins']">
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Named buyer</span><span className="text-[14px] text-gray-700">Physical Intelligence, Generalist, Cobot, Dyna, on its own product page</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Published corpus</span><span className="text-[14px] italic text-gray-400">None open.</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Disclosed funding</span><span className="text-[14px] text-gray-700">Meta's \$14.3B for 49 percent, valuing it around \$29B, which is also its central risk</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Stated throughput</span><span className="text-[14px] text-gray-700"><a href="https://scale.com/blog/physical-ai" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">150,000+ hours of physical AI data delivered in 2025</a>; a claimed 1,000+ hours collected daily</span></div>
+  <div className="grid gap-1 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Delivery on record</span><span className="text-[14px] text-gray-700">Data Engine tooling documented; robotics format detail is lighter than the generalist positioning suggests</span></div>
+</div>
+
+### 03. XDOF
+
+_Capture method: on the robot. Teleoperation and wearable-sensor data, built by the GELLO researchers._
+
+XDOF launched in June 2026 and immediately became the best-funded pure teleoperation specialist. Its founders built GELLO, the low-cost Berkeley teleoperation rig a lot of academic collection runs on, and the team spans researchers from Berkeley, CMU, MIT, and Amazon. It covers teleop on deployed robots, rig-based teleop, and wearable sensors, and it published an Apache-2.0 dataset of more than 130,000 teleoperated episodes, roughly 3,600 hours, across about 195 bimanual tasks. Its chief executive has also said publicly that simply creating data is a poor business model, which is a more useful signal about the category than any bullish claim on this page.
+
+<div className="not-prose my-6 overflow-hidden rounded-xl border border-gray-200 bg-gray-50 font-['Poppins']">
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Named buyer</span><span className="text-[14px] italic text-gray-400">about 20 customers claimed, "including several frontier AI labs," none nameable.</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Published corpus</span><span className="text-[14px] text-gray-700">130,000+ teleoperated episodes across about 195 bimanual tasks, Apache 2.0</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Disclosed funding</span><span className="text-[14px] text-gray-700"><a href="https://techcrunch.com/2026/06/17/collecting-robot-training-data-is-dirty-unglamorous-work-some-ai-labs-are-already-paying-xdof-to-do-it/" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">\$70M from Thrive, Spark, a16z, Lux, WndrCo</a></span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Stated throughput</span><span className="text-[14px] italic text-gray-400">Not published.</span></div>
+  <div className="grid gap-1 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Delivery on record</span><span className="text-[14px] text-gray-700">Inspectable directly, via the open dataset release</span></div>
+</div>
+
+### 04. Micro1
+
+_Capture method: on the human. Gig-network egocentric video at the largest reported volume anywhere._
+
+Micro1 runs thousands of contract workers across more than 50 countries recording household and everyday tasks, often with a phone strapped to the forehead. It reports contributors submitting [more than 160,000 hours of video per month](https://edition.cnn.com/2026/04/04/tech/humanoid-robot-training-jobs-intl-hnk-dst), which is the largest publicly reported collection volume in the category. [MIT Technology Review's April 2026 feature](https://www.technologyreview.com/2026/04/01/1134863/humanoid-data-training-gig-economy-2026-breakthrough-technology/) is the definitive account of how the labor market underneath it works, including reported contributor pay around \$15 an hour. It is also the source of the only public estimate of the category's size: its chief executive put annual spend on real-world training data above \$100 million.
+
+<div className="not-prose my-6 overflow-hidden rounded-xl border border-gray-200 bg-gray-50 font-['Poppins']">
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Named buyer</span><span className="text-[14px] italic text-gray-400">Not disclosed for the robotics line.</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Published corpus</span><span className="text-[14px] italic text-gray-400">None open.</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Disclosed funding</span><span className="text-[14px] text-gray-700">\$35M Series A, September 2025, at a reported \$500M valuation</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Stated throughput</span><span className="text-[14px] text-gray-700">160,000+ hours submitted monthly, reported by CNN</span></div>
+  <div className="grid gap-1 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Delivery on record</span><span className="text-[14px] italic text-gray-400">Not published in detail.</span></div>
+</div>
+
+### 05. Mecka
+
+_Capture method: on the human. Human-motion capture through body sensors and phones._
+
+Mecka collects human motion data using body sensors alongside iPhones, and it is the commercial outlier in this cohort: [Fortune reports a projected annual run rate around \$100 million on signed contracts](https://fortune.com/2026/06/01/mecka-ai-series-a-60-million-robotics-data-training/), which is close to the entire category's only public size estimate coming from one company. Its one publicly identified customer is 1X Technologies, which used Mecka household-motion data in building its World Model. Notably, none of its four founders come from robotics, which its chief executive has said out loud. That is characteristic of the category rather than unusual: collecting human data at scale turns out to be a logistics and marketplace problem wearing a robotics costume.
+
+<div className="not-prose my-6 overflow-hidden rounded-xl border border-gray-200 bg-gray-50 font-['Poppins']">
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Named buyer</span><span className="text-[14px] text-gray-700">1X Technologies, on the record</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Published corpus</span><span className="text-[14px] italic text-gray-400">None open.</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Disclosed funding</span><span className="text-[14px] text-gray-700">about \$68M across a \$25M Series A, a \$35M follow-on, and an \$8M seed</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Stated throughput</span><span className="text-[14px] text-gray-700">about \$100M run rate reported, but no hours figure published</span></div>
+  <div className="grid gap-1 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Delivery on record</span><span className="text-[14px] italic text-gray-400">Not published. No long-form founder interview exists as of late 2026.</span></div>
+</div>
+
+### 06. Tacta Systems
+
+_Capture method: on the tool. Sensorized gloves capturing skilled labor on real production lines._
+
+Tacta puts a glove capturing force, motion, video, and temperature on workers doing their actual jobs, which sidesteps the biggest quality problem in teleoperation. As the Sunday Robotics founders have put it, there is no good teleoperation system that lets an operator feel how much force the robot is applying, so when you are teleoperating, your hand is effectively numb. Glove capture records the force signal that teleoperation loses. Co-founder Andreas Bibl previously founded LuxVue, acquired by Apple in 2014, and the company also builds robot hands, which is worth knowing before treating it as a neutral supplier.
+
+<div className="not-prose my-6 overflow-hidden rounded-xl border border-gray-200 bg-gray-50 font-['Poppins']">
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Named buyer</span><span className="text-[14px] italic text-gray-400">Not disclosed.</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Published corpus</span><span className="text-[14px] italic text-gray-400">None open.</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Disclosed funding</span><span className="text-[14px] text-gray-700"><a href="https://www.prnewswire.com/news-releases/tacta-systems-announces-75-million-in-funding-to-bring-dextrous-intelligence-to-robots-302492467.html" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">\$75M, including America's Frontier Fund, SBVA, SoftBank, Toyota's Woven Capital</a></span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Stated throughput</span><span className="text-[14px] italic text-gray-400">Not published.</span></div>
+  <div className="grid gap-1 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Delivery on record</span><span className="text-[14px] italic text-gray-400">Not published.</span></div>
+</div>
+
+### 07. Lightwheel
+
+_Capture method: in the simulator. SimReady assets and simulation-generated corpora, the best-funded company in the category._
+
+Founded by ex-NVIDIA engineer Xie Chen, Lightwheel builds physics-valid simulation assets and generates synthetic training corpora on top of them. Chinese tech press reports at least RMB 2 billion, roughly \$280 million, raised across three 2026 rounds including an Ant Group-led strategic round at a reported \$2 billion valuation, with RMB 550 million of new orders reported in Q1 2026. Chen is also the most useful public voice in the category on what data is actually worth, having made the point that a demonstration where you drop something and pick it back up is worth more than a flawless one, because failure followed by recovery is where the learning is.
+
+<div className="not-prose my-6 overflow-hidden rounded-xl border border-gray-200 bg-gray-50 font-['Poppins']">
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Named buyer</span><span className="text-[14px] italic text-gray-400">Not disclosed.</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Published corpus</span><span className="text-[14px] italic text-gray-400">None open.</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Disclosed funding</span><span className="text-[14px] text-gray-700">about \$280M, but reported by Chinese tech press rather than audited filings. Weigh accordingly.</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Stated throughput</span><span className="text-[14px] text-gray-700">RMB 550M (about \$77M) of new orders reported in Q1 2026</span></div>
+  <div className="grid gap-1 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Delivery on record</span><span className="text-[14px] text-gray-700">SimReady asset standard, aligned to the NVIDIA Isaac and Omniverse ecosystem</span></div>
+</div>
+
+### 08. Build AI
+
+_Capture method: on the human. Factory-worker point-of-view video, released openly._
+
+Build AI paid more than 14,000 factory workers across Southeast Asia to wear camera glasses on shift, then released the resulting [100,405-hour Egocentric-100K corpus under an Apache 2.0 license](https://huggingface.co/datasets/builddotai/Egocentric-100K). Every dataset ships with provenance tracking. Whatever you conclude about the business model, the strategic effect on the category is unambiguous: a single open release of that size resets the price floor for the entire volume tier, three months after Scale had framed the whole open corpus at around 5,000 hours.
+
+<div className="not-prose my-6 overflow-hidden rounded-xl border border-gray-200 bg-gray-50 font-['Poppins']">
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Named buyer</span><span className="text-[14px] italic text-gray-400">Not disclosed.</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Published corpus</span><span className="text-[14px] text-gray-700">Egocentric-100K, 100,405 hours, Apache 2.0, access-gated on Hugging Face</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Disclosed funding</span><span className="text-[14px] text-gray-700">about \$15M, investors including Abstract, Pear, and HF0</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Stated throughput</span><span className="text-[14px] text-gray-700">14,000+ instrumented workers across Southeast Asia</span></div>
+  <div className="grid gap-1 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Delivery on record</span><span className="text-[14px] text-gray-700">Inspectable directly, with full provenance tracking</span></div>
+</div>
+
+### 09. Config
+
+_Capture method: on the robot. Bimanual manipulation data and policy training._
+
+Config operates out of Seoul and San Jose with \$35 million raised, including a \$27 million seed led by Samsung Venture Investment with the venture arms of Hyundai, LG, and SK Telecom, plus Pieter Abbeel as an angel. It focuses specifically on bimanual manipulation data, which is the hardest and most valuable teleoperation category. It is also the most honest company in the market about near-term scale: the self-styled "TSMC of robot data," valued above \$200 million, publicly targets just \$10 million in ARR by the end of 2027. Read that as a data point about the category rather than a criticism of the company.
+
+<div className="not-prose my-6 overflow-hidden rounded-xl border border-gray-200 bg-gray-50 font-['Poppins']">
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Named buyer</span><span className="text-[14px] italic text-gray-400">Not disclosed.</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Published corpus</span><span className="text-[14px] italic text-gray-400">None open.</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Disclosed funding</span><span className="text-[14px] text-gray-700">\$35M total, \$27M seed led by Samsung Venture Investment</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Stated throughput</span><span className="text-[14px] text-gray-700">Public target of \$10M ARR by end of 2027, unusually specific for this market</span></div>
+  <div className="grid gap-1 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Delivery on record</span><span className="text-[14px] italic text-gray-400">Not published.</span></div>
+</div>
+
+### 10. Human Archive
+
+_Capture method: on the human. Multimodal headsets deployed through India's gig economy._
+
+Human Archive deploys more than 1,000 multimodal headsets through Indian gig platforms, and it is included here as much for what it reveals as for what it sells. [TechCrunch reports](https://techcrunch.com/2026/05/26/human-archive-taps-into-indias-services-startups-to-collect-data-for-physical-ai/) that India's Ministry of Electronics and IT is examining consent mechanisms under the country's data protection law, and that two major Indian gig platforms declined to partner over privacy concerns. Reported collector pay is a base rate around \$1 per hour against roughly \$2.60 to \$4.20 at competitors. If you buy egocentric data from anyone, this is the diligence question that will eventually reach your legal team.
+
+<div className="not-prose my-6 overflow-hidden rounded-xl border border-gray-200 bg-gray-50 font-['Poppins']">
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Named buyer</span><span className="text-[14px] italic text-gray-400">Not disclosed.</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Published corpus</span><span className="text-[14px] italic text-gray-400">None open.</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Disclosed funding</span><span className="text-[14px] text-gray-700">\$8.2M seed, Wing Venture Capital and NVP, May 2026</span></div>
+  <div className="grid gap-1 border-b border-gray-200 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Stated throughput</span><span className="text-[14px] text-gray-700">1,000+ multimodal headsets deployed</span></div>
+  <div className="grid gap-1 px-5 py-3 sm:grid-cols-[150px_1fr]"><span className="font-mono text-[11px] tracking-[0.06em] text-gray-500 uppercase">Delivery on record</span><span className="text-[14px] italic text-gray-400">Not published. Consent framework under active regulatory review.</span></div>
+</div>
+
+### Adjacent, and worth knowing
+
+<div className="not-prose my-8 grid gap-5 font-['Poppins'] sm:grid-cols-2 lg:grid-cols-3">
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Encord</h4>
+    <p className="text-[14px] leading-relaxed text-gray-600">The infrastructure layer rather than a collector. \$110M disclosed, including a \$60M Series C in February 2026, with native handling of LiDAR, video, and teleoperation streams.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Troveo</h4>
+    <p className="text-[14px] leading-relaxed text-gray-600">The archive column. Rights-cleared real-world video from more than 7,000 rights holders, with per-asset documentation for AI training.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Hub.xyz</h4>
+    <p className="text-[14px] leading-relaxed text-gray-600">Egocentric video via a global contributor network, advertising 540,000+ hours across 150 countries. YC-backed and very early.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">PrismaX and FrodoBots</h4>
+    <p className="text-[14px] leading-relaxed text-gray-600">Crypto-incentivized collection networks. FrodoBots turned \$250 sidewalk robots into a drive-to-earn game and released around 2,000 hours of urban teleoperation data.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Objectways</h4>
+    <p className="text-[14px] leading-relaxed text-gray-600">Managed egocentric capture and annotation, reporting around 1,000 hours per day. No public funding disclosure.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Sunday Robotics</h4>
+    <p className="text-[14px] leading-relaxed text-gray-600">Excluded deliberately. Its Skill Capture Glove has collected a company-stated 10 million demonstration episodes, but the corpus feeds its own robot. It sells robots, not data.</p>
+  </div>
+</div>
+
+## The specialist cohort, ranked by disclosed funding
+
+Disclosed rounds only, as reported by named outlets. Companies with no public funding disclosure are noted rather than estimated. This table ages in weeks rather than years, so verify before relying on it.
+
+| Company | Capture method | Disclosed funding | Strongest receipt |
+| --- | --- | --- | --- |
+| Lightwheel | In the simulator | about \$280M (Chinese tech press, not audited) | RMB 550M of Q1 2026 orders reported |
+| Encord | Infrastructure layer | \$110M | Named customers: Woven by Toyota, Skydio, Zipline |
+| Tacta Systems | On the tool | \$75M | Named strategic investors incl. Toyota's Woven Capital |
+| XDOF | On the robot | \$70M | 130,000+ episode open dataset |
+| Mecka | On the human | about \$68M | 1X Technologies named as customer |
+| Micro1 | On the human | \$35M Series A | 160,000+ hours submitted monthly |
+| Config | On the robot | \$35M | Published \$10M ARR target for 2027 |
+| Build AI | On the human | about \$15M | 100,405-hour Apache 2.0 corpus |
+| Human Archive | On the human | \$8.2M | 1,000+ headsets deployed |
+| Gamasome | Human, robot, simulator | Not venture-funded | Named delivery programs with published quality thresholds |
+
+Funding figures compiled from the sources named in [Teahose's August 2026 funding survey](https://www.teahose.com/guides/robotics-training-data), which is the most rigorously sourced public table on this category and cites its provenance row by row. Scale AI is excluded from the ranking because its robotics business is a product line inside a much larger company.
+
+Two things stand out. The pure data-vendor layer sums to roughly \$730 million of disclosed funding, which is less than a single robot foundation model lab raised in one round earlier in 2026. And the largest number in the table rests on trade-press reporting rather than filings, which is a good reminder that in a market this young, a funding table without provenance is advertising rather than analysis.
+
+## Hours collected is being quietly retired as a KPI
+
+Every vendor in this category leads with hours, because hours are countable and comparable. The research keeps saying they are close to the wrong measure.
+
+Start with the spread. Stated requirements for how much data a robot needs span roughly five orders of magnitude, which should be the first clue that hours are not the variable doing the work. NVIDIA's GR00T fine-tuning mix contained just four hours of teleoperation, under 0.1 percent of the training mix, sitting on top of roughly 21,000 hours of egocentric human video. At the other end, Ant Lingbo's chief scientist places the robot GPT-1 threshold at one million hours. Between them, Physical Intelligence's π0.5 generalized to unseen homes after training on roughly 100 distinct home environments, about 400 hours of mobile manipulation data, with 97.6 percent of its first-phase training data coming from robots other than the one being evaluated.
+
+![Logarithmic scale showing stated robot training data requirements spanning from 4 hours of teleoperation in NVIDIA's fine-tuning mix to a one million hour threshold, a spread of five orders of magnitude, with Physical Intelligence generalizing at roughly 400 hours across 100 homes.](/static/images/physical-ai-data-companies-data-requirements.svg)
+
+*Stated robot training data requirements span roughly five orders of magnitude. Compiled from public statements by NVIDIA, Physical Intelligence, Generalist, and Ant Lingbo, 2025 to 2026.*
+
+That middle result is the important one, and it points at coverage rather than volume. A hundred genuinely different homes beat a thousand hours in one kitchen, and the gap is not close.
+
+> People might think a perfect pizza-making video would be the most expensive. Actually it is not. If you dropped a few pieces of vegetable and picked them back up, that is worth more.
+>
+> — Xie Chen, founder of Lightwheel, on why failure and recovery data commands a premium
+
+The corollary is that a lot of quality processes are actively destroying value. If your vendor's QA pipeline treats a dropped object as a defect and filters the episode out, you are paying for the removal of the most instructive data in the batch. AgiBot's open million-trajectory dataset takes the opposite approach, deliberately retaining failed demonstrations tagged with an error-cause field.
+
+Three questions worth substituting for "how many hours." How many distinct environments. What share of episodes contain a recovery. And what is the acceptance rate, measured rather than claimed. Those three predict downstream model behavior far better than the headline number, and they are also considerably harder for a vendor to inflate. Our guide to [robotics data collection at scale](/blog/robotics-data-collection-at-scale/) works through how to structure a diversity plan around them.
+
+## Four reasons this category might be a worse business than it looks
+
+The strongest arguments against physical AI data collection come from inside it, which is the most credible kind. If you are buying from these companies, these are the four dynamics that determine whether your supplier is still delivering in three years.
+
+<div className="not-prose my-8 font-['Poppins']">
+  <div className="grid gap-2 py-6 sm:grid-cols-[132px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Risk 01</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">The market is small relative to the capital in it</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">The only public estimate puts annual spend above \$100 million. Vendor claims read generously get you to low hundreds of millions. Against roughly \$730 million of disclosed vendor funding, that ratio is inverted, and buyer patience is doing a lot of work. Even Morgan Stanley's \$5 trillion humanoid bull case allocates only around 6 percent to software, data, and services combined.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[132px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Risk 02</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Free data keeps landing</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">Scale framed the entire open corpus at around 5,000 hours in September 2025. Three months later Build AI released 100,405 hours under Apache 2.0, and AgiBot open-sourced over a million real-robot trajectories. Different data types, same effect: the volume tier deflates toward zero, and anyone whose business is selling undifferentiated hours is competing with free.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[132px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Risk 03</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">The premium tier may be structurally thin</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">If NVIDIA's recipe generalizes, with teleoperation under 0.1 percent of the training mix, then the expensive embodiment-specific apex of this market, the part with genuine pricing power, is a niche rather than a market. That is a real possibility, not a rhetorical one, and it is why the teleoperation specialists are all moving up-stack into curation and evaluation.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[132px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Risk 04</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Deployment eventually eats collection</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">The end-state consensus across the field is that fleets of working robots gathering their own experience replace paid collection. Sergey Levine's hardware cost curve explains the timing: a research arm cost \$400,000 in 2014, his Berkeley lab later bought \$30,000 arms, and Physical Intelligence's current arms cost roughly \$3,000. Cheap bodies mean fleets, and fleets mean autonomous data.</p>
+    </div>
+  </div>
+</div>
+
+The synthesis worth carrying: raw hours commoditize, access and curation do not. The durable positions are owning access to people and places at scale, and owning the quality layer, which is curation, evaluation, and failure labeling. Notice that both of those are operations businesses rather than data products.
+
+One practical consequence for buyers. Xie Chen's most repeated observation is that his clients' real bottleneck is not training data at all, it is that they cannot scale their evaluation. If you are budgeting a collection program, budget the held-out evaluation set alongside it, captured under the same protocol. It costs a fraction of the collection spend and it is the only thing that tells you whether the rest worked.
+
+## Read the receipts, not the positioning
+
+Physical AI data collection is a real, funded industry solving the defining bottleneck in robotics. It is also a market measured in low hundreds of millions a year wearing trillion-dollar branding, with a specialist cohort barely eighteen months old and almost no public delivery history.
+
+That combination calls for a specific posture rather than enthusiasm or cynicism. Identify the capture column you are actually missing. Count the receipts on the candidates in that column and ask for the missing ones directly, under NDA if necessary. Then buy in small, measured increments with acceptance criteria written in, and hold out an evaluation set captured under the same protocol.
+
+The companies on this map are solving genuinely different problems, and the good ones will tell you which. Vendors who describe the whole category as their specialty are describing a market, not a capability. If you want the buyer's side of this in detail, including qualification gates and pricing, our companion guide to [data collection companies for robotics and embodied AI](/blog/best-data-collection-companies-robotics/) covers it, and the [best data annotation companies](/blog/best-data-annotation-companies/) guide applies the same lens to the labeling layer.

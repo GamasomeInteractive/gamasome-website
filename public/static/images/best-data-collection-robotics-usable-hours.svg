@@ -1,0 +1,25 @@
+<svg viewBox="0 0 1040 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bar diagram showing 100 collected hours reducing to roughly 50 usable hours after episode rejection and shift inefficiency, roughly doubling the effective cost per hour against a $100 quote">
+  <rect x="0" y="0" width="1040" height="300" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="30" y="36" font-family="sans-serif" font-size="12" font-weight="700" fill="#14213d">From collected hours to usable hours</text>
+
+  <text x="30" y="82" font-family="sans-serif" font-size="11" fill="#475569">CONTRACTED</text>
+  <rect x="200" y="62" width="760" height="30" rx="4" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="212" y="82" font-family="sans-serif" font-size="13" font-weight="600" fill="#14213d">100 collected hours</text>
+  <text x="948" y="82" font-family="sans-serif" font-size="12" fill="#b45309" text-anchor="end">$100 / hr quoted</text>
+
+  <text x="30" y="148" font-family="sans-serif" font-size="11" fill="#475569">AFTER REVIEW</text>
+  <rect x="200" y="128" width="760" height="30" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/>
+  <rect x="200" y="128" width="532" height="30" rx="4" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="212" y="148" font-family="sans-serif" font-size="13" font-weight="600" fill="#14213d">70 hours pass first-pass acceptance</text>
+  <text x="948" y="148" font-family="sans-serif" font-size="11.5" fill="#dc2626" text-anchor="end">30 rejected</text>
+
+  <text x="30" y="214" font-family="sans-serif" font-size="11" fill="#475569">AFTER SHIFT LOSS</text>
+  <rect x="200" y="194" width="760" height="30" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/>
+  <rect x="200" y="194" width="380" height="30" rx="4" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.5"/>
+  <text x="212" y="214" font-family="sans-serif" font-size="13" font-weight="600" fill="#14213d">~50 usable hours</text>
+  <text x="948" y="214" font-family="sans-serif" font-size="11.5" fill="#dc2626" text-anchor="end">20 lost to setup, resets, drift</text>
+
+  <line x1="30" y1="252" x2="1010" y2="252" stroke="#e2e8f0"/>
+  <text x="30" y="276" font-family="sans-serif" font-size="14" font-weight="700" fill="#14213d">Effective cost: roughly $200 per usable hour, against a $100 quote.</text>
+  <text x="1010" y="276" font-family="sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="end">Illustrative, at a 50% overall yield</text>
+</svg>

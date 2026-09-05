@@ -1,0 +1,47 @@
+<svg viewBox="0 0 1060 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram of five physical AI capture methods sorted by where the sensor sits: on the robot, on the tool, on the human, in the simulator, and in the archive, with fidelity to your robot falling and achievable volume rising from left to right">
+  <rect x="0" y="0" width="1060" height="320" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="30" y="34" font-family="sans-serif" font-size="12" font-weight="700" fill="#14213d">Where the sensor sits</text>
+
+  <defs>
+    <linearGradient id="scaleGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#d97706" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#2563eb" stop-opacity="0.4"/>
+    </linearGradient>
+  </defs>
+  <rect x="30" y="58" width="1000" height="5" rx="2.5" fill="url(#scaleGrad)"/>
+  <text x="30" y="82" font-family="sans-serif" font-size="10.5" fill="#b45309">HIGHEST FIDELITY &middot; HIGHEST COST</text>
+  <text x="1030" y="82" font-family="sans-serif" font-size="10.5" fill="#2563eb" text-anchor="end">HIGHEST SCALE &middot; LOWEST COST</text>
+
+  <rect x="30" y="100" width="188" height="150" rx="9" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="124" y="132" font-family="sans-serif" font-size="15" font-weight="700" fill="#14213d" text-anchor="middle">On the robot</text>
+  <text x="124" y="162" font-family="sans-serif" font-size="11.5" fill="#475569" text-anchor="middle">Teleoperation</text>
+  <text x="124" y="182" font-family="sans-serif" font-size="11.5" fill="#475569" text-anchor="middle">Matched action space</text>
+  <text x="124" y="222" font-family="sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="middle">~$90-150 / hr US</text>
+
+  <rect x="234" y="100" width="188" height="150" rx="9" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="328" y="132" font-family="sans-serif" font-size="15" font-weight="700" fill="#14213d" text-anchor="middle">On the tool</text>
+  <text x="328" y="162" font-family="sans-serif" font-size="11.5" fill="#475569" text-anchor="middle">Gloves, grippers</text>
+  <text x="328" y="182" font-family="sans-serif" font-size="11.5" fill="#475569" text-anchor="middle">Real force signal</text>
+  <text x="328" y="222" font-family="sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="middle">no robot needed</text>
+
+  <rect x="438" y="100" width="188" height="150" rx="9" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="532" y="132" font-family="sans-serif" font-size="15" font-weight="700" fill="#14213d" text-anchor="middle">On the human</text>
+  <text x="532" y="162" font-family="sans-serif" font-size="11.5" fill="#475569" text-anchor="middle">Egocentric cameras</text>
+  <text x="532" y="182" font-family="sans-serif" font-size="11.5" fill="#475569" text-anchor="middle">No action labels</text>
+  <text x="532" y="222" font-family="sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="middle">~$25-60 / hr</text>
+
+  <rect x="642" y="100" width="188" height="150" rx="9" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="736" y="132" font-family="sans-serif" font-size="15" font-weight="700" fill="#14213d" text-anchor="middle">In the simulator</text>
+  <text x="736" y="162" font-family="sans-serif" font-size="11.5" fill="#475569" text-anchor="middle">Synthetic trajectories</text>
+  <text x="736" y="182" font-family="sans-serif" font-size="11.5" fill="#475569" text-anchor="middle">Contact physics is hard</text>
+  <text x="736" y="222" font-family="sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="middle">near-zero marginal</text>
+
+  <rect x="846" y="100" width="184" height="150" rx="9" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="938" y="132" font-family="sans-serif" font-size="15" font-weight="700" fill="#14213d" text-anchor="middle">In the archive</text>
+  <text x="938" y="162" font-family="sans-serif" font-size="11.5" fill="#475569" text-anchor="middle">Licensed footage</text>
+  <text x="938" y="182" font-family="sans-serif" font-size="11.5" fill="#475569" text-anchor="middle">Rights are the product</text>
+  <text x="938" y="222" font-family="sans-serif" font-size="10.5" fill="#94a3b8" text-anchor="middle">already exists</text>
+
+  <line x1="30" y1="278" x2="1030" y2="278" stroke="#e2e8f0"/>
+  <text x="30" y="300" font-family="sans-serif" font-size="10.5" fill="#94a3b8">Fidelity to your robot falls left to right. Achievable volume rises. Serious programs buy from more than one column.</text>
+</svg>
