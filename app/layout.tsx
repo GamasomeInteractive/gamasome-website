@@ -119,7 +119,7 @@ async function getBareSlugs(): Promise<string[]> {
       const raw = await fs.readFile(path.join(dir, f), 'utf-8')
       try {
         const json = JSON.parse(raw)
-        if (json._template === 'aiPlatform') {
+        if (json._template === 'aiPlatform' || json._template === 'rawHtml') {
           slugs.push(f.replace('.json', ''))
         }
       } catch {

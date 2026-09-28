@@ -30,6 +30,15 @@ type Props = {
   footerData: any
   footerQuery: string
   footerVars: object
+  /**
+   * Raw-HTML pages (the Physical AI data-collection sub-pages) bring their own
+   * fully authored body markup, pre-split into the hero and its sections. When
+   * set, these render in place of the CMS section stack — each wrapped in the
+   * same <FadeIn> the CMS sections use — so those pages get this template's
+   * header, footer, palette, typography and scroll animation.
+   */
+  rawHero?: string
+  rawSections?: string[]
 }
 
 export default function AIPlatformView(props: Props) {
@@ -381,7 +390,10 @@ export default function AIPlatformView(props: Props) {
         {menuOpen && (
           <div className="menu-fade-in fixed inset-0 z-50 h-full w-full bg-[#07091B]">
             <div className="absolute inset-0 bg-black/90" />
-            <div className="relative flex h-full flex-col items-center justify-center">
+            {/* Scrolls when the link list is taller than the viewport. `my-auto` on
+                the nav keeps it centred while it fits and stops flex centring from
+                clipping the first/last items once it doesn't. */}
+            <div className="relative flex h-full flex-col items-center overflow-y-auto px-6 py-24">
               <button
                 onClick={() => setMenuOpen(false)}
                 className="absolute top-6 right-6 text-white hover:text-gray-300 sm:top-10 sm:right-10"
@@ -402,7 +414,7 @@ export default function AIPlatformView(props: Props) {
                   />
                 </svg>
               </button>
-              <nav className="flex flex-col space-y-6">
+              <nav className="my-auto grid grid-cols-1 gap-x-16 gap-y-5 lg:grid-cols-2">
                 {hdr?.navLinks
                   ?.filter((l: any) => !l?.hidden)
                   .map((link: any, i: number) => {
@@ -489,6 +501,23 @@ export default function AIPlatformView(props: Props) {
       </header>
 
       {/* ── PAGE SECTIONS ─────────────────────────────────────────────── */}
+      {props.rawHero || props.rawSections?.length ? (
+        <div className="gama-raw-body w-full">
+          {props.rawHero && (
+            <FadeIn>
+              <div dangerouslySetInnerHTML={{ __html: props.rawHero }} />
+            </FadeIn>
+          )}
+          <main>
+            {props.rawSections?.map((section, i) => (
+              <FadeIn key={i}>
+                <div dangerouslySetInnerHTML={{ __html: section }} />
+              </FadeIn>
+            ))}
+          </main>
+        </div>
+      ) : (
+        <>
       <SectionSnap />
       <div className="w-full">
         {/* ── HERO ───────────────────────────────────────────────────── */}
@@ -1746,6 +1775,8 @@ export default function AIPlatformView(props: Props) {
           </SectionMotion>
         )}
       </div>
+        </>
+      )}
 
       {/* ── FOOTER ───────────────────────────────────────────────────── */}
       <footer

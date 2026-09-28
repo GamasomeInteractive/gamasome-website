@@ -575,6 +575,58 @@ function aiPlatformTemplateFields(): any[] {
   ]
 }
 
+// ── Raw HTML template fields ──────────────────────────────────────────
+// Used by the standalone "technical/schematic" service sub-pages (LiDAR,
+// Multimodal, Drones, Edge Case, 3D Point Cloud, Teleoperation). These pages
+// ship as fully self-contained markup — their own design system, JSON-LD, and
+// footer — so the CMS surface is intentionally minimal: SEO fields plus three
+// raw text blobs, rather than the section-by-section fields the other
+// templates expose. Editing the HTML/CSS/JSON-LD in Tina is possible but
+// coarse-grained by design.
+function rawHtmlTemplateFields(): any[] {
+  return [
+    {
+      type: 'boolean' as const,
+      name: 'hidden',
+      label: '🙈 Hide this page',
+      ui: {
+        description: 'Hidden pages are 404 to visitors and skipped from the sitemap, but the content is preserved. Use this to temporarily take a page offline without deleting it.',
+      },
+    },
+    { type: 'string' as const, name: 'pageTitle', label: 'Internal Page Title (Tina list label only)' },
+    seoFields(),
+    {
+      type: 'string' as const,
+      name: 'cssHref',
+      label: 'Stylesheet URL',
+      ui: { description: 'Shared stylesheet path across all raw-HTML service pages. Leave the default unless this page needs its own look.' },
+    },
+    {
+      type: 'string' as const,
+      name: 'fontsHref',
+      label: 'Google Fonts URL',
+    },
+    {
+      type: 'string' as const,
+      name: 'jsonLdRaw',
+      label: 'Structured Data (JSON-LD array, raw JSON text)',
+      ui: {
+        component: 'textarea',
+        description: 'A JSON array of schema.org objects (Service, BreadcrumbList, FAQPage, …), rendered as one <script> tag per array item.',
+      },
+    },
+    {
+      type: 'string' as const,
+      name: 'bodyHtml',
+      label: 'Page Body (raw HTML)',
+      ui: {
+        component: 'textarea',
+        description: 'Everything that renders between <body> and </body> on the live page, including the PUBLISHING FLAGS review comment at the top.',
+      },
+    },
+  ]
+}
+
 export default defineConfig({
   cmsCallback: (cms) => {
     cms.plugins.add({
@@ -1098,6 +1150,11 @@ export default defineConfig({
             name: 'aiPlatform',
             label: '🚀 AI Platform',
             fields: aiPlatformTemplateFields(),
+          },
+          {
+            name: 'rawHtml',
+            label: '🧩 Raw HTML Landing Page',
+            fields: rawHtmlTemplateFields(),
           },
         ],
       },

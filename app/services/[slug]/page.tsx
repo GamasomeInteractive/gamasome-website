@@ -143,6 +143,22 @@ async function getNavData() {
   }
 }
 
+/**
+ * Splits a raw-HTML page body into the blocks the template animates.
+ *
+ * The CMS-driven pages get their scroll reveal by wrapping each section in
+ * <FadeIn>. Raw-HTML pages can't do that while their body is one opaque
+ * string, so we cut it into the hero and its sections here — on the server, so
+ * the markup still server-renders in full — and the template wraps each piece
+ * in the very same <FadeIn>. No section nests another, so a non-greedy match
+ * per tag is sufficient.
+ */
+function splitRawBody(html: string): { hero: string; sections: string[] } {
+  const hero = html.match(/<header\b[^>]*>[\s\S]*?<\/header>/)?.[0] ?? ''
+  const sections = [...html.matchAll(/<section\b[^>]*>[\s\S]*?<\/section>/g)].map((m) => m[0])
+  return { hero, sections }
+}
+
 function buildServiceSchema(slug: string, parsed: any) {
   const hero = parsed.hero || {}
   const name: string = hero.title || joinHeadline(hero) || slug.replace(/-/g, ' ')
@@ -218,6 +234,51 @@ export default async function ServiceSlugPage(props: { params: Promise<{ slug: s
   if (parsed?.hidden === true) notFound()
   const tinaCmsTemplate = parsed._template as string | undefined
   const layoutTemplate = (parsed.template || 'classic') as string
+
+  // Fully self-contained landing pages (own design system, own JSON-LD, own
+  // footer) authored as static HTML/CSS and dropped in as-is. They carry their
+  // own structured data in `jsonLdRaw`, so we render that instead of the
+  // generic hero-derived schema the other templates get from
+  // buildServiceSchema().
+  if (tinaCmsTemplate === 'rawHtml') {
+    let jsonLd: unknown[] = []
+    try {
+      jsonLd = JSON.parse(parsed.jsonLdRaw || '[]')
+    } catch {
+      // Malformed JSON-LD shouldn't take the page down; it just ships without schema.
+    }
+    const { header, footer } = await getNavData()
+    const { hero: rawHero, sections: rawSections } = splitRawBody(parsed.bodyHtml || '')
+    return (
+      <>
+        {jsonLd.map((s, i) => (
+          <script
+            key={i}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }}
+          />
+        ))}
+        {parsed.cssHref && <link rel="stylesheet" href={parsed.cssHref} />}
+        {/* Same template as /services/physical-ai-data-collection/ — the body
+            markup is this page's own, the header, footer, palette and fonts
+            come from AIPlatformView so the family stays visually consistent. */}
+        <AIPlatformView
+          pageData={page.data}
+          pageQuery={page.query}
+          pageVars={page.variables}
+          headerData={header.data}
+          headerQuery={header.query}
+          headerVars={header.variables}
+          footerData={footer.data}
+          footerQuery={footer.query}
+          footerVars={footer.variables}
+          rawHero={rawHero}
+          rawSections={rawSections}
+        />
+      </>
+    )
+  }
+
   const schemas = buildServiceSchema(slug, parsed)
 
   if (tinaCmsTemplate === 'aiPlatform') {

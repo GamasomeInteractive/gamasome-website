@@ -29,6 +29,14 @@ export const metadata: Metadata = {
  */
 const CURRENT = [
   'physical-ai-data-collection',
+  // The data-collection sub-services sit directly under the pillar page they
+  // expand on, so the hub reads as one offer rather than seven unrelated ones.
+  'teleoperation-data-collection',
+  'multimodal-data-collection',
+  'lidar-data-collection',
+  '3d-point-cloud-data-collection',
+  'edge-case-data-collection',
+  'drone-aerial-data-collection',
   'data-annotation',
   'robotics-solutions',
   'ai-platform',

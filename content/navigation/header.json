@@ -9,6 +9,30 @@
       "href": "/services/physical-ai-data-collection/"
     },
     {
+      "title": "Teleoperation Data Collection",
+      "href": "/services/teleoperation-data-collection/"
+    },
+    {
+      "title": "Multimodal Data Collection",
+      "href": "/services/multimodal-data-collection/"
+    },
+    {
+      "title": "LiDAR Data Collection",
+      "href": "/services/lidar-data-collection/"
+    },
+    {
+      "title": "3D Point Cloud Data Collection",
+      "href": "/services/3d-point-cloud-data-collection/"
+    },
+    {
+      "title": "Edge Case Data Collection",
+      "href": "/services/edge-case-data-collection/"
+    },
+    {
+      "title": "Drone & Aerial Data Collection",
+      "href": "/services/drone-aerial-data-collection/"
+    },
+    {
       "title": "Data Annotation",
       "href": "/services/data-annotation/"
     },

@@ -78,7 +78,10 @@ export default function TinaHeader({ headerData, headerQuery, headerVars }: Prop
       {menuOpen && (
         <div className="menu-fade-in fixed inset-0 z-50 h-full w-full bg-[#07091B] font-['Poppins']">
           <div className="absolute inset-0 bg-black/90" />
-          <div className="relative flex h-full flex-col items-center justify-center">
+          {/* Scrolls when the link list is taller than the viewport. `my-auto` on
+              the nav keeps it centred while it fits and stops flex centring from
+              clipping the first/last items once it doesn't. */}
+          <div className="relative flex h-full flex-col items-center overflow-y-auto px-6 py-24">
             <button
               onClick={() => setMenuOpen(false)}
               className="absolute top-6 right-6 text-white hover:text-gray-300 sm:top-10 sm:right-10"
@@ -99,7 +102,7 @@ export default function TinaHeader({ headerData, headerQuery, headerVars }: Prop
                 />
               </svg>
             </button>
-            <nav className="flex flex-col space-y-6">
+            <nav className="my-auto grid grid-cols-1 gap-x-16 gap-y-5 lg:grid-cols-2">
               {hdr?.navLinks
                 ?.filter((l: any) => !l?.hidden)
                 .map((link: any, i: number) => {
