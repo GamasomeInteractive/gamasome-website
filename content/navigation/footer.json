@@ -97,6 +97,60 @@
       "href": "/services/ar-vr-development/"
     },
     {
+      "title": "Industries",
+      "href": "/industries/",
+      "subLinks": [
+        {
+          "title": "Healthcare",
+          "href": "/industries/healthcare/"
+        },
+        {
+          "title": "Agriculture",
+          "href": "/industries/agriculture/"
+        },
+        {
+          "title": "Warehouse",
+          "href": "/industries/warehouse/"
+        },
+        {
+          "title": "Humanoid",
+          "href": "/industries/humanoid/"
+        },
+        {
+          "title": "Construction",
+          "href": "/industries/construction/"
+        },
+        {
+          "title": "Mining",
+          "href": "/industries/mining/"
+        },
+        {
+          "title": "Manufacturing",
+          "href": "/industries/manufacturing/"
+        },
+        {
+          "title": "Automobile",
+          "href": "/industries/automobile/"
+        },
+        {
+          "title": "Defense",
+          "href": "/industries/defense/"
+        },
+        {
+          "title": "Insurance",
+          "href": "/industries/insurance/"
+        },
+        {
+          "title": "National Security",
+          "href": "/industries/national-security/"
+        },
+        {
+          "title": "Trucking",
+          "href": "/industries/trucking/"
+        }
+      ]
+    },
+    {
       "title": "Blog",
       "href": "/blog/",
       "subLinks": [

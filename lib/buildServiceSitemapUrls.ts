@@ -7,7 +7,10 @@
  *     created service page is guaranteed to land in /sitemap.xml.
  *
  * Contract — KEEP STABLE:
- *  - URL shape: `${siteUrl}/services/${slug}/` (trailing slash mandatory —
+ *  - URL shape: `${siteUrl}/${urlSegment}/${slug}/` — `urlSegment` defaults to
+ *    'services', so existing callers keep the exact same output; /industries/
+ *    pages reuse this by passing their own directory and segment. Trailing
+ *    slash mandatory —
  *    matches `trailingSlash: true` in next.config.js so sitemap, canonical
  *    tags, and live URLs are all identical strings).
  *  - Reads every `*.json` under `servicesDir` and SKIPS pages that are `hidden`
@@ -26,7 +29,8 @@ export type ServiceSitemapEntry = {
 
 export function buildServiceSitemapUrls(
   siteUrl: string,
-  servicesDir: string = path.join(process.cwd(), 'content/pages/services')
+  servicesDir: string = path.join(process.cwd(), 'content/pages/services'),
+  urlSegment: string = 'services'
 ): ServiceSitemapEntry[] {
   if (!fs.existsSync(servicesDir)) return []
 
@@ -53,7 +57,7 @@ export function buildServiceSitemapUrls(
       return {
         slug,
         filePath: path.join(servicesDir, f),
-        url: `${trimmedSiteUrl}/services/${slug}/`,
+        url: `${trimmedSiteUrl}/${urlSegment}/${slug}/`,
       }
     })
 }

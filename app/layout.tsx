@@ -107,11 +107,12 @@ async function getSettings() {
 }
 
 // Pages with their own header/footer (rendered via AIPlatformView).
-// SiteShell uses this list to suppress the global TinaHeader/TinaFooter
-// to avoid double headers/footers.
-async function getBareSlugs(): Promise<string[]> {
+// SiteShell uses these lists to suppress the global TinaHeader/TinaFooter
+// to avoid double headers/footers. Services and industries are returned
+// separately so a slug in one section can't make the other section bare.
+async function readBareSlugs(dirName: string): Promise<string[]> {
   try {
-    const dir = path.join(process.cwd(), 'content/pages/services')
+    const dir = path.join(process.cwd(), dirName)
     const files = await fs.readdir(dir)
     const slugs: string[] = []
     for (const f of files) {
@@ -123,7 +124,7 @@ async function getBareSlugs(): Promise<string[]> {
           slugs.push(f.replace('.json', ''))
         }
       } catch {
-        // A malformed service JSON should not break the whole nav; skip that file.
+        // A malformed page JSON should not break the whole nav; skip that file.
       }
     }
     return slugs
@@ -132,9 +133,17 @@ async function getBareSlugs(): Promise<string[]> {
   }
 }
 
+async function getBareSlugs() {
+  const [services, industries] = await Promise.all([
+    readBareSlugs('content/pages/services'),
+    readBareSlugs('content/pages/industries'),
+  ])
+  return { services, industries }
+}
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const basePath = process.env.BASE_PATH || ''
-  const [{ header, footer }, settings, bareSlugs] = await Promise.all([
+  const [{ header, footer }, settings, bare] = await Promise.all([
     getNavData(),
     getSettings(),
     getBareSlugs(),
@@ -278,8 +287,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                   footerData={footer.data}
                   footerQuery={footer.query}
                   footerVars={footer.variables}
-                  bareSlugs={bareSlugs}
-                  homePageIsBare={bareSlugs.includes(homePage)}
+                  bareSlugs={bare.services}
+                  bareIndustrySlugs={bare.industries}
+                  homePageIsBare={bare.services.includes(homePage)}
                 >
                   {children}
                 </SiteShell>

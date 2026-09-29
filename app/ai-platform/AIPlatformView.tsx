@@ -414,7 +414,7 @@ export default function AIPlatformView(props: Props) {
                   />
                 </svg>
               </button>
-              <nav className="my-auto grid grid-cols-1 gap-x-16 gap-y-5 lg:grid-cols-2">
+              <nav className="my-auto grid grid-cols-1 gap-x-16 gap-y-5 lg:grid-cols-2 2xl:grid-cols-3">
                 {hdr?.navLinks
                   ?.filter((l: any) => !l?.hidden)
                   .map((link: any, i: number) => {
@@ -429,7 +429,7 @@ export default function AIPlatformView(props: Props) {
                           href={link.href}
                           onClick={() => setMenuOpen(false)}
                           aria-current={active ? 'page' : undefined}
-                          className={`text-xl font-semibold underline-offset-8 transition-colors sm:text-2xl md:text-3xl ${active ? 'text-[#00FCE2] underline decoration-2' : 'text-white'}`}
+                          className={`text-xl font-semibold underline-offset-8 transition-colors sm:text-2xl ${active ? 'text-[#00FCE2] underline decoration-2' : 'text-white'}`}
                           data-tina-field={tinaField(link, 'title')}
                           style={{ '--index': i } as React.CSSProperties}
                         >
@@ -449,7 +449,7 @@ export default function AIPlatformView(props: Props) {
                             href={link.href}
                             onClick={() => setMenuOpen(false)}
                             aria-current={active ? 'page' : undefined}
-                            className={`text-xl font-semibold underline-offset-8 transition-colors sm:text-2xl md:text-3xl ${active ? 'text-[#00FCE2] underline decoration-2' : 'text-white'}`}
+                            className={`text-xl font-semibold underline-offset-8 transition-colors sm:text-2xl ${active ? 'text-[#00FCE2] underline decoration-2' : 'text-white'}`}
                             data-tina-field={tinaField(link, 'title')}
                           >
                             {link.title}
@@ -476,14 +476,14 @@ export default function AIPlatformView(props: Props) {
                           </button>
                         </div>
                         {isOpen && (
-                          <div className="mt-4 flex flex-col items-start gap-3 pl-4">
+                          <div className="mt-4 grid grid-cols-1 items-start gap-x-8 gap-y-3 pl-4 sm:grid-cols-2">
                             {subLinks.map((sub: any, j: number) => (
                               <Link
                                 key={j}
                                 href={sub.href}
                                 onClick={() => setMenuOpen(false)}
                                 aria-current={isActive(sub?.href) ? 'page' : undefined}
-                                className={`text-lg font-normal underline-offset-4 transition-colors sm:text-xl md:text-2xl ${isActive(sub?.href) ? 'text-[#00FCE2] underline' : 'text-white/70 hover:text-white'}`}
+                                className={`text-base font-normal underline-offset-4 transition-colors sm:text-lg ${isActive(sub?.href) ? 'text-[#00FCE2] underline' : 'text-white/70 hover:text-white'}`}
                                 data-tina-field={tinaField(sub, 'title')}
                               >
                                 {sub.title}

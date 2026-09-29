@@ -38,6 +38,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'blog',
     'tags',
     'services',
+    'industries',
     'privacy',
     'terms',
     'refunds',
@@ -58,6 +59,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       }))
     : []
 
+  const industryRoutes: MetadataRoute.Sitemap = buildServiceSitemapUrls(
+    siteUrl,
+    path.join(process.cwd(), 'content/pages/industries'),
+    'industries'
+  ).map(({ url }) => ({
+    url,
+    lastModified: today,
+    changeFrequency: changefreq,
+  }))
+
   const blogRoutes: MetadataRoute.Sitemap = includeBlogs
     ? allBlogs
         .filter((post) => !post.draft)
@@ -68,5 +79,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
         }))
     : []
 
-  return [...coreRoutes, ...serviceRoutes, ...blogRoutes]
+  return [...coreRoutes, ...serviceRoutes, ...industryRoutes, ...blogRoutes]
 }

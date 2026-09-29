@@ -13,6 +13,7 @@ type Props = {
   footerQuery: string
   footerVars: object
   bareSlugs?: string[]
+  bareIndustrySlugs?: string[]
   homePageIsBare?: boolean
 }
 
@@ -25,6 +26,7 @@ export default function SiteShell({
   footerQuery,
   footerVars,
   bareSlugs = [],
+  bareIndustrySlugs = [],
   homePageIsBare = false,
 }: Props) {
   const pathname = usePathname() ?? ''
@@ -34,7 +36,9 @@ export default function SiteShell({
 
   // Bare pages render their own header/footer (AIPlatformView template).
   // Skip the global SiteShell header/footer for them to avoid duplicates.
-  const isBareSlug = bareSlugs.some((slug) => normalized === `/services/${slug}`)
+  const isBareSlug =
+    bareSlugs.some((slug) => normalized === `/services/${slug}`) ||
+    bareIndustrySlugs.some((slug) => normalized === `/industries/${slug}`)
   const isBareHome = homePageIsBare && normalized === '/'
 
   const isAdmin =
