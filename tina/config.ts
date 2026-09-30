@@ -980,6 +980,8 @@ export default defineConfig({
             name: 'logoImage',
             label: 'Logo Image (PNG / SVG — replaces the default SVG)',
           },
+          { type: 'string', name: 'ctaLabel', label: 'CTA Button Label (e.g. Book a Demo)' },
+          { type: 'string', name: 'ctaHref', label: 'CTA Button URL', ui: { parse: normalizeInternalHref } },
           {
             type: 'object',
             name: 'navLinks',

@@ -5,71 +5,42 @@
       "href": "/"
     },
     {
-      "title": "Physical AI Data Collection",
-      "href": "/services/physical-ai-data-collection/"
-    },
-    {
-      "title": "Teleoperation Data Collection",
-      "href": "/services/teleoperation-data-collection/"
-    },
-    {
-      "title": "Multimodal Data Collection",
-      "href": "/services/multimodal-data-collection/"
-    },
-    {
-      "title": "LiDAR Data Collection",
-      "href": "/services/lidar-data-collection/"
-    },
-    {
-      "title": "3D Point Cloud Data Collection",
-      "href": "/services/3d-point-cloud-data-collection/"
-    },
-    {
-      "title": "Edge Case Data Collection",
-      "href": "/services/edge-case-data-collection/"
-    },
-    {
-      "title": "Drone & Aerial Data Collection",
-      "href": "/services/drone-aerial-data-collection/"
-    },
-    {
-      "title": "Data Annotation",
-      "href": "/services/data-annotation/"
-    },
-    {
-      "title": "AI Platform",
-      "href": "/services/ai-platform/"
-    },
-    {
-      "title": "Robotics Solutions",
-      "href": "/services/robotics-solutions/"
-    },
-    {
-      "title": "Simulation & Digital Twins",
-      "href": "/services/simulation-digital-twins/"
-    },
-    {
-      "title": "AI Avatars & Conversational AI",
-      "href": "/services/ai-avatars-platform/",
-      "hidden": true
-    },
-    {
-      "title": "AI Solutions",
-      "href": "/services/ai-solutions/"
-    },
-    {
-      "title": "AR / VR Development",
-      "href": "/services/ar-vr-development/"
-    },
-    {
-      "title": "Metaverse Development",
-      "href": "/services/metaverse/",
-      "hidden": true
-    },
-    {
-      "title": "Game Development",
-      "href": "/services/game-development/",
-      "hidden": true
+      "title": "Services",
+      "href": "/services/",
+      "subLinks": [
+        {
+          "title": "Physical AI Data Collection",
+          "href": "/services/physical-ai-data-collection/"
+        },
+        {
+          "title": "Physical AI Annotation",
+          "href": "/services/data-annotation/"
+        },
+        {
+          "title": "Teleoperation Data Collection",
+          "href": "/services/teleoperation-data-collection/"
+        },
+        {
+          "title": "Multimodal Data Collection",
+          "href": "/services/multimodal-data-collection/"
+        },
+        {
+          "title": "LiDAR Data Collection",
+          "href": "/services/lidar-data-collection/"
+        },
+        {
+          "title": "3D Point Cloud Data Collection",
+          "href": "/services/3d-point-cloud-data-collection/"
+        },
+        {
+          "title": "Edge Case Data Collection",
+          "href": "/services/edge-case-data-collection/"
+        },
+        {
+          "title": "Drones and Aerial Systems",
+          "href": "/services/drone-aerial-data-collection/"
+        }
+      ]
     },
     {
       "title": "Industries",
@@ -126,30 +97,94 @@
       ]
     },
     {
-      "title": "Blog",
+      "title": "Blogs",
       "href": "/blog/",
       "subLinks": [
         {
-          "title": "Data Collection for Robotics",
-          "href": "/blog/data-collection-for-robotics/"
+          "title": "Physical AI in Manufacturing",
+          "href": "/blog/physical-ai-in-manufacturing/"
         },
         {
-          "title": "Data Collection for Automotive Industry",
-          "href": "/blog/data-collection-automotive-industry/"
+          "title": "Physical AI in Healthcare",
+          "href": "/blog/physical-ai-in-healthcare/"
+        },
+        {
+          "title": "Physical AI in Logistics",
+          "href": "/blog/physical-ai-in-logistics/"
         },
         {
           "title": "What Is Data Annotation?",
           "href": "/blog/what-is-data-annotation/"
+        },
+        {
+          "title": "Data Annotation vs Data Labeling",
+          "href": "/blog/data-annotation-vs-data-labeling/"
+        },
+        {
+          "title": "In-House vs Outsourced Data Annotation",
+          "href": "/blog/in-house-vs-outsourced-data-annotation/"
+        },
+        {
+          "title": "Best Data Collection Companies for Robotics",
+          "href": "/blog/best-data-collection-companies-robotics/"
         }
       ]
     },
     {
       "title": "About Us",
-      "href": "/about/"
+      "href": "/about/",
+      "subLinks": [
+        {
+          "title": "About Us",
+          "href": "/about/"
+        },
+        {
+          "title": "Contact Us",
+          "href": "/contact/"
+        }
+      ]
     },
     {
-      "title": "Contact Us",
-      "href": "/contact/"
+      "title": "AI Platform",
+      "href": "/services/ai-platform/",
+      "hidden": true
+    },
+    {
+      "title": "Robotics Solutions",
+      "href": "/services/robotics-solutions/",
+      "hidden": true
+    },
+    {
+      "title": "Simulation & Digital Twins",
+      "href": "/services/simulation-digital-twins/",
+      "hidden": true
+    },
+    {
+      "title": "AI Avatars & Conversational AI",
+      "href": "/services/ai-avatars-platform/",
+      "hidden": true
+    },
+    {
+      "title": "AI Solutions",
+      "href": "/services/ai-solutions/",
+      "hidden": true
+    },
+    {
+      "title": "AR / VR Development",
+      "href": "/services/ar-vr-development/",
+      "hidden": true
+    },
+    {
+      "title": "Metaverse Development",
+      "href": "/services/metaverse/",
+      "hidden": true
+    },
+    {
+      "title": "Game Development",
+      "href": "/services/game-development/",
+      "hidden": true
     }
-  ]
+  ],
+  "ctaLabel": "Book a Demo",
+  "ctaHref": "/contact/"
 }

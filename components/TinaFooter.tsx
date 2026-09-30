@@ -25,13 +25,8 @@ export default function TinaFooter({ footerData, footerQuery, footerVars }: Prop
   const currentPath = normPath(pathname)
   const isActive = (href?: string) => Boolean(href) && normPath(href as string) === currentPath
 
-  // Which footer nav item has its sub-link dropdown expanded. Defaults to the first
-  // item that has sub-links, so the dropdown starts open.
-  const visibleNav = (ftr?.navLinks ?? []).filter((l: any) => !l?.hidden)
-  const defaultOpenNav = visibleNav.findIndex((l: any) =>
-    (l?.subLinks ?? []).some((s: any) => s?.title && s?.href)
-  )
-  const [openNav, setOpenNav] = useState<number | null>(defaultOpenNav >= 0 ? defaultOpenNav : null)
+  // Which footer nav item has its sub-link dropdown expanded. All start closed.
+  const [openNav, setOpenNav] = useState<number | null>(null)
 
   // The CTA column only renders when it has content, so the grid width adapts to
   // however many columns are actually visible (CTA + Company + Newsletter + Offices).

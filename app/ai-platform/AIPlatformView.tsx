@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { useTina, tinaField } from 'tinacms/dist/react'
 import { normalizeTinaImages } from '@/lib/normalizeTinaImages'
@@ -9,8 +9,7 @@ import HeroCanvas from '@/components/HeroCanvas'
 import SectionMotion from '@/components/SectionMotion'
 import SectionSnap from '@/components/SectionSnap'
 import SocialIcon from '@/components/social-icons'
-import Logo from '@/data/logo.svg'
-import MenuIcon from '@/data/menu-icon.svg'
+import SiteNav from '@/components/SiteNav'
 import NewsletterForm from '@/components/NewsletterForm'
 import {
   FadeIn,
@@ -173,31 +172,14 @@ export default function AIPlatformView(props: Props) {
       ? `https://fonts.googleapis.com/css2?family=${fontFamily.replace(/ /g, '+')}:ital,wght@0,400;0,500;0,600;0,700&display=swap`
       : null
 
-  // ── Header state ──────────────────────────────────────────────────
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const [openDropdown, setOpenDropdown] = useState<number | null>(null)
+  // ── Nav state ─────────────────────────────────────────────────────
   // Active-page matching: normalize trailing slashes so "/about/" === "/about".
   const pathname = usePathname() ?? '/'
   const normPath = (p: string) => (p || '/').replace(/\/+$/, '') || '/'
   const currentPath = normPath(pathname)
   const isActive = (href?: string) => Boolean(href) && normPath(href as string) === currentPath
-  // Footer sub-link dropdown defaults to the first item that has sub-links (starts open).
-  const visibleFooterNav = ((ftr?.navLinks ?? []) as any[]).filter((l) => !l?.hidden)
-  const defaultOpenFooterNav = visibleFooterNav.findIndex((l) =>
-    (l?.subLinks ?? []).some((s: any) => s?.title && s?.href)
-  )
-  const [openFooterNav, setOpenFooterNav] = useState<number | null>(
-    defaultOpenFooterNav >= 0 ? defaultOpenFooterNav : null
-  )
-  useEffect(() => {
-    if (!menuOpen) setOpenDropdown(null)
-  }, [menuOpen])
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50)
-    window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  // Which footer nav item has its sub-link dropdown expanded. All start closed.
+  const [openFooterNav, setOpenFooterNav] = useState<number | null>(null)
 
   // Use Cases renders in one of two slots: its default home after Multimodal, or —
   // when `useCasesAfterComparison` is set — directly below the comparison table.
@@ -355,150 +337,7 @@ export default function AIPlatformView(props: Props) {
       `}</style>
 
       {/* ── HEADER ───────────────────────────────────────────────────── */}
-      <header className="fixed top-0 right-0 left-0 z-50 flex w-full max-w-none items-center justify-between bg-transparent px-4 py-10 transition-all duration-300 sm:px-10 md:px-24">
-        <Link href="/" aria-label="Gamasome">
-          <div
-            className={`ml-0 flex items-center transition-all duration-300 hover:scale-105 ${scrolled ? '-translate-y-4 opacity-0' : 'translate-y-0 opacity-100'}`}
-            data-tina-field={tinaField(hdr, 'logoImage')}
-          >
-            <div className="h-[56px] w-full max-w-[268px]">
-              {hdr?.logoImage ? (
-                <Image
-                  src={hdr.logoImage}
-                  alt="Gamasome"
-                  width={268}
-                  height={56}
-                  className="h-full w-auto object-contain"
-                />
-              ) : (
-                <Logo />
-              )}
-            </div>
-          </div>
-        </Link>
-        <div
-          className={`mr-0 flex cursor-pointer items-center space-x-4 transition-all duration-300 ${scrolled ? '-translate-y-4 opacity-0' : 'translate-y-0 opacity-100'}`}
-        >
-          <button
-            className="flex cursor-pointer items-center transition-transform duration-300 hover:scale-110"
-            onClick={() => setMenuOpen(true)}
-            aria-label="Open menu"
-          >
-            <MenuIcon />
-          </button>
-        </div>
-        {menuOpen && (
-          <div className="menu-fade-in fixed inset-0 z-50 h-full w-full bg-[#07091B]">
-            <div className="absolute inset-0 bg-black/90" />
-            {/* Scrolls when the link list is taller than the viewport. `my-auto` on
-                the nav keeps it centred while it fits and stops flex centring from
-                clipping the first/last items once it doesn't. */}
-            <div className="relative flex h-full flex-col items-center overflow-y-auto px-6 py-24">
-              <button
-                onClick={() => setMenuOpen(false)}
-                className="absolute top-6 right-6 text-white hover:text-gray-300 sm:top-10 sm:right-10"
-                aria-label="Close menu"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-              <nav className="my-auto grid grid-cols-1 gap-x-16 gap-y-5 lg:grid-cols-2 2xl:grid-cols-3">
-                {hdr?.navLinks
-                  ?.filter((l: any) => !l?.hidden)
-                  .map((link: any, i: number) => {
-                    const subLinks = (link?.subLinks ?? []).filter((s: any) => s?.title && s?.href)
-                    const isOpen = openDropdown === i
-                    const active = isActive(link?.href)
-
-                    if (subLinks.length === 0) {
-                      return (
-                        <Link
-                          key={i}
-                          href={link.href}
-                          onClick={() => setMenuOpen(false)}
-                          aria-current={active ? 'page' : undefined}
-                          className={`text-xl font-semibold underline-offset-8 transition-colors sm:text-2xl ${active ? 'text-[#00FCE2] underline decoration-2' : 'text-white'}`}
-                          data-tina-field={tinaField(link, 'title')}
-                          style={{ '--index': i } as React.CSSProperties}
-                        >
-                          {link.title}
-                        </Link>
-                      )
-                    }
-
-                    return (
-                      <div
-                        key={i}
-                        className="flex flex-col items-start"
-                        style={{ '--index': i } as React.CSSProperties}
-                      >
-                        <div className="flex items-center gap-2">
-                          <Link
-                            href={link.href}
-                            onClick={() => setMenuOpen(false)}
-                            aria-current={active ? 'page' : undefined}
-                            className={`text-xl font-semibold underline-offset-8 transition-colors sm:text-2xl ${active ? 'text-[#00FCE2] underline decoration-2' : 'text-white'}`}
-                            data-tina-field={tinaField(link, 'title')}
-                          >
-                            {link.title}
-                          </Link>
-                          <button
-                            type="button"
-                            onClick={() => setOpenDropdown(isOpen ? null : i)}
-                            aria-expanded={isOpen}
-                            aria-label={`Toggle ${link.title} submenu`}
-                            className="text-white/80 transition-colors hover:text-white"
-                          >
-                            <svg
-                              className={`h-5 w-5 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth={2.5}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              aria-hidden="true"
-                            >
-                              <path d="m6 9 6 6 6-6" />
-                            </svg>
-                          </button>
-                        </div>
-                        {isOpen && (
-                          <div className="mt-4 grid grid-cols-1 items-start gap-x-8 gap-y-3 pl-4 sm:grid-cols-2">
-                            {subLinks.map((sub: any, j: number) => (
-                              <Link
-                                key={j}
-                                href={sub.href}
-                                onClick={() => setMenuOpen(false)}
-                                aria-current={isActive(sub?.href) ? 'page' : undefined}
-                                className={`text-base font-normal underline-offset-4 transition-colors sm:text-lg ${isActive(sub?.href) ? 'text-[#00FCE2] underline' : 'text-white/70 hover:text-white'}`}
-                                data-tina-field={tinaField(sub, 'title')}
-                              >
-                                {sub.title}
-                              </Link>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    )
-                  })}
-              </nav>
-            </div>
-          </div>
-        )}
-      </header>
+      <SiteNav hdr={hdr} />
 
       {/* ── PAGE SECTIONS ─────────────────────────────────────────────── */}
       {props.rawHero || props.rawSections?.length ? (
