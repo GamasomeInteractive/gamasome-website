@@ -187,7 +187,7 @@ export default function SiteNav({ hdr }: Props) {
                     >
                       <div
                         className={`rounded-2xl border border-white/10 bg-[#0B0F2A] p-2 shadow-[0_20px_60px_rgba(0,0,0,0.55)] ${
-                          wide ? 'w-[580px]' : 'w-max max-w-[480px] min-w-[240px]'
+                          wide ? 'w-[600px]' : 'w-max max-w-[480px] min-w-[240px]'
                         }`}
                       >
                         <div
