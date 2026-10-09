@@ -187,11 +187,11 @@ export default function SiteNav({ hdr }: Props) {
                     >
                       <div
                         className={`rounded-2xl border border-white/10 bg-[#0B0F2A] p-2 shadow-[0_20px_60px_rgba(0,0,0,0.55)] ${
-                          wide ? 'w-[460px]' : 'w-max max-w-[480px] min-w-[240px]'
+                          wide ? 'w-[580px]' : 'w-max max-w-[480px] min-w-[240px]'
                         }`}
                       >
                         <div
-                          className={wide ? 'grid grid-cols-2 gap-0.5' : 'flex flex-col gap-0.5'}
+                          className={wide ? 'grid grid-cols-2 gap-x-2 gap-y-0.5' : 'flex flex-col gap-0.5'}
                         >
                           {subs.map((sub, j) => {
                             const subActive = isActive(sub.href)

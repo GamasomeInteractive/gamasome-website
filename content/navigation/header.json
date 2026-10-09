@@ -127,6 +127,62 @@
         {
           "title": "Best Data Collection Companies for Robotics",
           "href": "/blog/best-data-collection-companies-robotics/"
+        },
+        {
+          "title": "Physical AI vs Embodied AI",
+          "href": "/blog/physical-ai-vs-embodied-ai-robotics/"
+        },
+        {
+          "title": "Physical AI Use Cases",
+          "href": "/blog/physical-ai-use-cases/"
+        },
+        {
+          "title": "Physical AI Datasets",
+          "href": "/blog/physical-ai-datasets/"
+        },
+        {
+          "title": "The Future of Physical AI",
+          "href": "/blog/future-of-physical-ai/"
+        },
+        {
+          "title": "Physical AI vs Digital AI",
+          "href": "/blog/physical-ai-vs-digital-ai/"
+        },
+        {
+          "title": "How Physical AI Works",
+          "href": "/blog/how-physical-ai-works/"
+        },
+        {
+          "title": "Physical AI Training",
+          "href": "/blog/physical-ai-training/"
+        },
+        {
+          "title": "Reinforcement Learning in Physical AI",
+          "href": "/blog/reinforcement-learning-physical-ai/"
+        },
+        {
+          "title": "Physical AI in Unpredictable Environments",
+          "href": "/blog/physical-ai-real-world-environments/"
+        },
+        {
+          "title": "Sensor Fusion in Physical AI",
+          "href": "/blog/sensor-fusion-in-physical-ai/"
+        },
+        {
+          "title": "Human Demonstrations in Robot Training",
+          "href": "/blog/human-demonstrations-for-robot-training/"
+        },
+        {
+          "title": "Generalization in Physical AI",
+          "href": "/blog/generalization-in-physical-ai/"
+        },
+        {
+          "title": "Video & Motion Data in Physical AI",
+          "href": "/blog/physical-ai-video-and-motion-data/"
+        },
+        {
+          "title": "Physical AI Data Quality",
+          "href": "/blog/physical-ai-data-quality/"
         }
       ]
     },
