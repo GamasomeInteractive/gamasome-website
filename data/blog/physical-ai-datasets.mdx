@@ -1,0 +1,138 @@
+---
+title: 'Physical AI Datasets: Types, Examples, and Their Role in Robot Training'
+date: 2026-10-09T08:50:00.000Z
+tags:
+  - Physical AI
+  - Robotics
+  - Data Collection
+  - Datasets
+draft: false
+summary: 'A practical guide to physical AI datasets: the main types, real examples like DROID and Open X-Embodiment, and why public data rarely covers your robot.'
+images:
+  - /static/images/physical-ai-datasets.jpg
+authors:
+  - prasanna-venkatesan
+layout: PostLayout
+canonicalUrl: 'https://www.gamasome.com/blog/physical-ai-datasets/'
+seo:
+  metaTitle: 'Physical AI Datasets: Types, Examples, and How They Train'
+  metaDescription: 'A practical guide to physical AI datasets: the main types, real examples like DROID and Open X-Embodiment, and why public data rarely covers your robot.'
+  canonicalUrl: ''
+  changefreq: weekly
+faqHeading: Physical AI dataset questions, answered
+faqs:
+  - question: What is a physical AI dataset?
+    answer: 'It is a collection of sensor recordings, such as camera video, depth, joint states, and force readings, paired with actions or labels, used to train robots and autonomous systems to perceive and act in the real world.'
+  - question: What is the largest public robot dataset?
+    answer: 'Open X-Embodiment and AgiBot World each contain more than 1 million robot trajectories. Open X-Embodiment pools data from 22 robot types, while AgiBot World was collected on a fleet of 100 homogeneous robots across 217 tasks.'
+  - question: Can I train a production robot only on public datasets?
+    answer: 'Rarely. Public datasets are excellent for pretraining, but they usually differ from your robot in gripper, camera placement, environment, or task. Most teams fine-tune on target-robot demonstrations collected in their real deployment settings.'
+  - question: Is human video useful for training robots?
+    answer: 'Yes, for learning task structure and hand-object interaction at scale. Human video has no robot actions, though, so it needs retargeting or co-training with robot data before it can drive motor control.'
+  - question: How useful is synthetic data for physical AI?
+    answer: 'Very useful as a multiplier. NVIDIA reported a 40% performance gain for GR00T N1 when synthetic trajectories were mixed with real data. Synthetic data works best when seeded by real demonstrations and built on physics-valid simulation assets.'
+  - question: What formats are robot datasets delivered in?
+    answer: 'Common formats include RLDS, HDF5, Zarr, and LeRobot-compatible structures. Good deliveries also include camera calibration files, the robot URDF, action-space documentation, and per-episode metadata.'
+  - question: Should failed robot episodes be kept in a dataset?
+    answer: 'Usually yes, with labels. Failure and recovery examples help policies handle mistakes at deployment. The key is to label them clearly so they are used intentionally rather than mixed in as if they were successes.'
+---
+
+Public robot datasets have grown from a few thousand episodes to more than a million. That's great for pretraining. It also creates a trap: teams assume a big public dataset covers their robot, their scene, and their task. It almost never does.
+
+![Data pyramid for robot training with web and human video at the base, synthetic data in the middle, and target-robot episodes at the top](/static/images/physical-ai-datasets-pyramid.svg)
+
+*Most modern robot foundation models stack data this way. Volume lives at the bottom. Deployment performance is decided at the top.*
+
+An ML engineer at a small robotics startup does what everyone does in week one. She downloads a slice of a big public manipulation dataset, fine-tunes a policy, and deploys it on the company's arm. Success rate on the first real task: close to zero. The arm is the same model as the one in the dataset. The gripper isn't. The wrist camera sits four centimeters higher. The table is a different height, and the lighting comes from the opposite side.
+
+Nothing was wrong with the dataset. It just wasn't *her* dataset. That's the most important thing to understand about physical AI datasets, and it's rarely the first thing anyone says.
+
+**Physical AI datasets** are collections of real or simulated sensor recordings paired with actions, used to train robots and autonomous systems. The main types are teleoperated robot episodes, cross-embodiment aggregates, human egocentric video, synthetic simulation data, and multimodal sets that add touch or force.
+
+Public datasets such as **Open X-Embodiment**, **DROID**, **AgiBot World**, and **Ego4D** are valuable for pretraining. Production policies still need target-robot data from the environments where they will actually work.
+
+## The five types of physical AI datasets, by what they teach
+
+Most guides group datasets by who released them. A more useful way is to ask what each type actually teaches a model. Every type answers a different question.
+
+### 1. Teleoperated robot episodes: "How does this body do this task?"
+
+An operator drives a real robot through a task using a leader arm, VR controller, or 3D mouse while the robot records its own camera feeds, joint states, and actions. This is the gold standard for learning actions because the data lives in the robot's real action space. [DROID](https://droid-dataset.github.io/) is a strong public example: 76,000 trajectories, about 350 hours of interaction, collected across 564 scenes and 86 tasks by 50 collectors over 12 months, all on a standardized Franka setup.
+
+### 2. Cross-embodiment aggregates: "What do many robots have in common?"
+
+These pool data from many labs and robot types into one format. [Open X-Embodiment](https://robotics-transformer-x.github.io/) combined more than 1 million real robot trajectories from 22 embodiments and 21 institutions, covering 527 skills. DeepMind reported that a model trained on it, RT-1-X, delivered a [50% higher average success rate](https://deepmind.google/blog/scaling-up-learning-across-many-different-robot-types/) than models built for each individual robot.
+
+### 3. Human egocentric video: "What do people do with their hands?"
+
+First-person video of people doing everyday tasks, with no robot involved. [Ego4D](https://arxiv.org/abs/2110.07058) offers 3,670 hours from 931 camera wearers in 74 locations across 9 countries. This kind of data is cheap to scale and rich in task variety, but it has no robot actions in it. It teaches intent and object interaction, not motor control. We go deeper on that gap in our guide to [video and motion data in physical AI](/blog/physical-ai-video-and-motion-data/).
+
+### 4. Synthetic and simulated data: "What if we could try a million variations?"
+
+Simulation generates trajectories at a scale no human team can match. NVIDIA reported generating [780,000 synthetic trajectories in 11 hours](https://investor.nvidia.com/news/press-release-details/2025/NVIDIA-Announces-Isaac-GR00T-N1--the-Worlds-First-Open-Humanoid-Robot-Foundation-Model--and-Simulation-Frameworks-to-Speed-Robot-Development), equivalent to about 6,500 hours of human demonstrations, and said mixing that data with real data improved its GR00T N1 model's performance by 40% compared with real data alone. The key word is *mixing*. Synthetic data multiplied a real seed set. It didn't replace it.
+
+### 5. Multimodal and contact data: "What does it feel like?"
+
+Vision alone can't see grip force or slip. Datasets that add tactile or force readings teach contact-rich skills like insertion and wiping. The [FreeTacMan](https://opendrivelab.com/FreeTacMan) project collected more than 10,000 trajectories with over 3 million visuo-tactile image pairs across 50 tasks, and reported that policies trained with touch averaged 50% higher success than vision-only versions.
+
+## Major public physical AI datasets compared
+
+| Dataset | Type | Scale | Best used for |
+| --- | --- | --- | --- |
+| [Open X-Embodiment](https://robotics-transformer-x.github.io/) | Cross-embodiment aggregate | 1M+ trajectories, 22 robots, 527 skills | Generalist pretraining across robot types |
+| [DROID](https://droid-dataset.github.io/) | Teleoperated, in the wild | 76K trajectories, 350 hours, 564 scenes | Visual and scene diversity for Franka-class arms |
+| [AgiBot World](https://arxiv.org/abs/2503.06669) | Teleoperated, standardized fleet | 1M+ trajectories, 217 tasks, 100 robots | Long-horizon and dexterous tasks; quality benchmark |
+| [Ego4D](https://arxiv.org/abs/2110.07058) | Human egocentric video | 3,670 hours, 931 wearers, 74 locations | Task semantics and hand-object understanding |
+| RT-1 robot data | Single-fleet teleop | [130,000 demonstrations](https://venturebeat.com/ai/deepmind-unveils-rt-2-a-new-ai-that-makes-robots-smarter), 700+ tasks | Historic baseline for multi-task policies |
+| [FreeTacMan](https://opendrivelab.com/FreeTacMan) | Visuo-tactile, robot-free | 10K+ trajectories, 3M+ image pairs | Contact-rich manipulation research |
+
+## The per-task density problem nobody mentions
+
+Headline numbers hide something important. Take DROID's 76,000 trajectories and spread them across its 564 scenes. That's roughly 135 episodes per scene, and those episodes are further split across many tasks. For learning broad visual robustness, that spread is exactly the point. For getting one task reliable in one environment, it's thin.
+
+Now look at AgiBot World: more than 1 million trajectories across 217 tasks works out to an average of over 4,600 per task, collected on a fleet of homogeneous robots with human-in-the-loop verification. The AgiBot team reported that policies pretrained on it beat Open X-Embodiment pretraining by an [average of 30%](https://arxiv.org/abs/2503.06669). Their project page goes further, noting that a 236-hour alpha subset outperformed roughly 2,000 hours of Open X-Embodiment data on success rate, which they attribute to [data quality](https://opendrivelab.com/AgiBot-World).
+
+> Big datasets buy breadth. Dense, consistent, target-robot datasets buy reliability. You need both, in that order.
+
+## What's inside a single training episode
+
+Whatever the source, a usable physical AI episode has more in it than video. If any of these pieces is missing or misaligned, the episode loses most of its value.
+
+![Anatomy of a robot training episode showing camera streams, robot state, actions, labels, and calibration metadata on a shared timeline](/static/images/physical-ai-datasets-episode-anatomy.svg)
+
+*A training episode is a set of time-aligned streams. Misalign them by a few frames and the model learns that actions happen before they do.*
+
+- **Synchronized camera streams**, usually a wrist view plus two to four external views.
+- **Robot state**: joint positions, end-effector pose, gripper width.
+- **Actions** in the robot's real action space, at a known control rate.
+- **Labels**: a natural language instruction, subtask boundaries, and a success or failure flag.
+- **Metadata**: camera calibration, robot URDF, operator ID, scene ID, and timestamps.
+
+Labels deserve special attention. Segmenting where "grasp" ends and "lift" begins is surprisingly subjective, and inconsistent boundaries across operators will confuse a policy. That's annotation work ([here's why annotation decides whether a model works](/blog/what-is-data-annotation/)), and it's why many teams pair capture with a dedicated [robotics data annotation](/services/data-annotation/) pass.
+
+## The Coverage Grid: how to audit any dataset against your deployment
+
+Before you trust a dataset, public or private, map it against the deployment you actually face. We use a four-axis check we call the Coverage Grid:
+
+1. **Embodiment.** Same robot, gripper, and camera placement? If not, expect to fine-tune on your own hardware.
+2. **Scene.** How many of your real environments, layouts, and lighting conditions appear?
+3. **Task.** Are your exact tasks present, or only similar verbs?
+4. **Outcome.** Does it include failures, near-misses, and recoveries, or only clean successes?
+
+Most public datasets score well on one or two axes and poorly on the rest. That isn't a flaw. It tells you exactly what your own collection needs to fill.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">What we see in the field</p>
+  <p className="text-gray-700">The outcome axis is the one teams skip. Many pipelines throw away failed episodes as "bad data." According to [an analysis of the AgiBot World 2026 release](https://blog.pebblous.ai/blog/agibot-world-failure-annotation/en/), that dataset takes the opposite approach and keeps failure trajectories with annotated causes. We agree with that call. A policy that has never seen a slipping grasp can't learn to recover from one. In our capture programs, failed and borderline episodes go to replay review and get labeled, not deleted. For more on spotting bad data before it costs you a training run, read our guide to [physical AI data quality](/blog/physical-ai-data-quality/).</p>
+</div>
+
+## How public and private data work together
+
+The practical recipe most serious teams follow looks like this:
+
+1. Start from a model pretrained on large public and web data.
+2. Add synthetic variations of your tasks if you have physics-valid simulation assets.
+3. Collect a dense, consistent set of target-robot demonstrations in your real environments.
+4. Add failure and correction data from pilots, then iterate.
+
+Step three is where most of the deployment performance comes from, and it's the step no public dataset can do for you. If you're planning it at volume, read [robotics data collection at scale](/blog/robotics-data-collection-at-scale/) first. Our breakdown of [human demonstrations for robot training](/blog/human-demonstrations-for-robot-training/) covers how to collect it well, and [generalization in physical AI](/blog/generalization-in-physical-ai/) explains why diversity within that set matters. When you're ready to scope it, our [physical AI data collection service](/services/physical-ai-data-collection/) builds target-robot datasets with full calibration and metadata.

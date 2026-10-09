@@ -1,0 +1,149 @@
+---
+title: 'Physical AI Training: How to Teach AI Systems the Real World'
+date: 2026-10-09T08:30:00.000Z
+tags:
+  - Physical AI
+  - Robotics
+  - Data Collection
+  - AI
+draft: false
+summary: 'How physical AI training actually works: a five-stage recipe from pretrained models to real demos, synthetic data, edge cases, and learning on the job.'
+images:
+  - /static/images/physical-ai-training.jpg
+authors:
+  - prasanna-venkatesan
+layout: PostLayout
+canonicalUrl: 'https://www.gamasome.com/blog/physical-ai-training/'
+seo:
+  metaTitle: 'Physical AI Training: How to Teach AI the Real World'
+  metaDescription: 'How physical AI training actually works: a five-stage recipe from pretrained models to real demos, synthetic data, edge cases, and learning on the job.'
+  canonicalUrl: ''
+  changefreq: weekly
+faqHeading: Questions about training physical AI
+faqs:
+  - question: How is physical AI trained?
+    answer: 'Most teams start from a pretrained robot foundation model, fine-tune it on demonstrations collected on their own robot, add simulated variations, broaden coverage with new environments and failure cases, and then keep improving the model with corrections and reinforcement learning after deployment.'
+  - question: How many demonstrations does it take to train a robot?
+    answer: 'It depends on the task and the starting model. The Mobile ALOHA research reached strong results on complex tasks with about 50 demonstrations per task when co-training with an existing dataset. Consistent, high-quality demonstrations matter more than raw count.'
+  - question: Can robots be trained entirely in simulation?
+    answer: 'Some skills, especially legged locomotion, are trained mostly in simulation with reinforcement learning. Manipulation tasks usually need real demonstrations as well, because simulated contact, friction, and deformable objects differ from reality.'
+  - question: What is fine-tuning a robot foundation model?
+    answer: 'It means taking a model already trained on large, diverse robot and web data and training it further on a smaller dataset from your specific robot and task, so it learns your action space, camera setup, and environment.'
+  - question: What is co-training in robot learning?
+    answer: 'Co-training mixes your target-task data with data from related datasets during training. It often improves results when target data is limited, as shown in the Mobile ALOHA work.'
+  - question: Why do trained robot policies fail after deployment?
+    answer: 'Common reasons include environments that differ from training, inconsistent or narrow demonstrations, compounding errors that lead to unfamiliar states, sensor calibration drift, and missing failure and recovery examples in the training data.'
+  - question: How long does it take to train a robot for a new task?
+    answer: 'For a single well-scoped task with a good foundation model, a focused pilot can come together in weeks, mostly spent on setting up capture, collecting quality demonstrations, and evaluating on real hardware. Broad, multi-task capability takes far longer.'
+---
+
+There's no single way to train a robot. There is, however, a recipe most successful teams now follow, and a predictable set of places where small teams burn their budget. Here's both.
+
+![Five-stage physical AI training recipe: inherit, seed, multiply, harden, and improve, with data sources for each stage](/static/images/physical-ai-training-five-stage-recipe.svg)
+
+*Most modern physical AI training follows this sequence. Skipping a stage usually shows up later as a failure in the field.*
+
+A seed-stage startup has one robot arm, a customer pilot in six weeks, and a single task to nail: picking mixed SKUs from a bin and placing them into shipping boxes. The founding engineer's first instinct is to train a model from scratch. His second instinct, after a few days of reading, is to fine-tune an open robot foundation model. His third question, the right one, is: "What data do I actually need, and in what order?"
+
+That question is the core of physical AI training. The model architecture matters less than it used to. The sequence of data matters a lot.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">The short version</p>
+  <p className="text-gray-700"><strong className="font-semibold text-gray-900">Physical AI training</strong> teaches a model to perceive and act in the real world, usually in five stages: start from a <strong className="font-semibold text-gray-900">pretrained foundation model</strong>, fine-tune it on <strong className="font-semibold text-gray-900">demonstrations from your robot</strong>, <strong className="font-semibold text-gray-900">multiply</strong> that data with simulation, <strong className="font-semibold text-gray-900">harden</strong> it with varied environments and failure cases, then keep <strong className="font-semibold text-gray-900">improving on the job</strong> with corrections and reinforcement learning.</p>
+</div>
+
+Most of the cost and most of the performance come from stage two: high-quality demonstrations on the target robot in the target environment.
+
+## The Five-Stage Training Recipe
+
+<div className="not-prose my-8 font-['Poppins']">
+  <div className="grid gap-2 py-6 sm:grid-cols-[132px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Stage 01</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Inherit a pretrained foundation</h4>
+      <p className="mb-3 text-[15px] leading-relaxed text-gray-600">Almost nobody trains a robot model from zero anymore. Open robot foundation models give you a starting point that already understands objects, language instructions, and basic manipulation. Physical Intelligence's π0 was trained on [roughly 10,000 hours of robot data](https://arxiv.org/abs/2410.24164) on top of a vision-language backbone. NVIDIA designed its Isaac GR00T N1 humanoid model so developers can [post-train it with real or synthetic data](https://investor.nvidia.com/news/press-release-details/2025/NVIDIA-Announces-Isaac-GR00T-N1--the-Worlds-First-Open-Humanoid-Robot-Foundation-Model--and-Simulation-Frameworks-to-Speed-Robot-Development) for their own robot and task.</p>
+      <p className="text-[15px] leading-relaxed text-gray-600"><strong className="font-semibold text-gray-900">Common mistake:</strong> choosing a foundation model whose action space or camera layout is far from your robot's, then fighting the mismatch for weeks.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[132px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Stage 02</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Seed it with demonstrations from your robot</h4>
+      <p className="mb-3 text-[15px] leading-relaxed text-gray-600">This is where the model learns <em>your</em> task on <em>your</em> hardware. A human operator teleoperates the robot through the task many times while every camera frame, joint state, and action is recorded.</p>
+      <p className="mb-3 text-[15px] leading-relaxed text-gray-600">How many demonstrations? Fewer than people expect, if they're good. The Mobile ALOHA team found that with just [50 demonstrations per task](https://mobile-aloha.github.io/), co-training with an existing static dataset raised success rates by up to 90% on complex mobile manipulation tasks like cooking shrimp and calling an elevator. Their paper also shows co-training improved whole-task success on [five of seven tasks](https://arxiv.org/abs/2401.02117).</p>
+      <p className="text-[15px] leading-relaxed text-gray-600"><strong className="font-semibold text-gray-900">Common mistake:</strong> collecting hundreds of inconsistent demonstrations from rushed, untrained operators. Consistency beats volume here. If you're weighing whether to run capture yourself, see [robotics data collection at scale](/blog/robotics-data-collection-at-scale/). We cover this in depth in [human demonstrations for robot training](/blog/human-demonstrations-for-robot-training/).</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[132px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Stage 03</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Multiply with simulation</h4>
+      <p className="mb-3 text-[15px] leading-relaxed text-gray-600">Once you have real demonstrations, simulation can generate many variations: different object positions, lighting, textures, and starting poses. NVIDIA reported generating [780,000 synthetic trajectories in 11 hours](https://investor.nvidia.com/news/press-release-details/2025/NVIDIA-Announces-Isaac-GR00T-N1--the-Worlds-First-Open-Humanoid-Robot-Foundation-Model--and-Simulation-Frameworks-to-Speed-Robot-Development) from a small set of human demonstrations, and a 40% performance improvement when mixing that with real data.</p>
+      <p className="text-[15px] leading-relaxed text-gray-600"><strong className="font-semibold text-gray-900">Common mistake:</strong> using simulation assets that look right but behave wrong (more on that in [how AI is transforming industrial simulation](/blog/how-ai-is-transforming-industrial-simulation/)). A bin with the wrong friction or a box with a bad collision mesh teaches the model physics that doesn't exist.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[132px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Stage 04</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Harden with variety and failure</h4>
+      <p className="mb-3 text-[15px] leading-relaxed text-gray-600">A policy trained in one corner of one room will fail in the next room. Hardening means deliberately collecting across environments, lighting, object sets, and operators, and keeping failures. DROID's creators made diversity the point, collecting across [564 scenes](https://droid-dataset.github.io/), and reported better robustness and generalization as a result. Cross-embodiment data helps too: [Open X-Embodiment](https://robotics-transformer-x.github.io/) models outperformed single-robot models by 50% in small-data settings.</p>
+      <p className="text-[15px] leading-relaxed text-gray-600"><strong className="font-semibold text-gray-900">Common mistake:</strong> treating every failed episode as garbage. Labeled failures and recoveries are some of the most useful training data you'll ever collect.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[132px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Stage 05</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Improve on the job</h4>
+      <p className="mb-3 text-[15px] leading-relaxed text-gray-600">Imitation learning has a ceiling: a policy can only be as good as its demonstrations, and small errors compound. The newest approaches keep training after deployment. Physical Intelligence's Recap method combines demonstrations, expert corrections, and reinforcement learning on the robot's own experience, and the company reported it [more than doubled throughput](https://pi.website/blog/pistar06) on some of the hardest tasks. See [reinforcement learning in physical AI](/blog/reinforcement-learning-physical-ai/) for how this works.</p>
+      <p className="text-[15px] leading-relaxed text-gray-600"><strong className="font-semibold text-gray-900">Common mistake:</strong> deploying without a way to log interventions. If an operator rescues a stuck robot and nothing is recorded, the lesson is lost.</p>
+    </div>
+  </div>
+</div>
+
+## The main training methods compared
+
+| Method | How it teaches | Strength | Weakness |
+| --- | --- | --- | --- |
+| Imitation learning | Copies human demonstrations | Fast to a working policy; data-efficient | Inherits demo mistakes; compounding error |
+| Reinforcement learning | Trial, error, and reward | Can exceed human demos; great for locomotion | Needs rewards and lots of trials, usually in sim |
+| Sim-to-real transfer | Trains in simulation, deploys on hardware | Massive scale, safe to fail | Gap between simulated and real physics |
+| Co-training | Mixes target data with other datasets | Better results from fewer target demos | Needs careful data balancing |
+| Learning from video | Extracts skills from human video | Huge, cheap data supply | No robot actions; needs retargeting |
+
+For legged locomotion, reinforcement learning in simulation already dominates. ETH Zurich and NVIDIA researchers showed a quadruped could learn to walk on flat ground in [under four minutes](https://arxiv.org/abs/2109.11978) and on rough terrain in about twenty, by simulating thousands of robots in parallel on one GPU. For manipulation, imitation learning from demonstrations is still the workhorse, with RL increasingly used as a polishing step.
+
+## Back to the six-week pilot: an example plan
+
+Here's roughly how we'd lay out the startup's six weeks. The exact numbers depend on the task, but the shape is typical.
+
+![Example six-week physical AI training plan showing demonstration capture, fine-tuning, hardening, and pilot phases as overlapping bars](/static/images/physical-ai-training-six-week-plan.svg)
+
+*An example six-week plan for a single-task pilot. Training starts before capture ends, so problems in the data show up early.*
+
+1. **Week 1:** set up the rig, cameras, and calibration; write the capture protocol, including what counts as success and how failures get labeled.
+2. **Week 2:** qualify operators on a short test so demonstrations are consistent.
+3. **Weeks 2 to 4:** capture demonstrations in batches across object mixes and bin positions, with QA after every session.
+4. **Weeks 3 to 5:** fine-tune the foundation model on early batches and evaluate on the real robot. Use failures to decide what to capture next.
+5. **Weeks 4 to 6:** harden with new SKUs and lighting, then run the pilot with intervention logging turned on.
+
+> Start fine-tuning while you're still collecting. The model will tell you what data is missing faster than any planning meeting.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">What we see in the field</p>
+  <p className="text-gray-700">The most expensive training mistakes we see don't happen on the GPU. They happen in the capture room: operators who demonstrate the same task three different ways, camera mounts that shift between sessions, or success labels that mean different things to different people. Stanford research on [data quality in imitation learning](https://arxiv.org/abs/2306.02437) backs this up, showing that inconsistent actions in demonstrations push policies off course. Our [physical AI data collection](/services/physical-ai-data-collection/) process puts operator qualification and per-session quality checks before any data reaches a training run.</p>
+</div>
+
+## A training readiness checklist before you approve a program
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <ul className="space-y-2.5">
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>You've picked a foundation model whose inputs and action space are close to your robot's.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>Your capture protocol defines success, failure, and subtask boundaries in writing.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>Cameras are calibrated, synchronized, and checked every session.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>Operators pass a qualification run before contributing data.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>Data arrives in a format your training code already reads, such as RLDS, HDF5, Zarr, or LeRobot.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>You have a plan to label and keep failures, and to log interventions during the pilot.</span></li>
+  </ul>
+</div>
+
+Training physical AI is less about a clever algorithm and more about feeding the right data at the right stage. If you're figuring out what goes into stage two, read about [physical AI datasets](/blog/physical-ai-datasets/) and how to avoid [data quality problems](/blog/physical-ai-data-quality/). When you need demonstrations captured properly the first time, the [Gamasome team](/services/physical-ai-data-collection/) can run it end to end.

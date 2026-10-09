@@ -1,0 +1,18 @@
+<svg aria-label="Data pyramid for robot training with web and human video at the base, synthetic data in the middle, and target-robot episodes at the top" role="img" viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#ffffff" height="380" rx="12" stroke="#e2e8f0" width="760"/>
+<text fill="#d97706" font-family="monospace, sans-serif" font-size="12" font-weight="600" x="30" y="38" letter-spacing="0.06em">THE ROBOT DATA PYRAMID</text>
+<polygon fill="rgba(217,119,6,0.18)" points="380,60 470,130 290,130" stroke="#d97706"/>
+<polygon fill="rgba(217,119,6,0.10)" points="290,134 470,134 540,204 220,204" stroke="#d97706"/>
+<polygon fill="rgba(37,99,235,0.10)" points="220,208 540,208 610,278 150,278" stroke="#2563eb"/>
+<polygon fill="rgba(37,99,235,0.06)" points="150,282 610,282 680,352 80,352" stroke="#2563eb"/>
+<g fill="#14213d" font-family="sans-serif" font-size="13" text-anchor="middle">
+<text x="380" y="118">Your robot</text>
+<text x="380" y="176">Cross-embodiment robot episodes</text>
+<text x="380" y="248">Synthetic and simulated trajectories</text>
+<text x="380" y="322">Web and human egocentric video</text>
+</g>
+<g fill="#64748b" font-family="monospace, sans-serif" font-size="11">
+<text x="560" y="100">scarcest, most valuable</text>
+<text text-anchor="end" x="730" y="372">largest, cheapest</text>
+</g>
+</svg>

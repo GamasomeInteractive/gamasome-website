@@ -1,0 +1,38 @@
+<svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Five-stage physical AI training recipe: inherit, seed, multiply, harden, and improve, with data sources for each stage">
+  <rect x="0" y="0" width="760" height="290" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="30" y="34" font-family="sans-serif" font-size="12" font-weight="700" letter-spacing="0.06em" fill="#d97706">THE FIVE-STAGE TRAINING RECIPE</text>
+
+  <rect x="25" y="62" width="132" height="170" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="91" y="92" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="#14213d">1 &#183; Inherit</text>
+  <text x="91" y="122" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#475569">Pretrained</text>
+  <text x="91" y="140" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#475569">foundation</text>
+  <text x="91" y="158" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#475569">model</text>
+
+  <rect x="171" y="62" width="132" height="170" rx="9" fill="#fffbeb" stroke="#d97706" stroke-width="1.8"/>
+  <text x="237" y="92" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="#14213d">2 &#183; Seed</text>
+  <text x="237" y="122" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#475569">Target-robot</text>
+  <text x="237" y="140" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#475569">demonstrations</text>
+  <text x="237" y="202" text-anchor="middle" font-family="sans-serif" font-size="10.5" font-weight="700" fill="#d97706">most value here</text>
+
+  <rect x="317" y="62" width="132" height="170" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="383" y="92" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="#14213d">3 &#183; Multiply</text>
+  <text x="383" y="122" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#475569">Simulation and</text>
+  <text x="383" y="140" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#475569">synthetic</text>
+  <text x="383" y="158" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#475569">variations</text>
+
+  <rect x="463" y="62" width="132" height="170" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="529" y="92" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="#14213d">4 &#183; Harden</text>
+  <text x="529" y="122" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#475569">New scenes,</text>
+  <text x="529" y="140" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#475569">edge cases,</text>
+  <text x="529" y="158" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#475569">failures</text>
+
+  <rect x="609" y="62" width="132" height="170" rx="9" fill="#f0fdfa" stroke="#0d9488" stroke-width="1.8"/>
+  <text x="675" y="92" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="#14213d">5 &#183; Improve</text>
+  <text x="675" y="122" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#475569">Corrections</text>
+  <text x="675" y="140" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#475569">and RL from</text>
+  <text x="675" y="158" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#475569">deployment</text>
+
+  <path d="M157 147 H171 M303 147 H317 M449 147 H463 M595 147 H609" stroke="#d97706" stroke-width="2"/>
+
+  <text x="30" y="264" font-family="sans-serif" font-size="12" fill="#64748b">Stages 4 and 5 loop back into stage 2 as the robot meets new situations.</text>
+</svg>

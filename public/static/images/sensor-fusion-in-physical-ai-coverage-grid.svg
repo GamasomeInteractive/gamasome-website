@@ -1,0 +1,21 @@
+<svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Coverage grid showing how cameras, lidar, radar, and touch sensors perform across darkness, fog, clear objects, and contact">
+<rect width="760" height="330" rx="12" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="30" y="38" font-family="sans-serif" font-size="12" font-weight="700" letter-spacing="1" fill="#d97706">WHO COVERS WHICH BLIND SPOT</text>
+<g fill="#64748b" font-family="sans-serif" font-size="11.5" text-anchor="middle">
+<text x="260" y="72">Bright day</text><text x="370" y="72">Darkness</text><text x="480" y="72">Rain / fog</text><text x="590" y="72">Clear object</text><text x="690" y="72">Contact</text>
+</g>
+<g fill="#14213d" font-family="sans-serif" font-size="13.5">
+<text x="30" y="110">Camera</text><text x="30" y="160">Lidar</text><text x="30" y="210">Radar</text><text x="30" y="260">Touch / force</text>
+</g>
+<g>
+<rect fill="#0d9488" height="28" rx="4" width="90" x="215" y="92"/><rect fill="#e2e8f0" height="28" rx="4" width="90" x="325" y="92"/><rect fill="#d97706" height="28" rx="4" width="90" x="435" y="92"/><rect fill="#d97706" height="28" rx="4" width="90" x="545" y="92"/><rect fill="#e2e8f0" height="28" rx="4" width="70" x="655" y="92"/>
+<rect fill="#0d9488" height="28" rx="4" width="90" x="215" y="142"/><rect fill="#0d9488" height="28" rx="4" width="90" x="325" y="142"/><rect fill="#d97706" height="28" rx="4" width="90" x="435" y="142"/><rect fill="#e2e8f0" height="28" rx="4" width="90" x="545" y="142"/><rect fill="#e2e8f0" height="28" rx="4" width="70" x="655" y="142"/>
+<rect fill="#d97706" height="28" rx="4" width="90" x="215" y="192"/><rect fill="#0d9488" height="28" rx="4" width="90" x="325" y="192"/><rect fill="#0d9488" height="28" rx="4" width="90" x="435" y="192"/><rect fill="#e2e8f0" height="28" rx="4" width="90" x="545" y="192"/><rect fill="#e2e8f0" height="28" rx="4" width="70" x="655" y="192"/>
+<rect fill="#e2e8f0" height="28" rx="4" width="90" x="215" y="242"/><rect fill="#e2e8f0" height="28" rx="4" width="90" x="325" y="242"/><rect fill="#e2e8f0" height="28" rx="4" width="90" x="435" y="242"/><rect fill="#0d9488" height="28" rx="4" width="90" x="545" y="242"/><rect fill="#0d9488" height="28" rx="4" width="70" x="655" y="242"/>
+</g>
+<g fill="#475569" font-family="sans-serif" font-size="11.5">
+<rect fill="#0d9488" height="12" width="12" x="215" y="294"/><text x="234" y="305">strong</text>
+<rect fill="#d97706" height="12" width="12" x="310" y="294"/><text x="329" y="305">partial</text>
+<rect fill="#e2e8f0" height="12" width="12" x="410" y="294" stroke="#94a3b8"/><text x="429" y="305">weak or none</text>
+</g>
+</svg>

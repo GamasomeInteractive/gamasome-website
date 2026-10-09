@@ -1,0 +1,29 @@
+<svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Five sources of surprise for robots: perception, physics, people, compounding errors, and hardware drift, arranged around a robot">
+  <rect x="0" y="0" width="760" height="340" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="30" y="34" font-family="sans-serif" font-size="12" font-weight="700" letter-spacing="0.06em" fill="#d97706">FIVE SOURCES OF SURPRISE</text>
+
+  <circle cx="380" cy="190" r="58" fill="#fffbeb" stroke="#d97706" stroke-width="1.8"/>
+  <text x="380" y="195" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="700" fill="#14213d">The robot</text>
+
+  <path d="M380 110 V132 M545 150 L432 175 M545 250 L430 215 M215 250 L330 215 M215 150 L328 175" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <rect x="300" y="60" width="160" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="316" y="82" font-family="sans-serif" font-size="13" font-weight="700" fill="#14213d">1 &#183; Perception</text>
+  <text x="316" y="100" font-family="sans-serif" font-size="11.5" fill="#64748b">light, glare, weather</text>
+
+  <rect x="545" y="120" width="180" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="561" y="142" font-family="sans-serif" font-size="13" font-weight="700" fill="#14213d">2 &#183; Physics</text>
+  <text x="561" y="160" font-family="sans-serif" font-size="11.5" fill="#64748b">friction, mass, softness</text>
+
+  <rect x="545" y="230" width="180" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="561" y="252" font-family="sans-serif" font-size="13" font-weight="700" fill="#14213d">3 &#183; People and agents</text>
+  <text x="561" y="270" font-family="sans-serif" font-size="11.5" fill="#64748b">walking, reaching, moving</text>
+
+  <rect x="35" y="230" width="180" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="51" y="252" font-family="sans-serif" font-size="13" font-weight="700" fill="#14213d">4 &#183; Compounding error</text>
+  <text x="51" y="270" font-family="sans-serif" font-size="11.5" fill="#64748b">small slips snowball</text>
+
+  <rect x="35" y="120" width="180" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="51" y="142" font-family="sans-serif" font-size="13" font-weight="700" fill="#14213d">5 &#183; Hardware drift</text>
+  <text x="51" y="160" font-family="sans-serif" font-size="11.5" fill="#64748b">wear, calibration shift</text>
+</svg>

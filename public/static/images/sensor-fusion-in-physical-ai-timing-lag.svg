@@ -1,0 +1,19 @@
+<svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Timing diagram showing how a small lag between camera frames and gripper commands makes a robot learn the wrong cause and effect">
+<rect width="760" height="290" rx="12" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="30" y="38" font-family="sans-serif" font-size="12" font-weight="700" letter-spacing="1" fill="#d97706">WHY A FEW FRAMES OF LAG MATTER</text>
+<g fill="#64748b" font-family="sans-serif" font-size="11.5"><text x="30" y="92">CAMERA</text><text x="30" y="142">GRIPPER</text><text x="30" y="212">CAMERA</text><text x="30" y="262">GRIPPER</text></g>
+<text fill="#0d9488" font-family="sans-serif" font-size="13" x="130" y="66">Synchronized</text>
+<text fill="#d97706" font-family="sans-serif" font-size="13" x="130" y="186">Camera lagging behind</text>
+<g fill="#2563eb">
+<rect height="22" rx="3" width="40" x="130" y="78"/><rect height="22" rx="3" width="40" x="180" y="78"/><rect height="22" rx="3" width="40" x="230" y="78"/><rect fill="#0d9488" height="22" rx="3" width="40" x="280" y="78"/><rect height="22" rx="3" width="40" x="330" y="78"/><rect height="22" rx="3" width="40" x="380" y="78"/>
+<rect height="22" rx="3" width="40" x="190" y="198"/><rect height="22" rx="3" width="40" x="240" y="198"/><rect height="22" rx="3" width="40" x="290" y="198"/><rect fill="#0d9488" height="22" rx="3" width="40" x="340" y="198"/><rect height="22" rx="3" width="40" x="390" y="198"/><rect height="22" rx="3" width="40" x="440" y="198"/>
+</g>
+<path d="M130 140 H280 V128 H420" fill="none" stroke="#d97706" stroke-width="2"/>
+<path d="M130 260 H280 V248 H480" fill="none" stroke="#d97706" stroke-width="2"/>
+<line stroke="#0d9488" stroke-dasharray="3 3" x1="280" x2="280" y1="112" y2="150"/>
+<line stroke="#d97706" stroke-dasharray="3 3" x1="280" x2="280" y1="232" y2="270"/>
+<g fill="#475569" font-family="sans-serif" font-size="12.5">
+<text x="500" y="100">Contact frame and close</text><text x="500" y="118">command line up.</text>
+<text x="500" y="222">Close command appears before</text><text x="500" y="240">contact is visible. Model learns</text><text x="500" y="258">to close early.</text>
+</g>
+</svg>

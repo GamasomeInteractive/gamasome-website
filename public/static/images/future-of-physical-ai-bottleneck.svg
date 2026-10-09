@@ -1,0 +1,12 @@
+<svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram showing the physical AI bottleneck moving from compute to models to data volume and finally to data operations">
+<rect fill="#ffffff" height="260" rx="12" stroke="#e2e8f0" width="760"/>
+<text fill="#d97706" font-family="sans-serif" font-size="12" font-weight="600" x="30" y="38">WHERE THE BOTTLENECK SITS</text>
+<g fill="#14213d" font-family="sans-serif" font-size="15" text-anchor="middle">
+<rect fill="#f8fafc" height="80" rx="9" stroke="#cbd5e1" width="150" x="30" y="90"/><text x="105" y="126">Compute</text><text fill="#64748b" font-size="12" x="105" y="148">largely solved</text>
+<rect fill="#f8fafc" height="80" rx="9" stroke="#cbd5e1" width="150" x="210" y="90"/><text x="285" y="126">Model design</text><text fill="#64748b" font-size="12" x="285" y="148">converging, open</text>
+<rect fill="#f8fafc" height="80" rx="9" stroke="#2563eb" width="150" x="390" y="90"/><text x="465" y="126">Data volume</text><text fill="#64748b" font-size="12" x="465" y="148">sim and video help</text>
+<rect fill="#fef3e2" height="80" rx="9" stroke="#d97706" width="160" x="570" y="90"/><text x="650" y="126">Data operations</text><text fill="#d97706" font-size="12" x="650" y="148">the next constraint</text>
+</g>
+<path d="M180 130 H210 M360 130 H390 M540 130 H570" stroke="#d97706" stroke-width="2"/>
+<text fill="#475569" font-family="sans-serif" font-size="13" x="30" y="215">Data operations: capture protocols, calibration, correction logging, labeling standards, and fast feedback into training.</text>
+</svg>

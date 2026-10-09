@@ -1,0 +1,21 @@
+<svg aria-label="Anatomy of a robot training episode showing camera streams, robot state, actions, labels, and calibration metadata on a shared timeline" role="img" viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#ffffff" height="340" rx="12" stroke="#e2e8f0" width="760"/>
+<text fill="#d97706" font-family="monospace, sans-serif" font-size="12" font-weight="600" x="30" y="38" letter-spacing="0.06em">ANATOMY OF ONE EPISODE</text>
+<g fill="#64748b" font-family="monospace, sans-serif" font-size="11.5">
+<text x="30" y="82">CAMERAS</text><text x="30" y="132">ROBOT STATE</text><text x="30" y="182">ACTIONS</text><text x="30" y="232">LABELS</text><text x="30" y="282">METADATA</text>
+</g>
+<g>
+<rect fill="rgba(37,99,235,0.22)" height="20" rx="4" width="560" x="160" y="68"/>
+<polyline fill="none" points="160,128 220,120 280,132 340,116 400,126 460,114 520,128 580,118 640,130 720,122" stroke="#0d9488" stroke-width="2"/>
+<polyline fill="none" points="160,182 230,176 300,186 370,170 440,180 510,174 580,188 650,172 720,180" stroke="#d97706" stroke-width="2"/>
+<rect fill="rgba(217,119,6,0.22)" height="20" rx="4" width="180" x="160" y="220"/><rect fill="rgba(217,119,6,0.15)" height="20" rx="4" width="210" x="345" y="220"/><rect fill="rgba(217,119,6,0.22)" height="20" rx="4" width="160" x="560" y="220"/>
+<rect fill="#f8fafc" height="20" rx="4" stroke="#cbd5e1" width="560" x="160" y="270"/>
+</g>
+<g fill="#14213d" font-family="sans-serif" font-size="12">
+<text x="170" y="82">wrist + 2 to 4 external views, synchronized</text>
+<text x="170" y="234">reach</text><text x="355" y="234">grasp</text><text x="570" y="234">place</text>
+<text x="170" y="284">calibration, URDF, operator ID, success flag, instruction text</text>
+</g>
+<line stroke="#cbd5e1" x1="160" x2="720" y1="305" y2="305"/>
+<text fill="#64748b" font-family="monospace, sans-serif" font-size="11" x="160" y="324">t = 0</text><text fill="#64748b" font-family="monospace, sans-serif" font-size="11" x="690" y="324">t = end</text>
+</svg>

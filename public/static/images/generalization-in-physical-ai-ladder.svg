@@ -1,0 +1,18 @@
+<svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Five-rung generalization ladder from new positions up to new robot bodies, with the data that unlocks each rung">
+<rect width="760" height="380" rx="12" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="30" y="38" font-family="sans-serif" font-size="12" font-weight="700" letter-spacing="1" fill="#d97706">THE GENERALIZATION LADDER</text>
+<g font-family="sans-serif" font-size="13.5">
+<rect fill="#ffffff" height="48" rx="8" stroke="#cbd5e1" width="380" x="40" y="300"/><text x="58" y="329" fill="#14213d">1 &middot; New positions of familiar objects</text>
+<rect fill="#ffffff" height="48" rx="8" stroke="#cbd5e1" width="380" x="80" y="244"/><text x="98" y="273" fill="#14213d">2 &middot; New objects in the same category</text>
+<rect fill="#ffffff" height="48" rx="8" stroke="#2563eb" width="380" x="120" y="188"/><text x="138" y="217" fill="#14213d">3 &middot; New scenes and environments</text>
+<rect fill="#ffffff" height="48" rx="8" stroke="#2563eb" width="380" x="160" y="132"/><text x="178" y="161" fill="#14213d">4 &middot; New tasks and instructions</text>
+<rect fill="rgba(217,119,6,0.1)" height="48" rx="8" stroke="#d97706" width="380" x="200" y="76"/><text x="218" y="105" fill="#14213d">5 &middot; New robot bodies</text>
+</g>
+<g fill="#64748b" font-family="sans-serif" font-size="11">
+<text x="440" y="329">position variety in demos</text>
+<text x="480" y="273">many object instances</text>
+<text x="520" y="217">many scenes, lighting</text>
+<text x="560" y="161">web + language data</text>
+<text x="600" y="105">cross-robot data</text>
+</g>
+</svg>

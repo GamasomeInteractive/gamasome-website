@@ -1,0 +1,29 @@
+<svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The video-to-action gap: actions, forces, 3D motion, and body match missing from ordinary video">
+  <rect x="0" y="0" width="760" height="320" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="30" y="38" font-family="sans-serif" font-size="12" font-weight="700" letter-spacing="1" fill="#d97706">THE VIDEO-TO-ACTION GAP</text>
+
+  <rect x="30" y="70" width="200" height="220" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="1.6"/>
+  <text x="130" y="100" font-family="sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#14213d">Ordinary video</text>
+  <g font-family="sans-serif" font-size="12.5" text-anchor="middle" fill="#475569">
+    <text x="130" y="140">objects</text>
+    <text x="130" y="165">steps and goals</text>
+    <text x="130" y="190">scene changes</text>
+    <text x="130" y="215">intent</text>
+  </g>
+
+  <rect x="530" y="70" width="200" height="220" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="1.6"/>
+  <text x="630" y="100" font-family="sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#14213d">Robot needs</text>
+  <g font-family="sans-serif" font-size="12.5" text-anchor="middle" fill="#475569">
+    <text x="630" y="140">joint-level actions</text>
+    <text x="630" y="165">forces and contact</text>
+    <text x="630" y="190">true 3D motion</text>
+    <text x="630" y="215">its own body</text>
+  </g>
+
+  <g font-family="sans-serif" font-size="13" fill="#14213d">
+    <rect fill="#f8fafc" stroke="#cbd5e1" height="36" rx="6" width="240" x="260" y="88"/><text x="276" y="111">1 &middot; No action labels</text>
+    <rect fill="#f8fafc" stroke="#cbd5e1" height="36" rx="6" width="240" x="260" y="134"/><text x="276" y="157">2 &middot; No forces or touch</text>
+    <rect fill="#f8fafc" stroke="#cbd5e1" height="36" rx="6" width="240" x="260" y="180"/><text x="276" y="203">3 &middot; Camera motion blurs 3D</text>
+    <rect fill="#f8fafc" stroke="#cbd5e1" height="36" rx="6" width="240" x="260" y="226"/><text x="276" y="249">4 &middot; Human hand, not gripper</text>
+  </g>
+</svg>

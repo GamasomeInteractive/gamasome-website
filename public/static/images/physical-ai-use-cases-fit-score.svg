@@ -1,0 +1,17 @@
+<svg aria-label="Bar chart comparing Deployment Fit Scores for humanoid tote handling and household laundry folding across four factors" role="img" viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#ffffff" height="330" rx="12" stroke="#e2e8f0" width="760"/>
+<text fill="#d97706" font-family="monospace, sans-serif" font-size="12" font-weight="600" x="30" y="38" letter-spacing="0.06em">DEPLOYMENT FIT SCORE (ILLUSTRATIVE, 1 TO 5)</text>
+<g fill="#334155" font-family="sans-serif" font-size="13">
+<text x="30" y="92">Repeatability</text><text x="30" y="152">Recoverability</text><text x="30" y="212">Data return</text><text x="30" y="272">Tolerance</text>
+</g>
+<g>
+<rect fill="#d97706" height="12" rx="3" width="450" x="170" y="74"/><rect fill="#2563eb" height="12" rx="3" width="180" x="170" y="90"/>
+<rect fill="#d97706" height="12" rx="3" width="360" x="170" y="134"/><rect fill="#2563eb" height="12" rx="3" width="270" x="170" y="150"/>
+<rect fill="#d97706" height="12" rx="3" width="360" x="170" y="194"/><rect fill="#2563eb" height="12" rx="3" width="180" x="170" y="210"/>
+<rect fill="#d97706" height="12" rx="3" width="360" x="170" y="254"/><rect fill="#2563eb" height="12" rx="3" width="180" x="170" y="270"/>
+</g>
+<g font-family="monospace, sans-serif" font-size="12">
+<rect fill="#d97706" height="12" width="12" x="560" y="22"/><text fill="#334155" x="578" y="33">Tote handling</text>
+<rect fill="#2563eb" height="12" width="12" x="560" y="44"/><text fill="#334155" x="578" y="55">Laundry folding</text>
+</g>
+</svg>

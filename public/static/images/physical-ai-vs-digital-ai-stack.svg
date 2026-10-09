@@ -1,0 +1,9 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Layered diagram showing digital AI knowledge at the base of a robot model and captured physical action data on top">
+<rect fill="#ffffff" height="300" rx="12" stroke="#e2e8f0" width="760"/>
+<text fill="#d97706" font-family="sans-serif" font-size="12" font-weight="600" x="30" y="38">HOW A MODERN ROBOT MODEL IS STACKED</text>
+<g fill="#14213d" font-family="sans-serif" font-size="14">
+<rect fill="#eff6ff" height="56" rx="8" stroke="#2563eb" width="640" x="60" y="210"/><text x="80" y="236">Digital AI foundation: vision-language model trained on web data</text><text fill="#64748b" font-size="12" x="80" y="255">gives semantics, object names, common sense</text>
+<rect fill="#f8fafc" height="56" rx="8" stroke="#cbd5e1" width="540" x="110" y="140"/><text x="130" y="166">Cross-robot and synthetic action data</text><text fill="#64748b" font-size="12" x="130" y="185">gives general motor skills</text>
+<rect fill="#fef3e2" height="56" rx="8" stroke="#d97706" width="440" x="160" y="70"/><text x="180" y="96">Target-robot demos and corrections</text><text fill="#b45309" font-size="12" x="180" y="115">gives reliable performance on your task</text>
+</g>
+</svg>

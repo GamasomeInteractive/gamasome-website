@@ -1,0 +1,31 @@
+<svg viewBox="0 0 760 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Map linking seven robot training data defects to the policy symptoms each one typically causes during evaluation">
+  <rect x="0" y="0" width="760" height="400" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="30" y="38" font-family="sans-serif" font-size="12" font-weight="700" letter-spacing="1" fill="#d97706">DEFECT TO SYMPTOM MAP</text>
+
+  <g fill="#64748b" font-family="sans-serif" font-size="11" font-weight="700" letter-spacing="0.5">
+    <text x="40" y="66">DATA DEFECT</text>
+    <text x="470" y="66">WHAT YOU SEE IN THE POLICY</text>
+  </g>
+
+  <g font-family="sans-serif" font-size="13" fill="#14213d">
+    <rect fill="#f8fafc" stroke="#cbd5e1" height="34" rx="6" width="270" x="30" y="78"/><text x="44" y="100">Inconsistent strategies</text>
+    <rect fill="#f8fafc" stroke="#cbd5e1" height="34" rx="6" width="270" x="30" y="122"/><text x="44" y="144">Timestamp misalignment</text>
+    <rect fill="#f8fafc" stroke="#cbd5e1" height="34" rx="6" width="270" x="30" y="166"/><text x="44" y="188">Calibration drift</text>
+    <rect fill="#f8fafc" stroke="#cbd5e1" height="34" rx="6" width="270" x="30" y="210"/><text x="44" y="232">Narrow coverage</text>
+    <rect fill="#f8fafc" stroke="#cbd5e1" height="34" rx="6" width="270" x="30" y="254"/><text x="44" y="276">No failures or recoveries</text>
+    <rect fill="#f8fafc" stroke="#cbd5e1" height="34" rx="6" width="270" x="30" y="298"/><text x="44" y="320">Noisy labels</text>
+    <rect fill="#f8fafc" stroke="#cbd5e1" height="34" rx="6" width="270" x="30" y="342"/><text x="44" y="364">Lost metadata</text>
+
+    <rect fill="#fffbeb" stroke="#d97706" height="34" rx="6" width="270" x="460" y="78"/><text x="474" y="100">Hovering, hesitation</text>
+    <rect fill="#fffbeb" stroke="#d97706" height="34" rx="6" width="270" x="460" y="122"/><text x="474" y="144">Grasps too early or late</text>
+    <rect fill="#fffbeb" stroke="#d97706" height="34" rx="6" width="270" x="460" y="166"/><text x="474" y="188">Consistent offset misses</text>
+    <rect fill="#fffbeb" stroke="#d97706" height="34" rx="6" width="270" x="460" y="210"/><text x="474" y="232">Fails in new scenes</text>
+    <rect fill="#fffbeb" stroke="#d97706" height="34" rx="6" width="270" x="460" y="254"/><text x="474" y="276">Freezes after small slips</text>
+    <rect fill="#fffbeb" stroke="#d97706" height="34" rx="6" width="270" x="460" y="298"/><text x="474" y="320">Stops early, skips steps</text>
+    <rect fill="#fffbeb" stroke="#d97706" height="34" rx="6" width="270" x="460" y="342"/><text x="474" y="364">Wild or scaled actions</text>
+  </g>
+
+  <g stroke="#cbd5e1" stroke-width="1.5">
+    <path d="M300 95 H460"/><path d="M300 139 H460"/><path d="M300 183 H460"/><path d="M300 227 H460"/><path d="M300 271 H460"/><path d="M300 315 H460"/><path d="M300 359 H460"/>
+  </g>
+</svg>

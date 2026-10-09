@@ -1,0 +1,144 @@
+---
+title: 'How Physical AI Works: From Perception to Real-World Action'
+date: 2026-10-09T08:35:00.000Z
+tags:
+  - Physical AI
+  - Robotics
+  - AI
+  - Automation
+draft: false
+summary: 'How physical AI works, step by step: sensing, perception, planning, action, control, and learning, traced through one real warehouse task from start to end.'
+images:
+  - /static/images/how-physical-ai-works.jpg
+authors:
+  - prasanna-venkatesan
+layout: PostLayout
+canonicalUrl: 'https://www.gamasome.com/blog/how-physical-ai-works/'
+seo:
+  metaTitle: 'How Physical AI Works: From Perception to Real-World Action'
+  metaDescription: 'How physical AI works, step by step: sensing, perception, planning, action, control, and learning, traced through one real warehouse task from start to end.'
+  canonicalUrl: ''
+  changefreq: weekly
+faqHeading: 'How physical AI works: FAQs'
+faqs:
+  - question: How does physical AI work in simple terms?
+    answer: 'Physical AI senses the world with cameras and other sensors, figures out what it is looking at, decides what to do, turns that decision into motion, executes the motion safely on hardware, and then learns from the result. The loop repeats continuously while the machine operates.'
+  - question: What is a vision-language-action model?
+    answer: "A vision-language-action (VLA) model takes camera images and a language instruction as input and outputs robot actions. Examples include Google DeepMind's RT-2 and Physical Intelligence's π0, which build on vision-language models pretrained on web data."
+  - question: Why do robots use separate planning and control models?
+    answer: 'Planning and control run at different speeds. Planning decides what to do next and can update occasionally. Control must react continuously to keep motion smooth and safe. Splitting them lets each run at the speed it needs.'
+  - question: Does physical AI run in the cloud or on the robot?
+    answer: 'Training usually happens in the cloud on large GPU clusters. Inference typically runs on the robot or on nearby hardware so the system can react quickly and keep working if network connectivity drops.'
+  - question: What data does each layer of physical AI need?
+    answer: 'Sensing needs calibration and synchronization standards. Perception needs varied labeled imagery. Planning needs language and subtask labels. Policies need demonstrations in the robot''s action space. Learning needs logged failures, corrections, and outcomes from real deployments.'
+  - question: Why do physical AI systems fail in deployment?
+    answer: 'Common causes include perception confusion from unfamiliar objects or lighting, policies meeting poses they never saw in demonstrations, compounding errors that push the robot into unfamiliar states, sensor calibration drift, and interventions that are fixed by hand but never recorded as training data.'
+---
+
+Most explanations of physical AI stop at a tidy diagram: sense, think, act. Real systems are messier and more interesting. The clearest way to see how they work is to follow one ordinary task from the first camera frame to the last motor command.
+
+![Six-layer physical AI loop: sense, perceive, reason, act, control, and learn, with the world closing the loop](/static/images/how-physical-ai-works-loop.svg)
+
+*The six layers of a physical AI system. The loop never stops: each action changes the world, and the next frame shows the consequence.*
+
+Here's the task. A humanoid robot stands next to a conveyor in a distribution center. An autonomous mobile robot rolls up carrying a plastic tote. The humanoid has to pick the tote off the mobile robot and set it on the conveyor, then do it again a few hundred times before lunch. Agility Robotics' Digit does a version of this job at a GXO site, where it has [moved more than 100,000 totes](https://www.assemblymag.com/articles/99671-humanoid-robot-digit-moves-100-000-totes-at-distribution-center).
+
+It sounds simple. A person does it without thinking. (If you want the bigger picture of why warehouses get robots like this first, see [physical AI in logistics](/blog/physical-ai-in-logistics/).) For a machine, it requires six distinct layers of work, running at different speeds, each depending on different data. The walkthrough below is a composite based on how modern physical AI systems are described publicly, not any one vendor's internal design.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">The short version</p>
+  <p className="mb-3 text-gray-700">Physical AI works in a continuous loop. <strong className="font-semibold text-gray-900">Sensors</strong> capture the world. A <strong className="font-semibold text-gray-900">perception</strong> layer turns raw signals into an understanding of objects and space. A <strong className="font-semibold text-gray-900">reasoning</strong> layer decides what to do next. A <strong className="font-semibold text-gray-900">policy</strong> converts that into motion. A <strong className="font-semibold text-gray-900">control</strong> layer executes the motion safely on the hardware. Then the system <strong className="font-semibold text-gray-900">senses the result and learns</strong> from what happened.</p>
+  <p className="text-gray-700">Slow, deliberate reasoning and fast, reflexive control run at the same time, and every layer is trained on real-world or simulated data.</p>
+</div>
+
+## Six layers of a physical AI system
+
+<div className="not-prose my-8 font-['Poppins']">
+  <div className="grid gap-2 py-6 sm:grid-cols-[132px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Layer 01</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Sense, or capturing the world as signals</h4>
+      <p className="mb-3 text-[15px] leading-relaxed text-gray-600">Our humanoid gets its first look at the tote through cameras in its head and, on many robots, cameras near the wrists. It also reads its own body: joint angles, motor currents, the force on each foot. Some systems add depth sensors, and contact-heavy robots add touch or force sensors in the hands.</p>
+      <p className="mb-3 text-[15px] leading-relaxed text-gray-600">Autonomous vehicles take this further. Waymo's 6th-generation Driver combines <a href="https://waymo.com/blog/2024/08/meet-the-6th-generation-waymo-driver/" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">13 cameras, 4 lidar units, and 6 radar units</a> with overlapping fields of view out to about 500 meters.</p>
+      <p className="text-[15px] leading-relaxed text-gray-600"><strong className="font-semibold text-gray-900">What breaks if this layer is weak:</strong> everything downstream. A camera that's knocked a few degrees out of calibration makes the robot reach for a tote that isn't quite where it thinks. That's why calibration logging is part of every serious capture program. We cover combining these signals in <a href="/blog/sensor-fusion-in-physical-ai/" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">sensor fusion in physical AI</a>.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[132px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Layer 02</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Perceive, or turning pixels into meaning</h4>
+      <p className="mb-3 text-[15px] leading-relaxed text-gray-600">Raw pixels don't say "tote." The perception layer does. Modern systems often use a vision-language model, pretrained on internet images and text, as the backbone. It recognizes the tote, estimates where its handles are, notices the conveyor, and keeps track of the robot's own position.</p>
+      <p className="mb-3 text-[15px] leading-relaxed text-gray-600">This is where digital AI does a lot of heavy lifting for physical AI, provided the robot-view images it's tuned on are <a href="/blog/what-is-data-annotation/" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">labeled well</a>. Google DeepMind showed with RT-2 that web-pretrained vision-language knowledge helped robots handle unfamiliar objects and scenes, lifting success on unseen scenarios from <a href="https://deepmind.google/blog/rt-2-new-model-translates-vision-and-language-into-action/" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">32% to 62%</a>.</p>
+      <p className="text-[15px] leading-relaxed text-gray-600"><strong className="font-semibold text-gray-900">What breaks:</strong> unusual objects and conditions. A crushed tote, a glare from a skylight, or a tote that's a different color than anything in training can all confuse a perception model that hasn't seen enough variety.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[132px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Layer 03</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Reason and plan, or deciding what to do</h4>
+      <p className="mb-3 text-[15px] leading-relaxed text-gray-600">"Move the tote to the conveyor" breaks into steps: approach, align, grasp both sides, lift, turn, place, release, step back. For simple repetitive work, those steps may be baked into the policy. For more open-ended tasks, a separate reasoning model plans them.</p>
+      <p className="mb-3 text-[15px] leading-relaxed text-gray-600">Google DeepMind's Gemini Robotics 1.5 makes this split explicit. An embodied reasoning model, Gemini Robotics-ER 1.5, <a href="https://deepmind.google/discover/blog/gemini-robotics-15-brings-ai-agents-into-the-physical-world/" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">plans multi-step tasks and passes instructions</a> to a separate action model that moves the robot.</p>
+      <p className="text-[15px] leading-relaxed text-gray-600"><strong className="font-semibold text-gray-900">What breaks:</strong> long tasks with many steps. Small planning mistakes early can leave the robot in a position no later step can fix.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[132px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Layer 04</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Act, or turning intent into motion</h4>
+      <p className="mb-3 text-[15px] leading-relaxed text-gray-600">The policy is the heart of physical AI. It takes the current camera frames, the robot's state, and the current instruction, and outputs actions: where each joint should move over the next fraction of a second.</p>
+      <p className="mb-3 text-[15px] leading-relaxed text-gray-600">Different models do this differently. RT-2 represented robot actions as tokens, the same way a language model outputs words. Physical Intelligence's π0 instead generates continuous actions using a technique called flow matching, and was trained on <a href="https://arxiv.org/abs/2410.24164" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">roughly 10,000 hours of robot data</a> across several robot configurations. Many policies output short "chunks" of actions at once, which makes motion smoother.</p>
+      <p className="text-[15px] leading-relaxed text-gray-600"><strong className="font-semibold text-gray-900">What breaks:</strong> the policy can only imitate what it has seen. If every demonstration grasped the tote from the front, a tote rotated 90 degrees may stump it. This is where demonstration coverage decides outcomes.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[132px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Layer 05</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Control, or executing safely on real hardware</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">The policy says "move the hand here." The control layer figures out how much torque each motor needs, right now, to make that happen without falling over, overshooting, or hitting a person. On a walking humanoid, it's also keeping the robot balanced the entire time. This layer often isn't learned end to end. Agility, for example, describes its approach as blending <a href="https://www.assemblymag.com/articles/99671-humanoid-robot-digit-moves-100-000-totes-at-distribution-center" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">traditional control, teleoperated demonstrations, reinforcement learning, and simulation</a>. Classical controllers bring guarantees that learned policies can't yet offer on their own.</p>
+    </div>
+  </div>
+</div>
+
+![Two-speed diagram showing a slow reasoning loop and a fast control loop running in parallel inside a robot](/static/images/how-physical-ai-works-two-speed.svg)
+
+*A slow reasoning loop sets goals while a fast control loop handles every moment of motion. Both must agree on what the robot sees.*
+
+<div className="not-prose my-8 font-['Poppins']">
+  <div className="grid gap-2 py-6 sm:grid-cols-[132px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Layer 06</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Learn, or getting better from what happened</h4>
+      <p className="mb-3 text-[15px] leading-relaxed text-gray-600">The tote lands on the conveyor. Or it doesn't. Either way, the robot's sensors capture the outcome, and in a well-run system that episode gets logged with its cameras, actions, and result.</p>
+      <p className="mb-3 text-[15px] leading-relaxed text-gray-600">This is the layer most people forget, and it's becoming the most important. Physical Intelligence gives a vivid example from espresso making: a failure may only show up late in the task, but <a href="https://pi.website/blog/pistar06" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">the real mistake happened earlier</a>, when the robot grasped the portafilter at the wrong angle. Its Recap method uses corrections and reinforcement learning on deployment experience to assign credit to that earlier action, and the company reported more than doubling throughput on hard tasks.</p>
+      <p className="text-[15px] leading-relaxed text-gray-600">Why does learning from deployment matter so much? Because imitation learning suffers from compounding error. Small action mistakes push the robot into states it never saw in training, where it makes bigger mistakes. Researchers at Stanford framed robot data quality around exactly this <a href="https://arxiv.org/abs/2306.02437" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">distribution shift problem</a>. Recovery data from real deployments is the antidote.</p>
+    </div>
+  </div>
+</div>
+
+## The whole stack in one table
+
+| Layer | Job in the tote task | Learns from | Typical failure |
+| --- | --- | --- | --- |
+| 1. Sense | Capture cameras, joints, forces | Calibration, sync standards | Drifted camera, dropped frames |
+| 2. Perceive | Find tote, handles, conveyor | Web images plus labeled robot views | Odd objects, glare, clutter |
+| 3. Reason | Break task into steps | Language plus subtask-labeled episodes | Early planning mistakes |
+| 4. Act | Output joint motions | Teleoperated demonstrations | Poses never seen in demos |
+| 5. Control | Execute safely, stay balanced | Physics models, simulation, RL | Slips, overshoot, contact surprises |
+| 6. Learn | Log outcome, improve | Failures, corrections, rewards | Interventions never recorded |
+
+## Where it runs: cloud training, on-robot inference
+
+Models are trained on large GPU clusters, but they usually run on the robot itself or on a nearby computer. Latency and connectivity make that necessary. Google DeepMind released Gemini Robotics On-Device in mid-2025 specifically so a robot model could [run without an internet connection](https://www.gigazine.net/gsc_news/en/20250926-gemini-robotics-1-5). A warehouse with spotty Wi-Fi can't have a robot freezing every time the signal drops.
+
+> The robot you see is layers 4 and 5. The robot that ships reliably is the one where layers 1 and 6 are taken just as seriously.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">What we see in the field</p>
+  <p className="text-gray-700">When a deployed robot underperforms, teams usually suspect the policy. In our experience, the cause is just as often upstream or downstream of it: a camera mount that shifted after maintenance, timestamps that drift between sensors, or interventions that operators fixed by hand and never logged. Our <a href="/services/physical-ai-data-collection/" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">physical AI data collection</a> programs are built to protect layers 1 and 6, with calibration baselines per session and capture protocols that treat every failure as a labeled episode.</p>
+</div>
+
+## Putting it together
+
+Back at the conveyor, the humanoid finishes its first tote and turns for the next. In that few seconds, six layers did their jobs: sensors captured the scene, perception found the handles, a plan sequenced the steps, the policy produced motion, control kept it safe and balanced, and the outcome was recorded for next time.
+
+If you're building one of these systems, the big takeaway is that each layer learns from a different kind of data, and most of it has to be captured in the real world. Our guide to [physical AI training](/blog/physical-ai-training/) walks through how that data comes together, and [reinforcement learning in physical AI](/blog/reinforcement-learning-physical-ai/) goes deeper on layer 6. When you're ready to capture it, talk to the [Gamasome data collection team](/services/physical-ai-data-collection/).

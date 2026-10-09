@@ -1,0 +1,20 @@
+<svg aria-label="Diagram showing embodied AI as an inner circle inside the larger physical AI stack, with world models and fleet systems outside it" role="img" viewBox="0 0 760 400" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#ffffff" height="400" rx="12" stroke="#e2e8f0" width="760"/>
+<text fill="#d97706" font-family="monospace, sans-serif" font-size="12" font-weight="600" x="30" y="38" letter-spacing="0.06em">THE OVERLAP MAP</text>
+<ellipse cx="380" cy="215" fill="rgba(37,99,235,0.06)" rx="330" ry="160" stroke="#2563eb" stroke-width="1.5"/>
+<text fill="#14213d" font-family="sans-serif" font-size="17" font-weight="600" text-anchor="middle" x="380" y="80">Physical AI (the full stack)</text>
+<ellipse cx="380" cy="230" fill="rgba(217,119,6,0.09)" rx="140" ry="95" stroke="#d97706" stroke-width="1.5"/>
+<text fill="#14213d" font-family="sans-serif" font-size="16" font-weight="600" text-anchor="middle" x="380" y="168">Embodied AI</text>
+<g fill="#475569" font-family="sans-serif" font-size="13" text-anchor="middle">
+<text x="380" y="205">VLA robot policies</text>
+<text x="380" y="230">Humanoids and arms</text>
+<text x="380" y="255">Mobile manipulators</text>
+<text x="380" y="280">Robotaxis</text>
+</g>
+<g fill="#64748b" font-family="sans-serif" font-size="13" text-anchor="middle">
+<text x="140" y="160">World foundation</text><text x="140" y="178">models</text>
+<text x="140" y="270">Fleet orchestration</text><text x="140" y="288">(e.g., traffic AI)</text>
+<text x="620" y="160">Sim-ready assets</text><text x="620" y="178">and digital twins</text>
+<text x="620" y="270">Sensor capture and</text><text x="620" y="288">calibration pipelines</text>
+</g>
+</svg>

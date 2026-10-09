@@ -1,0 +1,161 @@
+---
+title: 'How Physical AI Processes Video and Motion Data to Learn Tasks'
+date: 2026-10-09T08:00:00.000Z
+tags:
+  - Physical AI
+  - Robotics
+  - Data Collection
+  - AI
+draft: false
+summary: "How physical AI turns video and motion data into robot skills: what video can and can't teach, the video-to-action gap, and how capture rigs close it."
+images:
+  - /static/images/physical-ai-video-and-motion-data.jpg
+authors:
+  - prasanna-venkatesan
+layout: PostLayout
+canonicalUrl: 'https://www.gamasome.com/blog/physical-ai-video-and-motion-data/'
+seo:
+  metaTitle: 'How Physical AI Uses Video and Motion Data to Learn Tasks'
+  metaDescription: "How physical AI turns video and motion data into robot skills: what video can and can't teach, the video-to-action gap, and how capture rigs close it."
+  canonicalUrl: ''
+  changefreq: weekly
+faqHeading: 'Video and motion data in physical AI: FAQs'
+faqs:
+  - question: Can robots learn from video?
+    answer: 'Yes, partly. Video teaches robots about objects, task steps, and how scenes change. It does not contain robot actions or forces, so it is usually combined with motion data or real robot episodes before a robot can reliably perform the task.'
+  - question: What is motion data in physical AI?
+    answer: 'Motion data records how things move over time: robot joint positions and commands, hand and tool trajectories from motion trackers, gripper width, and sometimes forces. It provides the action information that ordinary video lacks.'
+  - question: What is egocentric video and why is it useful?
+    answer: "Egocentric video is first-person footage, usually from a head-mounted camera. It shows hands and objects from a viewpoint close to a robot's, making it useful for learning hand-object interaction and task structure at scale."
+  - question: What is retargeting in robot learning?
+    answer: 'Retargeting converts motion captured from a human, such as hand or wrist trajectories, into the action space of a specific robot, accounting for differences in arm length, joint limits, and gripper or hand design.'
+  - question: Can existing factory or CCTV footage train robots?
+    answer: 'It can help with task understanding, step ordering, and pretraining, but on its own it rarely produces reliable robot skills. Most teams add targeted capture with wrist cameras, motion tracking, and teleoperated robot episodes for the hardest steps.'
+  - question: Why does synchronization matter for video and motion data?
+    answer: 'If video frames and motion readings are not aligned to the same clock, the model learns incorrect cause and effect, such as a grasp happening before contact. Synchronization and calibration have to be handled at capture time.'
+---
+
+There is more video of people doing physical work than anyone could watch in a lifetime. So why can't robots just learn from it? Because video shows what happened, and robots need to know how. Closing that gap is one of the most active problems in physical AI.
+
+![The video-to-action gap: actions, forces, 3D motion, and body match missing from ordinary video](/static/images/physical-ai-video-and-motion-data-gap.svg)
+
+*Video gives a model the "what." Robots also need the four missing pieces in the middle before they can perform the "how."*
+
+The head of data at a manufacturing company asked us a question we hear a lot: "We have about two thousand hours of overhead camera footage from our assembly line. Workers doing the exact tasks we want robots to do. Can we train a robot on that?"
+
+The honest answer was: partly, and probably not the way you're hoping. The footage could teach a model a lot about the task: which parts come first, how long each step takes, what a finished assembly looks like. It couldn't teach a robot arm how hard to press a clip, which way to rotate a wrist, or what to do when a part sticks. Understanding why is the key to using video well in physical AI.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">Direct answer</p>
+  <p className="mb-3 text-gray-700">Physical AI uses <strong className="font-semibold text-gray-900">video</strong> to learn what tasks look like (objects, steps, goals, and how scenes change) and <strong className="font-semibold text-gray-900">motion data</strong>, such as robot joint states, hand and tool trajectories, and motion-tracker readings, to learn how to physically perform them. Video alone lacks actions, forces, and a match to the robot's body.</p>
+  <p className="text-gray-700">Modern systems close this <strong className="font-semibold text-gray-900">video-to-action gap</strong> by pretraining on large video collections, then pairing them with synchronized motion capture, handheld-gripper data, or teleoperated robot episodes that contain real actions.</p>
+</div>
+
+## What video teaches, and what it can't
+
+Video is the richest cheap data source in physical AI. Ego4D alone offers [3,670 hours of first-person footage](https://arxiv.org/abs/2110.07058) from 931 people in 74 locations. Robot datasets are video-heavy too: the raw DROID dataset is about [8.7 TB](https://docs.daft.ai/en/stable/datasets/droid/), most of it camera streams.
+
+From video, a model can learn:
+
+- **What objects are** and how they're usually handled.
+- **Task structure:** the order of steps and what "done" looks like.
+- **Physical intuition:** things fall, liquids pour, cloth folds.
+- **Intent:** where a person's hands are heading before they get there.
+
+What video can't directly provide is just as important. We call it the video-to-action gap, and it has four parts.
+
+<div className="not-prose my-8 font-['Poppins']">
+  <div className="grid gap-2 py-6 sm:grid-cols-[132px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Gap 01</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">No action labels</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">Video shows a hand moving. It doesn't record the commands that produced the movement. A robot policy has to output commands, so something has to translate.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[132px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Gap 02</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">No forces or touch</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">You can't see how hard a worker squeezes a connector. For contact-rich tasks, that missing information is often the difference between success and a broken part.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[132px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Gap 03</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Camera motion blurs 3D</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">In egocentric video, the camera moves with the person's head. Separating "the head turned" from "the hand moved" requires estimating camera motion, which adds error.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[132px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Gap 04</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">A human hand isn't a gripper</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">Five fingers and a wrist don't map neatly onto a parallel-jaw gripper or a robot hand with different proportions. This embodiment gap is why human video usually needs retargeting.</p>
+    </div>
+  </div>
+</div>
+
+## How physical AI processes video and motion data
+
+Turning raw footage into robot skill typically follows a pipeline like this one.
+
+![Pipeline turning video and motion data into robot training data, from ingest and sync to retargeting](/static/images/physical-ai-video-and-motion-data-pipeline.svg)
+
+*A typical video-to-robot pipeline. The middle steps estimate what better capture could have recorded directly.*
+
+1. **Ingest:** collect video plus any motion streams recorded alongside it.
+2. **Synchronize:** align every stream to one clock so a frame and a hand position refer to the same instant.
+3. **Segment:** mark subtask boundaries such as reach, grasp, move, place.
+4. **Annotate:** label hands, objects, contact moments, and outcomes. (Not sure where labeling ends and annotation begins? See [data annotation vs data labeling](/blog/data-annotation-vs-data-labeling/).)
+5. **Lift to 3D:** estimate hand, tool, and object poses over time.
+6. **Retarget:** convert human motion into the robot's action space.
+7. **Train:** usually alongside real robot data, not instead of it.
+
+Steps 4 and 5 are where most errors creep in when you start from ordinary video. That's why serious capture programs record motion directly instead of estimating it later.
+
+## Five kinds of video and motion data, compared
+
+| Data type | Contains actions? | Scales cheaply? | Typical role |
+| --- | --- | --- | --- |
+| Web and third-person video | No | Yes, massively | Pretraining for semantics and physical common sense |
+| Egocentric human video | No, but hands are visible | Yes | Task structure, hand-object interaction |
+| Egocentric video plus motion tracking | Partly: tracked hand and tool paths | Moderately | Retargetable human demonstrations |
+| Handheld gripper video | Yes, gripper pose and width | Moderately | In-the-wild robot-ready demos |
+| Robot camera episodes | Yes, exact robot actions | No, needs robots | Fine-tuning and deployment reliability |
+
+A few real examples of bridging the gap:
+
+- **Handheld capture.** Stanford's UMI uses a camera-equipped handheld gripper and records everything into [a single standardized MP4 file](https://arxiv.org/abs/2402.10329), so demonstrations can be collected anywhere by non-experts and shared over the internet.
+- **Video at the base of the pyramid.** NVIDIA describes GR00T N1 as trained on [real humanoid data, synthetic data, and internet-scale video](https://developer.nvidia.com/blog/accelerate-generalist-humanoid-robot-development-with-nvidia-isaac-gr00t-n1), with video forming the broadest layer.
+- **Emergent transfer.** Physical Intelligence reported that [transfer from human video to robot tasks emerges](https://pi.website/research/human_to_robot) as vision-language-action models scale with diverse pretraining, detailed in their [accompanying paper](https://arxiv.org/abs/2512.22414).
+- **Generated video.** World foundation models like NVIDIA's Cosmos generate physics-aware video to create [training and test scenarios](https://blogs.nvidia.com/blog/ces-2025-jensen-huang/) for robots and vehicles, adding variations that would be expensive to film.
+
+And the original lesson still holds: web-scale vision knowledge makes robots smarter about what they see. That's what lifted RT-2's success on unseen scenarios [from 32% to 62%](https://deepmind.google/blog/rt-2-new-model-translates-vision-and-language-into-action/). It just doesn't replace action data.
+
+> Video teaches the robot what success looks like. Motion data teaches it how to get there. You need both, and they have to agree on the clock.
+
+## Designing a capture rig for both
+
+If you're going to record humans for robot learning, record more than video. A good egocentric rig captures:
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <ul className="space-y-2.5">
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>A head-mounted camera for task context and gaze direction.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>A wrist or tool-mounted camera for close-up manipulation detail.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>Motion trackers or a tracked gripper for precise hand and tool trajectories.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>Gripper width or force readings where contact matters.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>One shared clock and per-session calibration for every stream.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>Subtask and outcome labels, applied consistently across operators.</span></li>
+  </ul>
+</div>
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">What we see in the field</p>
+  <p className="text-gray-700">In our egocentric programs, we pair head-mounted and gripper-mounted cameras with motion trackers and hold tracking continuity to 98% or better per session. That number matters because a tracker gap breaks the link between what the camera saw and where the hand was, which turns a training example into a guessing exercise. Getting it right during capture is far cheaper than estimating it afterward. That's the thinking behind our [physical AI data collection](/services/physical-ai-data-collection/) service, and our [annotation team](/services/data-annotation/) handles the segmentation and contact labels.</p>
+</div>
+
+## Back to the two thousand hours of footage
+
+Here's what we recommended to the manufacturing team. Use the existing footage for what it's good at: mapping task steps, measuring cycle times, and pretraining a model's understanding of the line. Then run a focused capture program on the trickiest steps, with wrist cameras, motion tracking, and a handful of teleoperated robot episodes, so the model sees real actions and forces where it matters. The old footage became the base of their data pyramid instead of the whole thing.
+
+To see where video fits among other data sources, read our guide to [physical AI datasets](/blog/physical-ai-datasets/). For combining video with other sensors, see [sensor fusion in physical AI](/blog/sensor-fusion-in-physical-ai/), and for the human side of capture, [human demonstrations for robot training](/blog/human-demonstrations-for-robot-training/). When you need video that robots can actually learn from, the [Gamasome team](/services/physical-ai-data-collection/) can design the rig and run the program.

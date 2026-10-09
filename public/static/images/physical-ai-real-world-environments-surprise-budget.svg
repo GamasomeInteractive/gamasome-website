@@ -1,0 +1,23 @@
+<svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Surprise Budget stacked bars comparing how a warehouse and a home split surprises across model data, runtime safeguards, and site design">
+  <rect x="0" y="0" width="760" height="290" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="30" y="34" font-family="sans-serif" font-size="12" font-weight="700" letter-spacing="0.06em" fill="#d97706">THE SURPRISE BUDGET (ILLUSTRATIVE)</text>
+
+  <text x="30" y="96" font-family="sans-serif" font-size="13.5" font-weight="700" fill="#14213d">Warehouse</text>
+  <rect x="160" y="80" width="230" height="30" fill="#d97706"/>
+  <rect x="390" y="80" width="140" height="30" fill="#2563eb"/>
+  <rect x="530" y="80" width="190" height="30" fill="#0d9488"/>
+
+  <text x="30" y="166" font-family="sans-serif" font-size="13.5" font-weight="700" fill="#14213d">Home robot</text>
+  <rect x="160" y="150" width="400" height="30" fill="#d97706"/>
+  <rect x="560" y="150" width="130" height="30" fill="#2563eb"/>
+  <rect x="690" y="150" width="30" height="30" fill="#0d9488"/>
+
+  <rect x="160" y="222" width="12" height="12" fill="#d97706"/>
+  <text x="180" y="233" font-family="sans-serif" font-size="12" fill="#475569">Absorbed by model data</text>
+
+  <rect x="390" y="222" width="12" height="12" fill="#2563eb"/>
+  <text x="410" y="233" font-family="sans-serif" font-size="12" fill="#475569">Runtime safeguards</text>
+
+  <rect x="580" y="222" width="12" height="12" fill="#0d9488"/>
+  <text x="600" y="233" font-family="sans-serif" font-size="12" fill="#475569">Site design</text>
+</svg>

@@ -1,0 +1,130 @@
+---
+title: 'Reinforcement Learning in Physical AI: How Machines Learn by Doing'
+date: 2026-10-09T08:25:00.000Z
+tags:
+  - Physical AI
+  - Robotics
+  - Reinforcement Learning
+  - AI
+draft: false
+summary: 'How reinforcement learning works in physical AI: why robots train in simulation, how sim-to-real transfer works, and why RL now polishes imitation models.'
+images:
+  - /static/images/reinforcement-learning-physical-ai.jpg
+authors:
+  - prasanna-venkatesan
+layout: PostLayout
+canonicalUrl: 'https://www.gamasome.com/blog/reinforcement-learning-physical-ai/'
+seo:
+  metaTitle: 'Reinforcement Learning in Physical AI: How Robots Learn'
+  metaDescription: 'How reinforcement learning works in physical AI: why robots train in simulation, how sim-to-real transfer works, and why RL now polishes imitation models.'
+  canonicalUrl: ''
+  changefreq: weekly
+faqHeading: 'Reinforcement learning in physical AI: FAQs'
+faqs:
+  - question: What is reinforcement learning in physical AI?
+    answer: 'It is a training method where a robot or autonomous system learns by trial and error, receiving a reward for good outcomes and adjusting its behavior to earn more reward over time. In physical AI it is used heavily in simulation and increasingly to refine policies after deployment.'
+  - question: Why do robots use simulation for reinforcement learning?
+    answer: 'RL needs huge numbers of trials. Real trials are slow, cause wear and damage, and need humans to reset the scene. Simulation can run thousands of robots in parallel, so a quadruped can learn to walk in minutes, and failures cost nothing.'
+  - question: What is sim-to-real transfer?
+    answer: 'It is the process of moving a policy trained in simulation onto a real robot. Techniques like domain randomization vary simulated physics, friction, and noise so the real world becomes just another variation the policy has already handled.'
+  - question: Is reinforcement learning better than imitation learning for robots?
+    answer: 'They solve different problems. Imitation learning gets a working policy quickly from human demonstrations. RL can improve beyond the demonstrations and handle credit assignment for delayed failures. Many current systems use imitation first and RL second.'
+  - question: What is reward design in robot learning?
+    answer: "Reward design is deciding how to score a robot's behavior so RL can learn from it. It can be hand-written from simulator state, come from success detectors, use human corrections, or use a learned value function that predicts progress toward success."
+  - question: Can robots learn from their own mistakes after deployment?
+    answer: "Yes. Methods like Physical Intelligence's Recap combine logged deployment experience, expert corrections, and reinforcement learning. The company reported more than doubled throughput on some hard tasks when training this way."
+---
+
+Reinforcement learning taught a quadruped to walk in minutes and a robot hand to manipulate a Rubik's Cube. It still struggles to teach a robot to fold a towel from scratch. The reason says a lot about where RL fits in physical AI today.
+
+![Reinforcement learning loop on a robot showing state, action, environment, and the four possible sources of reward](/static/images/reinforcement-learning-physical-ai-loop.svg)
+
+*The RL loop is simple. The hard part on real robots is the reward: where it comes from and how reliable it is.*
+
+In a robotics lab, two engineers are arguing over a whiteboard. One says the team should train their laundry-folding policy with reinforcement learning: "Let the robot figure it out. It'll beat our demonstrations." The other says, "Sure, if we can wait a few years and buy a few hundred shirts." They're both right, and the way modern teams resolve that argument is the clearest picture of where reinforcement learning sits in physical AI.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">The short version</p>
+  <p className="text-gray-700"><strong className="font-semibold text-gray-900">Reinforcement learning (RL)</strong> trains a robot through trial and error: it tries actions, receives a reward signal for good outcomes, and gradually favors the actions that earn more reward. In physical AI, RL dominates where tasks can be simulated accurately, such as <strong className="font-semibold text-gray-900">legged locomotion</strong>, and transferred to real robots with <strong className="font-semibold text-gray-900">sim-to-real</strong> techniques.</p>
+</div>
+
+For manipulation, RL is increasingly used **on top of imitation learning**: a robot first learns from human demonstrations, then improves from its own deployment experience and human corrections.
+
+## How reinforcement learning works on a robot
+
+The idea is simple. An agent observes its state, picks an action, and the environment returns a new state and a reward. Over many attempts, the agent learns a policy that maximizes total reward. In a game, the reward is the score. On a robot, the reward has to be designed: distance traveled without falling, a part inserted, a shirt folded.
+
+## Why RL is hard on real robots
+
+Games let RL agents play millions of rounds. Robots can't.
+
+- **Trials are slow and expensive.** OpenAI's Dactyl hand, which learned to manipulate a Rubik's Cube, trained on the equivalent of [13,000 years of experience](https://syncedreview.com/2019/10/15/openai-robot-hand-today-rubiks-cube-tomorrow-the-real-world/) using 64 NVIDIA V100 GPUs and 920 worker machines. That was only possible in simulation.
+- **Exploration breaks things.** Random actions on a real arm mean dropped objects, collisions, and wear.
+- **Someone has to reset the world.** After every failed fold, a person has to unfold the shirt.
+- **Rewards are hard to define.** "Folded nicely" is easy for a person to judge and hard for a program to score.
+
+Those constraints explain almost every design decision in modern robot RL, and they're why simulation matters so much (see [how AI is transforming industrial simulation](/blog/how-ai-is-transforming-industrial-simulation/)).
+
+## Where RL already wins: simulated locomotion
+
+Walking is the clearest RL success story in physical AI. The physics of a legged robot on terrain can be simulated well, rewards are easy to define (move forward, don't fall, don't waste energy), and failure in simulation costs nothing.
+
+Researchers at ETH Zurich and NVIDIA showed how fast this can go. By simulating thousands of ANYmal quadrupeds in parallel on one workstation GPU, they trained a policy to walk on flat ground in [under four minutes](https://arxiv.org/abs/2109.11978) and on rough terrain in about twenty, then transferred it to the real robot. The Isaac Gym paper describes the tricks that made the transfer work: [randomized ground friction, random pushes, observation noise](https://arxiv.org/abs/2108.10470), and a learned model of the real actuators.
+
+## Sim-to-real: teaching robots to expect surprises
+
+The gap between simulation and reality is the central problem of RL in physical AI. A policy that exploits a quirk of the simulator will fail on hardware. The main defense is **domain randomization**: vary the simulated physics so much that the real world looks like just one more variation.
+
+OpenAI took this further with **automatic domain randomization**, which keeps widening the randomization ranges as the policy improves. The payoff was striking. The Dactyl policy could still manipulate the cube [with two fingers tied together and while wearing a glove](https://www.deeplearning.ai/the-batch/cube-controversy), conditions it never saw in simulation. The project also drew criticism, since the solving sequence came from a classical algorithm and only the manipulation was learned, which is a useful reminder to read robotics claims carefully.
+
+> Domain randomization doesn't make simulation realistic. It makes the policy indifferent to how unrealistic simulation is.
+
+## The new pattern: RL on top of imitation
+
+For manipulation, training from scratch with RL remains impractical for most tasks. What's working now is a hybrid: learn from human demonstrations first, then use RL to improve.
+
+Physical Intelligence's Recap method is the clearest public example. It pre-trains a vision-language-action model on demonstrations, then adds two learning signals from the robot's own experience: **expert corrections** when the robot gets stuck, and **reinforcement learning** using a learned value function that judges which actions led toward success. The company reported that training π*0.6 this way [more than doubled throughput](https://pi.website/blog/pistar06) on some of the hardest tasks, including making espresso and folding varied laundry, and cut failure rates by half or more.
+
+The espresso example shows why RL helps here. A failure might appear at the very end of the task, but the real mistake happened much earlier, when the robot grasped the portafilter at the wrong angle. RL's job is *credit assignment*: tracing the outcome back to the action that caused it. Pure imitation never learns that, because demonstrations rarely contain the mistake in the first place.
+
+Simulation-based RL is also being used to add senses. The TacCoRL preprint combined real and simulated trajectories with RL to teach a VLA to use touch feedback, reporting an average success rate of [72.5% versus a 50% baseline](https://arxiv.org/abs/2606.11743) across four contact-rich bimanual tasks. And in industry, Agility Robotics describes Digit's skills as a blend of [traditional control, teleoperated demonstrations, RL, and simulation](https://www.assemblymag.com/articles/99671-humanoid-robot-digit-moves-100-000-totes-at-distribution-center), not RL alone.
+
+![Spectrum showing where reinforcement learning is used, from simulation-only locomotion to real-world fine-tuning of manipulation policies](/static/images/reinforcement-learning-physical-ai-spectrum.svg)
+
+*RL is not one technique in physical AI. Its role shifts from "the whole training method" to "the polishing step" as tasks get harder to simulate.*
+
+## Four ways to get a reward signal
+
+| Reward source | How it works | Best for | Watch out for |
+| --- | --- | --- | --- |
+| Hand-designed in simulation | Engineers write a reward from simulator state | Locomotion, balance, reaching | Policies exploiting simulator quirks |
+| Task success detector | A check or model flags whether the task succeeded | Pick-and-place, insertion | Mislabeled successes poisoning training |
+| Human corrections | An expert takes over and shows the fix | Recovering from mid-task mistakes | Corrections that are not logged with context |
+| Learned value function | A model predicts progress toward success from each state | Long tasks with delayed outcomes | Needs labeled outcomes to learn from |
+
+## Reward is a data problem, not an algorithm problem
+
+Here's the part that rarely makes it into RL explainers. Three of those four reward sources depend on humans labeling outcomes or providing corrections. Someone has to decide that a fold was good enough, that an insertion was seated, that a grasp was the moment things went wrong. If those judgments are inconsistent, the reward is noisy, and the robot learns the noise.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">What we see in the field</p>
+  <p className="text-gray-700">When teams move from imitation learning to learning from experience, the bottleneck shifts from collecting demonstrations to logging outcomes and interventions consistently. In our teleoperation work, operators use the same rig to demonstrate, to correct a stuck robot, and to tag success or failure, so every rescue becomes a structured episode rather than a forgotten moment. That's the operational layer behind our [physical AI data collection](/services/physical-ai-data-collection/) service.</p>
+</div>
+
+## A practical view from the robot floor
+
+Back to the whiteboard argument. The lab settled it the way most do now. They collected a few hundred high-quality teleoperated demonstrations of folding, trained an imitation policy, and deployed it with an operator watching. Every time the operator stepped in, the takeover and the outcome were logged. Those episodes fed an RL fine-tuning step. Neither engineer got exactly what they wanted, and the robot got better faster than either plan alone would have managed.
+
+If you're planning something similar, here's what to have in place before the first RL run:
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <ul className="space-y-2.5">
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>A clear, written definition of success for each task, applied the same way by every reviewer.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>Intervention logging that captures the robot state before, during, and after a human takeover.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>Outcome labels on every deployment episode, including partial successes.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>Safety limits on speed and force so on-robot exploration can't cause damage.</span></li>
+    <li className="flex gap-3 text-gray-700"><span className="font-bold text-[#000B71]">&bull;</span><span>Physics-valid simulation assets if you plan to run RL in sim first.</span></li>
+  </ul>
+</div>
+
+For the full picture of how RL fits alongside demonstrations and simulation, read our guide to [physical AI training](/blog/physical-ai-training/). For the robustness side of the story, see how [physical AI handles unpredictable environments](/blog/physical-ai-real-world-environments/). And if you need correction and outcome data captured properly, the [Gamasome team](/services/physical-ai-data-collection/) can build that workflow with you.

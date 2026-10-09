@@ -1,0 +1,18 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Timeline of physical AI milestones from RT-2 in 2023 to Waymo reaching 500,000 weekly paid rides in March 2026">
+<rect fill="#ffffff" height="300" rx="12" stroke="#e2e8f0" width="760"/>
+<text fill="#d97706" font-family="sans-serif" font-size="12" font-weight="600" x="30" y="38">HOW FAST THE GROUND MOVED</text>
+<line stroke="#cbd5e1" stroke-width="2" x1="50" x2="720" y1="160" y2="160"/>
+<g fill="#d97706"><circle cx="70" cy="160" r="6"/><circle cx="170" cy="160" r="6"/><circle cx="290" cy="160" r="6"/><circle cx="410" cy="160" r="6"/><circle cx="520" cy="160" r="6"/><circle cx="620" cy="160" r="6"/><circle cx="700" cy="160" r="6"/></g>
+<g fill="#2563eb" font-family="sans-serif" font-size="11" text-anchor="middle">
+<text x="70" y="138">Jul 2023</text><text x="170" y="196">Oct 2023</text><text x="290" y="138">Oct 2024</text><text x="410" y="196">Mar 2025</text><text x="520" y="138">Sep 2025</text><text x="620" y="196">Nov 2025</text><text x="700" y="138">Mar 2026</text>
+</g>
+<g fill="#475569" font-family="sans-serif" font-size="12" text-anchor="middle">
+<text x="70" y="114">RT-2 VLA</text>
+<text x="170" y="218">Open X-</text><text x="170" y="234">Embodiment</text>
+<text x="290" y="114">&#960;0 generalist</text>
+<text x="410" y="218">GR00T N1 +</text><text x="410" y="234">synthetic data</text>
+<text x="520" y="98">Gemini</text><text x="520" y="114">Robotics 1.5</text>
+<text x="620" y="218">&#960;*0.6 learns</text><text x="620" y="234">from experience</text>
+<text x="690" y="98">Waymo 500K</text><text x="690" y="114">rides/week</text>
+</g>
+</svg>

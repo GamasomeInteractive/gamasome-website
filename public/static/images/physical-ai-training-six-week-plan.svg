@@ -1,0 +1,27 @@
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Example six-week physical AI training plan showing demonstration capture, fine-tuning, hardening, and pilot phases as overlapping bars">
+  <rect x="0" y="0" width="760" height="300" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="30" y="34" font-family="sans-serif" font-size="12" font-weight="700" letter-spacing="0.06em" fill="#d97706">EXAMPLE SIX-WEEK PLAN</text>
+
+  <g font-family="sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">
+    <text x="250" y="64">W1</text><text x="335" y="64">W2</text><text x="420" y="64">W3</text>
+    <text x="505" y="64">W4</text><text x="590" y="64">W5</text><text x="675" y="64">W6</text>
+  </g>
+  <line x1="30" y1="72" x2="730" y2="72" stroke="#e2e8f0" stroke-width="1"/>
+
+  <g font-family="sans-serif" font-size="13" fill="#14213d">
+    <text x="30" y="102">Rig, calibration, protocol</text>
+    <rect x="210" y="88" width="85" height="20" rx="4" fill="#2563eb"/>
+
+    <text x="30" y="142">Operator qualification</text>
+    <rect x="250" y="128" width="85" height="20" rx="4" fill="#2563eb"/>
+
+    <text x="30" y="182">Demo capture and QA</text>
+    <rect x="295" y="168" width="210" height="20" rx="4" fill="#d97706"/>
+
+    <text x="30" y="222">Fine-tune and evaluate</text>
+    <rect x="380" y="208" width="250" height="20" rx="4" fill="#0d9488"/>
+
+    <text x="30" y="262">Hardening and pilot</text>
+    <rect x="505" y="248" width="215" height="20" rx="4" fill="#d97706" opacity="0.65"/>
+  </g>
+</svg>
