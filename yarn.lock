@@ -12810,7 +12810,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tinacms/datalayer@npm:^2.0.14":
+"@tinacms/datalayer@npm:2.0.14":
   version: 2.0.14
   resolution: "@tinacms/datalayer@npm:2.0.14"
   dependencies:
@@ -30497,7 +30497,7 @@ __metadata:
     "@tailwindcss/postcss": ^4.1.18
     "@tailwindcss/typography": ^0.5.19
     "@tinacms/cli": 2.2.2
-    "@tinacms/datalayer": ^2.0.14
+    "@tinacms/datalayer": 2.0.14
     "@types/mdx": ^2.0.13
     "@types/react": ^19.2.13
     "@types/three": ^0.183.1
@@ -30551,9 +30551,9 @@ __metadata:
     styled-components: ^6.3.12
     tailwindcss: ^4.1.18
     three: ^0.183.2
-    tinacms: ^3.7.2
-    tinacms-authjs: ^21.0.1
-    tinacms-gitprovider-github: ^4.1.1
+    tinacms: 3.7.2
+    tinacms-authjs: 21.0.1
+    tinacms-gitprovider-github: 4.1.1
     typescript: ^5.7.0
     unist-util-visit: ^5.1.0
     upstash-redis-level: ^1.1.1
@@ -30806,7 +30806,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tinacms-authjs@npm:^21.0.1":
+"tinacms-authjs@npm:21.0.1":
   version: 21.0.1
   resolution: "tinacms-authjs@npm:21.0.1"
   dependencies:
@@ -30821,7 +30821,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tinacms-gitprovider-github@npm:^4.1.1":
+"tinacms-gitprovider-github@npm:4.1.1":
   version: 4.1.1
   resolution: "tinacms-gitprovider-github@npm:4.1.1"
   dependencies:
@@ -30834,7 +30834,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tinacms@npm:3.7.2, tinacms@npm:^3.7.2":
+"tinacms@npm:3.7.2":
   version: 3.7.2
   resolution: "tinacms@npm:3.7.2"
   dependencies:
