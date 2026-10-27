@@ -1,0 +1,75 @@
+<svg viewBox="0 0 900 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Six-stage data quality improvement loop for physical AI training data: baseline audit, scorecard, frozen version, prioritized remediation, re-validation on a fixed evaluation suite, and intake monitoring, with monitoring feeding back into the next audit">
+  <defs>
+    <marker id="dql-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="#94a3b8"/>
+    </marker>
+    <marker id="dql-arrow-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="#d97706"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="900" height="460" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="30" y="34" font-family="sans-serif" font-size="12" font-weight="700" fill="#14213d">The data quality loop</text>
+  <text x="870" y="34" font-family="sans-serif" font-size="10" fill="#475569" text-anchor="end">REPEATS ON EVERY DATASET RELEASE</text>
+
+  <!-- Row 1: stages 01-03 -->
+  <rect x="30" y="64" width="250" height="120" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="50" y="90" font-family="sans-serif" font-size="10" font-weight="700" fill="#2563eb">STAGE 01</text>
+  <text x="50" y="114" font-family="sans-serif" font-size="16" font-weight="700" fill="#14213d">Baseline audit</text>
+  <text x="50" y="140" font-family="sans-serif" font-size="11" fill="#475569">Random sample, two reviewers,</text>
+  <text x="50" y="156" font-family="sans-serif" font-size="11" fill="#475569">written criteria</text>
+  <text x="50" y="174" font-family="sans-serif" font-size="10.5" font-weight="700" fill="#2563eb">Output: pass rate baseline</text>
+
+  <rect x="325" y="64" width="250" height="120" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="345" y="90" font-family="sans-serif" font-size="10" font-weight="700" fill="#2563eb">STAGE 02</text>
+  <text x="345" y="114" font-family="sans-serif" font-size="16" font-weight="700" fill="#14213d">Scorecard</text>
+  <text x="345" y="140" font-family="sans-serif" font-size="11" fill="#475569">Automatic, human, and model</text>
+  <text x="345" y="156" font-family="sans-serif" font-size="11" fill="#475569">metrics, each with a target</text>
+  <text x="345" y="174" font-family="sans-serif" font-size="10.5" font-weight="700" fill="#2563eb">Output: release gate</text>
+
+  <rect x="620" y="64" width="250" height="120" rx="8" fill="#f0fdfa" stroke="#0d9488" stroke-width="2"/>
+  <text x="640" y="90" font-family="sans-serif" font-size="10" font-weight="700" fill="#0d9488">STAGE 03</text>
+  <text x="640" y="114" font-family="sans-serif" font-size="16" font-weight="700" fill="#14213d">Frozen version</text>
+  <text x="640" y="140" font-family="sans-serif" font-size="11" fill="#475569">Named snapshot before any edit,</text>
+  <text x="640" y="156" font-family="sans-serif" font-size="11" fill="#475569">logged by every training run</text>
+  <text x="640" y="174" font-family="sans-serif" font-size="10.5" font-weight="700" fill="#0d9488">Output: dataset vN</text>
+
+  <!-- Row 2: stages 06-04 (right to left) -->
+  <rect x="30" y="266" width="250" height="120" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="2"/>
+  <text x="50" y="292" font-family="sans-serif" font-size="10" font-weight="700" fill="#d97706">STAGE 06</text>
+  <text x="50" y="316" font-family="sans-serif" font-size="16" font-weight="700" fill="#14213d">Intake monitoring</text>
+  <text x="50" y="342" font-family="sans-serif" font-size="11" fill="#475569">Validate every new batch</text>
+  <text x="50" y="358" font-family="sans-serif" font-size="11" fill="#475569">against a schema</text>
+  <text x="50" y="376" font-family="sans-serif" font-size="10.5" font-weight="700" fill="#d97706">Output: flags for next audit</text>
+
+  <rect x="325" y="266" width="250" height="120" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.8"/>
+  <text x="345" y="292" font-family="sans-serif" font-size="10" font-weight="700" fill="#475569">STAGE 05</text>
+  <text x="345" y="316" font-family="sans-serif" font-size="16" font-weight="700" fill="#14213d">Re-validation</text>
+  <text x="345" y="342" font-family="sans-serif" font-size="11" fill="#475569">Retrain, compare vN+1 to vN</text>
+  <text x="345" y="358" font-family="sans-serif" font-size="11" fill="#475569">on a frozen eval suite</text>
+  <text x="345" y="376" font-family="sans-serif" font-size="10.5" font-weight="700" fill="#475569">Output: version-to-eval delta</text>
+
+  <rect x="620" y="266" width="250" height="120" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.8"/>
+  <text x="640" y="292" font-family="sans-serif" font-size="10" font-weight="700" fill="#dc2626">STAGE 04</text>
+  <text x="640" y="316" font-family="sans-serif" font-size="16" font-weight="700" fill="#14213d">Prioritized remediation</text>
+  <text x="640" y="342" font-family="sans-serif" font-size="11" fill="#475569">Re-annotate, re-capture,</text>
+  <text x="640" y="358" font-family="sans-serif" font-size="11" fill="#475569">re-weight, or quarantine</text>
+  <text x="640" y="376" font-family="sans-serif" font-size="10.5" font-weight="700" fill="#dc2626">Output: dataset vN+1</text>
+
+  <!-- arrows: 01 -> 02 -> 03 -->
+  <line x1="282" y1="124" x2="320" y2="124" stroke="#94a3b8" stroke-width="2" marker-end="url(#dql-arrow)"/>
+  <line x1="577" y1="124" x2="615" y2="124" stroke="#94a3b8" stroke-width="2" marker-end="url(#dql-arrow)"/>
+  <!-- 03 down to 04 -->
+  <line x1="745" y1="186" x2="745" y2="261" stroke="#94a3b8" stroke-width="2" marker-end="url(#dql-arrow)"/>
+  <!-- 04 -> 05 -> 06 (right to left) -->
+  <line x1="618" y1="326" x2="580" y2="326" stroke="#94a3b8" stroke-width="2" marker-end="url(#dql-arrow)"/>
+  <line x1="323" y1="326" x2="285" y2="326" stroke="#94a3b8" stroke-width="2" marker-end="url(#dql-arrow)"/>
+  <!-- 06 back up to 01: the feedback loop -->
+  <line x1="155" y1="264" x2="155" y2="189" stroke="#d97706" stroke-width="2.5" stroke-dasharray="6 5" marker-end="url(#dql-arrow-amber)"/>
+  <text x="167" y="230" font-family="sans-serif" font-size="10.5" font-weight="700" fill="#d97706">next release</text>
+
+  <!-- center note -->
+  <text x="450" y="230" font-family="sans-serif" font-size="11" fill="#2563eb" text-anchor="middle">every stage leaves an artifact the next one needs</text>
+
+  <line x1="30" y1="412" x2="870" y2="412" stroke="#e2e8f0"/>
+  <text x="30" y="436" font-family="sans-serif" font-size="10.5" fill="#94a3b8">A one-off cleanup is stage 04 on its own. The loop is what makes quality gains hold from one release to the next.</text>
+</svg>

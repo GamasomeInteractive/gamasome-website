@@ -1,0 +1,44 @@
+<svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Edge case capture ladder showing five stages from passive logging and AI-assisted mining through trigger-based capture and deliberate staging to synthetic generation for scenarios too rare or dangerous to stage in reality">
+  <rect x="0" y="0" width="900" height="500" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="30" y="34" font-family="sans-serif" font-size="12" font-weight="700" fill="#14213d">The edge case capture ladder</text>
+
+  <!-- axis labels -->
+  <text x="840" y="56" font-family="sans-serif" font-size="10" fill="#dc2626" text-anchor="end">MOST DELIBERATE</text>
+  <text x="840" y="470" font-family="sans-serif" font-size="10" fill="#d97706" text-anchor="end">LOWEST EFFORT</text>
+  <line x1="818" y1="62" x2="818" y2="444" stroke="#cbd5e1" stroke-width="1.5"/>
+  <path d="M 818 62 L 812 72 L 824 72 Z" fill="#dc2626"/>
+  <path d="M 818 444 L 812 434 L 824 434 Z" fill="#d97706"/>
+
+  <!-- Rung 5 synthetic generation (top) -->
+  <rect x="30" y="56" width="760" height="68" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
+  <text x="50" y="80" font-family="sans-serif" font-size="10" font-weight="700" fill="#dc2626">RUNG 05</text>
+  <text x="50" y="104" font-family="sans-serif" font-size="16" font-weight="700" fill="#14213d">Synthetic generation for the untouchable tail</text>
+  <text x="780" y="94" font-family="sans-serif" font-size="11" fill="#dc2626" text-anchor="end">too rare, too dangerous to stage</text>
+
+  <!-- Rung 4 deliberate staging -->
+  <rect x="30" y="132" width="760" height="68" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.8"/>
+  <text x="50" y="156" font-family="sans-serif" font-size="10" font-weight="700" fill="#2563eb">RUNG 04</text>
+  <text x="50" y="180" font-family="sans-serif" font-size="16" font-weight="700" fill="#14213d">Deliberate reproduction and staging</text>
+  <text x="780" y="170" font-family="sans-serif" font-size="11" fill="#2563eb" text-anchor="end">confirmed scenario, varied on purpose</text>
+
+  <!-- Rung 3 trigger-based capture -->
+  <rect x="30" y="208" width="760" height="68" rx="8" fill="#f0fdfa" stroke="#0d9488" stroke-width="1.8"/>
+  <text x="50" y="232" font-family="sans-serif" font-size="10" font-weight="700" fill="#0d9488">RUNG 03</text>
+  <text x="50" y="256" font-family="sans-serif" font-size="16" font-weight="700" fill="#14213d">Trigger-based capture from real incidents</text>
+  <text x="780" y="246" font-family="sans-serif" font-size="11" fill="#0d9488" text-anchor="end">disengagements, near-misses, overrides</text>
+
+  <!-- Rung 2 mining and flagging -->
+  <rect x="30" y="284" width="760" height="68" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.8"/>
+  <text x="50" y="308" font-family="sans-serif" font-size="10" font-weight="700" fill="#d97706">RUNG 02</text>
+  <text x="50" y="332" font-family="sans-serif" font-size="16" font-weight="700" fill="#14213d">Mining and flagging what you already recorded</text>
+  <text x="780" y="322" font-family="sans-serif" font-size="11" fill="#d97706" text-anchor="end">AI-assisted search through the haystack</text>
+
+  <!-- Rung 1 passive logging (base) -->
+  <rect x="30" y="360" width="760" height="68" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.6"/>
+  <text x="50" y="384" font-family="sans-serif" font-size="10" font-weight="700" fill="#475569">RUNG 01</text>
+  <text x="50" y="408" font-family="sans-serif" font-size="16" font-weight="700" fill="#14213d">Passive logging</text>
+  <text x="780" y="398" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="end">record by default, sort out later</text>
+
+  <line x1="30" y1="448" x2="790" y2="448" stroke="#e2e8f0"/>
+  <text x="30" y="470" font-family="sans-serif" font-size="10.5" fill="#94a3b8">Most programs use several rungs on the same suspected scenario at once, not just one.</text>
+</svg>

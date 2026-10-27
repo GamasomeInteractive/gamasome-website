@@ -1,0 +1,161 @@
+---
+title: 'Embodied AI Data Collection: How to Collect Data for Embodied AI Systems'
+date: 2026-10-27T09:00:00.000Z
+tags:
+  - Physical AI
+  - Embodied AI
+  - Robotics
+  - Data Collection
+draft: false
+summary: 'Embodied AI data cannot be scraped from the internet. How teleoperation, wearable capture, simulation, and pooled datasets actually stack up, and why the global data gap is bigger than the funding numbers suggest.'
+images:
+  - /static/images/embodied-ai-data-collection.svg
+authors:
+  - prasanna-venkatesan
+layout: PostLayout
+canonicalUrl: 'https://www.gamasome.com/blog/embodied-ai-data-collection/'
+seo:
+  metaTitle: 'Embodied AI Data Collection: How to Collect Data'
+  metaDescription: 'Embodied AI data cannot be scraped. How teleoperation, wearable capture, simulation, and open datasets stack up, and where most programs lose quality.'
+  canonicalUrl: ''
+  changefreq: weekly
+faqHeading: Frequently asked questions
+faqs:
+  - question: What is embodied AI data collection?
+    answer: 'It is the practice of capturing the sensorimotor experience an embodied agent needs to learn from: synchronized perception (camera, depth, LiDAR), the agent''s own state, the action it took, and the outcome. Unlike text or images, this data generally cannot be scraped from the internet, because nobody has recorded, at scale, what it feels like to pick up a mug and hand it to someone.'
+  - question: What are the main ways to collect embodied AI data?
+    answer: 'Four levers, usually combined. Teleoperation, where a human drives the real target robot and the recording is embodiment-matched. Wearable or handheld capture, where a human performs the task with a sensorized device and no robot in the loop. Simulation, which generates volume cheaply but carries a sim-to-real fidelity gap. And pooled open datasets, which give broad coverage for free but rarely match your specific robot, task, or environment.'
+  - question: How much embodied AI training data is actually available right now?
+    answer: 'Industry estimates circulating in Chinese trade press in early 2026 put the global stock of usable, real-world physical interaction data at roughly 500,000 hours, against an estimated demand nearer 10 million hours. Several outlets repeat this figure, likely from a shared origin, so treat it as a rough industry signal rather than an audited count. What is better documented is the response: tech giants are standing up large-scale crowdsourced collection operations to close the gap.'
+  - question: Is simulation enough on its own for embodied AI?
+    answer: 'No. Simulation scales volume and safely covers dangerous or rare scenarios, but contact-rich manipulation, especially with deformable or compliant objects, is still hard to model with enough physical fidelity. Most serious programs use simulation to cover breadth and real demonstrations (teleoperated or wearable) to anchor the policy to how contact actually behaves on the target hardware.'
+  - question: Should a team build its own embodied AI data collection pipeline or use existing datasets?
+    answer: 'Start with existing pooled datasets like Open X-Embodiment to validate an approach cheaply, since they already cover common household and tabletop manipulation tasks across more than 20 robot embodiments. Move to your own collection once your task, environment, or embodiment is specific enough that pooled data cannot represent it, which is most production use cases.'
+  - question: What is the biggest mistake teams make when collecting embodied AI data?
+    answer: 'Treating collection as a single method instead of a portfolio, and skipping the synchronization and provenance layer. Raw footage without hardware-aligned timestamps, logged calibration, and a consistent action and language format is not trainable data, no matter how many hours were recorded.'
+---
+
+Open X-Embodiment is free, it covers more than twenty robot embodiments, and a team can download it this afternoon. A manipulation startup we spoke with did exactly that: trained a pick-and-place policy on a slice of it, watched it perform respectably on held-out benchmark tasks, then shipped it to their own warehouse pilot. The robot could not reliably pick up their own bins.
+
+Nothing about the dataset was wrong. The policy had simply never seen their gripper geometry, their lighting, or their specific object mix, because no public dataset was built around their robot. That is the quiet, expensive lesson sitting underneath most embodied AI data programs: pooled data gets you started, and it almost never finishes the job.
+
+This guide is about what actually has to happen between "we have a robot and a task" and "we have data a policy can learn from." Not the marketing version. The operational one.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">The short version</p>
+  <p className="text-gray-700"><strong className="font-semibold text-gray-900">Embodied AI data collection</strong> is the work of capturing synchronized perception, state, action, and outcome from an agent interacting with the real (or simulated) world, so a policy can learn from it. It cannot be scraped the way internet text or images can. Four methods dominate in practice, teleoperation, wearable or handheld human capture, simulation, and pooled open datasets, and almost every serious program ends up blending at least three of them rather than picking one.</p>
+</div>
+
+## Why this data cannot just be downloaded
+
+Language models had the advantage of an internet that already existed. Someone else had already written billions of sentences before anyone thought to train a model on them. Embodied AI has no equivalent. A <a href="https://sjcj.nuaa.edu.cn/sjcjyclen/article/abstract/202602004" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">2026 survey on embodied intelligence datasets</a> puts the structural problem plainly: unlike natural language processing and computer vision, which can lean on massive internet-scale corpora directly, data collection for embodied intelligence generally requires physical interaction between an agent and its environment.
+
+That single fact explains nearly everything else in this article. It explains why collection is expensive. It explains why pooled datasets lean so heavily toward kitchen counters and tabletop pick-and-place, because those are the easiest scenes to stage repeatedly. And it explains why, by most industry accounts, demand for usable physical interaction data is running far ahead of supply. Estimates that circulated through Chinese trade press in early 2026 put the global stock of high-quality, real-world physical interaction data at around 500,000 hours, against an industry-cited demand closer to 10 million hours. Several outlets repeat a near-identical figure, which suggests a shared origin rather than independent audits, so treat the exact numbers as a directional signal. The direction itself, a gap measured in millions of hours, is the part worth taking seriously.
+
+## The collection stack: five layers, and nobody lives on just one
+
+Every embodied AI data source trades fidelity for scale somewhere. Framing the four or five common methods as a stack, from broadest and cheapest at the bottom to most precise and most expensive at the top, makes that trade-off explicit and makes it obvious why real programs blend layers instead of picking a favorite.
+
+![Five-layer stack of embodied AI data sources, from pooled open datasets and internet video at the base through simulation and wearable human capture to real-robot teleoperation at the top, with fidelity to the target embodiment rising and achievable scale falling as you move up the stack.](/static/images/embodied-ai-data-collection-stack.svg)
+
+*The collection stack. Fidelity to your specific robot and task rises as you move up; achievable volume falls. Most production programs draw from at least three layers at once.*
+
+<div className="not-prose my-8 font-['Poppins']">
+  <div className="grid gap-2 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Layer 01</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Pooled open datasets</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">Shared corpora assembled across many labs and robots. <a href="https://robotics-transformer-x.github.io/" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">Open X-Embodiment</a> is the clearest example: data from 22 robot embodiments across 21 institutions, covering 527 skills and 160,266 tasks, with more than a million real robot trajectories in total. Free, broad, and genuinely useful for cross-embodiment pretraining, but generalist by construction. It was never built around your gripper, your parts, or your floor.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Layer 02</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Internet and crowdsourced human video</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">No robot in the loop at all, just people doing tasks on camera. Cheap and scalable, and useful for pretraining a model's sense of how objects and hands behave in the world. It carries no robot action labels, so everything downstream has to be retargeted from a human body to a robot's actuators, which is its own unsolved research problem for anything beyond coarse motion.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Layer 03</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Simulation</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">Physics engines and world models generate trajectories at near-zero marginal cost once an environment is built, including rare and dangerous scenarios no one wants to stage for real. The limit is contact fidelity. Friction, compliant materials, and deformable objects are still hard to simulate accurately enough for fine manipulation to transfer cleanly to hardware.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Layer 04</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Wearable and handheld human demonstration</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">A person performs the task with a sensorized device instead of a robot. Stanford's <a href="https://arxiv.org/pdf/2402.10329" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">Universal Manipulation Interface (UMI)</a> is the clearest research example: a trigger-activated, 3D-printed handheld gripper with a single GoPro as its only sensor, plus a pair of mirrors placed in the camera's peripheral view that act as implicit stereo cameras for depth, built for close to zero setup time in any environment. At industrial scale, JD.com's JoyEgoCam and AgiBot subsidiary Maniformer's wearable rigs follow the same logic: capture motion trajectories and contact force from a person, standardize the format, and retarget to many robot embodiments later.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Layer 05</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Teleoperation on the target robot</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">A human drives the actual robot that will ship. This produces the highest-fidelity data available, because the recorded action trajectory matches the deployment embodiment exactly, with no retargeting step to introduce error. It is also the slowest and most expensive layer, bounded by operator time and robot uptime rather than by compute.</p>
+    </div>
+  </div>
+</div>
+
+Research framing backs up the shape of this stack, not just the practitioner intuition behind it. A separate 2026 survey on the [data pyramid for embodied manipulation](https://arxiv.org/pdf/2607.24744) treats real-robot interaction data as the most direct supervision available for learning manipulation policies, with human video and embodiment-agnostic demonstrations forming broader, lower-fidelity layers underneath it. Different vocabulary, same underlying trade-off.
+
+## What industrial-scale collection actually looks like right now
+
+If the stack above feels abstract, the current Chinese embodied AI sector is running a live, very large experiment in filling it. It is worth understanding, because it previews where the rest of the industry is probably headed on cost and method.
+
+[JD.com has committed to mobilizing more than 100,000 of its own employees](https://www.itiger.com/news/1100161095) and, by some reporting, up to 500,000 outside participants across its retail, logistics, food delivery, and home services businesses, to collect physical interaction data. The stated goal is five million hours of human-scene video within a year and more than ten million within two, alongside a separate target of one million hours of robot body data. In Suqian, JD and the local government set up a data collection community where participants wear the JoyEgoCam, which records upper-limb trajectories, force distribution, and human-environment interaction, while doing ordinary household chores. The "up to 500,000" figure is itself a ceiling in some reporting rather than a confirmed enrollment number, worth noting if you see it quoted as a hard fact elsewhere.
+
+Qianxun Intelligence is running a narrower but faster-moving version of the same playbook: a dedicated data collection team reported to be scaling toward roughly 1,000 people, more than 200,000 hours of real-world interaction data gathered so far from a mix of internet video, teleoperation, and wearable collection, and a stated goal of passing one million hours within 2026. Its fifth-generation wearable device is reported to cut data acquisition cost to roughly a tenth of earlier methods, which, if accurate, is doing a lot of the work behind that growth curve.
+
+Neither company is alone. Trade press coverage from September 2026 counted [at least 90 dedicated embodied intelligence data collection centers](https://eu.36kr.com/en/p/3836753394021509) that had opened across China in under two years, spreading beyond first-tier cities into places like Zhengzhou, Wuxi, Jinan, and Mianyang. Paxini alone opened four new centers in Suqian, Wuhan, Zigong, and Ganzhou in that window.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">Why this matters outside China</p>
+  <p className="text-gray-700">You do not need a workforce the size of a small city to learn the lesson here. The companies spending the most on embodied AI data are not betting primarily on simulation or on a single clever capture device. They are betting on volume achieved through many parallel human-in-the-loop methods at once, standardized tightly enough to combine afterward. That standardization step, not the headcount, is the part worth copying at any scale.</p>
+</div>
+
+## The layer almost every program underfunds: making the data actually usable
+
+Collecting footage is not the same as producing training data, and this is where most of the real engineering effort should go, even though it attracts the least attention. A 2026 processing-pipeline survey lays out four requirements that sit between raw capture and a trainable dataset: action representation alignment across different robots and interfaces, multimodal temporal synchronization across camera, depth, and state streams, language semantic normalization so task instructions are labeled consistently, and data quality control to catch and filter degraded sessions before they reach training.
+
+In plain terms, that means:
+
+<div className="not-prose my-8 grid gap-5 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Hardware timestamps, not software ones</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Camera frames, joint states, and action commands have to be aligned on a shared clock. Software-stamped streams drift, and once they drift you can no longer tell which action produced which outcome, which makes the episode untrainable no matter how good the demonstration was.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">A logged calibration baseline</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Cameras and sensors drift over weeks of use. Without a baseline recorded at capture time, a batch of otherwise-clean data can silently degrade a model, and the cause becomes nearly impossible to trace after the fact.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">One action and language schema, not five</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">If teleoperation, wearable capture, and simulation each describe "grasp" and "place" slightly differently, you do not have one dataset. You have three incompatible ones that happen to share a folder.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Failures kept, not purged</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Retention policies that discard failed or corrected episodes as noise throw away the highest-value signal in the dataset. A clean-success-only corpus teaches a policy what success looks like and nothing about how to recover when it goes wrong.</p>
+  </div>
+</div>
+
+If any of this sounds familiar, it is the same discipline we cover in more depth for the physical AI side of this problem in [physical AI data quality](/blog/physical-ai-data-quality/) and [data collection for robotics](/blog/data-collection-for-robotics/). The principle does not change when the word on the slide is "embodied" instead of "physical." The data still has to survive contact with a training run.
+
+## Matching the method to what you are actually missing
+
+The honest starting question is not "which method is best." It is "which layer of the stack am I missing for this specific task."
+
+| If you have... | What's actually missing | Start with |
+| --- | --- | --- |
+| A robot and a task, but zero data | A baseline to validate the approach cheaply | Pooled datasets (Open X-Embodiment) for a quick sanity check |
+| Pretraining breadth but no embodiment match | Trajectories matched to your actual hardware | Teleoperation on the target robot, even in small volume |
+| A good policy that only works in the lab | Environment and task diversity | Wearable or handheld capture across more sites and operators |
+| Volume but no way to tell if it is good | Synchronization, calibration logging, and QA | The processing layer above, before collecting another hour |
+| A narrow task that is dangerous or rare to stage | Safe coverage of edge cases | Simulation, validated against a small real-world sample |
+
+## What this means for a team starting today
+
+Three things worth doing before writing a single line of a data collection plan. Check whether a pooled dataset already covers a meaningful slice of your task, because validating an approach on free data is always cheaper than validating it on data you paid to collect. Decide, in writing, what share of your budget goes to each layer of the stack rather than defaulting to whichever method is easiest to start, since that default is almost always the reason programs end up volume-rich and diversity-poor. And build the synchronization, calibration, and schema discipline in from day one, because retrofitting it onto six months of inconsistent footage costs more than doing it first would have.
+
+The teams spending the most on this problem right now, whether that is a Beijing collection center with a thousand-person workforce or a five-person robotics startup, are converging on the same answer: no single method closes the gap. The gap closes when methods are combined deliberately, measured honestly, and kept clean enough to actually train on. For the vendor landscape if you are buying rather than building this capability, our companion guides to [physical AI data collection companies](/blog/physical-ai-data-collection-companies/) and [data collection companies for robotics](/blog/best-data-collection-companies-robotics/) cover who specializes in which layer.

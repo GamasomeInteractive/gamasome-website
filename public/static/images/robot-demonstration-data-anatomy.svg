@@ -1,0 +1,42 @@
+<svg viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Layered diagram showing the five fields inside a trainable robot demonstration episode, stacked from observation stream and action vector at the base through temporal phase structure and outcome labels to provenance metadata at the top, all tied together by a shared timestamp index running through every layer">
+  <rect x="0" y="0" width="900" height="480" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="30" y="34" font-family="sans-serif" font-size="12" font-weight="700" fill="#14213d">Anatomy of a trainable demonstration</text>
+
+  <!-- shared timestamp spine -->
+  <line x1="60" y1="70" x2="60" y2="400" stroke="#94a3b8" stroke-width="2" stroke-dasharray="2 5"/>
+  <text x="60" y="420" font-family="sans-serif" font-size="9.5" fill="#94a3b8" text-anchor="middle">shared</text>
+  <text x="60" y="432" font-family="sans-serif" font-size="9.5" fill="#94a3b8" text-anchor="middle">clock</text>
+
+  <!-- Field 5 provenance (top) -->
+  <rect x="90" y="70" width="740" height="60" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
+  <text x="110" y="93" font-family="sans-serif" font-size="10" font-weight="700" fill="#dc2626">FIELD 05</text>
+  <text x="110" y="113" font-family="sans-serif" font-size="15" font-weight="700" fill="#14213d">Provenance &amp; container metadata</text>
+  <text x="810" y="104" font-family="sans-serif" font-size="10.5" fill="#dc2626" text-anchor="end">task, operator, rig IDs</text>
+
+  <!-- Field 4 outcome -->
+  <rect x="90" y="138" width="740" height="60" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="2"/>
+  <text x="110" y="161" font-family="sans-serif" font-size="10" font-weight="700" fill="#d97706">FIELD 04</text>
+  <text x="110" y="181" font-family="sans-serif" font-size="15" font-weight="700" fill="#14213d">Outcome &amp; quality labels</text>
+  <text x="810" y="172" font-family="sans-serif" font-size="10.5" fill="#d97706" text-anchor="end">success, failure, recovery</text>
+
+  <!-- Field 3 temporal structure -->
+  <rect x="90" y="206" width="740" height="60" rx="8" fill="#f0fdfa" stroke="#0d9488" stroke-width="1.8"/>
+  <text x="110" y="229" font-family="sans-serif" font-size="10" font-weight="700" fill="#0d9488">FIELD 03</text>
+  <text x="110" y="249" font-family="sans-serif" font-size="15" font-weight="700" fill="#14213d">Temporal phase structure</text>
+  <text x="810" y="240" font-family="sans-serif" font-size="10.5" fill="#0d9488" text-anchor="end">approach, grasp, place</text>
+
+  <!-- Field 2 action vector -->
+  <rect x="90" y="274" width="740" height="60" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="110" y="297" font-family="sans-serif" font-size="10" font-weight="700" fill="#2563eb">FIELD 02</text>
+  <text x="110" y="317" font-family="sans-serif" font-size="15" font-weight="700" fill="#14213d">Action vector</text>
+  <text x="810" y="308" font-family="sans-serif" font-size="10.5" fill="#2563eb" text-anchor="end">joint target or delta</text>
+
+  <!-- Field 1 observation stream (base) -->
+  <rect x="90" y="342" width="740" height="60" rx="8" fill="#f8fafc" stroke="#475569" stroke-width="1.8"/>
+  <text x="110" y="365" font-family="sans-serif" font-size="10" font-weight="700" fill="#475569">FIELD 01</text>
+  <text x="110" y="385" font-family="sans-serif" font-size="15" font-weight="700" fill="#14213d">Observation stream</text>
+  <text x="810" y="376" font-family="sans-serif" font-size="10.5" fill="#475569" text-anchor="end">camera, state, depth</text>
+
+  <line x1="90" y1="420" x2="830" y2="420" stroke="#e2e8f0"/>
+  <text x="90" y="444" font-family="sans-serif" font-size="10.5" fill="#94a3b8">Every layer depends on the one below it sharing the same timestamp index. Remove any field and the episode stops being trainable.</text>
+</svg>

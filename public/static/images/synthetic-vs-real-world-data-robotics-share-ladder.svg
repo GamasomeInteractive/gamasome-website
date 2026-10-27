@@ -1,0 +1,57 @@
+<svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The synthetic share ladder, five rungs from feasibility checks through rigid pick-and-place, contact-rich and deformable tasks, deployment fine-tuning, and the production failure tail, showing the safe share of synthetic data shrinking and the weight of real-world data growing as tasks get more contact-rich and closer to deployment">
+  <rect x="0" y="0" width="900" height="500" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="30" y="34" font-family="sans-serif" font-size="12" font-weight="700" fill="#14213d">The synthetic share ladder</text>
+  <text x="560" y="34" font-family="sans-serif" font-size="10" fill="#0d9488">SYNTHETIC</text>
+  <rect x="540" y="26" width="12" height="9" rx="2" fill="#0d9488"/>
+  <text x="660" y="34" font-family="sans-serif" font-size="10" fill="#2563eb">REAL-WORLD</text>
+  <rect x="640" y="26" width="12" height="9" rx="2" fill="#2563eb"/>
+
+  <!-- axis -->
+  <text x="870" y="60" font-family="sans-serif" font-size="10" fill="#0d9488" text-anchor="end">MORE SYNTHETIC</text>
+  <text x="870" y="474" font-family="sans-serif" font-size="10" fill="#2563eb" text-anchor="end">MORE REAL</text>
+  <line x1="850" y1="68" x2="850" y2="456" stroke="#cbd5e1" stroke-width="1.5"/>
+  <path d="M 850 456 L 844 446 L 856 446 Z" fill="#2563eb"/>
+
+  <!-- Rung 01 -->
+  <rect x="30" y="56" width="780" height="68" rx="8" fill="#f0fdfa" stroke="#0d9488" stroke-width="2"/>
+  <text x="50" y="80" font-family="sans-serif" font-size="10" font-weight="700" fill="#0d9488">RUNG 01</text>
+  <text x="50" y="104" font-family="sans-serif" font-size="15" font-weight="700" fill="#14213d">Feasibility and pipeline checks</text>
+  <rect x="520" y="82" width="230" height="16" rx="3" fill="#0d9488"/>
+  <rect x="750" y="82" width="4" height="16" fill="#2563eb"/>
+  <text x="520" y="116" font-family="sans-serif" font-size="10.5" fill="#475569">sim validates the pipeline, not the policy</text>
+
+  <!-- Rung 02 -->
+  <rect x="30" y="132" width="780" height="68" rx="8" fill="#f0fdfa" stroke="#0d9488" stroke-width="1.6"/>
+  <text x="50" y="156" font-family="sans-serif" font-size="10" font-weight="700" fill="#0d9488">RUNG 02</text>
+  <text x="50" y="180" font-family="sans-serif" font-size="15" font-weight="700" fill="#14213d">Rigid pick-and-place, small real anchor</text>
+  <rect x="520" y="158" width="200" height="16" rx="3" fill="#0d9488"/>
+  <rect x="720" y="158" width="34" height="16" fill="#2563eb"/>
+  <text x="520" y="192" font-family="sans-serif" font-size="10.5" fill="#475569">synthetic-heavy co-training, tuned on real</text>
+
+  <!-- Rung 03 -->
+  <rect x="30" y="208" width="780" height="68" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.8"/>
+  <text x="50" y="232" font-family="sans-serif" font-size="10" font-weight="700" fill="#d97706">RUNG 03</text>
+  <text x="50" y="256" font-family="sans-serif" font-size="15" font-weight="700" fill="#14213d">Contact-rich, deformable, tactile tasks</text>
+  <rect x="520" y="234" width="104" height="16" rx="3" fill="#0d9488"/>
+  <rect x="624" y="234" width="130" height="16" fill="#2563eb"/>
+  <text x="520" y="268" font-family="sans-serif" font-size="10.5" fill="#d97706">contact physics is where sim falls short</text>
+
+  <!-- Rung 04 -->
+  <rect x="30" y="284" width="780" height="68" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.8"/>
+  <text x="50" y="308" font-family="sans-serif" font-size="10" font-weight="700" fill="#2563eb">RUNG 04</text>
+  <text x="50" y="332" font-family="sans-serif" font-size="15" font-weight="700" fill="#14213d">Deployment fine-tuning at the target site</text>
+  <rect x="520" y="310" width="34" height="16" rx="3" fill="#0d9488"/>
+  <rect x="554" y="310" width="200" height="16" fill="#2563eb"/>
+  <text x="520" y="344" font-family="sans-serif" font-size="10.5" fill="#475569">your robot, your objects, your lighting</text>
+
+  <!-- Rung 05 -->
+  <rect x="30" y="360" width="780" height="68" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="50" y="384" font-family="sans-serif" font-size="10" font-weight="700" fill="#2563eb">RUNG 05</text>
+  <text x="50" y="408" font-family="sans-serif" font-size="15" font-weight="700" fill="#14213d">Production failure tail</text>
+  <rect x="520" y="386" width="84" height="16" rx="3" fill="#0d9488"/>
+  <rect x="604" y="386" width="150" height="16" fill="#2563eb"/>
+  <text x="520" y="420" font-family="sans-serif" font-size="10.5" fill="#dc2626">real failures decide what to simulate</text>
+
+  <line x1="30" y1="446" x2="810" y2="446" stroke="#e2e8f0"/>
+  <text x="30" y="470" font-family="sans-serif" font-size="10.5" fill="#94a3b8">Bars show the relative weight of each data type, not exact ratios. Tune the real mix on real-robot validation.</text>
+</svg>

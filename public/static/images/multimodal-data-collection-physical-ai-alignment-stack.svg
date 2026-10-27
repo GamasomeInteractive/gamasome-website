@@ -1,0 +1,44 @@
+<svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Five-stage alignment pipeline for multimodal physical AI data collection, running from temporal synchronization and spatial calibration through format normalization and language alignment to quality gating before training">
+  <rect x="0" y="0" width="900" height="500" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="30" y="34" font-family="sans-serif" font-size="12" font-weight="700" fill="#14213d">The alignment stack</text>
+
+  <!-- axis labels -->
+  <text x="840" y="56" font-family="sans-serif" font-size="10" fill="#2563eb" text-anchor="end">AT CAPTURE TIME</text>
+  <text x="840" y="470" font-family="sans-serif" font-size="10" fill="#dc2626" text-anchor="end">BEFORE TRAINING</text>
+  <line x1="818" y1="62" x2="818" y2="444" stroke="#cbd5e1" stroke-width="1.5"/>
+  <path d="M 818 62 L 812 72 L 824 72 Z" fill="#2563eb"/>
+  <path d="M 818 444 L 812 434 L 824 434 Z" fill="#dc2626"/>
+
+  <!-- Stage 1 Temporal synchronization -->
+  <rect x="30" y="58" width="760" height="68" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="50" y="82" font-family="sans-serif" font-size="10" font-weight="700" fill="#2563eb">STAGE 01</text>
+  <text x="50" y="106" font-family="sans-serif" font-size="16" font-weight="700" fill="#14213d">Temporal synchronization</text>
+  <text x="780" y="96" font-family="sans-serif" font-size="11" fill="#2563eb" text-anchor="end">hardware trigger vs. software stamp</text>
+
+  <!-- Stage 2 Spatial calibration -->
+  <rect x="30" y="134" width="760" height="68" rx="8" fill="#f0fdfa" stroke="#0d9488" stroke-width="1.8"/>
+  <text x="50" y="158" font-family="sans-serif" font-size="10" font-weight="700" fill="#0d9488">STAGE 02</text>
+  <text x="50" y="182" font-family="sans-serif" font-size="16" font-weight="700" fill="#14213d">Spatial calibration</text>
+  <text x="780" y="172" font-family="sans-serif" font-size="11" fill="#0d9488" text-anchor="end">camera-to-sensor extrinsics</text>
+
+  <!-- Stage 3 Format and rate normalization -->
+  <rect x="30" y="210" width="760" height="68" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.6"/>
+  <text x="50" y="234" font-family="sans-serif" font-size="10" font-weight="700" fill="#475569">STAGE 03</text>
+  <text x="50" y="258" font-family="sans-serif" font-size="16" font-weight="700" fill="#14213d">Format and rate normalization</text>
+  <text x="780" y="248" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="end">one schema, many sensor rates</text>
+
+  <!-- Stage 4 Semantic and language alignment -->
+  <rect x="30" y="286" width="760" height="68" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.8"/>
+  <text x="50" y="310" font-family="sans-serif" font-size="10" font-weight="700" fill="#d97706">STAGE 04</text>
+  <text x="50" y="334" font-family="sans-serif" font-size="16" font-weight="700" fill="#14213d">Semantic and language alignment</text>
+  <text x="780" y="324" font-family="sans-serif" font-size="11" fill="#d97706" text-anchor="end">instruction wording and detail</text>
+
+  <!-- Stage 5 Quality gating -->
+  <rect x="30" y="362" width="760" height="68" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
+  <text x="50" y="386" font-family="sans-serif" font-size="10" font-weight="700" fill="#dc2626">STAGE 05</text>
+  <text x="50" y="410" font-family="sans-serif" font-size="16" font-weight="700" fill="#14213d">Quality gating before training</text>
+  <text x="780" y="400" font-family="sans-serif" font-size="11" fill="#dc2626" text-anchor="end">catch drift before it trains in</text>
+
+  <line x1="30" y1="450" x2="790" y2="450" stroke="#e2e8f0"/>
+  <text x="30" y="472" font-family="sans-serif" font-size="10.5" fill="#94a3b8">Each stage can pass inspection alone. A policy only learns correctly once all five agree.</text>
+</svg>

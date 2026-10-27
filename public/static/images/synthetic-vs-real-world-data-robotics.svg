@@ -1,0 +1,157 @@
+<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Split illustration of a wireframe robot in a simulated grid environment on the left and a matching solid robot in a real workspace on the right, joined by a stream of data particles merging between them, representing synthetic and real-world robot training data">
+  <defs>
+    <linearGradient id="svr-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07091B"/><stop offset="1" stop-color="#000B71"/>
+    </linearGradient>
+    <radialGradient id="svr-glow" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#2D9CDB" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#2D9CDB" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="svr-core" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00FCE2" stop-opacity="0.9"/>
+      <stop offset="60%" stop-color="#7DD3FC" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#7DD3FC" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="svr-floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.06"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#svr-bg)"/>
+  <rect width="1200" height="630" fill="url(#svr-glow)"/>
+
+  <!-- LEFT HALF: simulated wireframe world -->
+  <g stroke="#00FCE2" stroke-opacity="0.22" stroke-width="1">
+    <line x1="0" y1="470" x2="560" y2="470"/>
+    <line x1="0" y1="505" x2="560" y2="505"/>
+    <line x1="0" y1="545" x2="560" y2="545"/>
+    <line x1="0" y1="590" x2="560" y2="590"/>
+    <line x1="80" y1="470" x2="20" y2="630"/>
+    <line x1="170" y1="470" x2="130" y2="630"/>
+    <line x1="260" y1="470" x2="240" y2="630"/>
+    <line x1="350" y1="470" x2="350" y2="630"/>
+    <line x1="440" y1="470" x2="460" y2="630"/>
+    <line x1="530" y1="470" x2="570" y2="630"/>
+  </g>
+  <!-- wireframe cubes floating -->
+  <g fill="none" stroke="#00FCE2" stroke-width="1.5" stroke-dasharray="4 5" opacity="0.6">
+    <path d="M 90 150 l 40 -18 l 40 18 l -40 18 Z M 90 150 l 0 44 l 40 18 l 0 -44 M 170 150 l 0 44 l -40 18"/>
+    <path d="M 430 110 l 26 -12 l 26 12 l -26 12 Z M 430 110 l 0 28 l 26 12 l 0 -28 M 482 110 l 0 28 l -26 12"/>
+  </g>
+  <!-- wireframe table -->
+  <g fill="none" stroke="#00FCE2" stroke-width="2" stroke-dasharray="6 5">
+    <path d="M 330 400 L 500 400 L 470 380 L 300 380 Z"/>
+    <line x1="310" y1="384" x2="310" y2="468"/>
+    <line x1="490" y1="400" x2="490" y2="468"/>
+    <line x1="330" y1="400" x2="330" y2="468"/>
+  </g>
+  <!-- wireframe object on table -->
+  <g fill="none" stroke="#7DD3FC" stroke-width="1.8" stroke-dasharray="3 4">
+    <rect x="400" y="350" width="34" height="30" rx="3"/>
+    <line x1="400" y1="350" x2="434" y2="380"/>
+  </g>
+  <!-- wireframe robot arm -->
+  <g transform="translate(220,330)" fill="none" stroke="#00FCE2" stroke-width="2.5">
+    <ellipse cx="0" cy="140" rx="60" ry="12" stroke-opacity="0.35"/>
+    <rect x="-34" y="84" width="68" height="54" rx="8" stroke-dasharray="6 5"/>
+    <rect x="-13" y="26" width="26" height="60" rx="10" stroke-dasharray="6 5"/>
+    <circle cx="0" cy="20" r="15"/>
+    <path d="M 8 8 C 40 -14, 72 -28, 108 -26" stroke-width="13" stroke-opacity="0.25" stroke-linecap="round"/>
+    <path d="M 8 8 C 40 -14, 72 -28, 108 -26" stroke-dasharray="5 6"/>
+    <circle cx="110" cy="-26" r="12"/>
+    <path d="M 116 -16 C 140 0, 160 14, 176 26" stroke-width="10" stroke-opacity="0.25" stroke-linecap="round"/>
+    <path d="M 116 -16 C 140 0, 160 14, 176 26" stroke-dasharray="5 6"/>
+    <path d="M 180 22 L 196 12 M 180 34 L 196 44" stroke="#7DD3FC" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="178" cy="28" r="6"/>
+  </g>
+  <!-- simulated vertices -->
+  <g fill="#00FCE2" opacity="0.7">
+    <circle cx="90" cy="150" r="3"/><circle cx="170" cy="150" r="3"/><circle cx="130" cy="212" r="3"/>
+    <circle cx="456" cy="98" r="2.5"/><circle cx="300" cy="380" r="2.5"/><circle cx="500" cy="400" r="2.5"/>
+  </g>
+
+  <!-- RIGHT HALF: real physical workspace -->
+  <rect x="640" y="460" width="560" height="170" fill="url(#svr-floor)"/>
+  <g stroke="#ffffff" stroke-opacity="0.06" stroke-width="1">
+    <line x1="640" y1="500" x2="1200" y2="500"/>
+    <line x1="640" y1="550" x2="1200" y2="550"/>
+  </g>
+  <!-- shelf in background -->
+  <g>
+    <rect x="1030" y="170" width="130" height="290" rx="6" fill="#0B0F2A" stroke="#2D9CDB" stroke-width="1.6" stroke-opacity="0.6"/>
+    <line x1="1030" y1="260" x2="1160" y2="260" stroke="#2D9CDB" stroke-opacity="0.6" stroke-width="1.6"/>
+    <line x1="1030" y1="350" x2="1160" y2="350" stroke="#2D9CDB" stroke-opacity="0.6" stroke-width="1.6"/>
+    <rect x="1046" y="226" width="34" height="34" rx="4" fill="#2D9CDB" opacity="0.7"/>
+    <rect x="1094" y="236" width="44" height="24" rx="4" fill="#7DD3FC" opacity="0.6"/>
+    <rect x="1050" y="316" width="50" height="34" rx="4" fill="#1C2340" stroke="#7DD3FC" stroke-width="1.4"/>
+    <rect x="1110" y="322" width="30" height="28" rx="4" fill="#2D9CDB" opacity="0.55"/>
+  </g>
+  <!-- solid table -->
+  <rect x="700" y="380" width="200" height="18" rx="4" fill="#1C2340" stroke="#2D9CDB" stroke-width="1.8"/>
+  <rect x="712" y="398" width="12" height="70" fill="#1C2340"/>
+  <rect x="876" y="398" width="12" height="70" fill="#1C2340"/>
+  <!-- real objects on table -->
+  <rect x="766" y="350" width="34" height="30" rx="4" fill="#2D9CDB"/>
+  <rect x="812" y="358" width="26" height="22" rx="4" fill="#E7ECF5" opacity="0.85"/>
+  <!-- solid robot arm, mirrored -->
+  <g transform="translate(980,330)">
+    <ellipse cx="0" cy="140" rx="64" ry="13" fill="#000000" opacity="0.3"/>
+    <rect x="-34" y="84" width="68" height="54" rx="8" fill="#1C2340" stroke="#2D9CDB" stroke-width="2"/>
+    <rect x="-13" y="26" width="26" height="60" rx="10" fill="#2D9CDB"/>
+    <circle cx="0" cy="20" r="15" fill="#1C2340" stroke="#2D9CDB" stroke-width="2.5"/>
+    <path d="M -8 8 C -40 -14, -72 -28, -108 -26" stroke="#2D9CDB" stroke-width="15" stroke-linecap="round" fill="none"/>
+    <circle cx="-110" cy="-26" r="12" fill="#1C2340" stroke="#7DD3FC" stroke-width="2.5"/>
+    <path d="M -116 -16 C -140 0, -160 14, -176 26" stroke="#7DD3FC" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M -180 22 L -196 12 M -180 34 L -196 44" stroke="#E7ECF5" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <circle cx="-178" cy="28" r="7" fill="#0B0F2A" stroke="#7DD3FC" stroke-width="2"/>
+  </g>
+  <!-- overhead camera on real side -->
+  <g transform="translate(800,120)">
+    <line x1="0" y1="-120" x2="0" y2="-10" stroke="#2D9CDB" stroke-width="3"/>
+    <rect x="-20" y="-12" width="40" height="22" rx="5" fill="#1C2340" stroke="#2D9CDB" stroke-width="2"/>
+    <circle cx="0" cy="12" r="7" fill="#0B0F2A" stroke="#7DD3FC" stroke-width="2"/>
+    <path d="M -10 22 L -60 220 M 10 22 L 60 220" stroke="#7DD3FC" stroke-opacity="0.18" stroke-width="2"/>
+  </g>
+
+  <!-- CENTER: data particle bridge merging -->
+  <g fill="none" stroke-width="2" stroke-dasharray="2 10" opacity="0.85">
+    <path d="M 420 300 C 500 260, 540 250, 600 260" stroke="#00FCE2"/>
+    <path d="M 440 230 C 510 220, 550 235, 600 260" stroke="#00FCE2"/>
+    <path d="M 780 300 C 700 260, 660 250, 600 260" stroke="#7DD3FC"/>
+    <path d="M 770 220 C 690 220, 650 235, 600 260" stroke="#7DD3FC"/>
+  </g>
+  <circle cx="600" cy="260" r="70" fill="url(#svr-core)"/>
+  <g transform="translate(600,260)">
+    <circle r="26" fill="none" stroke="#00FCE2" stroke-width="2.5"/>
+    <circle r="40" fill="none" stroke="#7DD3FC" stroke-width="1.5" stroke-dasharray="3 6"/>
+    <path d="M -10 0 L 10 0 M 0 -10 L 0 10" stroke="#E7ECF5" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <!-- merged stream continuing downward -->
+  <path d="M 600 300 C 600 360, 600 400, 600 460" stroke="#E7ECF5" stroke-width="2" stroke-dasharray="2 9" fill="none" opacity="0.7"/>
+  <g fill="#00FCE2">
+    <rect x="474" y="257" width="7" height="7" opacity="0.8"/>
+    <rect x="530" y="232" width="6" height="6" opacity="0.7"/>
+    <rect x="554" y="262" width="5" height="5" opacity="0.8"/>
+  </g>
+  <g fill="#7DD3FC">
+    <circle cx="722" cy="262" r="4"/>
+    <circle cx="668" cy="234" r="3.5"/>
+    <circle cx="646" cy="262" r="3"/>
+  </g>
+  <g fill="#E7ECF5" opacity="0.8">
+    <circle cx="600" cy="360" r="3"/><circle cx="600" cy="410" r="2.5"/><circle cx="600" cy="452" r="2"/>
+  </g>
+  <!-- merged data rings at base -->
+  <g transform="translate(600,488)" fill="none">
+    <ellipse rx="44" ry="12" stroke="#00FCE2" stroke-width="2.5"/>
+    <path d="M -44 0 L -44 22 A44 12 0 0 0 44 22 L 44 0" stroke="#2D9CDB" stroke-width="2.5"/>
+    <path d="M -44 18 L -44 40 A44 12 0 0 0 44 40 L 44 18" stroke="#7DD3FC" stroke-width="2.5"/>
+  </g>
+
+  <!-- background specks -->
+  <g fill="#7DD3FC" opacity="0.45">
+    <circle cx="320" cy="70" r="2"/><circle cx="560" cy="90" r="2"/><circle cx="690" cy="60" r="2.5"/>
+    <circle cx="930" cy="90" r="2"/><circle cx="40" cy="330" r="2"/><circle cx="1170" cy="120" r="2"/>
+  </g>
+</svg>

@@ -1,0 +1,185 @@
+---
+title: 'Data Quality in AI Training: How to Improve Physical AI Training Data'
+date: 2026-10-27T07:50:00.000Z
+tags:
+  - Physical AI
+  - Robotics
+  - Data Collection
+  - Data Quality
+draft: false
+summary: 'A one-time cleanup will not keep a robot dataset good. This is a six-stage loop for raising the quality of a dataset you already have: audit, score, version, remediate, re-validate, and monitor, with the metrics to track at each stage.'
+images:
+  - /static/images/data-quality-ai-training.svg
+authors:
+  - prasanna-venkatesan
+layout: PostLayout
+canonicalUrl: 'https://www.gamasome.com/blog/data-quality-ai-training/'
+seo:
+  metaTitle: 'Data Quality in AI Training: Improve Physical AI Data'
+  metaDescription: 'Improving data quality in AI training is an ongoing process. A six-stage loop for physical AI teams: audit, score, version, fix, re-validate, and monitor.'
+  canonicalUrl: ''
+  changefreq: weekly
+faqHeading: Frequently asked questions
+faqs:
+  - question: How do you improve the quality of an existing AI training dataset?
+    answer: 'Run it through a repeatable loop instead of a one-off cleanup. Audit a sample to set a baseline, write a scorecard with measurable metrics, freeze the current state as a named version, fix the highest-impact issues first, re-train and compare against a fixed evaluation suite, then put automated validation on every new batch so the gains hold.'
+  - question: What metrics should you track for training data quality?
+    answer: 'Track process metrics over time, not just a single pass or fail. Useful ones include the intake acceptance rate for new batches, the share of automatically flagged episodes that human reviewers confirm, agreement between reviewers on a fixed audit sample, coverage against a written collection plan, how long quarantined episodes sit unresolved, and the change in evaluation success rate between dataset versions.'
+  - question: Why does dataset versioning matter for robot learning?
+    answer: 'Without versions, nobody can say which data trained which checkpoint, so improvements and regressions cannot be traced back to a data change. Tools such as DVC tie a dataset state to a Git commit, and formats like LeRobot record a codebase version in their metadata. Either way, the rule is the same: never edit the only copy of a dataset in place.'
+  - question: How often should a training dataset be audited?
+    answer: 'Automated validation should run on every incoming batch. A human review of flagged episodes fits a weekly rhythm for most active collection programs, and a deeper audit of a fixed random sample, with reviewer agreement measured, is worth doing at least monthly and before any major training run or dataset release.'
+  - question: Can algorithms find bad training data automatically?
+    answer: 'They can rank and flag it, but they still need human confirmation. In a well-known audit of ten popular benchmarks, only about half of the algorithmically flagged candidates were confirmed as real label errors by human reviewers. Robotics research such as DemInf, Demo-SCORE, and CUPID scores individual demonstrations, which makes a review queue far more efficient without replacing it.'
+  - question: Is deleting bad episodes the best way to raise data quality?
+    answer: 'Not by default. Deleting from the only copy destroys the evidence you need to understand what went wrong and makes results impossible to reproduce. A better pattern is to quarantine flagged episodes, record why they were excluded, and publish the filtered result as a new dataset version, so the decision can be reversed or revisited later.'
+---
+
+A robotics team we worked alongside had nine months of teleoperated pick-and-place data and a policy that had stopped improving. They did what most teams do: a two-week cleanup sprint. Engineers scrolled through episodes, deleted a few hundred that looked wrong, retrained, and got a respectable jump in success rate. Everyone moved on.
+
+Three months later the policy had plateaued again. New data had kept arriving through the same collection process that produced the bad episodes in the first place. Worse, the deletions had been made directly in the shared dataset folder, so nobody could say exactly which episodes had been removed, why, or which checkpoint had trained on which version of the data. The cleanup had produced a better dataset for a few weeks and no lasting ability to keep it that way.
+
+That is the gap this guide is about. Not how to spot a specific defect, but how to turn data quality into an operating process that keeps getting better on a dataset you already own.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">The short version</p>
+  <p className="text-gray-700"><strong className="font-semibold text-gray-900">Data quality in AI training</strong> is not a property a dataset has once; it is a number you measure, version, and push up over time. Teams that improve it reliably run the same loop on every release: audit a baseline, score against written metrics, freeze a version, remediate the highest-impact issues, re-validate on a fixed evaluation suite, and monitor every new batch so the gains do not quietly erode.</p>
+</div>
+
+## Why one-off cleanups do not stick
+
+Google researchers interviewed 53 AI practitioners for a CHI 2021 study and coined a name for what happened to that team: [data cascades](https://research.google/pubs/pub49953/), compounding downstream effects caused by data issues. They reported cascades in 92% of the projects they studied, and described them as invisible, delayed, and often avoidable. In a [companion blog post](https://research.google/blog/data-cascades-in-machine-learning/), the lead author noted that some drift-related cascades took up to two to three years to surface, and that work on data itself is often the least prioritized part of an ML project.
+
+The study was not about robots, but the mechanism transfers directly. A cleanup sprint fixes the stock of data. It does nothing about the flow. If the collection protocol, the review step, and the versioning discipline stay the same, the dataset drifts back to its old quality as soon as new episodes land.
+
+> Everyone wants to do the model work, not the data work.
+>
+> Practitioner quote used as the title of [Sambasivan et al., CHI 2021](https://research.google/pubs/pub49953/)
+
+For the specific failure modes a quality program ends up catching, such as calibration drift, timing offsets, and inconsistent demonstrations, see our guide to [physical AI data quality](/blog/physical-ai-data-quality/). This post assumes you already know what can go wrong and want a system that keeps finding and fixing it.
+
+## The data quality loop: six stages that repeat on every release
+
+The organizing idea is simple: treat each dataset release the way a software team treats a code release. It gets a baseline, a test suite, a version number, a changelog, and monitoring afterward. The six stages below are the loop we use, and each one produces an artifact the next stage depends on.
+
+![Six-stage data quality improvement loop for physical AI training data: baseline audit, scorecard, frozen version, prioritized remediation, re-validation on a fixed evaluation suite, and continuous intake monitoring, with monitoring feeding back into the next audit.](/static/images/data-quality-ai-training-loop.svg)
+
+*The data quality loop. Every stage leaves an artifact behind, and monitoring feeds the next audit, so quality compounds release over release instead of resetting after each cleanup.*
+
+<div className="not-prose my-8 font-['Poppins']">
+  <div className="grid gap-2 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Stage 01</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Baseline audit</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">Pull a random sample of episodes, not the ones someone already suspects, and have two reviewers grade each one independently against written criteria. The output is a baseline: what share of the sample passes, where reviewers disagree, and which issues cluster by operator, site, or week. Random sampling matters because suspicion-driven reviews overstate some problems and miss others entirely. Even heavily used public benchmarks are not exempt: an audit of ten popular datasets estimated an <a href="https://arxiv.org/abs/2103.14749" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">average label error rate of at least 3.3%</a>, with about 6% in the ImageNet validation set.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Stage 02</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Scorecard</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">Turn the audit criteria into a small set of numbers you can compute on every release, then write down a target for each. Some are automatic (schema checks, stream completeness, coverage against plan). Some come from humans (reviewer-confirmed flag rate, agreement on a fixed sample). Some can come from models: research methods such as <a href="https://arxiv.org/abs/2502.08623" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">DemInf</a> from Google DeepMind and Stanford score each demonstration by how much it contributes to the mutual information between states and actions, and the authors report that filtering on that score improved RoboMimic performance by 5 to 10%. A scorecard without targets is a dashboard. With targets, it is a release gate.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Stage 03</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Frozen version</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">Before changing anything, freeze the current state under a name and record its scorecard. Tools like <a href="https://en.wikipedia.org/wiki/Data_Version_Control_(software)" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">DVC</a> keep lightweight metadata in Git while the data sits in external storage, so each dataset state is tied to a commit. Robot-native formats carry part of this too: a <a href="https://www.mintlify.com/huggingface/lerobot/concepts/lerobot-dataset" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">LeRobot dataset</a> records a codebase version and normalization statistics in its metadata files. Whatever the tool, every training run should log the exact dataset version it consumed.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Stage 04</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Prioritized remediation</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">Rank issues by how many episodes they touch and how much they likely affect the policy, then fix the top of the list first: re-annotate, re-capture, re-weight, or quarantine. Re-weighting is underrated. Stanford's <a href="https://arxiv.org/abs/2408.14037v1" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">Re-Mix</a> work on Open X-Embodiment reported that learned domain weights beat uniform weights by 38% on average and human-selected weights by 32% in its arXiv version, and stayed competitive using only 25% of the original data. Quarantine instead of deleting, and write the reason next to every excluded episode.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Stage 05</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Re-validation</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">Retrain on the new version and compare it against the frozen one on an evaluation suite that does not change between releases. If the suite changes at the same time as the data, you cannot tell which one moved the number. This is also where the closed-loop methods earn their place: <a href="https://arxiv.org/abs/2503.03707" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">Demo-SCORE</a> uses policy rollouts to learn which demonstrations reliably lead to success, and <a href="https://arxiv.org/abs/2506.19121" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">CUPID</a> uses influence functions to link individual demonstrations to closed-loop policy performance. Either can tell you which episodes helped or hurt, which is the input for the next remediation pass.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Stage 06</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Intake monitoring</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">Lock in the gains by validating every new batch before it joins the dataset. Google's production approach, described in its <a href="https://research.google/pubs/pub47967/" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">Data Validation for Machine Learning</a> paper and open-sourced as <a href="https://blog.tensorflow.org/2018/09/introducing-tensorflow-data-validation.html" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">TensorFlow Data Validation</a>, is a good template: keep a schema of what valid data looks like, validate each new batch against it, and when an anomaly fires, either fix the data or deliberately update the schema if the change is legitimate. Whatever this stage flags becomes the starting sample for the next audit.</p>
+    </div>
+  </div>
+</div>
+
+None of these stages is exotic. The leverage comes from running them in order, every time, so that each release starts from a known baseline instead of from memory.
+
+## What to measure: data quality in AI training as a set of numbers
+
+The scorecard is where most programs either become real or stay aspirational. The goal is a handful of metrics that move when quality moves, that can be computed the same way every release, and that someone owns. Here is the set we find most useful for robot and physical AI datasets. They measure the health of the process, which is what lets you improve it, rather than re-listing every defect you might find.
+
+| Metric | What it tells you | How often to check |
+| --- | --- | --- |
+| Intake acceptance rate | Share of new episodes that pass automated validation on arrival | Every batch |
+| Reviewer-confirmed flag rate | Share of auto-flagged episodes a human agrees are real problems; low means your checks are noisy | Weekly |
+| Reviewer agreement | How often two reviewers grade the same fixed sample the same way | Monthly, and before each release |
+| Coverage against plan | Share of planned scene, object, and operator combinations filled to target | Weekly during collection |
+| Quarantine age | How long flagged episodes sit unresolved; a growing backlog is silent debt | Weekly |
+| Version-to-eval delta | Change in success rate on the frozen evaluation suite between dataset versions | Every release |
+| Provenance completeness | Share of the training mix with documented source, capture conditions, and license | Every release |
+| Post-release rework | Episodes re-annotated or re-captured after a version shipped | Every release |
+
+Two of these deserve extra attention. The reviewer-confirmed flag rate keeps your automation honest. In the benchmark audit cited above, human reviewers confirmed only about [half of the algorithmically flagged candidates](https://arxiv.org/abs/2103.14749) as genuine errors, so a flag is a reason to look, not a verdict. If your confirmation rate drifts far below that, the checks are wasting reviewer time; if it sits near 100%, the thresholds are probably too loose and missing things.
+
+Provenance completeness is the one teams skip. The [Datasheets for Datasets](https://arxiv.org/abs/1803.09010) proposal argued years ago that every dataset should ship with documentation of its motivation, composition, and collection process. The later [Data Provenance Initiative](https://arxiv.org/abs/2310.16787) audit pointed out that once models train on many bundled sources, documentation becomes hard to synthesize even when each source is documented, which is exactly the situation of a robot team mixing its own teleoperation data with pooled open datasets.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">Why the version number matters more than the score</p>
+  <p className="text-gray-700">A quality score without a version attached cannot be compared to anything. The moment a team can say "v14 scored this, v15 scored that, and the policy trained on v15 gained this much on the frozen eval suite," data work stops being a cost center argued about in planning meetings and becomes a measurable lever. In our experience, the version log is the single artifact that most changes how leadership funds data quality.</p>
+</div>
+
+## What teams get wrong when they try to raise quality
+
+Most improvement programs stall for process reasons, not technical ones. These are the patterns we see most often when a team with an existing dataset tries to get serious.
+
+<div className="not-prose my-8 grid gap-5 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Editing the only copy</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Deleting or relabeling in place erases the before state, so improvements cannot be proven and mistakes cannot be undone. Even LeRobot's own <a href="https://wiki.seeedstudio.com/lerobot_dataset_tool/" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">dataset editing tool</a> can write the result of an episode deletion to a new dataset name instead of overwriting the original. Use that habit everywhere.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Moving the eval suite with the data</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">If the evaluation tasks change in the same release as the dataset, any gain or loss is uninterpretable. Freeze a core suite and only add to it, deliberately, between releases.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Trusting a curation score blindly</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Automated scores are rankings with assumptions built in. The DemInf authors note, for example, that their method assumes every provided demonstration already succeeds at the task. Use scores to order the review queue, then let humans decide.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Fixing the stock and ignoring the flow</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">If the issues found in an audit are not traced back to the collection protocol, operator training, or rig setup that caused them, the next batch brings them back. Every remediation item should end with a change upstream, not just a corrected episode.</p>
+  </div>
+</div>
+
+## A maturity check: where your program sits today
+
+It helps to be honest about the starting point, because the next step depends on it. Most teams we meet fall into one of three levels.
+
+At the first level, quality is ad hoc. Someone looks at episodes when a training run disappoints, fixes what they find, and the knowledge lives in their head. There is no baseline and no version history, so nobody can prove the dataset got better. The next step is not a tool purchase. It is a single random-sample audit and a frozen version, which together give you something to improve against.
+
+At the second level, checks exist but run in bursts. There is a scorecard and maybe a review queue, but they activate before big training runs rather than on every batch. Quality improves in steps and then erodes between them. The next step is moving automated validation to intake, so the scorecard is computed continuously and the human review rhythm becomes weekly instead of occasional.
+
+At the third level, the loop runs on its own. Every batch is validated on arrival, flagged episodes are reviewed on a schedule, every release has a version, a changelog, and a version-to-eval delta, and remediation items close with an upstream fix. At this level the question shifts from "is the data good" to "which investment raises the score fastest," which is where techniques like learned data mixtures and influence-based curation start paying for themselves.
+
+Moving up a level usually takes a quarter, not a year, if one person owns the scorecard. Ownership is the variable that matters most. Data quality work spread across collectors, annotators, and ML engineers with nobody accountable is exactly the pattern the data cascades research describes.
+
+## Making the loop practical with a small team
+
+You do not need a platform team to run this. A minimal version looks like this: a written grading rubric and a random-sample audit of a few dozen episodes, a spreadsheet scorecard with eight numbers, dataset versions managed with DVC or your format's native versioning, a quarantine folder with a reason column, a frozen evaluation suite, and a validation script that runs on every upload. Each of those is days of work, not months.
+
+The two places where outside help tends to pay off are the human-heavy stages. Audits and review queues need trained reviewers who apply a rubric consistently, which is the same discipline as production [data annotation](/services/data-annotation/), and re-capture work needs operators and rigs that can reproduce the original setup exactly. If you are weighing whether to build that capacity internally, our comparison of [in-house vs outsourced data annotation](/blog/in-house-vs-outsourced-data-annotation/) covers the trade-offs.
+
+## The real goal is a dataset that improves on its own schedule
+
+A team that runs this loop for a few releases ends up with something more valuable than a clean dataset. It has a version history showing exactly which data changes moved the policy, a scorecard that tells it where the next gain is, and an intake gate that stops new problems from undoing old fixes. That is what it means to treat data quality in AI training as engineering rather than housekeeping.
+
+Go back to the team from the opening. Their cleanup sprint was not wasted; it was just stage four running without the other five. With a baseline, a version, a frozen eval, and validation at intake, the same two weeks of effort would have kept paying off for every release that followed. For the specific defects your audits will surface and how each shows up in a policy, our guide to [physical AI data quality](/blog/physical-ai-data-quality/) is the companion to this one, and for how versioned, validated data feeds into the model itself, see [physical AI training](/blog/physical-ai-training/).

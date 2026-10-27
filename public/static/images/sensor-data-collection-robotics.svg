@@ -1,0 +1,137 @@
+<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of a robot rig fitted with a camera lens, a spinning LiDAR puck, a force-torque gauge at the gripper, and an IMU chip on its body, each emitting a distinct colored data stream that flows down into a shared synchronized timeline, representing sensor data collection for robotics">
+  <defs>
+    <linearGradient id="sdcr-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07091B"/><stop offset="1" stop-color="#000B71"/>
+    </linearGradient>
+    <radialGradient id="sdcr-glow" cx="50%" cy="34%" r="62%">
+      <stop offset="0%" stop-color="#2D9CDB" stop-opacity="0.26"/>
+      <stop offset="100%" stop-color="#2D9CDB" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sdcr-floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#sdcr-bg)"/>
+  <rect width="1200" height="630" fill="url(#sdcr-glow)"/>
+  <rect x="0" y="480" width="1200" height="150" fill="url(#sdcr-floor)"/>
+
+  <!-- faint grid floor -->
+  <g stroke="#ffffff" stroke-opacity="0.05" stroke-width="1">
+    <line x1="0" y1="500" x2="1200" y2="500"/>
+    <line x1="0" y1="536" x2="1200" y2="536"/>
+    <line x1="0" y1="572" x2="1200" y2="572"/>
+  </g>
+
+  <!-- scattered background data points -->
+  <g fill="#7DD3FC" opacity="0.45">
+    <circle cx="120" cy="110" r="2.3"/>
+    <circle cx="190" cy="150" r="1.8"/>
+    <circle cx="1060" cy="95" r="2.3"/>
+    <circle cx="1010" cy="150" r="1.8"/>
+    <circle cx="70" cy="260" r="1.8"/>
+    <circle cx="1130" cy="230" r="2.1"/>
+    <circle cx="90" cy="400" r="1.8"/>
+    <circle cx="1140" cy="380" r="1.8"/>
+  </g>
+
+  <!-- ===== ROBOT RIG (center) ===== -->
+  <g transform="translate(600,250)">
+    <!-- shadow -->
+    <ellipse cx="0" cy="235" rx="150" ry="16" fill="#000000" opacity="0.28"/>
+
+    <!-- torso / chassis -->
+    <rect x="-70" y="30" width="140" height="130" rx="16" fill="#131A3A" stroke="#2D9CDB" stroke-width="2.5"/>
+    <rect x="-46" y="52" width="92" height="20" rx="5" fill="#0B0F2A" stroke="#2D9CDB" stroke-width="1.4" opacity="0.85"/>
+    <rect x="-46" y="80" width="56" height="12" rx="4" fill="#0B0F2A" stroke="#7DD3FC" stroke-width="1" opacity="0.7"/>
+
+    <!-- neck / head mount -->
+    <rect x="-10" y="-18" width="20" height="30" rx="5" fill="#1C2340"/>
+    <!-- head with camera lens -->
+    <g transform="translate(0,-54)">
+      <rect x="-34" y="-24" width="68" height="46" rx="12" fill="#1C2340" stroke="#2D9CDB" stroke-width="2.5"/>
+      <circle cx="0" cy="0" r="15" fill="#0B0F2A" stroke="#7DD3FC" stroke-width="2.4"/>
+      <circle cx="0" cy="0" r="7" fill="#7DD3FC" opacity="0.9"/>
+      <circle cx="0" cy="0" r="2.6" fill="#0B0F2A"/>
+    </g>
+
+    <!-- LiDAR puck on top of torso -->
+    <g transform="translate(46,-4)">
+      <ellipse cx="0" cy="8" rx="20" ry="7" fill="#0B0F2A" stroke="#00FCE2" stroke-width="2"/>
+      <rect x="-20" y="-6" width="40" height="14" rx="7" fill="#0B0F2A" stroke="#00FCE2" stroke-width="2.2"/>
+      <g stroke="#00FCE2" stroke-width="1.4" opacity="0.8">
+        <line x1="0" y1="-1" x2="34" y2="-18"/>
+        <line x1="0" y1="-1" x2="30" y2="10"/>
+        <line x1="0" y1="-1" x2="-6" y2="-22"/>
+      </g>
+      <circle cx="0" cy="-1" r="3" fill="#00FCE2"/>
+    </g>
+
+    <!-- IMU chip on body -->
+    <g transform="translate(-44,56)">
+      <rect x="-14" y="-12" width="28" height="24" rx="4" fill="#0B0F2A" stroke="#7DD3FC" stroke-width="2"/>
+      <circle cx="0" cy="0" r="4.5" fill="#7DD3FC"/>
+      <path d="M -14 -12 L 14 12 M 14 -12 L -14 12" stroke="#7DD3FC" stroke-width="1" opacity="0.6"/>
+    </g>
+
+    <!-- arm reaching down to gripper -->
+    <path d="M 60 70 C 92 86, 110 118, 108 158" stroke="#2D9CDB" stroke-width="16" stroke-linecap="round" fill="none"/>
+    <path d="M 108 158 C 104 186, 92 206, 70 220" stroke="#2D9CDB" stroke-width="14" stroke-linecap="round" fill="none"/>
+
+    <!-- force-torque gauge at wrist -->
+    <g transform="translate(108,160)">
+      <circle cx="0" cy="0" r="22" fill="#0B0F2A" stroke="#E7ECF5" stroke-width="2.4"/>
+      <circle cx="0" cy="0" r="22" fill="none" stroke="#E7ECF5" stroke-width="1" stroke-dasharray="2 4" opacity="0.5"/>
+      <path d="M 0 0 L 13 -13" stroke="#E7ECF5" stroke-width="2.6" stroke-linecap="round"/>
+      <circle cx="0" cy="0" r="3" fill="#E7ECF5"/>
+    </g>
+
+    <!-- gripper + object -->
+    <g transform="translate(66,224)">
+      <path d="M -10 -14 L 6 -26 M -10 6 L 6 16" stroke="#7DD3FC" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+      <circle cx="-10" cy="-4" r="7" fill="#0B0F2A" stroke="#00FCE2" stroke-width="2"/>
+      <rect x="-56" y="4" width="40" height="30" rx="4" fill="#1C2340" stroke="#2D9CDB" stroke-width="1.6"/>
+    </g>
+
+    <!-- base / legs -->
+    <path d="M -56 158 L -74 220" stroke="#1C2340" stroke-width="18" stroke-linecap="round"/>
+    <path d="M -24 158 L -30 222" stroke="#1C2340" stroke-width="18" stroke-linecap="round"/>
+    <ellipse cx="-74" cy="226" rx="20" ry="8" fill="#131A3A" stroke="#2D9CDB" stroke-width="1.6"/>
+    <ellipse cx="-30" cy="228" rx="20" ry="8" fill="#131A3A" stroke="#2D9CDB" stroke-width="1.6"/>
+  </g>
+
+  <!-- ===== DATA STREAMS flowing down to a shared timeline ===== -->
+  <!-- camera stream -->
+  <path d="M 600 196 C 560 280, 430 400, 300 470" stroke="#7DD3FC" stroke-width="2" stroke-dasharray="1.5 9" fill="none" opacity="0.85"/>
+  <!-- lidar stream -->
+  <path d="M 646 246 C 650 320, 560 420, 440 472" stroke="#00FCE2" stroke-width="2" stroke-dasharray="1.5 9" fill="none" opacity="0.85"/>
+  <!-- imu stream -->
+  <path d="M 556 306 C 600 370, 650 430, 700 472" stroke="#7DD3FC" stroke-width="2" stroke-dasharray="1.5 9" fill="none" opacity="0.6"/>
+  <!-- force-torque stream -->
+  <path d="M 708 410 C 760 440, 850 460, 920 474" stroke="#E7ECF5" stroke-width="2" stroke-dasharray="1.5 9" fill="none" opacity="0.8"/>
+
+  <!-- shared timeline / log strip -->
+  <g transform="translate(600,500)">
+    <rect x="-430" y="-22" width="860" height="44" rx="22" fill="#0B0F2A" stroke="#2D9CDB" stroke-width="2"/>
+    <!-- four parallel sync traces -->
+    <path d="M -400 -9 C -360 -15, -320 -3, -280 -9 S -200 -15, -160 -9 S -80 -3, -40 -9 S 40 -15, 80 -9 S 160 -3, 200 -9 S 280 -15, 320 -9 S 380 -3, 400 -9" stroke="#7DD3FC" stroke-width="1.6" fill="none" opacity="0.8"/>
+    <path d="M -400 0 C -360 -6, -320 6, -280 0 S -200 -6, -160 0 S -80 6, -40 0 S 40 -6, 80 0 S 160 6, 200 0 S 280 -6, 320 0 S 380 6, 400 0" stroke="#00FCE2" stroke-width="1.6" fill="none" opacity="0.8"/>
+    <path d="M -400 9 C -360 3, -320 15, -280 9 S -200 3, -160 9 S -80 15, -40 9 S 40 3, 80 9 S 160 15, 200 9 S 280 3, 320 9 S 380 15, 400 9" stroke="#E7ECF5" stroke-width="1.6" fill="none" opacity="0.7"/>
+    <!-- tick marks representing one shared clock -->
+    <g stroke="#2D9CDB" stroke-width="1.4" opacity="0.6">
+      <line x1="-320" y1="-20" x2="-320" y2="20"/>
+      <line x1="-160" y1="-20" x2="-160" y2="20"/>
+      <line x1="0" y1="-20" x2="0" y2="20"/>
+      <line x1="160" y1="-20" x2="160" y2="20"/>
+      <line x1="320" y1="-20" x2="320" y2="20"/>
+    </g>
+  </g>
+
+  <!-- small stacked log / database icon at the right, where streams converge -->
+  <g transform="translate(1060,500)">
+    <ellipse cx="0" cy="-14" rx="34" ry="11" fill="none" stroke="#00FCE2" stroke-width="2.3"/>
+    <path d="M -34 -14 L -34 6 A34 11 0 0 0 34 6 L 34 -14" fill="none" stroke="#00FCE2" stroke-width="2.3"/>
+    <path d="M -34 2 L -34 22 A34 11 0 0 0 34 22 L 34 2" fill="none" stroke="#2D9CDB" stroke-width="2.3"/>
+  </g>
+</svg>

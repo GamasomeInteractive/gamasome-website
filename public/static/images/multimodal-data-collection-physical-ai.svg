@@ -1,0 +1,117 @@
+<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of four distinct data streams, a video frame strip, a motion waveform, a sensor pulse, and a language waveform bubble, converging into a central synchronized clock ring and braiding into a single aligned timeline of evenly spaced data blocks">
+  <defs>
+    <linearGradient id="mdc-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07091B"/><stop offset="1" stop-color="#000B71"/>
+    </linearGradient>
+    <radialGradient id="mdc-glow" cx="50%" cy="46%" r="60%">
+      <stop offset="0%" stop-color="#2D9CDB" stop-opacity="0.26"/>
+      <stop offset="100%" stop-color="#2D9CDB" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mdc-floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#mdc-bg)"/>
+  <rect width="1200" height="630" fill="url(#mdc-glow)"/>
+  <rect x="0" y="500" width="1200" height="130" fill="url(#mdc-floor)"/>
+
+  <!-- faint grid floor -->
+  <g stroke="#ffffff" stroke-opacity="0.05" stroke-width="1">
+    <line x1="0" y1="520" x2="1200" y2="520"/>
+    <line x1="0" y1="556" x2="1200" y2="556"/>
+    <line x1="0" y1="592" x2="1200" y2="592"/>
+  </g>
+
+  <!-- scattered background data points -->
+  <g fill="#7DD3FC" opacity="0.5">
+    <circle cx="90" cy="90" r="2.5"/>
+    <circle cx="160" cy="60" r="2"/>
+    <circle cx="1080" cy="80" r="2.5"/>
+    <circle cx="1010" cy="50" r="2"/>
+    <circle cx="60" cy="260" r="2"/>
+    <circle cx="1140" cy="230" r="2"/>
+    <circle cx="80" cy="470" r="2"/>
+    <circle cx="1120" cy="470" r="2"/>
+  </g>
+
+  <!-- TOP-LEFT: camera node with frame strip -->
+  <g transform="translate(185,150)">
+    <rect x="-34" y="-22" width="68" height="46" rx="8" fill="#0B0F2A" stroke="#2D9CDB" stroke-width="2.2"/>
+    <circle cx="0" cy="1" r="15" fill="#0B0F2A" stroke="#2D9CDB" stroke-width="2.2"/>
+    <circle cx="0" cy="1" r="6" fill="#2D9CDB"/>
+    <rect x="18" y="-28" width="12" height="10" rx="2" fill="#0B0F2A" stroke="#2D9CDB" stroke-width="1.6"/>
+    <!-- trailing frame strip -->
+    <g opacity="0.9">
+      <rect x="56" y="-14" width="26" height="20" rx="3" fill="none" stroke="#2D9CDB" stroke-width="1.8"/>
+      <rect x="92" y="-10" width="24" height="18" rx="3" fill="none" stroke="#2D9CDB" stroke-width="1.6" opacity="0.8"/>
+      <rect x="126" y="-6" width="22" height="16" rx="3" fill="none" stroke="#2D9CDB" stroke-width="1.4" opacity="0.6"/>
+    </g>
+  </g>
+
+  <!-- BOTTOM-LEFT: motion / IMU node with waveform -->
+  <g transform="translate(185,460)">
+    <circle cx="0" cy="0" r="24" fill="#0B0F2A" stroke="#00FCE2" stroke-width="2.2"/>
+    <path d="M -10 0 L -4 0 L -1 -10 L 4 10 L 8 0 L 12 0" stroke="#00FCE2" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- trailing waveform -->
+    <path d="M 36 0 C 50 -22, 64 22, 78 0 C 92 -18, 106 18, 120 0 C 134 -14, 148 14, 162 0" stroke="#00FCE2" stroke-width="2" fill="none" opacity="0.85"/>
+  </g>
+
+  <!-- TOP-RIGHT: sensor / lidar node with pulses -->
+  <g transform="translate(1015,150)">
+    <path d="M -18 20 L 0 -22 L 18 20 Z" fill="#0B0F2A" stroke="#7DD3FC" stroke-width="2.2"/>
+    <circle cx="0" cy="-4" r="5" fill="#7DD3FC"/>
+    <!-- trailing radial pulses -->
+    <path d="M -40 10 A 46 46 0 0 1 -60 -34" stroke="#7DD3FC" stroke-width="1.8" fill="none" stroke-dasharray="2 7" opacity="0.85"/>
+    <path d="M -70 26 A 78 78 0 0 1 -100 -54" stroke="#7DD3FC" stroke-width="1.6" fill="none" stroke-dasharray="2 7" opacity="0.6"/>
+  </g>
+
+  <!-- BOTTOM-RIGHT: language / audio node, speech bubble with bars -->
+  <g transform="translate(1015,460)">
+    <path d="M -28 -18 Q -32 -18 -32 -8 L -32 10 Q -32 20 -22 20 L -10 20 L 0 32 L 4 20 L 22 20 Q 32 20 32 10 L 32 -8 Q 32 -18 22 -18 Z" fill="#0B0F2A" stroke="#E7ECF5" stroke-width="2"/>
+    <g stroke="#E7ECF5" stroke-width="3" stroke-linecap="round">
+      <line x1="-16" y1="4" x2="-16" y2="-6"/>
+      <line x1="-6" y1="8" x2="-6" y2="-10"/>
+      <line x1="4" y1="6" x2="4" y2="-2"/>
+      <line x1="14" y1="9" x2="14" y2="-8"/>
+    </g>
+  </g>
+
+  <!-- CENTER: synchronization clock ring -->
+  <g transform="translate(600,305)">
+    <circle cx="0" cy="0" r="52" fill="#0B0F2A" stroke="#00FCE2" stroke-width="2.6"/>
+    <circle cx="0" cy="0" r="38" fill="none" stroke="#2D9CDB" stroke-width="1.4" opacity="0.7"/>
+    <g stroke="#7DD3FC" stroke-width="2" opacity="0.8">
+      <line x1="0" y1="-46" x2="0" y2="-38"/>
+      <line x1="0" y1="38" x2="0" y2="46"/>
+      <line x1="-46" y1="0" x2="-38" y2="0"/>
+      <line x1="46" y1="0" x2="38" y2="0"/>
+    </g>
+    <line x1="0" y1="0" x2="0" y2="-30" stroke="#00FCE2" stroke-width="3" stroke-linecap="round"/>
+    <line x1="0" y1="0" x2="20" y2="10" stroke="#7DD3FC" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="0" cy="0" r="4" fill="#00FCE2"/>
+  </g>
+
+  <!-- converging paths from each node into the clock ring -->
+  <g fill="none" stroke-dasharray="2 8">
+    <path d="M 260 150 C 380 180, 470 230, 548 285" stroke="#2D9CDB" stroke-width="2" opacity="0.8"/>
+    <path d="M 260 460 C 380 420, 470 360, 548 320" stroke="#00FCE2" stroke-width="2" opacity="0.8"/>
+    <path d="M 940 150 C 820 180, 730 230, 652 285" stroke="#7DD3FC" stroke-width="2" opacity="0.8"/>
+    <path d="M 940 460 C 820 420, 730 360, 652 320" stroke="#E7ECF5" stroke-width="2" opacity="0.6"/>
+  </g>
+
+  <!-- braided output ribbon flowing right, ending in aligned episode blocks -->
+  <g>
+    <path d="M 640 320 C 700 350, 740 300, 800 330 C 860 360, 900 310, 960 340" stroke="#00FCE2" stroke-width="3" fill="none" opacity="0.9"/>
+    <path d="M 640 300 C 700 270, 740 320, 800 290 C 860 260, 900 310, 960 280" stroke="#2D9CDB" stroke-width="3" fill="none" opacity="0.9"/>
+  </g>
+
+  <!-- aligned timeline of evenly spaced episode blocks -->
+  <g transform="translate(985,308)">
+    <rect x="0" y="-16" width="26" height="32" rx="4" fill="#1C2340" stroke="#00FCE2" stroke-width="1.8"/>
+    <rect x="34" y="-16" width="26" height="32" rx="4" fill="#1C2340" stroke="#2D9CDB" stroke-width="1.8"/>
+    <rect x="68" y="-16" width="26" height="32" rx="4" fill="#1C2340" stroke="#00FCE2" stroke-width="1.8"/>
+    <rect x="102" y="-16" width="26" height="32" rx="4" fill="#1C2340" stroke="#2D9CDB" stroke-width="1.8"/>
+  </g>
+</svg>

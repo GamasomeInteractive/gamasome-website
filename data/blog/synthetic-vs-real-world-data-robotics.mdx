@@ -1,0 +1,162 @@
+---
+title: 'Synthetic Data vs Real-World Data for Robotics: Which Is Better for Training?'
+date: 2026-10-27T08:10:00.000Z
+tags:
+  - Physical AI
+  - Robotics
+  - Data Collection
+  - Synthetic Data
+draft: false
+summary: 'Co-training on synthetic and real data beats either alone, so the real question is how much synthetic data you can safely lean on. A five-rung ladder for deciding the mix, keyed to how much real data you have and how contact-rich your task is.'
+images:
+  - /static/images/synthetic-vs-real-world-data-robotics.svg
+authors:
+  - prasanna-venkatesan
+layout: PostLayout
+canonicalUrl: 'https://www.gamasome.com/blog/synthetic-vs-real-world-data-robotics/'
+seo:
+  metaTitle: 'Synthetic vs Real-World Data for Robotics Training'
+  metaDescription: 'Synthetic data vs real-world data for robot training: why co-training wins, how far synthetic data can carry a policy, and when real demos must take over.'
+  canonicalUrl: ''
+  changefreq: weekly
+faqHeading: Frequently asked questions
+faqs:
+  - question: Is synthetic data or real-world data better for training robots?
+    answer: 'Neither wins on its own. Published results consistently show that co-training on a mix of simulation and real demonstrations outperforms real-only training, while simulation-only policies usually lose a large share of their performance when they reach physical hardware. Synthetic data is better for volume and coverage; real data is better for anchoring the policy to how your robot, sensors, and objects actually behave.'
+  - question: How much can synthetic data improve a robot policy?
+    answer: 'In the RSS 2025 Sim-and-Real Co-Training study, adding simulation data raised average real-world success from 45.3% to 83.2% across six tasks on two robot platforms, an average gain of roughly 38 points. NVIDIA reported a 40% performance boost for GR00T N1 when it combined synthetic trajectories with real data. Both are results from the authors'' own experimental setups, not universal guarantees.'
+  - question: What is the right ratio of synthetic to real data?
+    answer: 'There is no fixed answer, and it has to be tuned against real-robot validation. One study found a 99% simulation share worked best on a pick-and-place task, with performance dropping sharply at 99.5% and 99.9%, while the RoboMIND 2.0 team, working with different robots and tasks, reported that mixing real and simulated data consistently enhanced physical execution. The sample ratio can be very sim-heavy, but the real data is what you should budget first.'
+  - question: Where does synthetic robot data fall short?
+    answer: 'Contact-rich and deformable tasks. Cloth, cables, liquids, and soft objects remain difficult to simulate with enough physical fidelity, and high-fidelity tactile simulation is described in recent research as too computationally prohibitive for large-scale reinforcement learning. The authors of the Sim-and-Real Co-Training paper list deformable objects and liquids as a key limitation of their own approach.'
+  - question: How many real demonstrations do you need if you use synthetic data?
+    answer: 'Fewer than you might expect, but not zero. The Sim-and-Real Co-Training study used 20 to 50 real demonstrations per task alongside thousands of simulated ones, and DexMimicGen generated 21,000 simulated demonstrations from 60 human source demos. Physical Intelligence says 1 to 20 hours of data was sufficient to fine-tune its openpi models to a variety of tasks.'
+  - question: What is domain randomization in robotics?
+    answer: 'Domain randomization deliberately varies simulation parameters such as object mass, friction, damping, actuator forces, lighting, and textures, so a policy learns to handle a range of conditions wide enough to include the real world. OpenAI used an automatic version, which increased randomization as the policy improved, to train its Dactyl hand to manipulate a Rubik''s Cube.'
+---
+
+A team we have seen building a tabletop manipulation policy did everything the synthetic data pitch promises. They built a simulated version of their work cell, randomized lighting and textures, generated tens of thousands of grasps overnight, and watched the policy hit near-perfect success in simulation. Then they ran it on the real arm. It hesitated over objects it had grasped thousands of times in sim and missed a third of its picks.
+
+The fix was not more simulation. It was a few dozen real demonstrations, recorded on their actual arm, mixed back into the training set. Success on the real robot jumped, and the simulated data, the same data that had failed on its own, suddenly started paying off.
+
+That pattern is the most useful thing to understand about this debate. The question is not which data type wins. It is which one is doing which job, and how far you can lean on the cheap one before the expensive one has to take over.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">The short version</p>
+  <p className="text-gray-700"><strong className="font-semibold text-gray-900">Synthetic data vs real-world data</strong> is a false choice for most robot learning programs: the strongest published results come from co-training on both. Our position is that synthetic data should usually dominate your sample count while real data dominates your budget and your decisions, and the share of synthetic data you can safely rely on shrinks as your task gets more contact-rich and closer to deployment.</p>
+</div>
+
+## What the evidence actually says about co-training
+
+The clearest controlled result comes from the [Sim-and-Real Co-Training study presented at RSS 2025](https://arxiv.org/html/2503.24361v2). Across six tasks on a Franka Panda arm and a GR-1 humanoid, policies trained on real data alone averaged 45.3% success. Adding simulation data pushed that to 83.2%, an average improvement of about 38 points, even though the simulated scenes did not match the real ones exactly.
+
+Two details in that paper matter more than the headline. First, the real data was small: 50 human demonstrations per task on the Panda, 20 on the humanoid. Second, the biggest gains came from simulation built to resemble the real task (the authors call these "digital cousins"), though generic prior simulation data still helped meaningfully.
+
+Industry numbers point the same way. NVIDIA [reported that its GR00T blueprint generated over 750,000 synthetic trajectories in 11 hours](https://developer.nvidia.com/blog/accelerate-generalist-humanoid-robot-development-with-nvidia-isaac-gr00t-n1), which it describes as equivalent to 6,500 hours or nine continuous months of human demonstration data. Combining that synthetic data with real data, NVIDIA says, gave GR00T N1 a 40% performance boost over real data alone. That is a vendor-reported result on its own comparison setup, so read it as a strong signal rather than an independent benchmark.
+
+The other side of the ledger is what happens without real data. A 2026 real-to-sim-to-real paper, [DEXTERA](https://arxiv.org/pdf/2609.21045), reported that dexterous policies trained only in simulation reached mean physical success rates between 15.8% and 36.7% zero-shot, depending on the policy architecture. Co-training with a small number of physical demonstrations raised those to between 55.8% and 67.5%.
+
+So the research answer to "which is better" is fairly settled: both, together. What is not settled, and what actually decides whether your program works, is the mix.
+
+## The synthetic share ladder: how much synthetic data is safe to lean on
+
+The mistake most teams make is choosing a ratio once, at the start, and keeping it. The safe share of synthetic data is not a constant. It depends on two things: how much trustworthy real data you already have, and how much of your task's difficulty lives in physics a simulator cannot model well. We frame this as a ladder. Each rung down is a stage or constraint where real data has to carry more of the load.
+
+![The synthetic share ladder, five rungs from feasibility checks through rigid pick-and-place, contact-rich and deformable tasks, deployment fine-tuning, and the production failure tail, showing the safe share of synthetic data shrinking and the weight of real-world data growing as tasks get more contact-rich and closer to deployment](/static/images/synthetic-vs-real-world-data-robotics-share-ladder.svg)
+
+*The synthetic share ladder. Synthetic data can carry most of the volume early and for rigid tasks; real data takes over as contact gets harder and deployment gets closer.*
+
+<div className="not-prose my-8 font-['Poppins']">
+  <div className="grid gap-2 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Rung 01</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Feasibility and pipeline checks: synthetic almost entirely</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">Before you have a single real demonstration, simulation is the right place to debug your observation space, action format, and training loop. Lean on it fully here, but treat simulated success as evidence that your pipeline works, not that your policy does. The <a href="https://arxiv.org/pdf/2609.21045" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">DEXTERA</a> zero-shot numbers, with sim-only policies landing well under 40% on physical hardware, are a fair reminder of how much falls off in transfer.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Rung 02</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Rigid pick-and-place with a small real anchor: synthetic-heavy</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">This is where synthetic data earns its reputation. With a few dozen real demos per task, sim can make up the overwhelming majority of training samples. In the <a href="https://arxiv.org/html/2503.24361v2" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">Sim-and-Real Co-Training</a> ratio study, an even 50/50 split was suboptimal and a 99% simulation share performed best, while pushing to 99.5% and 99.9% dropped success from 95% to 60%. Generation tools multiply your real anchor: <a href="https://arxiv.org/html/2410.24185v2" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">DexMimicGen</a> produced 21,000 simulated demonstrations from 60 human source demos.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Rung 03</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Contact-rich, deformable, or tactile tasks: shift toward real</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">Cloth, cables, liquids, and soft objects are where simulators struggle most. The Sim-and-Real authors list deformable objects and liquids as hard to simulate accurately, and a <a href="https://arxiv.org/pdf/2602.21625.pdf" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">2026 tactile simulation preprint</a> notes that high-fidelity finite element methods are too computationally prohibitive for large-scale reinforcement learning. Newer calibrated simulators claim to narrow this gap, but those are early, self-reported results. Here, real demonstrations should carry a much larger share of the signal, and synthetic data is best used for visual and positional variety rather than contact dynamics.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Rung 04</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Deployment fine-tuning: real data from the target site</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">Once a pretrained policy exists, the last mile is about your exact robot, lighting, objects, and operators. That is real data by definition. Physical Intelligence says that <a href="https://www.pi.website/blog/openpi" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">between 1 and 20 hours of data was sufficient</a> to fine-tune its openpi models to a variety of tasks, with the caveat that results vary. Small in hours, but every one of them has to come from the place the robot will actually work.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Rung 05</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">The production failure tail: real failures first, synthetic to multiply them</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">In production, the most valuable data is the record of what actually went wrong. Real failures tell you which edge cases matter. Synthetic data then becomes useful again, in a targeted way: recreate the failure scenario in sim and generate variations around it, especially for cases that are dangerous or rare to stage for real. The real failure decides what to simulate. The simulation never decides what the real failures are.</p>
+    </div>
+  </div>
+</div>
+
+The ladder is not strictly sequential. A program can sit on rung two for its grasping skill and rung three for its cable routing at the same time. The point is to set the synthetic share per skill and per stage, deliberately, instead of inheriting one global ratio from whatever your first experiment used.
+
+## Why synthetic data vs real-world data is really a question about jobs
+
+Framing the two as competitors hides what each is good at. Synthetic data is unmatched at three jobs: volume, controlled variation, and safe coverage of scenarios nobody wants to stage. Real data is unmatched at one job that matters more than all three: telling you how your robot actually behaves when it touches the world.
+
+Domain randomization is the classic attempt to make synthetic data do both jobs. OpenAI's Dactyl hand, which learned to manipulate a Rubik's Cube, was trained with an automatic version that [started with a single, nonrandomized environment and increased randomization as the network crossed performance thresholds](https://laughingsquid.com/robotic-hand-that-can-solve-rubiks-cubes/), varying properties like object mass, surface friction, joint damping, and actuator forces. Reporting at the time put the simulated experience at [roughly 13,000 years](https://syncedreview.com/2019/10/15/openai-robot-hand-today-rubiks-cube-tomorrow-the-real-world/), and other outlets cite around 10,000. Either way, it is a reminder of how much compute it can take to make simulation cover reality by brute force, for a single task.
+
+Modern co-training is the cheaper path. Instead of randomizing until reality falls inside the distribution, you add a small amount of reality directly. If you want the broader picture of where this fits in a full training recipe, our guide to [physical AI training](/blog/physical-ai-training/) walks through the stages from pretraining to deployment.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">Field note: the ratio is not the budget</p>
+  <p className="text-gray-700">A 99% simulation share sounds like a reason to spend 99% of your data budget on simulation. It is not. In the studies above, the 1% of real data was the scarce, expensive, irreplaceable part, and the reason the 99% worked at all. Teams that read sample ratios as budget ratios end up with enormous synthetic datasets and no trustworthy real anchor to make them useful. Budget the real data first, protect its quality, then fill the volume with synthetic.</p>
+</div>
+
+## What people get wrong about the mix
+
+<div className="not-prose my-8 grid gap-5 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Treating one paper's ratio as a default</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">The Sim-and-Real study found its optimum near 99% simulation. <a href="https://arxiv.org/html/2512.24653" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">RoboMIND 2.0</a> , working with a different dataset, robots, and tasks, reported that mixing real and simulated data during training consistently enhanced physical execution performance. The optimum moves with the task, the robot, and the sim quality. Tune it on real-robot validation, every time.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Judging the policy by simulated success</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">A policy that scores well in sim has passed a test written by the same simulator that trained it. The only evaluation that counts for deployment is on physical hardware, in the target environment, with a held-out set of objects and conditions.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Building generic sim when task-matched sim is available</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">The largest co-training gains came from simulation designed to resemble the real task. Camera misalignment alone dropped Panda co-training success from 67% to 56% in that same study. Close enough beats perfect, but generic beats nothing by less than people assume.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Skimping on the real data's quality</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">When real data is a small fraction of samples, every real episode has outsized influence. A handful of badly synchronized or mislabeled demonstrations can steer a policy more than thousands of clean synthetic ones. The smaller the real anchor, the higher its quality bar has to be.</p>
+  </div>
+</div>
+
+That last point is the one we see most often in the field. Teams pour effort into the generation pipeline and then collect their real demonstrations in an afternoon, with inconsistent operators, drifting calibration, and no timestamp discipline. The real data is the anchor. If the anchor is loose, the whole mix drifts.
+
+## A decision table for weighting the mix
+
+| If your situation is... | Weight toward | Why |
+| --- | --- | --- |
+| No real data yet, still validating the approach | Synthetic, almost entirely | Debug the pipeline cheaply; do not trust the success number |
+| Rigid pick-and-place, a few dozen real demos per task | Synthetic-heavy co-training | Published optimums sit at very high sim shares for this task class |
+| Cloth, cables, liquids, or tactile-dependent tasks | Real, with synthetic for visual variety | Contact and deformation physics are where simulators fall short |
+| A pretrained policy moving into a specific site | Real data from that site | The last mile is your exact hardware, objects, and lighting |
+| Rare, dangerous, or expensive-to-stage edge cases | Synthetic, seeded by real failures | Sim is the only safe way to multiply scenarios you cannot stage |
+| A large synthetic set but weak real results | More and better real data, not more sim | Adding sim past the optimum can lower real-world success |
+
+## What this means for a team starting today
+
+Start by deciding what your real data has to anchor, not how much synthetic data you can generate. For each skill, place it on the ladder: is it rigid and well modeled, or does its difficulty live in contact and deformation? That answer sets your ceiling on synthetic share far more reliably than any published ratio.
+
+Then budget the real anchor first. Plan for a modest but high-quality set of demonstrations on your target robot, recorded with consistent operators, logged calibration, and hardware-synchronized timestamps. Our guide to [data collection for robotics](/blog/data-collection-for-robotics/) covers what that kind of program costs and where in-house efforts tend to break. If your target is a humanoid, where whole-body teleoperation makes every real episode more expensive, the trade-offs in [data collection for humanoid robots](/blog/data-collection-humanoid-robots/) make the case for careful real-data budgeting even stronger.
+
+Finally, make the mix a measured variable. Hold out real-robot evaluation tasks from day one, sweep the synthetic share on them, and revisit it every time you move a rung down the ladder. Synthetic data is the best tool available for scale. Real-world data is the only thing that tells you whether that scale is pointed in the right direction.

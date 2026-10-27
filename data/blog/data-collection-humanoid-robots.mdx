@@ -1,0 +1,185 @@
+---
+title: 'Data Collection for Humanoid Robots: What Data Do Humanoids Need to Learn?'
+date: 2026-10-27T08:00:00.000Z
+tags:
+  - Physical AI
+  - Robotics
+  - Data Collection
+  - Humanoid Robots
+draft: false
+summary: 'A humanoid is not a robot arm with legs attached. The five kinds of data a humanoid policy needs that arms, quadrupeds, and mobile manipulators never do, and which of them simulation can actually carry.'
+images:
+  - /static/images/data-collection-humanoid-robots.svg
+authors:
+  - prasanna-venkatesan
+layout: PostLayout
+canonicalUrl: 'https://www.gamasome.com/blog/data-collection-humanoid-robots/'
+seo:
+  metaTitle: 'Data Collection for Humanoid Robots: What Data They Need'
+  metaDescription: 'Data collection for humanoid robots goes beyond arm data: balance, bimanual skill, whole-body coordination, and human-scale spaces. What each needs to learn.'
+  canonicalUrl: ''
+  changefreq: weekly
+faqHeading: Frequently asked questions
+faqs:
+  - question: How is data collection for humanoid robots different from data collection for robot arms?
+    answer: 'A fixed arm has a handful of joints, a stable base, and usually a tabletop workspace. A humanoid has to balance on two legs, coordinate two arms and often two dexterous hands, and move through spaces built for human bodies, all at once. That means its data has to capture proprioception, foot contact, whole-body motion, and navigation, not just end-effector trajectories, and the action space is several times larger.'
+  - question: How many degrees of freedom does a humanoid robot policy have to control?
+    answer: 'It varies by platform, but it is far more than an arm. The Unitree G1 used in the Humanoid Everyday dataset is a 29-DoF robot before counting its dexterous hands, and Figure reports that its Helix model coordinates a 35-DoF action space covering the upper body alone, including wrists, individual fingers, torso, and head. Every one of those joints needs to appear in the training data with consistent timing.'
+  - question: Can humanoid locomotion be learned entirely in simulation?
+    answer: 'Much of it can. Researchers have shown humanoid walking policies trained with massively parallel reinforcement learning in simulation, including a 2025 recipe that trains Unitree G1 and Booster T1 locomotion in about 15 minutes on a single GPU under domain randomization. Locomotion is the most simulation-friendly part of the humanoid data problem. Contact-rich manipulation and real human environments are much harder to simulate convincingly.'
+  - question: What open datasets exist for humanoid robots?
+    answer: 'Two useful starting points are AgiBot World, with more than one million trajectories across 217 tasks collected on mobile dual-arm robots, and Humanoid Everyday, with 10.3k trajectories across 260 tasks on Unitree humanoids including locomotion-integrated actions and human-humanoid interaction. Check each license before commercial use, since some releases are non-commercial.'
+  - question: Can humanoids learn from human video instead of robot demonstrations?
+    answer: 'Increasingly, yes, for some skills. Figure reported that its Helix model learned to navigate cluttered homes from natural language commands after training exclusively on egocentric human video, with no robot demonstrations. NVIDIA''s GR00T N1 work also uses human video as the base of its data mix. Human video lacks robot action labels, though, so it is typically combined with real teleoperated data on the target robot.'
+  - question: What is the most common mistake in humanoid data collection?
+    answer: 'Collecting upper-body manipulation data on a robot that is standing still and assuming it will transfer to tasks where the robot is walking, turning, or reaching low. Arm motion shifts the center of mass, so the legs and the arms are never truly independent. If the data never captures them moving together, the policy never learns how they interact.'
+---
+
+A humanoid team we spoke with had a bimanual policy that looked finished. Standing at a bench, the robot could take a tote from one hand, steady it with the other, and set it down cleanly most of the time. Then the task changed slightly: pick the tote up from a low shelf, turn, and carry it through a doorway to a counter.
+
+The arms did exactly what they had been trained to do. The problem was everything else. Reaching low pushed the center of mass forward, the turn happened while both hands were loaded, and the doorway forced a narrower stance than anything in the training set. The policy had never seen its own legs matter, because every demonstration had been recorded with the robot planted in one spot.
+
+That is the core issue with data collection for humanoid robots. Most of what the robotics industry knows about collecting training data was learned on arms bolted to tables. A humanoid inherits all of those problems and adds several of its own that no arm ever has.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">The short version</p>
+  <p className="text-gray-700"><strong className="font-semibold text-gray-900">Data collection for humanoid robots</strong> is the work of capturing what a two-legged, two-handed machine needs to learn to act in spaces built for people: not just what its hands did, but how its whole body balanced, coordinated, and moved while they did it. In practice that breaks into five distinct data needs, balance, bimanual coordination, whole-body loco-manipulation, human-scale environments, and working near people. They differ sharply in how much simulation can carry, and the ones simulation cannot carry are where real collection budgets should go.</p>
+</div>
+
+## Why humanoid data is a different problem, not a bigger one
+
+The obvious difference is size. A typical industrial arm has a handful of joints. The Unitree G1 used in the [Humanoid Everyday dataset](https://arxiv.org/pdf/2510.08807) is a 29-DoF robot, paired with 7-DoF three-fingered hands. Figure says its Helix model [coordinates a 35-DoF action space at 200Hz](https://www.figure.ai/news/helix), and that is for the upper body only: desired wrist poses, finger flexion and abduction, and torso and head orientation targets.
+
+But dimension count is the less interesting difference. The more important one is coupling. An arm's base never moves, so its joints can be treated as a chain hanging off something fixed. A humanoid has no fixed base. Every arm motion changes where the body's weight sits, and the legs have to compensate. One published [data collection guide for the Booster K1 humanoid](https://roboticscenter.ai/hardware/booster-k1/data-collection) makes exactly this point: arm movements shift the center of mass, so the locomotion controller has to compensate continuously during teleoperation.
+
+That coupling is why you cannot just collect arm data and bolt a walking controller underneath. The datasets themselves show the gap. The Humanoid Everyday authors put it bluntly in their abstract:
+
+> The majority of current robot learning datasets and benchmarks mainly focus on stationary robot arms.
+>
+> *Humanoid Everyday research team, [arXiv, 2025](https://arxiv.org/abs/2510.08807)*
+
+They go further: existing humanoid datasets are often confined to fixed environments or limited in task diversity, and they frequently lack human-humanoid interaction and lower-body locomotion. In other words, the parts of the problem that make a humanoid a humanoid are the parts least represented in the data.
+
+## The five data needs of a humanoid, ranked by how much simulation can carry
+
+Rather than treat humanoid data as one undifferentiated pile, it helps to split it by *what the policy is learning* and then ask a single practical question of each piece: can simulation produce most of this, or does it have to come from the real world? The answer changes from one need to the next, and it should drive where your collection budget goes.
+
+![Five humanoid data needs stacked from most simulation-friendly to most dependent on real-world capture: balance and proprioception at the top, then bimanual coordination, whole-body loco-manipulation, human-scale environments, and working near people at the bottom, with an arrow showing the shift from simulation-led to real-world-led collection.](/static/images/data-collection-humanoid-robots-five-needs.svg)
+
+*The further down the list, the less simulation can stand in for real capture. Most humanoid programs over-collect the top of this list and under-collect the bottom.*
+
+<div className="not-prose my-8 font-['Poppins']">
+  <div className="grid gap-2 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Need 01</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Balance and proprioception</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">Joint positions, joint velocities, IMU readings, and foot contact states, recorded at control rate. This is the data that teaches a humanoid to stay upright, and it is the one need with no equivalent on a fixed arm. It is also the most simulation-friendly. A 2025 paper from Amazon FAR showed humanoid locomotion policies for the Unitree G1 and Booster T1 [trained in about 15 minutes on a single RTX 4090](https://arxiv.org/abs/2512.01996), using thousands of parallel simulated environments with domain randomization, rough terrain, and push perturbations. Real-world data here is mostly for validation and for catching where the simulator's contact model is wrong.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Need 02</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Bimanual coordination</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">Two arms and two hands acting on the same object or on two objects at once: holding a bag open while placing into it, steadying a part while fastening it, handing off between hands. The data has to capture both hands on one clock, because the timing between them is the skill. Contact-rich two-handed work is hard to simulate faithfully, so this need leans on teleoperation. <a href="https://huggingface.co/agibot-world" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">AgiBot World</a>, collected by more than 100 homogeneous mobile dual-arm robots with dexterous hands, is the largest open example, at 1M+ trajectories and roughly 2,976 hours.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Need 03</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Whole-body loco-manipulation</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">Manipulating while walking, squatting, leaning, or turning. This is where the coupling between legs and arms stops being theoretical, and it is the need our opening example was missing. Interface design matters a great deal here. The June 2026 <a href="https://huggingface.co/papers/2606.22174" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">OpenHLM paper</a> reports that a joint-based whole-body teleoperation interface outperforms alternatives that only partially expose the humanoid's degrees of freedom, and that its resulting policy beat two humanoid VLA baselines on a long-horizon task spanning a wide vertical range using less than half the total demonstration time. If your rig only captures the arms, the legs never become part of the skill.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Need 04</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Human-scale environments</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">Stairs, thresholds, doorways, counters at waist height, shelves at knee height, cluttered hallways. The whole argument for the humanoid form is that it can use spaces built for people; a <a href="https://arxiv.org/pdf/2602.10069" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">2026 design-principles paper</a> frames a humanoid as a robot designed to exploit human-scale features like doors, stairs, furniture, and tools. That only pays off if the training data actually contains those spaces, in their real variety. Simulation can build generic apartments; it cannot easily reproduce the specific mess of a real one. This is where human video is proving most useful, which we return to below.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Need 05</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Working near people</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">Handovers, shared workspaces, someone walking past mid-task, a person changing their mind. A humanoid is deployed precisely where people already are, so its data has to include people. This is the least simulable need of all, because human behavior is the variable. Humanoid Everyday explicitly includes <a href="https://arxiv.org/abs/2510.08807" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">human-humanoid interaction</a> as a task category for exactly this reason, and calls out its absence from earlier humanoid datasets.</p>
+    </div>
+  </div>
+</div>
+
+The ranking is the useful part. Need 01 is largely a compute problem. Need 05 is entirely a real-world collection problem. Everything between is a blend, and the blend shifts toward real capture as you move down the list.
+
+## How humanoid data needs compare with other robot forms
+
+Putting the humanoid next to the robots most data programs were built for makes the extra burden concrete.
+
+| Data need | Fixed arm | Mobile manipulator | Quadruped | Humanoid |
+| --- | --- | --- | --- | --- |
+| **Balance and fall recovery** | None, base is fixed | Minimal, wheeled base is statically stable | Yes, but four contact points give wide margins | Yes, on two feet with a narrow support base |
+| **Bimanual coordination** | Only in dual-arm cells | Sometimes, if fitted with two arms | Rarely, most have no arms | Core requirement, often with dexterous hands |
+| **Whole-body coupling** | None | Weak, base and arm usually controlled separately | Locomotion only | Strong, arm motion shifts the center of mass |
+| **Human-scale spaces** | Workcell only | Flat floors, ramps, wide aisles | Rough terrain, some stairs | Stairs, doorways, counters, shelves at every height |
+| **Action space** | A handful of joints | Arm plus base velocity | Legs only | Dozens of joints, e.g. 29 DoF body on a Unitree G1 |
+| **Where data mostly comes from** | Teleoperation, kinesthetic teaching | Teleoperation plus navigation logs | Simulation and RL | All of the above, plus human video |
+
+The bottom row is the real takeaway. Every other form can get away with one or two dominant data sources. A humanoid needs nearly all of them, because it is effectively several robot problems sharing one body.
+
+## Where humanoid data actually comes from
+
+The methods are the same ones used across robotics. What changes is how they are weighted and what each one has to capture.
+
+### Teleoperation on the target humanoid
+
+Still the anchor. Figure has said Helix was trained on [roughly 500 hours of teleoperated behavior data](https://www.figure.ai/news/helix), collected across multiple robots and multiple operators. For a humanoid, the hard part is the interface: VR headsets and hand trackers capture the upper body well, but faithfully capturing lower-body intent while the operator is also controlling two hands is a genuinely open design problem, which is exactly what the OpenHLM work above is probing. If you are scoping this, our [teleoperation data collection](/services/teleoperation-data-collection/) practice and the broader guide to [human demonstrations for robot training](/blog/human-demonstrations-for-robot-training/) cover the operational side.
+
+### Human video, which matters more for humanoids than for any other form
+
+Here the humanoid has a structural advantage no other robot has: its body roughly matches the bodies in the video. Figure's [Project Go-Big](https://www.figure.ai/news/project-go-big) is the clearest example. The company reports that after training exclusively on egocentric human video, captured passively in real homes through its Brookfield partnership, Helix could navigate cluttered spaces from commands like "go to the fridge," and that this required no robot demonstrations whatsoever. That is a company claim without independent replication so far, but it directly targets Need 04.
+
+Tesla has reportedly moved in the same direction. Business Insider reported that the Optimus team [shifted away from motion-capture suits and teleoperation](https://www.aol.com/tesla-shifted-optimus-training-strategy-092502010.html) toward video of workers performing tasks, citing the ability to scale collection faster, while noting the trade-off that video is less robust than the more expensive methods.
+
+### Simulation and synthetic trajectories
+
+Simulation carries most of Need 01 and a growing share of the rest. NVIDIA's [GR00T N1 paper](https://arxiv.org/pdf/2503.14734) describes a data pyramid with web and human video at the base, synthetic data in the middle, and real robot data at the top, and reports using generated neural trajectories to expand its teleoperation data from 88 hours to 827 hours. Those are NVIDIA's own figures, and how well that kind of multiplication holds up across tasks is still an open research question. The broader trade-offs are covered in [synthetic vs real-world data for robotics](/blog/synthetic-vs-real-world-data-robotics/).
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">Field note: the retargeting tax</p>
+  <p className="text-gray-700">Human video is cheap, but it carries no robot action labels. Someone, or some model, has to infer what the robot's joints should have done. GR00T N1 handles this with a latent-action codebook and an inverse dynamics model trained on real robot data to infer pseudo-actions. Notice the dependency: even the human-video pipeline needs real teleoperated data on the target humanoid to train the model that labels everything else. Human video multiplies real data. It does not replace it.</p>
+</div>
+
+## What teams get wrong about humanoid data
+
+<div className="not-prose my-8 grid gap-5 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Recording the robot standing still</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Bench-height bimanual demos with the robot planted are the easiest data to collect and the least representative of deployment. If the real task involves walking, turning, or reaching low, a meaningful share of demonstrations has to include those motions, or the legs never become part of the learned skill.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Logging hands but not feet</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Many capture specs inherited from arm programs log end-effector poses and cameras, then drop lower-body joint states and foot contact to save bandwidth. For a humanoid that is the part of the episode that explains why a grasp failed. Log the whole body, on one clock, every time.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Collecting in one beautiful lab</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">A humanoid's value is that it works in spaces built for people, and people's spaces vary wildly. Door widths, stair rises, counter heights, lighting, clutter. A dataset recorded in one well-lit lab teaches the policy one building. Environment diversity is a first-class collection target, not a nice-to-have.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Treating falls and recoveries as waste</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">A stumble that the robot recovers from is some of the most valuable data a humanoid program produces, and the easiest to discard as a failed take. Keep near-falls, recoveries, and corrected grasps, labeled as such. A success-only dataset teaches nothing about getting out of trouble.</p>
+  </div>
+</div>
+
+These are the same quality disciplines that apply to every physical AI program, covered in more depth in [physical AI data quality](/blog/physical-ai-data-quality/), with one addition: on a humanoid, the definition of "the whole episode" is the whole body.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">Why this matters for budgets</p>
+  <p className="text-gray-700">The five needs are not equally expensive. Balance data is mostly GPU time. Human-scale environment and human-interaction data are mostly site access, operator hours, and logistics, the kind of cost that does not fall when compute gets cheaper. A collection plan that splits budget evenly across modalities will usually overspend on what simulation already handles and starve the two needs that only real-world capture can fill.</p>
+</div>
+
+## Planning data collection for humanoid robots in practice
+
+Start by naming the deployment task precisely and walking it through the five needs. A humanoid that sorts parts at a fixed station is mostly a Need 02 problem with light locomotion. A humanoid that carries totes between rooms in an occupied building touches all five, and its data plan should look completely different.
+
+Then decide, for each need, where the data comes from. Lean on simulation and RL for balance, and validate it on hardware. Use teleoperation on the target robot for bimanual and whole-body skills, with an interface that exposes the legs as well as the hands. Use human video and multi-site real capture for environment diversity. And budget explicitly for collecting around real people, because no other source will give you that data.
+
+Real deployments show why the narrow version comes first. The best-documented humanoid production work so far, BMW's Figure pilot at Spartanburg covered in our guide to [physical AI in manufacturing](/blog/physical-ai-in-manufacturing/), was one bounded task, picking sheet metal and placing it for welding, held reliably over months. That is a deliberate choice of a task where the hardest data needs stay manageable. General-purpose humanoids will need the bottom of the list too, and that part of the dataset does not yet exist at scale anywhere.
+
+The teams that get there first will not be the ones with the most hours. They will be the ones whose hours cover the whole body, in real human spaces, with people in the frame. For the wider picture of how this fits into embodied AI collection methods, see our guide to [embodied AI data collection](/blog/embodied-ai-data-collection/) and [robotics data collection at scale](/blog/robotics-data-collection-at-scale/).

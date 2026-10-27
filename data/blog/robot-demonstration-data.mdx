@@ -1,0 +1,144 @@
+---
+title: 'Robot Demonstration Data: How Real-World Actions Train Intelligent Robots'
+date: 2026-10-27T07:30:00.000Z
+tags:
+  - Physical AI
+  - Robotics
+  - Data Collection
+  - Datasets
+draft: false
+summary: 'A robot demonstration is not a video clip. It is a structured bundle of synchronized observations, action labels, phase boundaries, and outcome flags built to be consumed by a training pipeline, not watched. Here is what is actually inside one.'
+images:
+  - /static/images/robot-demonstration-data.svg
+authors:
+  - prasanna-venkatesan
+layout: PostLayout
+canonicalUrl: 'https://www.gamasome.com/blog/robot-demonstration-data/'
+seo:
+  metaTitle: 'Robot Demonstration Data: What It Actually Contains'
+  metaDescription: 'Robot demonstration data is not video. See what is actually inside a trainable episode: observations, action labels, phase segments, and outcomes.'
+  canonicalUrl: ''
+  changefreq: weekly
+faqHeading: Frequently asked questions
+faqs:
+  - question: What is robot demonstration data?
+    answer: 'It is the structured record of what a robot, or a human controlling it, sensed, did, and achieved during a single attempt at a task. It pairs synchronized observations such as camera frames and joint state with an action vector and an outcome label, packaged so a training pipeline can consume it directly. It is not the raw video of the task; the video is usually just one of several streams stored alongside it.'
+  - question: What fields does a typical robot demonstration dataset store?
+    answer: 'Most formats store, per timestep, one or more camera images, a proprioceptive state vector such as joint positions, and an action vector such as joint targets or end-effector deltas, indexed by timestamp, frame number, and episode number. At the episode level, most datasets add a language task description, phase or sub-task segmentation, and a success or failure label.'
+  - question: Is a robot demonstration the same thing as a video recording?
+    answer: 'No. A video shows what happened but carries no action labels a policy can learn from. A robot demonstration pairs that visual record with the actual commanded action and the robot''s own state at every timestep, which is what a policy is actually trained to predict.'
+  - question: What is the difference between an action vector and a state vector in demonstration data?
+    answer: 'The state vector describes what the robot measured about itself, typically joint positions or end-effector pose at that instant. The action vector describes what was commanded, which might be a joint target, an end-effector delta, or in a teleoperation setup, the leader device''s own pose and gripper command. Datasets that separate these two cleanly make it possible to study exactly how one produced the other.'
+  - question: Why do some robot demonstration datasets keep failed episodes?
+    answer: 'Because a binary success-or-failure label on its own teaches a policy very little about how to recover when something goes wrong. Research datasets like REASSEMBLE and ImPerfectPour deliberately include unsuccessful attempts alongside successful ones, since failure and recovery behavior is data a policy needs and can only learn if it is captured and kept.'
+  - question: What formats are robot demonstration datasets stored in?
+    answer: 'The two most common are per-episode HDF5 files, where each demonstration is a single file with grouped state, action, and timestamp data, and the LeRobot dataset format, which stores per-episode or chunked trajectories as Parquet tables alongside a metadata folder that maps task descriptions and episode records to the data.'
+---
+
+Open the actual file behind a robot demonstration for the first time and it rarely looks like what the word suggests. There's no "picking up a mug" anywhere in it. What's there is a state array of thirty-two numbers per timestep, an action array of a similar size, a handful of camera streams stored as compressed byte strings, and a stack of timestamps that don't quite line up because three different sensors were sampling at three different rates.
+
+That gap, between what a demonstration looks like to a person and what it actually is to a training pipeline, is the subject of this guide. Most discussions of robot data focus on how it gets collected, teleoperation, kinesthetic teaching, handheld capture, which we cover in depth in [human demonstrations for robot training](/blog/human-demonstrations-for-robot-training/). This one is about the artifact itself. What's inside a demonstration once it's been recorded, how it's structured, and why that structure is what determines whether a policy can actually learn anything from it.
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">The short version</p>
+  <p className="text-gray-700"><strong className="font-semibold text-gray-900">Robot demonstration data</strong> is the structured record of what a robot sensed, did, and achieved during one attempt at a task, built to be consumed by a training pipeline rather than watched. It is not raw video. A trainable episode pairs synchronized observations with an action vector, a temporal structure describing what phase of the task is happening, and an outcome label, all tied together by consistent timestamps and episode metadata. Strip any one of those away and what's left stops being trainable, no matter how good the footage looks.</p>
+</div>
+
+## A video is evidence. A demonstration is a dataset.
+
+A video of someone picking up a mug is useful evidence that the task is physically possible. It is not training data, because nothing in a video file tells a policy what joint torques, what gripper width, or what wrist angle produced that motion. A robot has to predict an action, frame by frame, and a video alone gives it nothing to predict against.
+
+A robot demonstration closes that gap by recording the action alongside the observation, every time. That's true whether the demonstration came from teleoperation, where the action is literally what the operator commanded the robot to do, or from another capture method that retargets a human motion into the robot's own action space. The point of the artifact is the pairing, not the footage.
+
+## Anatomy of a demonstration: five fields every trainable episode carries
+
+Regardless of which dataset format a team uses, a trainable episode is built around the same five kinds of information. Thinking of it this way makes it obvious what's missing when a "dataset" turns out not to train anything.
+
+![Layered diagram showing the five fields inside a trainable robot demonstration episode, stacked from observation stream and action vector at the base through temporal phase structure and outcome labels to provenance metadata at the top, all tied together by a shared timestamp index](/static/images/robot-demonstration-data-anatomy.svg)
+
+*Every layer depends on the one below it sharing the same clock. A demonstration missing any one of these five fields is footage, not training data.*
+
+<div className="not-prose my-8 font-['Poppins']">
+  <div className="grid gap-2 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Field 01</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Observation stream</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">One or more camera feeds, often a wrist-mounted view plus an external one, paired with the robot's own proprioceptive state. In the LeRobot format, that proprioceptive state is commonly stored as a fixed-length float vector, for example eight values representing measured joint positions at that instant. Depth or force-torque readings get added here for tasks where vision alone can't tell the policy what it needs to know.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Field 02</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Action vector</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">The actual label a policy is trained to predict. This can be an absolute joint target, an end-effector pose delta, or in a teleoperation setup, the leader device's own wrist pose and gripper command rather than the follower's resulting joint state. That distinction matters: some teleoperation datasets deliberately keep the leader command and the follower's measured state in separate fields, specifically so researchers can study the mapping between what was commanded and what the robot actually did. Whether the action is absolute or relative, and in which coordinate frame, is a choice that determines what the policy actually learns to output.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Field 03</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Temporal phase structure</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">A single pick-and-place episode is rarely stored as one undifferentiated blob of motion. It's common to segment it into named phases, for instance idle, approach, pre-grasp, grasp, lift, transport, place, and retract, each with its own start and end timestamp. Some datasets go further and store these as separate atomic-action trajectories entirely, each with its own camera observations and a label for that specific phase. This structure is what lets a model, or a human reviewer, localize exactly where in an episode something went right or wrong.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Field 04</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Outcome and quality labels</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">A success or failure flag at minimum, ideally with more structure than a single bit. The <a href="https://arxiv.org/pdf/2502.05086" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">REASSEMBLE</a> contact-rich assembly dataset recorded 4,551 demonstrations across pick, insert, remove, and place actions on 17 objects, of which 4,035 succeeded, with the remainder kept as labeled failures rather than deleted. <a href="https://arxiv.org/pdf/2502.01167" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">Research on execution monitoring</a> describes similar datasets, including 406 successful and 138 unsuccessful pouring and placing demonstrations on a Franka Panda arm, and 235 Baxter demonstrations spanning both outcomes. A <a href="https://arxiv.org/pdf/2607.24744" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">2026 survey on embodied manipulation data</a> argues this richer labeling is still the exception, not the norm, and that a binary label alone can't capture why something failed or how it was recovered from.</p>
+    </div>
+  </div>
+  <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
+    <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Field 05</span>
+    <div>
+      <h4 className="mb-2 text-[17px] font-bold text-gray-900">Provenance and container metadata</h4>
+      <p className="text-[15px] leading-relaxed text-gray-600">The information that makes an episode traceable rather than an anonymous blob of numbers: which task it belongs to, which operator or rig produced it, the calibration state at capture time, and where it sits in the dataset's indexing. The <a href="https://huggingface.co/docs/lerobot/main/en/lerobot-dataset-v3" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">LeRobot dataset format</a> handles this with a dedicated metadata folder that maps natural-language task descriptions to integer task IDs and records per-episode lengths and offsets, separate from the numeric data itself. Lose this layer and you can still train on an episode, you just can't explain where it came from or debug it when something goes wrong months later.</p>
+    </div>
+  </div>
+</div>
+
+## Why the shared clock is the hardest part, not the hardest-looking part
+
+None of the five fields above are individually difficult to record. A camera captures frames, a robot reports its own joint encoder values, an operator or a model produces an action, a reviewer assigns a label. What's genuinely difficult is that these streams rarely sample at the same rate. A camera might run at thirty frames a second, joint state might be logged at a much higher control-loop frequency, and a force-torque sensor, if one is present, often runs at yet another rate entirely.
+
+That mismatch is why serious demonstration formats keep a separate timestamp array for each modality rather than assuming everything lines up by index position. An episode where frame 400 of the camera stream doesn't actually correspond to the same instant as entry 400 of the action array isn't subtly wrong. It's unusable, because the policy would be trained to associate an action with the wrong observation, and nothing about the file structure would reveal that until a trained model behaves strangely for reasons nobody can trace. Getting the shared clock right at capture time is unglamorous work. It is also the single most common point of silent failure in demonstration data, more common than a bad label or a missing frame, because a timing bug produces a file that opens cleanly and looks complete.
+
+## Two common containers for the same five fields
+
+| Layout | How trajectories are stored | How it handles multi-rate sensors | Use it when |
+| --- | --- | --- | --- |
+| Per-episode HDF5 | One file per demonstration, with state, action, and timestamp data in separate internal groups | Each modality keeps its own timestamp array, since cameras, joints, and force sensors often sample at different rates | You want a self-contained file per episode and fine control over custom fields |
+| LeRobot dataset format | Per-episode or chunked Parquet tables for numeric data, with video stored separately in its own chunked folders | A shared frame index ties observation, state, and action together; metadata files separately track task and episode-level information | You want a format with broad tooling support across the open robot learning ecosystem |
+
+It's worth noting that even within "the LeRobot format," the exact file layout has shifted between versions. Earlier releases stored one Parquet file per episode alongside separate JSONL files for episode and task metadata. More recent versions consolidate many episodes into larger chunked Parquet files for efficiency, with per-episode records like length and task assignment stored as their own chunked table rather than a single flat file. The underlying five fields don't change. Which files they live in does, which is exactly why checking a dataset's own metadata for its format version matters more than assuming a folder structure from memory.
+
+## What people get wrong about "demonstration data"
+
+<div className="not-prose my-8 grid gap-5 font-['Poppins'] sm:grid-cols-2">
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Treating the video as the data</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Footage is one field among several. A collection of clean, well-lit videos with no synchronized action vector is not a training set, no matter how convincing it looks on playback.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Assuming success is a yes-or-no question</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">A binary flag tells you whether the task finished. It tells you nothing about a slow recovery, a near-miss, or a partial failure, which is exactly the information a policy needs to behave sensibly when things don't go perfectly.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Mixing action representations across sources</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">An absolute joint target and an end-effector delta are not interchangeable just because both describe "the robot moved." Combining demonstrations that use different action representations without accounting for it quietly corrupts what the policy learns to predict.</p>
+  </div>
+  <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
+    <h4 className="mb-2 text-[16px] font-bold text-gray-900">Discarding failures to tidy up the dataset</h4>
+    <p className="text-[14.5px] leading-relaxed text-gray-600">Deleting unsuccessful episodes produces a dataset that looks cleaner and trains a policy that has never seen what a mistake or a recovery looks like. That's not a cleanup. It's a gap.</p>
+  </div>
+</div>
+
+<div className="not-prose my-8 rounded-xl border border-gray-200 border-l-4 border-l-[#000B71] bg-[#000B71]/[0.04] p-6 font-['Poppins']">
+  <p className="mb-4 text-xs font-semibold tracking-[0.08em] text-[#000B71] uppercase">Why the action representation choice matters this much</p>
+  <p className="text-gray-700">The field people skip past fastest, the exact definition of the action vector, is usually the one that most determines whether a dataset trains cleanly. A policy trained on absolute joint targets learns something different from one trained on end-effector deltas, even on identical underlying motion, and a dataset that silently mixes the two across sessions or operators is teaching the model two different tasks under one name. Checking this before episodes get merged costs an afternoon. Discovering it after a training run fails costs considerably more.</p>
+</div>
+
+## Where this fits into the rest of the pipeline
+
+A well-formed demonstration is the raw material, not the finished product. Whether that material gets collected through teleoperation, where the action vector is quite literally what a human commanded in real time, or another method entirely, is the subject of [teleoperation data collection](/blog/what-is-teleoperation-data-collection/) and, more broadly, [human demonstrations for robot training](/blog/human-demonstrations-for-robot-training/). Whether the resulting episodes are actually good enough to train on, beyond just being structurally complete, is the question answered in [robot training data collection](/blog/robot-training-data-collection/).
+
+The practical takeaway for a team looking at its own dataset today is simple: open a handful of episodes and check, field by field, that all five are actually there, synchronized, and labeled consistently. A dataset that passes that check is raw material a policy can learn from. One that doesn't is footage with extra steps, and no amount of additional volume fixes that on its own.

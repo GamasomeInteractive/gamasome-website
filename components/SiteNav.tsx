@@ -14,8 +14,10 @@ type Props = {
 const DEFAULT_CTA_LABEL = 'Book a Demo'
 const DEFAULT_CTA_HREF = '/contact/'
 
-// Dropdowns with many entries get a two-column panel.
+// Dropdowns with many entries get a two-column panel; very long lists (e.g. Blogs)
+// get a third column so the panel doesn't run off the bottom of the viewport.
 const WIDE_PANEL_THRESHOLD = 9
+const EXTRA_WIDE_PANEL_THRESHOLD = 20
 
 function Chevron({ open, className = '' }: { open: boolean; className?: string }) {
   return (
@@ -159,6 +161,7 @@ export default function SiteNav({ hdr }: Props) {
                 }
 
                 const wide = subs.length >= WIDE_PANEL_THRESHOLD
+                const extraWide = subs.length >= EXTRA_WIDE_PANEL_THRESHOLD
                 return (
                   <li
                     key={i}
@@ -186,12 +189,22 @@ export default function SiteNav({ hdr }: Props) {
                       }`}
                     >
                       <div
-                        className={`rounded-2xl border border-white/10 bg-[#0B0F2A] p-2 shadow-[0_20px_60px_rgba(0,0,0,0.55)] ${
-                          wide ? 'w-[600px]' : 'w-max max-w-[480px] min-w-[240px]'
+                        className={`max-h-[calc(100vh-6rem)] overflow-y-auto rounded-2xl border border-white/10 bg-[#0B0F2A] p-2 shadow-[0_20px_60px_rgba(0,0,0,0.55)] ${
+                          extraWide
+                            ? 'w-[880px]'
+                            : wide
+                              ? 'w-[600px]'
+                              : 'w-max max-w-[480px] min-w-[240px]'
                         }`}
                       >
                         <div
-                          className={wide ? 'grid grid-cols-2 gap-x-2 gap-y-0.5' : 'flex flex-col gap-0.5'}
+                          className={
+                            extraWide
+                              ? 'grid grid-cols-3 gap-x-2 gap-y-0.5'
+                              : wide
+                                ? 'grid grid-cols-2 gap-x-2 gap-y-0.5'
+                                : 'flex flex-col gap-0.5'
+                          }
                         >
                           {subs.map((sub, j) => {
                             const subActive = isActive(sub.href)

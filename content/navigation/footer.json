@@ -223,6 +223,46 @@
         {
           "title": "Physical AI Data Quality",
           "href": "/blog/physical-ai-data-quality/"
+        },
+        {
+          "title": "Embodied AI Data Collection",
+          "href": "/blog/embodied-ai-data-collection/"
+        },
+        {
+          "title": "Robot Training Data Collection",
+          "href": "/blog/robot-training-data-collection/"
+        },
+        {
+          "title": "Teleoperation Data Collection",
+          "href": "/blog/what-is-teleoperation-data-collection/"
+        },
+        {
+          "title": "Edge Case Data Collection for AI",
+          "href": "/blog/edge-case-data-collection-ai/"
+        },
+        {
+          "title": "Sensor Data Collection for Robotics",
+          "href": "/blog/sensor-data-collection-robotics/"
+        },
+        {
+          "title": "Synthetic vs Real-World Robotics Data",
+          "href": "/blog/synthetic-vs-real-world-data-robotics/"
+        },
+        {
+          "title": "Data Collection for Humanoid Robots",
+          "href": "/blog/data-collection-humanoid-robots/"
+        },
+        {
+          "title": "Data Quality in AI Training",
+          "href": "/blog/data-quality-ai-training/"
+        },
+        {
+          "title": "Multimodal Data Collection for Physical AI",
+          "href": "/blog/multimodal-data-collection-physical-ai/"
+        },
+        {
+          "title": "Robot Demonstration Data",
+          "href": "/blog/robot-demonstration-data/"
         }
       ]
     },
