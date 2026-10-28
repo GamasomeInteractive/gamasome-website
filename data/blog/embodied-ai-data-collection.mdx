@@ -1,10 +1,8 @@
 ---
+faqHeading: Frequently asked questions
 title: 'Embodied AI Data Collection: How to Collect Data for Embodied AI Systems'
 date: 2026-10-27T09:00:00.000Z
 tags:
-  - Physical AI
-  - Embodied AI
-  - Robotics
   - Data Collection
 draft: false
 summary: 'Embodied AI data cannot be scraped from the internet. How teleoperation, wearable capture, simulation, and pooled datasets actually stack up, and why the global data gap is bigger than the funding numbers suggest.'
@@ -19,7 +17,6 @@ seo:
   metaDescription: 'Embodied AI data cannot be scraped. How teleoperation, wearable capture, simulation, and open datasets stack up, and where most programs lose quality.'
   canonicalUrl: ''
   changefreq: weekly
-faqHeading: Frequently asked questions
 faqs:
   - question: What is embodied AI data collection?
     answer: 'It is the practice of capturing the sensorimotor experience an embodied agent needs to learn from: synchronized perception (camera, depth, LiDAR), the agent''s own state, the action it took, and the outcome. Unlike text or images, this data generally cannot be scraped from the internet, because nobody has recorded, at scale, what it feels like to pick up a mug and hand it to someone.'
@@ -63,34 +60,43 @@ Every embodied AI data source trades fidelity for scale somewhere. Framing the f
 <div className="not-prose my-8 font-['Poppins']">
   <div className="grid gap-2 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
     <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Layer 01</span>
+
     <div>
       <h4 className="mb-2 text-[17px] font-bold text-gray-900">Pooled open datasets</h4>
       <p className="text-[15px] leading-relaxed text-gray-600">Shared corpora assembled across many labs and robots. <a href="https://robotics-transformer-x.github.io/" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">Open X-Embodiment</a> is the clearest example: data from 22 robot embodiments across 21 institutions, covering 527 skills and 160,266 tasks, with more than a million real robot trajectories in total. Free, broad, and genuinely useful for cross-embodiment pretraining, but generalist by construction. It was never built around your gripper, your parts, or your floor.</p>
     </div>
   </div>
+
   <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
     <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Layer 02</span>
+
     <div>
       <h4 className="mb-2 text-[17px] font-bold text-gray-900">Internet and crowdsourced human video</h4>
       <p className="text-[15px] leading-relaxed text-gray-600">No robot in the loop at all, just people doing tasks on camera. Cheap and scalable, and useful for pretraining a model's sense of how objects and hands behave in the world. It carries no robot action labels, so everything downstream has to be retargeted from a human body to a robot's actuators, which is its own unsolved research problem for anything beyond coarse motion.</p>
     </div>
   </div>
+
   <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
     <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Layer 03</span>
+
     <div>
       <h4 className="mb-2 text-[17px] font-bold text-gray-900">Simulation</h4>
       <p className="text-[15px] leading-relaxed text-gray-600">Physics engines and world models generate trajectories at near-zero marginal cost once an environment is built, including rare and dangerous scenarios no one wants to stage for real. The limit is contact fidelity. Friction, compliant materials, and deformable objects are still hard to simulate accurately enough for fine manipulation to transfer cleanly to hardware.</p>
     </div>
   </div>
+
   <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
     <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Layer 04</span>
+
     <div>
       <h4 className="mb-2 text-[17px] font-bold text-gray-900">Wearable and handheld human demonstration</h4>
       <p className="text-[15px] leading-relaxed text-gray-600">A person performs the task with a sensorized device instead of a robot. Stanford's <a href="https://arxiv.org/pdf/2402.10329" target="_blank" rel="noopener" className="text-[#000B71] underline underline-offset-2 hover:text-sky-600">Universal Manipulation Interface (UMI)</a> is the clearest research example: a trigger-activated, 3D-printed handheld gripper with a single GoPro as its only sensor, plus a pair of mirrors placed in the camera's peripheral view that act as implicit stereo cameras for depth, built for close to zero setup time in any environment. At industrial scale, JD.com's JoyEgoCam and AgiBot subsidiary Maniformer's wearable rigs follow the same logic: capture motion trajectories and contact force from a person, standardize the format, and retarget to many robot embodiments later.</p>
     </div>
   </div>
+
   <div className="grid gap-2 border-t border-gray-200 py-6 sm:grid-cols-[150px_1fr] sm:items-baseline sm:gap-6">
     <span className="font-mono text-xs tracking-[0.06em] text-[#000B71] uppercase">Layer 05</span>
+
     <div>
       <h4 className="mb-2 text-[17px] font-bold text-gray-900">Teleoperation on the target robot</h4>
       <p className="text-[15px] leading-relaxed text-gray-600">A human drives the actual robot that will ship. This produces the highest-fidelity data available, because the recorded action trajectory matches the deployment embodiment exactly, with no retargeting step to introduce error. It is also the slowest and most expensive layer, bounded by operator time and robot uptime rather than by compute.</p>
@@ -126,14 +132,17 @@ In plain terms, that means:
     <h4 className="mb-2 text-[16px] font-bold text-gray-900">Hardware timestamps, not software ones</h4>
     <p className="text-[14.5px] leading-relaxed text-gray-600">Camera frames, joint states, and action commands have to be aligned on a shared clock. Software-stamped streams drift, and once they drift you can no longer tell which action produced which outcome, which makes the episode untrainable no matter how good the demonstration was.</p>
   </div>
+
   <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
     <h4 className="mb-2 text-[16px] font-bold text-gray-900">A logged calibration baseline</h4>
     <p className="text-[14.5px] leading-relaxed text-gray-600">Cameras and sensors drift over weeks of use. Without a baseline recorded at capture time, a batch of otherwise-clean data can silently degrade a model, and the cause becomes nearly impossible to trace after the fact.</p>
   </div>
+
   <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
     <h4 className="mb-2 text-[16px] font-bold text-gray-900">One action and language schema, not five</h4>
     <p className="text-[14.5px] leading-relaxed text-gray-600">If teleoperation, wearable capture, and simulation each describe "grasp" and "place" slightly differently, you do not have one dataset. You have three incompatible ones that happen to share a folder.</p>
   </div>
+
   <div className="rounded-xl border border-gray-200 bg-gray-50 p-6">
     <h4 className="mb-2 text-[16px] font-bold text-gray-900">Failures kept, not purged</h4>
     <p className="text-[14.5px] leading-relaxed text-gray-600">Retention policies that discard failed or corrected episodes as noise throw away the highest-value signal in the dataset. A clean-success-only corpus teaches a policy what success looks like and nothing about how to recover when it goes wrong.</p>
@@ -146,13 +155,13 @@ If any of this sounds familiar, it is the same discipline we cover in more depth
 
 The honest starting question is not "which method is best." It is "which layer of the stack am I missing for this specific task."
 
-| If you have... | What's actually missing | Start with |
-| --- | --- | --- |
-| A robot and a task, but zero data | A baseline to validate the approach cheaply | Pooled datasets (Open X-Embodiment) for a quick sanity check |
-| Pretraining breadth but no embodiment match | Trajectories matched to your actual hardware | Teleoperation on the target robot, even in small volume |
-| A good policy that only works in the lab | Environment and task diversity | Wearable or handheld capture across more sites and operators |
-| Volume but no way to tell if it is good | Synchronization, calibration logging, and QA | The processing layer above, before collecting another hour |
-| A narrow task that is dangerous or rare to stage | Safe coverage of edge cases | Simulation, validated against a small real-world sample |
+| If you have...                                   | What's actually missing                      | Start with                                                   |
+| ------------------------------------------------ | -------------------------------------------- | ------------------------------------------------------------ |
+| A robot and a task, but zero data                | A baseline to validate the approach cheaply  | Pooled datasets (Open X-Embodiment) for a quick sanity check |
+| Pretraining breadth but no embodiment match      | Trajectories matched to your actual hardware | Teleoperation on the target robot, even in small volume      |
+| A good policy that only works in the lab         | Environment and task diversity               | Wearable or handheld capture across more sites and operators |
+| Volume but no way to tell if it is good          | Synchronization, calibration logging, and QA | The processing layer above, before collecting another hour   |
+| A narrow task that is dangerous or rare to stage | Safe coverage of edge cases                  | Simulation, validated against a small real-world sample      |
 
 ## What this means for a team starting today
 
