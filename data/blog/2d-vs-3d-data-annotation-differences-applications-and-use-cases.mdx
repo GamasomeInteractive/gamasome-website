@@ -16,6 +16,8 @@ faqs:
     answer: '2D annotation labels objects on flat images using X and Y pixel coordinates. 3D annotation labels objects in space using X, Y and Z coordinates, capturing real size, distance and orientation.'
   - question: 'Is 3D annotation more expensive than 2D? '
     answer: 'Yes. 3D annotation typically takes several times longer per frame because annotators work across multiple views, sparse data and sometimes several sensors, and it needs specialised tools and trained annotators.'
+  - question: What is a 3D cuboid in annotation?
+    answer: 'A 3D cuboid is an oriented box drawn around an object in a point cloud. It records the object''s centre position, its length, width and height, and its heading angle.'
 ---
 
 Every computer vision model is only as good as the labels it learns from. A model that detects pedestrians, picks parcels off a conveyor, or flags a tumour in a CT scan has seen thousands of examples where a human (or a human-checked tool) marked exactly what was where. That labelling work is called data annotation, and it comes in two broad flavours: 2D and 3D.
