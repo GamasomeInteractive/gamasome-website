@@ -7,6 +7,13 @@ authors:
   - prasanna-venkatesan
 layout: PostLayout
 canonicalUrl: 'https://www.gamasome.com/blog/lidar-annotation-autonomous-vehicles-robotics/'
+faqs:
+  - question: What is LiDAR annotation used for?
+    answer: 'It creates labeled 3D training data for perception models in self-driving cars, ADAS, warehouse robots, delivery robots, drones and humanoids.'
+  - {}
+  - {}
+  - {}
+  - {}
 ---
 
 A self-driving car sees the road as millions of laser points per second. A warehouse robot sees shelves, pallets and people the same way. Neither machine understands any of those points until a human, or a human-supervised tool, tells it what they are. That process is LiDAR annotation, and it quietly decides how safe and capable an autonomous system becomes.
@@ -27,11 +34,11 @@ Every point in a LiDAR frame represents a surface that reflected a laser pulse. 
 
 • **X, Y, Z coordinates** – the position of the point in 3D space
 
-• **Intensity **– how strongly the surface reflected the laser (useful for spotting lane paint, signs and reflective vests)
+• \*\*Intensity \*\*– how strongly the surface reflected the laser (useful for spotting lane paint, signs and reflective vests)
 
-• **Return number **– for sensors that record multiple returns per pulse
+• \*\*Return number \*\*– for sensors that record multiple returns per pulse
 
-• **Timestamp **– when the point was captured, which matters for moving objects and sensor sync
+• \*\*Timestamp \*\*– when the point was captured, which matters for moving objects and sensor sync
 
 Point clouds have their own quirks. They get sparser with distance, so a pedestrian 80 metres away may be only a handful of points. Objects hidden behind others leave holes. Rain, dust and glass create noise. Annotators have to make confident decisions on incomplete shapes, which is why domain training and clear guidelines matter so much.
 
@@ -54,7 +61,6 @@ Different perception tasks need different label types. Most production programs 
 
 Cuboids are the most common LiDAR label. A good box is tight, follows the true heading of the object and keeps the same size across frames for rigid objects such as cars. Research on [one-click LiDAR annotation](https://arxiv.org/pdf/1904.09085.pdf) points out that sparse, low-resolution clouds make objects hard for humans to recognize, and that drawing 3D boxes is far more laborious than 2D work.
 
-
 ### Semantic and Panoptic Segmentation
 
 Point-wise labels give a model a full understanding of the scene, not just the objects in it. They are slower to produce but essential for separating drivable road from sidewalk, or open floor from racking in a warehouse.
@@ -71,7 +77,7 @@ Autonomous driving was the first big driver of LiDAR annotation, and it is still
 
 Key annotation tasks in AV programs include:
 
-• **3D object detection **– cuboids for cars, trucks, buses, pedestrians, cyclists, animals and movable objects such as cones and barriers
+• \*\*3D object detection \*\*– cuboids for cars, trucks, buses, pedestrians, cyclists, animals and movable objects such as cones and barriers
 
 • **Multi-object tracking** – consistent IDs across sequences so the planner can predict where each road user will be next
 
@@ -133,7 +139,7 @@ A production LiDAR pipeline usually follows these stages:
 
 5\. **Human annotation and refinement:** Trained annotators adjust cuboids, fix point-wise labels, keep track IDs consistent and add attributes, using camera views as reference.
 
-6\. **Multi-stage quality assurance: **Reviewers check a sample or every frame, run automated checks (box size jumps, ID switches, points outside boxes) and send errors back.
+6\. \*\*Multi-stage quality assurance: \*\*Reviewers check a sample or every frame, run automated checks (box size jumps, ID switches, points outside boxes) and send errors back.
 
 7\. **Export and feedback:** Deliver labels in the format the training team needs (KITTI, nuScenes JSON, custom), then use model errors to choose what to label next.
 
