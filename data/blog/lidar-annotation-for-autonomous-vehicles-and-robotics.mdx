@@ -14,7 +14,9 @@ faqs:
     answer: ' A bounding box wraps a whole object in a cuboid. Semantic segmentation gives a class to every individual point, including surfaces like road and vegetation.'
   - question: Why is LiDAR annotation more expensive than image annotation?
     answer: ' Annotators work in 3D, handle sparse and occluded data, keep IDs consistent over time and often cross-check against several cameras.'
-  - {}
+  - question: 'Can LiDAR annotation be fully automated? '
+    answer: |
+      Not yet for production safety use. Models can pre-label most objects, but humans are still needed to correct errors, handle edge cases and approve final labels.
   - {}
 ---
 
