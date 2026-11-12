@@ -18,7 +18,8 @@ faqs:
     answer: '3D bounding boxes (cuboids), semantic segmentation, instance and panoptic segmentation, object tracking, 3D polylines, and sensor fusion annotation.'
   - question: Is LiDAR annotation the same as point cloud annotation?
     answer: 'LiDAR annotation is the most common kind of point cloud annotation. Point clouds can also come from depth cameras, stereo cameras, radar and scanners.'
-  - {}
+  - question: What makes point cloud annotation difficult?
+    answer: 'Sparse points at long range, occlusion, weather noise, keeping labels consistent across frames, sensor calibration, and the need for specialised tools and trained annotators.'
 ---
 
 An autonomous system has one job that comes before everything else: know exactly what is around it and where. A robotaxi has to tell a parked car from one pulling out. A warehouse robot has to find a pallet's edge to within a few centimetres. A delivery drone has to spot a power line before it flies into it. Cameras alone struggle with this, because a flat image doesn't carry reliable distance. That is why most serious autonomy stacks also rely on LiDAR and depth sensors, which capture the world as a 3D point cloud.
