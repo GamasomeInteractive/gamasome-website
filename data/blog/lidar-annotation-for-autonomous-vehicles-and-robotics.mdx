@@ -17,7 +17,8 @@ faqs:
   - question: 'Can LiDAR annotation be fully automated? '
     answer: |
       Not yet for production safety use. Models can pre-label most objects, but humans are still needed to correct errors, handle edge cases and approve final labels.
-  - {}
+  - question: What formats are LiDAR labels delivered in?
+    answer: 'Common formats include KITTI-style text files, nuScenes-style JSON and custom JSON or protobuf schemas that match a team''s training pipeline.'
 ---
 
 A self-driving car sees the road as millions of laser points per second. A warehouse robot sees shelves, pallets and people the same way. Neither machine understands any of those points until a human, or a human-supervised tool, tells it what they are. That process is LiDAR annotation, and it quietly decides how safe and capable an autonomous system becomes.
