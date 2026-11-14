@@ -14,7 +14,8 @@ faqs:
     answer: Supervised models learn from examples paired with correct answers. Annotation creates those answers. The accuracy and consistency of labels directly limit how accurate the trained model can become.
   - question: Do large language models still need annotated data?
     answer: Yes. LLMs rely on human-written demonstrations for instruction tuning and on human preference rankings for RLHF. Annotated test sets are also needed to evaluate them reliably.
-  - {}
+  - question: How much annotated data does an NLP model need?
+    answer: 'It depends on the task. Fine-tuning a pre-trained model for a narrow classification task may need only a few thousand high-quality examples, while complex extraction across many entity types may need far more. Starting with a pilot and using active learning helps avoid over-labeling.'
   - {}
 ---
 
