@@ -18,7 +18,9 @@ faqs:
     answer: Transcription captures what was said. Diarization identifies who said it and when. Most conversation-analysis systems need both.
   - question: 'How do you measure audio annotation quality? '
     answer: 'Transcription is measured with Word Error Rate (WER), speaker labels with Diarization Error Rate (DER), and classification labels with inter-annotator agreement and accuracy against gold-standard clips.'
-  - {}
+  - question: How much audio data do I need to train a speech model?
+    answer: |
+      It depends on the task. Fine-tuning an existing model for a new domain or accent may need tens to hundreds of hours of well-annotated audio, while training from scratch needs thousands. Diversity of speakers and conditions often matters more than raw hours.
 ---
 
 Ask a voice assistant for the weather, dictate a message while driving, or call a bank that routes you by voice — each time, a speech model has to turn sound waves into meaning in a fraction of a second. These systems feel effortless, but they are built on thousands of hours of audio that people carefully listened to, transcribed, timestamped and labeled.
