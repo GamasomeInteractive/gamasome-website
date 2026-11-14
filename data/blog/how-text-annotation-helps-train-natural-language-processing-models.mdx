@@ -18,6 +18,8 @@ faqs:
     answer: 'It depends on the task. Fine-tuning a pre-trained model for a narrow classification task may need only a few thousand high-quality examples, while complex extraction across many entity types may need far more. Starting with a pilot and using active learning helps avoid over-labeling.'
   - question: How is text annotation quality measured?
     answer: 'Common methods include inter-annotator agreement metrics such as Cohen''s kappa, Fleiss'' kappa and Krippendorff''s alpha, hidden gold-standard test items, and audit reviews of random samples.'
+  - question: Should I outsource text annotation?
+    answer: 'Outsourcing makes sense when you need to scale quickly, lack trained annotators, or want proven quality processes. Keep guideline ownership and final review in-house for sensitive or highly specialized tasks.'
 ---
 
 Every chatbot that understands a complaint, every search engine that grasps what you meant, and every large language model that follows an instruction has one thing in common: somewhere in its training pipeline, people labeled text. Algorithms are good at spotting patterns, but they cannot decide on their own which words name a company, whether a review is sarcastic, or which of two answers is more helpful. Text annotation supplies that judgment.
